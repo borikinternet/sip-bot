@@ -1,0 +1,50 @@
+{
+  "schema": "sip-bot.map005-d-stereo-recording.v1",
+  "status": "pass",
+  "mapping": {
+    "left": "user_to_bot",
+    "right": "bot_to_user"
+  },
+  "alignment": {
+    "policy": "pad_trailing_silence_to_longest_raw_track",
+    "target_frames": 1040320,
+    "target_duration_s": 130.04,
+    "user_to_bot_padded_frames": 47840,
+    "bot_to_user_padded_frames": 0,
+    "padding_is_explicit_in_manifest": true
+  },
+  "raw_tracks": {
+    "enc": {
+      "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-system-testing-and-demo-readiness/005-D/target-20260904-r6/recordings/raw/dump-2026-09-04-15-54-41-enc.wav",
+      "role": "user_to_bot",
+      "bytes": 1985004,
+      "sha256": "69d6379a6dd4bd7ea0add3f0404c94c3f9a48900ac2327dcad023422139af9eb",
+      "channels": 1,
+      "sample_width": 2,
+      "sample_rate_hz": 8000,
+      "frames": 992480,
+      "duration_s": 124.06
+    },
+    "dec": {
+      "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-system-testing-and-demo-readiness/005-D/target-20260904-r6/recordings/raw/dump-2026-09-04-15-54-41-dec.wav",
+      "role": "bot_to_user",
+      "bytes": 2080684,
+      "sha256": "93d3ef21a2712379c41c7c3fc3f9ae2c21fd5e4805fdf5751696eafee89c578a",
+      "channels": 1,
+      "sample_width": 2,
+      "sample_rate_hz": 8000,
+      "frames": 1040320,
+      "duration_s": 130.04
+    }
+  },
+  "stereo": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-system-testing-and-demo-readiness/005-D/target-20260904-r6/recordings/conversation-stereo.wav",
+    "bytes": 4161324,
+    "sha256": "460ae414d51953bc36f15327b991052790aefb52c8362d6c441ab425604a8dac",
+    "channels": 2,
+    "sample_width": 2,
+    "sample_rate_hz": 8000,
+    "frames": 1040320,
+    "duration_s": 130.04
+  }
+}

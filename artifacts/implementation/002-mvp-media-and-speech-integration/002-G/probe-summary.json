@@ -1,0 +1,38 @@
+{
+  "plan": "002-G",
+  "deterministic_status": "pass",
+  "real_provider_status": "pass_with_corrections",
+  "target_runtime": "CPython 3.14.7 free-threading build",
+  "gil_enabled": false,
+  "tests": {
+    "targeted": {"passed": 7, "failed": 0},
+    "unit_contract_regression": {"passed": 80, "failed": 0},
+    "compileall_exit": 0
+  },
+  "behaviors": [
+    "typed chat and embedding operations",
+    "Ollama chat NDJSON and generate-style response mapping",
+    "malformed JSON mapping to failure",
+    "timeout mapping to failure",
+    "HTTP stream close on cancellation",
+    "late stale chunks suppressed after cancellation",
+    "final-user-turn-to-request/first-useful/final timestamps",
+    "structured decision required before completed status"
+  ],
+  "real_provider_probe": {
+    "status": "pass",
+    "embedding_model": "embeddinggemma:latest",
+    "chat_model": "c3-qwen35-9b-q4km:latest",
+    "final_to_first_usable_ms": 282.8241,
+    "final_to_final_result_ms": 1230.582814,
+    "positive_source_id": "wiki-physics-rayleigh",
+    "negative_outcome": "unknown_answer/offer_transfer",
+    "evidence": "real-provider-probe.json"
+  },
+  "reference_c3": {
+    "ollama": "0.33.1",
+    "model": "Qwen/Qwen3.5-9B",
+    "quantization": "Q4_K_M",
+    "ipc": "HTTP 127.0.0.1"
+  }
+}

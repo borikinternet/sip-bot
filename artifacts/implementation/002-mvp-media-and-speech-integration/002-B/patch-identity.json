@@ -1,0 +1,29 @@
+{
+  "evidence_id": "B-E-patch-identity",
+  "plan": "002-B",
+  "status": "pass",
+  "baseline": {
+    "pjsip_version": "2.17",
+    "pjsip_source_sha256": "065fe06c06788d97c35f563796d59f00ce52fe9558a52d7b490a042a966facce",
+    "install_prefix": "/home/sipbot/.local/pjsip-2.17t",
+    "swig_version": "4.2.0",
+    "native_module": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so",
+    "native_module_sha256": "510117d59355d3ea0f30f84d9fdc5fbd6ec6d019eb989dabe9660661846cd01d"
+  },
+  "c1_patches": [
+    {
+      "path": "artifacts/feasibility/001-C1-sip-pjsua2-pjmedia/patches/pjsua2-free-threading.patch",
+      "sha256": "d5fd6db2dcc88e8958da73750033ba1ab85a6f32d1fe5d47b28d86a1a37f36aa"
+    },
+    {
+      "path": "artifacts/feasibility/001-C1-sip-pjsua2-pjmedia/patches/pjsua2-free-threading-buffer.patch",
+      "sha256": "9c849bb28ec6d7a791e22769b8f2e975f8686b2470d286d74768e4075ca48be5"
+    }
+  ],
+  "change_policy": "002-B did not modify PJSIP source, generated binding, or C1 patches",
+  "source_manifests": [
+    "artifacts/feasibility/001-B/runtime-manifest.json",
+    "artifacts/feasibility/001-C1-sip-pjsua2-pjmedia/candidate-manifest.json",
+    "artifacts/feasibility/001-S-voip-test-stand/candidate-manifest.json"
+  ]
+}

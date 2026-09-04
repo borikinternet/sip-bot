@@ -1,0 +1,26 @@
+--- pjsua2_wrap.cpp
++++ pjsua2_wrap.cpp
+@@ -18814,10 +18814,6 @@
+   arg1 = reinterpret_cast< std::vector< unsigned char > * >(argp1);
+   arg2 = swig_obj[1];
+-  {
+-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+-    std_vector_Sl_unsigned_SS_char_Sg__assign_from_bytes(arg1,arg2);
+-    SWIG_PYTHON_THREAD_END_ALLOW;
+-  }
++  std_vector_Sl_unsigned_SS_char_Sg__assign_from_bytes(arg1,arg2);
+   resultobj = SWIG_Py_Void();
+   return resultobj;
+ fail:
+@@ -18842,10 +18842,6 @@
+   arg1 = reinterpret_cast< std::vector< unsigned char > * >(argp1);
+   arg2 = swig_obj[1];
+-  {
+-    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+-    std_vector_Sl_unsigned_SS_char_Sg__copy_to_bytearray(arg1,arg2);
+-    SWIG_PYTHON_THREAD_END_ALLOW;
+-  }
++  std_vector_Sl_unsigned_SS_char_Sg__copy_to_bytearray(arg1,arg2);
+   resultobj = SWIG_Py_Void();
+   return resultobj;
+ fail:

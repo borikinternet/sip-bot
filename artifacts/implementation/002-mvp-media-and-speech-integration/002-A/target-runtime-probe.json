@@ -1,0 +1,9 @@
+{
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "implementation": "cpython",
+  "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "Py_GIL_DISABLED": 1,
+  "gil_enabled": false,
+  "target": "Ubuntu-24.04/WSL2 user sipbot",
+  "result": "pass"
+}

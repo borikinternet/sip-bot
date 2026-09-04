@@ -1,0 +1,105 @@
+{
+  "probe": "001-C1-pjsua2-pjmedia",
+  "pid": 1462,
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "py_gil_disabled": 1,
+  "gil_before_import": false,
+  "gil_after_import": false,
+  "gil_after_initialization": false,
+  "warnings": [],
+  "import": {
+    "status": "pass",
+    "python_wrapper": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py",
+    "native_module": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so"
+  },
+  "initialization": {
+    "status": "pass",
+    "elapsed_seconds": 0.0032646370000293246
+  },
+  "call": {
+    "status": "pass",
+    "uri": "sip:peer@127.0.0.1:5060",
+    "callbacks": true,
+    "stop_on_disconnect": false,
+    "tone": true,
+    "capture": true,
+    "capture_stats": {
+      "frames": 250,
+      "bytes": 80000,
+      "checksum": 0
+    },
+    "peer_disconnected_before_local_hangup": false,
+    "events": [
+      {
+        "event": "call_state",
+        "timestamp": 1787831062.0192556,
+        "state": "CALLING",
+        "status_code": 0,
+        "call_id": 0
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831062.019475,
+        "state": "EARLY",
+        "status_code": 180,
+        "call_id": 0
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831062.0195854,
+        "state": "CONNECTING",
+        "status_code": 200,
+        "call_id": 0
+      },
+      {
+        "event": "call_media_state",
+        "timestamp": 1787831062.0197513,
+        "media_count": null,
+        "media": [
+          {
+            "index": 0,
+            "type": 1,
+            "status": 1,
+            "direction": 3
+          },
+          {
+            "index": 1,
+            "type": 3,
+            "status": 0,
+            "direction": 0
+          }
+        ]
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831062.0198693,
+        "state": "CONFIRMED",
+        "status_code": 200,
+        "call_id": 0
+      },
+      {
+        "event": "tone_started",
+        "timestamp": 1787831062.0199559
+      },
+      {
+        "event": "capture_attached",
+        "timestamp": 1787831062.0199754
+      },
+      {
+        "event": "probe_window_complete",
+        "timestamp": 1787831067.0207126
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831067.0209334,
+        "state": "DISCONNECTED",
+        "status_code": 200,
+        "call_id": 0
+      }
+    ],
+    "gil_after_call": false
+  },
+  "status": "pass",
+  "gil_after_call": false
+}

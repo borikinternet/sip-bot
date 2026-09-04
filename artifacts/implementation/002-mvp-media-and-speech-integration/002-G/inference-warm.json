@@ -1,0 +1,78 @@
+{
+  "evidence_id": "E-C3-TOKEN-001",
+  "stage": "gpu",
+  "status": "gpu_inference_completed",
+  "candidate": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "quantization": "4-bit",
+    "mode": "non-thinking/instruct",
+    "fallback_run": false
+  },
+  "backend": {
+    "name": "Ollama",
+    "version": "0.33.1",
+    "model_name": "c3-qwen35-9b-q4km:latest",
+    "url": "http://127.0.0.1:11434",
+    "artifact_path": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "controller": "stdlib urllib.request"
+  },
+  "fixture": {
+    "fixture_id": "C3-FINAL-PHRASE-001",
+    "authority": "synthetic_authoritative_final_user_turn",
+    "final_user_phrase": "Почему небо днём кажется голубым?"
+  },
+  "safety": {
+    "model_weights_loaded": true,
+    "model_generation_started": true,
+    "gpu_inference_started": true,
+    "vram_benchmark_started": false,
+    "latency_benchmark_started": false,
+    "cancellation_benchmark_started": false
+  },
+  "fallback_run": false,
+  "response_contract": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "action",
+      "text"
+    ],
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "answer"
+        ]
+      },
+      "text": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "final_phrase_handoff": {
+    "authority": "synthetic_authoritative_final_user_turn",
+    "final_phrase_received_at": "2026-09-03T10:59:40.056+00:00",
+    "final_phrase_received_monotonic_ns": 996829716629,
+    "request_started_at": "2026-09-03T10:59:40.056+00:00",
+    "request_started_monotonic_ns": 996829722858
+  },
+  "first_useful_output_at": "2026-09-03T10:59:42.411+00:00",
+  "first_useful_output_monotonic_ns": 997041664584,
+  "first_valid_response_at": "2026-09-03T10:59:42.411+00:00",
+  "first_valid_response_monotonic_ns": 999167228987,
+  "timings": {
+    "final_phrase_to_first_useful_output_ms": 211.948,
+    "final_phrase_to_first_valid_response_ms": 2337.512,
+    "request_to_first_useful_output_ms": 211.942,
+    "request_to_first_valid_response_ms": 2337.506
+  },
+  "stream_mode": "stream",
+  "raw_output": "{\"action\": \"answer\", \"text\": \"Небо кажется голубым из-за явления, называемого рэлеевским рассеянием. Солнечный свет, проходя через атмосферу, сталкивается с молекулами газов (в основном азота и кислорода). Коротковолновый свет (синий и фиолетовый) рассеивается гораздо сильнее, чем длинноволновый (красный и желтый). Именно этот рассеянный синий свет достигает наших глаз со всех сторон, создавая голубое свечение неба.\"}",
+  "response": {
+    "action": "answer",
+    "text": "Небо кажется голубым из-за явления, называемого рэлеевским рассеянием. Солнечный свет, проходя через атмосферу, сталкивается с молекулами газов (в основном азота и кислорода). Коротковолновый свет (синий и фиолетовый) рассеивается гораздо сильнее, чем длинноволновый (красный и желтый). Именно этот рассеянный синий свет достигает наших глаз со всех сторон, создавая голубое свечение неба."
+  },
+  "errors": []
+}

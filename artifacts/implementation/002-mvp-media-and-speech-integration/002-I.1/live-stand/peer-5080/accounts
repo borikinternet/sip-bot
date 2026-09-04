@@ -1,0 +1,2 @@
+# Isolated I1-8 loopback account with a real audio-file source.
+<sip:peer@127.0.0.1:5080>;answermode=auto;audio_codecs=PCMU/8000/1

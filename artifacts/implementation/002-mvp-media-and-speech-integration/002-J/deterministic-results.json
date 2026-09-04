@@ -1,0 +1,38 @@
+{
+  "targeted_tests": {
+    "command": "python -m pytest -q tests/integration/test_transfer_report.py",
+    "exit_code": 0,
+    "result": "6 passed"
+  },
+  "unit_contract_regression": {
+    "command": "python -m pytest -q tests/unit tests/contract",
+    "exit_code": 0,
+    "result": "88 passed"
+  },
+  "compileall": {
+    "command": "python -m compileall -q src tests config",
+    "exit_code": 0,
+    "result": "success"
+  },
+  "target_nogil_targeted_tests": {
+    "command": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -m pytest -q /mnt/c/devel/sip-bot/tests/integration/test_transfer_report.py",
+    "exit_code": 0,
+    "result": "6 passed",
+    "gil_enabled": false
+  },
+  "target_nogil_compileall": {
+    "command": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -m compileall -q /mnt/c/devel/sip-bot/src /mnt/c/devel/sip-bot/tests /mnt/c/devel/sip-bot/config",
+    "exit_code": 0,
+    "result": "success"
+  },
+  "coverage": [
+    "FSM-confirmed transfer produces an existing typed TransferCommand and TransferResult",
+    "typed operator failure is returned as TransferStatus.FAILED",
+    "non-TRANSFER command is rejected before fake operator invocation",
+    "normal and transfer report finalization is idempotent",
+    "report carries RAG source and hit diagnostics",
+    "report is Markdown/text-only and no audio file is created",
+    "fresh temporary scenario harness has no dependency on prior call state"
+  ]
+}
+

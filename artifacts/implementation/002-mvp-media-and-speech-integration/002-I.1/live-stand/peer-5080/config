@@ -1,0 +1,16 @@
+# Fresh I1-8 Baresip peer: send a bounded PCM16/8 kHz fixture over PCMU.
+poll_method       epoll
+sip_listen        127.0.0.1:5080
+call_local_timeout 10
+call_max_calls    2
+rtp_ports         10040-10060
+rtcp_mux          no
+rtp_stats         yes
+module_path       /usr/lib/baresip/modules
+module            g711.so
+module            aufile.so
+module_tmp        uuid.so
+module_tmp        account.so
+audio_source      aufile,/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.1/live-stand/input-question.wav
+ausrc_srate       8000
+ausrc_channels    1

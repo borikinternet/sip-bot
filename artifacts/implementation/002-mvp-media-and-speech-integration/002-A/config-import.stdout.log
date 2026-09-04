@@ -1,0 +1,7 @@
+application=sip-bot
+codec=PCMU
+rate=8000
+channels=1
+free_threaded_required=True
+operator=sip:operator@127.0.0.1:5090
+media_ptime_policy=negotiated-per-call

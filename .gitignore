@@ -1,0 +1,6 @@
+# Local credentials and machine-specific secrets
+.local/
+
+# Generated feasibility evidence and local runtime state
+artifacts/feasibility/*.json
+artifacts/feasibility/*.log

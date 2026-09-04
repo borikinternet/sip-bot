@@ -1,0 +1,132 @@
+{
+  "schema": "sip-bot.feasibility.c4.manifest.v1",
+  "plan": "001-C4",
+  "execution_stage": "gpu_candidate_path",
+  "status": "ready",
+  "evidence_root": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-H",
+  "candidate_policy": {
+    "primary_only": true,
+    "fallback_authorized": false,
+    "fallback_requires_owner_decision": true,
+    "fallback_candidates_executed": []
+  },
+  "primary_candidate": {
+    "id": "xtts-v2",
+    "name": "XTTS-v2",
+    "selection_state": "execution_selected_prepared_with_open_blockers",
+    "selection_basis": "Единственный execution-selected primary TTS-кандидат C4; fallback не выбирался и не запускался.",
+    "project": "Coqui XTTS-v2",
+    "model_version": "v2.0.3",
+    "model_revision": "6b8036b35d787cf43d18d640587956b9db8fd1b8",
+    "version_or_revision": "XTTS-v2 v2.0.3 @ 6b8036b35d787cf43d18d640587956b9db8fd1b8",
+    "source": "https://huggingface.co/coqui/XTTS-v2",
+    "source_revision": "https://huggingface.co/coqui/XTTS-v2/tree/6b8036b35d787cf43d18d640587956b9db8fd1b8",
+    "source_document": "docs/licensing-policy.md",
+    "license": {
+      "name": "Coqui Public Model License 1.0.0",
+      "source": "https://huggingface.co/coqui/XTTS-v2/blob/6b8036b35d787cf43d18d640587956b9db8fd1b8/LICENSE.txt",
+      "verification_state": "verified_at_exact_revision",
+      "distribution_and_output_constraint": "non_commercial_per_model_license"
+    },
+    "runtime_package": {
+      "distribution": "coqui-tts",
+      "version": "0.27.5",
+      "package_license": "MPL-2.0",
+      "import_modules": [
+        "torch",
+        "librosa",
+        "transformers",
+        "TTS",
+        "TTS.api",
+        "torchaudio",
+        "tokenizers",
+        "huggingface_hub",
+        "soundfile",
+        "monotonic_alignment_search"
+      ],
+      "installed_in_target_runtime": true,
+      "resolved_exact_packages": {
+        "coqui-tts": "0.27.5",
+        "torch": "2.10.0",
+        "torchaudio": "2.10.0",
+        "torchcodec": "0.16.0",
+        "transformers": "4.57.5",
+        "tokenizers": "0.22.2",
+        "huggingface-hub": "0.36.2",
+        "librosa": "0.11.0",
+        "audioread": "3.0.1",
+        "standard-aifc": "3.13.0",
+        "standard-sunau": "3.13.0",
+        "standard-chunk": "3.13.0",
+        "audioop-lts": "0.2.2",
+        "grpcio": "1.83.0"
+      },
+      "dependency_adjustments": [
+        "librosa==0.11.0 pinned because coqui-tts imports librosa.magphase",
+        "transformers==4.57.5 pinned because transformers 5.x removed the XTTS-required isin_mps_friendly",
+        "tokenizers==0.22.2 selected because the 4.57.x requirement accepts <=0.23.0 and 0.23.0 was unavailable",
+        "huggingface-hub==0.36.2 pinned to satisfy transformers<1.0",
+        "torchaudio binding rebuilt with torchaudio-free-threading.patch",
+        "tokenizers binding rebuilt with tokenizers-free-threading.patch",
+        "monotonic_alignment_search binding rebuilt with monotonic-alignment-search-free-threading.patch",
+        "optional Triton Python package disabled in this disposable runtime; XTTS operation does not require it",
+        "XTTS reference audio is loaded through soundfile and torchaudio.functional.resample; torchcodec is not on the operation path"
+      ]
+    },
+    "voice_or_model_asset": {
+      "required": true,
+      "model_local_path": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model",
+      "voice_local_path": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model/samples/en_sample.wav",
+      "provenance": {
+        "repository": "coqui/XTTS-v2",
+        "revision": "6b8036b35d787cf43d18d640587956b9db8fd1b8",
+        "voice_file": "samples/en_sample.wav",
+        "voice_file_source": "https://huggingface.co/coqui/XTTS-v2/blob/6b8036b35d787cf43d18d640587956b9db8fd1b8/samples/en_sample.wav"
+      },
+      "model_asset_state": "complete",
+      "complete_files": [
+        "LICENSE.txt",
+        "README.md",
+        "config.json",
+        "mel_stats.pth",
+        "vocab.json"
+      ],
+      "missing_files": [],
+      "voice_asset_state": "downloaded_metadata_verified",
+      "voice_asset_license_verification_state": "repository_license_verified; separate speaker-recording rights not independently documented",
+      "copied_to_repository": false
+    }
+  },
+  "runtime": {
+    "distribution": "Ubuntu-24.04",
+    "python_executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "python_version": "3.14.7",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1,
+    "gil_enabled_preflight": false
+  },
+  "installation": {
+    "venv": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t",
+    "pip_cache": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-pip",
+    "pip_check": "No broken requirements found.",
+    "model_download": "complete; exact revision files and SHA-256 hashes verified"
+  },
+  "import_gate": {
+    "status": "pass",
+    "functional_api_import": true,
+    "no_gil_invariant": true,
+    "observed_gil_reenable": [],
+    "torchcodec_import": "not required on tested XTTS path; direct import remains incompatible with available CUDA runtime"
+  },
+  "selection_result": {
+    "decision": "ready_for_operation",
+    "reason": "Exact primary package/model revision, complete weights and patched no-GIL import path are fixed for the tested disposable runtime.",
+    "blockers": [],
+    "non_blocking_observations": [
+      "Transient pip SSL interruption and the earlier partial dist-info were recovered without replacing the candidate.",
+      "pip check is clean.",
+      "Official voice reference sample is present and its metadata/hash are recorded."
+    ],
+    "next_action": "Main agent runs the guarded GPU operation, PCMU boundary and cancellation stages; no fallback is selected."
+  }
+}

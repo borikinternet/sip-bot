@@ -1,0 +1,9 @@
+........................................................................ [ 64%]
+.......................................                                  [100%]
+111 passed in 8.57s
+14:48:29.414         os_core_unix.c !pjlib 2.17 for POSIX initialized
+14:48:29.415         sip_endpoint.c  .Creating endpoint instance...
+14:48:29.416                  pjlib  .select() I/O Queue created (0x640b74510c38)
+14:48:29.416         sip_endpoint.c  .Module "mod-msg-print" registered
+14:48:29.416        sip_transport.c  .Transport manager created.
+14:48:29.416           pjsua_core.c  .PJSUA state changed: NULL --> CREATED

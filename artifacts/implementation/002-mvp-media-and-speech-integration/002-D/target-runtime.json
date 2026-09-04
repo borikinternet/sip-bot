@@ -1,0 +1,19 @@
+{
+  "evidence_id": "D-E-RUNTIME-001",
+  "plan": "002-D",
+  "status": "pass",
+  "command": "wsl.exe -d Ubuntu-24.04 -u sipbot -- bash -lc 'cd /mnt/c/devel/sip-bot && /home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I -c ...'",
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "implementation": "cpython",
+  "version": "3.14.7",
+  "Py_GIL_DISABLED": 1,
+  "gil_enabled_before_import": false,
+  "gil_enabled_after_import": false,
+  "speech_import": "pass",
+  "controlled_concurrency": {
+    "workers": 4,
+    "results": ["тест", "тест", "тест", "тест"],
+    "gil_enabled_after": false,
+    "Py_GIL_DISABLED": 1
+  }
+}

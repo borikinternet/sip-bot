@@ -1,0 +1,43 @@
+{
+  "evidence_id": "D-E-CONTRACT-001",
+  "plan": "002-D",
+  "status": "pass",
+  "date": "2026-09-03",
+  "input_contract": {
+    "map": "Map-002-I revision 4",
+    "upstream": ["002-B PcmFrame", "002-C AsrAudioChunk"],
+    "authority": "input revision only; local speech outputs remain candidates until I1-I2 propagation"
+  },
+  "owners": {
+    "vad": "VadProcessor",
+    "endpointing": "TurnDetector",
+    "asr": "StreamingAsrAdapter",
+    "transcript": "TranscriptAssembler",
+    "composition": "SpeechIngress"
+  },
+  "common_scope_fields": ["call_id", "channel_id", "generation"],
+  "contracts": {
+    "VadDecision": ["sequence", "timestamp_ns", "frame_duration_ms", "is_speech", "confidence", "source"],
+    "EndpointEvent": ["kind", "turn_id", "timestamp_ns", "silence_ms", "reason", "authoritative"],
+    "AsrAudioChunk": ["sequence", "timestamp_ns", "pcm_s16le", "sample_rate_hz", "channels"],
+    "AsrHypothesis": ["revision", "timestamp_ns", "text", "is_final", "stable_prefix", "confidence", "source"],
+    "TranscriptUpdate": ["kind", "revision", "timestamp_ns", "text", "stable_prefix", "unstable_suffix", "authoritative", "boundary"],
+    "FinalUserTurn": ["turn_id", "text", "revision", "finalized_at_ns", "boundary"]
+  },
+  "authority_rule": "Only an authoritative hard_endpoint may produce FinalUserTurn; backend is_final is a candidate flag.",
+  "data_plane_rule": "PCM, ASR chunks and transcript payloads stay outside Dispatcher; only lifecycle/control events go upward.",
+  "stale_rule": "A cancelled/closed operation or old generation yields no ASR hypothesis and cannot mutate a finalized assembler.",
+  "propagation_required": {
+    "checkpoint": "I1-I2",
+    "consumers": [
+      {"plan": "002-E", "input": "EndpointEvent", "plane": "control", "purpose": "lifecycle/turn boundary"},
+      {"plan": "002-F", "input": "FinalUserTurn", "plane": "data", "purpose": "RAG/query/prompt input"}
+    ],
+    "partial_consumers": ["002-E/002-F only as non-authoritative observations; no FSM/TTS authority"]
+  },
+  "tests": {
+    "host_speech": "11 passed",
+    "target_speech": "11 passed",
+    "target_runtime": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "sip-bot.feasibility.c4.pcmu-boundary.v1",
+  "plan": "001-C4",
+  "slice": "C4-S3",
+  "status": "pass",
+  "executed": true,
+  "candidate_id": "xtts-v2",
+  "input_contract": {
+    "codec": "PCM S16LE",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "samples": 78080
+  },
+  "output_contract": {
+    "codec": "PCMU/G.711 mu-law",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "bytes": 26027,
+    "frames": 26027,
+    "non_empty": true
+  },
+  "conversion": "soundfile WAV PCM16 -> torchaudio.functional.resample -> audioop.lin2ulaw",
+  "raw_output_saved": false,
+  "command": "/mnt/c/devel/sip-bot/tools/feasibility/tts_primary_probe.py --manifest /mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-H/c4-manifest.json --stage pcmu-boundary --allow-tts-operation",
+  "stdout": "artifacts/implementation/002-mvp-media-and-speech-integration/002-H/main-gate-output.md",
+  "stderr": "artifacts/implementation/002-mvp-media-and-speech-integration/002-H/main-gate-output.md",
+  "exit_code": 0
+}

@@ -1,0 +1,10 @@
+{
+  "evidence_id": "D-E-CANCEL-001",
+  "plan": "002-D",
+  "status": "pass",
+  "operation_1": {"generation": 1, "first_result": "chunk-1", "after_opening_generation_2": "cancelled"},
+  "operation_2": {"generation": 2, "result": "chunk-3"},
+  "late_old_generation": {"accepted": false, "yielded_items": 0},
+  "after_adapter_close": {"accepted": false, "yielded_items": 0},
+  "test": "tests/unit/test_speech_ingress.py::test_asr_adapter_maps_backend_and_drops_old_generation_after_cancel"
+}

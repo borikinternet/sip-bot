@@ -1,0 +1,79 @@
+{
+  "plan_id": "001-C1",
+  "stage": "S0-S4",
+  "status": "pass",
+  "evidence_recorded_at": "2026-08-27",
+  "target_environment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "architecture": "x86_64",
+    "wsl": "WSL2",
+    "user": "sipbot",
+    "python_executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "python_version": "3.14.7",
+    "python_soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1
+  },
+  "candidate": {
+    "name": "PJSUA2 + PJMEDIA",
+    "upstream": "PJSIP project",
+    "version": "2.17",
+    "release_page": "https://www.pjsip.org/download.htm",
+    "source_url": "https://github.com/pjsip/pjproject/archive/refs/tags/2.17.tar.gz",
+    "source_sha256": "065fe06c06788d97c35f563796d59f00ce52fe9558a52d7b490a042a966facce",
+    "source_directory": "/home/sipbot/src/pjsip-build/pjproject-2.17",
+    "install_prefix": "/home/sipbot/.local/pjsip-2.17t",
+    "build_configure": "./configure --prefix=/home/sipbot/.local/pjsip-2.17t CFLAGS=-fPIC CXXFLAGS=-fPIC",
+    "build_result": {
+      "configure_exit_code": 0,
+      "make_dep_and_make_exit_code": 0,
+      "make_install_exit_code": 0,
+      "shared_libraries": false,
+      "pjsua2_enabled": true,
+      "g711_enabled": true,
+      "sound_backend": "null sound",
+      "opus": "disabled because libopus development package was absent; not required by PCMU acceptance"
+    }
+  },
+  "binding": {
+    "generator": "SWIG 4.2.0",
+    "swig_package": "swig 4.2.0-2ubuntu1",
+    "build_runtime": "CPython 3.14.7t",
+    "build_command": "make PYTHON_EXE=/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "package_install_command": "python3.14t -I -m pip install --no-build-isolation --no-deps --no-cache-dir --force-reinstall .",
+    "package_version": "2.17",
+    "python_build_dependency": "setuptools 84.0.0",
+    "python_wrapper": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py",
+    "native_module": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so",
+    "native_module_sha256": "510117d59355d3ea0f30f84d9fdc5fbd6ec6d019eb989dabe9660661846cd01d",
+    "free_threading_patches": [
+      "patches/pjsua2-free-threading.patch",
+      "patches/pjsua2-free-threading-buffer.patch"
+    ],
+    "free_threading_patch_purpose": "Declare the single-phase SWIG extension safe for disabled-GIL import using the CPython 3.14 API and keep Python buffer API access attached to the Python thread state; this is not by itself a proof of full thread safety."
+  },
+  "dynamic_dependencies": [
+    "libstdc++.so.6",
+    "libssl.so.3",
+    "libcrypto.so.3",
+    "libuuid.so.1",
+    "libm.so.6",
+    "libgcc_s.so.1",
+    "libc.so.6"
+  ],
+  "acceptance": {
+    "unpatched_import": "fail: extension import enabled GIL and emitted RuntimeWarning",
+    "patched_import": "pass: no warning; GIL false before and after import",
+    "patched_initialization": "pass: Endpoint/libCreate/libInit/libDestroy; GIL false after initialization",
+    "minimal_sip_lifecycle": "pass: 001-S/lifecycle.json",
+    "pcmu_8khz_mono_media": "pass: 001-S/pcmu.json; PCMU/8000/1 and non-zero bidirectional RTP",
+    "bye_during_long_operation": "pass: 001-S/bye.json; peer disconnect observed before local hangup",
+    "transfer": "out_of_scope for C1; passed by 001-S/transfer.json"
+  },
+  "policy": {
+    "fallback_started": false,
+    "test_stand_created_in_c1": false,
+    "test_stand_plan": "001-S",
+    "audio_recorded": false,
+    "external_pbx_used": false
+  }
+}

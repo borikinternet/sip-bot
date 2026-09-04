@@ -1,0 +1,131 @@
+{
+  "evidence_id": "C2-OR-001-runtime-manifest",
+  "captured_at_utc": "2026-08-27",
+  "target": {
+    "os": "Ubuntu 24.04 LTS in WSL2",
+    "architecture": "x86_64",
+    "python_policy": "baseline from 001-B",
+    "python_version": "3.14.7",
+    "python_executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "prepared_environment": "/home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python",
+    "python_identity": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1,
+    "gil_before_import_probe": false
+  },
+  "candidate": {
+    "id": "ASR-PRIMARY-001-faster-whisper",
+    "package": "faster-whisper",
+    "version": "1.2.1",
+    "upstream_tag": "v1.2.1",
+    "upstream_commit": "65882eee9f5cdbeeb2d877f1131d48cf241b327d",
+    "license": "MIT",
+    "pypi_artifact": {
+      "filename": "faster_whisper-1.2.1-py3-none-any.whl",
+      "sha256": "79a66ad50688c0b794dd501dc340a736992a6342f7f95e5811be60b5224a26a7"
+    },
+    "model": {
+      "repository": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "license": "MIT",
+      "not_downloaded_in_preparation": false,
+      "local_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+      "manifest": "model-manifest.json",
+      "all_expected_files_present": true,
+      "hashes_verified": true
+    }
+  },
+  "dependencies": [
+    {
+      "package": "ctranslate2",
+      "version": "4.8.1",
+      "license": "MIT",
+      "upstream_tag": "v4.8.1",
+      "upstream_commit": "0d8bcd362ac75ef860ef161d6f0efad0ae439ff0",
+      "artifact": "ctranslate2-4.8.1-cp314-cp314t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "artifact_sha256": "1910752ec541980644191fa3b407bc61dee00e88070b0aed29b4cef75010b3ea",
+      "native_extension_sha256": "a14120ad4abf5a225595811a969b418107a3dff3438f485c203a394d3531b59",
+      "no_gil_status": "pass_after_local_patch_import_only",
+      "no_gil_before_patch": "fail",
+      "no_gil_reason": "unpatched import enabled GIL and emitted RuntimeWarning; patched binding passed import gate",
+      "patch": {
+        "evidence": "patch-build.md",
+        "artifact": "ctranslate2-free-threading.patch",
+        "artifact_sha256": "6c118e2707adf715bdccd3b74f772490373927f455a25a857b991160d73ed619",
+        "source_commit": "0d8bcd362ac75ef860ef161d6f0efad0ae439ff0",
+        "patched_wheel_sha256": "2daac26a165060fcb8b8bf4d712cb3cd135c416eb17aa79a2713ea702528e4c7",
+        "patched_extension_sha256": "1bd716e70b94274e8d91d1160d7e0a565f889f57f01aea9beb8d27d1a3b16e9a",
+        "native_library_sha256": "9f7b42a6119711f7ac262a6ac47d24d316314f95c9befd7009985df134d224f1",
+        "operation_gate": "pass"
+      }
+    },
+    {
+      "package": "tokenizers",
+      "version": "0.23.1",
+      "license": "Apache-2.0",
+      "upstream_tag": "v0.23.1",
+      "upstream_commit": "7f1623b90b5adfb9bc327d4c3468d2f70bbce262",
+      "installation": "built from source because PyPI cp314t wheel was not available",
+      "source_sdist": "tokenizers-0.23.1.tar.gz",
+      "source_sdist_sha256": "1feeeadf865a7915adc25445dea30e9933e593c31bb96c277cee36de227c8bfa",
+      "built_wheel_sha256": "53eedf19690f3cda8fb73da45389ad1b2021bf1d39f78f1d17a8b7a9fe894c16",
+      "native_extension_sha256": "9fde4fc03ea919394fde943f4c55348439a244e172d180155e122b6a870bae27",
+      "no_gil_status": "pass"
+    },
+    {
+      "package": "av",
+      "version": "18.1.0",
+      "license": "BSD-3-Clause",
+      "artifact": "av-18.1.0-cp314-cp314t-manylinux_2_28_x86_64.whl",
+      "artifact_sha256": "cf8a17466bef07765dbdecc9e66ed9b25d20b4e14f654fbf35345a58ac45fa0c",
+      "no_gil_status": "pass"
+    },
+    {
+      "package": "onnxruntime",
+      "version": "1.29.0",
+      "license": "MIT",
+      "artifact": "onnxruntime-1.29.0-cp314-cp314t-manylinux_2_28_x86_64.whl",
+      "artifact_sha256": "1ea91cef3b971506e51ae9c37c16d027774ec64994a524ec1bdfb027d68a9832",
+      "no_gil_status": "pass"
+    },
+    {
+      "package": "numpy",
+      "version": "2.5.2",
+      "license": "BSD-3-Clause",
+      "artifact": "numpy-2.5.2-cp314-cp314t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "artifact_sha256": "1ab3d4a901f844ea836c3e80bf463c6a27d7f3c14e8e292fcf28d348b25b9bce",
+      "no_gil_status": "pass"
+    },
+    {
+      "package": "PyYAML",
+      "version": "6.0.3",
+      "license": "MIT",
+      "artifact": "pyyaml-6.0.3-cp314-cp314t-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "artifact_sha256": "00c4bdeba853cc34e7dd471f16b4114f4162dc03e6b7afcc2128711f0eca823c",
+      "no_gil_status": "pass"
+    }
+  ],
+  "other_installed_direct_dependencies": {
+    "huggingface-hub": "1.29.0",
+    "httpx": "0.28.1",
+    "onnxruntime": "1.29.0",
+    "protobuf": "7.36.0",
+    "tqdm": "4.70.0"
+  },
+  "probe": {
+    "path": "tools/asr_primary_probe.py",
+    "import_evidence": "import-no-gil.json",
+    "import_evidence_before_patch": "import-no-gil-before-patch.json",
+    "patch_build_evidence": "patch-build.md",
+    "model_manifest": "model-manifest.json",
+    "gpu_model_load": false,
+    "gpu_inference": false,
+    "benchmark": false
+  },
+  "source_urls": {
+    "candidate_pypi": "https://pypi.org/project/faster-whisper/",
+    "candidate_upstream": "https://github.com/SYSTRAN/faster-whisper/tree/v1.2.1",
+    "ctranslate2_upstream": "https://github.com/OpenNMT/CTranslate2/tree/v4.8.1",
+    "model": "https://huggingface.co/Systran/faster-whisper-large-v3"
+  }
+}

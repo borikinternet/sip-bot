@@ -1,0 +1,30 @@
+{
+  "status": "fail",
+  "call_id": "real-composition-call",
+  "state": "terminal",
+  "report": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.0/real-composition/reports/real-composition-call/report.md",
+  "rag": {
+    "contexts": 1,
+    "sufficient": true,
+    "source_ids": [
+      "wiki-physics-rayleigh",
+      "wiki-astronomy-mars"
+    ]
+  },
+  "audio": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.0/real-composition/tts-composition-sample.wav",
+    "bytes": 0,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "elapsed_from_final_turn_ms": 6033.674,
+  "pipeline_errors": [
+    "PipelineError: LLM operation failed: malformed_response"
+  ],
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  }
+}

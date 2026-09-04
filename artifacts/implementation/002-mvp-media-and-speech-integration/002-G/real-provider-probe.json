@@ -1,0 +1,51 @@
+{
+  "status": "pass_with_corrections",
+  "date": "2026-09-03",
+  "runtime": {
+    "python": "3.14.7 free-threading build",
+    "gil_enabled": false,
+    "ollama": "0.33.1",
+    "gpu": "NVIDIA GeForce RTX 5060 Ti",
+    "vram_mib": {"total": 16311, "used_at_sample": 9807, "free_at_sample": 6244}
+  },
+  "embedding": {
+    "model": "embeddinggemma:latest",
+    "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+    "dimension": 768,
+    "corpus_version": "ru-natural-science-demo-v1",
+    "index_version": "ollama-embeddinggemma-2026-09-03",
+    "index_path": "data/knowledge/index/embeddinggemma-v1.json",
+    "index_sha256": "48D2C7E1AC3DD746C805EFB332CCB8C84DB2ADBC17814904C862C817E05FD80B",
+    "chunks": 6,
+    "positive": {
+      "query": "Почему небо днём кажется голубым?",
+      "sufficient": true,
+      "threshold": 0.35,
+      "top_hit": {"source_id": "wiki-physics-rayleigh", "chunk_id": "wiki-physics-rayleigh-001", "score": 0.586614}
+    },
+    "negative": {
+      "query": "Как устроен телескоп?",
+      "sufficient": false,
+      "threshold": 0.35,
+      "top_scores": [0.194894, 0.170337, 0.150682],
+      "outcome": "unknown_answer/offer_transfer"
+    }
+  },
+  "chat": {
+    "model": "c3-qwen35-9b-q4km:latest",
+    "digest": "39f71f96aaa8d80ae8653c52e96d69e8620023b96e6a1c4d1038735e27e273cc",
+    "think": false,
+    "temperature": 0.1,
+    "num_predict": 96,
+    "decision": "answer",
+    "source_aware": true,
+    "final_to_first_usable_ms": 282.8241,
+    "final_to_final_result_ms": 1230.582814,
+    "text": "Небо днём кажется голубым, потому что молекулы атмосферы рассеивают коротковолновую часть видимого света сильнее длинноволновой."
+  },
+  "notes": [
+    "Initial facade payload without explicit non-thinking/options took 15.44 s; this was rejected as a configuration defect.",
+    "After think=false and short generation options, the same facade path produced first usable output within the 500 ms model budget.",
+    "Embedding and chat were invoked through LlmFacade; no direct application call bypassed the facade."
+  ]
+}

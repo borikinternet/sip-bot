@@ -1,0 +1,17 @@
+Probe: E-001-A-WSL-001 / E-001-A-DISK-001 / E-001-A-WT-001
+Date: 2026-08-27
+Commands:
+  wsl.exe --status
+  wsl.exe --list --verbose
+  Get-PSDrive -Name C
+  nvidia-smi --query-gpu=name,driver_version,memory.total,memory.free --format=csv,noheader
+  git status --short
+
+Observed:
+  WSL distributions: docker-desktop (Running, WSL2); Ubuntu-24.04 (Stopped at initial listing, WSL2)
+  C_used_bytes=307556503552
+  C_free_bytes=85727649792
+  C_total_bytes=393284153344
+  Host GPU: NVIDIA GeForce RTX 5060 Ti, driver 610.88, 16311 MiB total, 13333 MiB free
+  Windows worktree has pre-existing .idea/.codex/.gitignore/artifacts/docs/tools changes.
+  Host command exit codes: 0.

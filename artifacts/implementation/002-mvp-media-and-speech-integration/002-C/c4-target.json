@@ -1,0 +1,263 @@
+{
+  "evidence_id": "C-E-c4-target-pcm-boundary",
+  "plan": "002-C",
+  "stage": "C4",
+  "status": "pass",
+  "command": "python3.14t -I artifacts/implementation/002-mvp-media-and-speech-integration/002-C/target_pcm_boundary_probe.py",
+  "started_at_utc": "2026-09-02T23:17:37.833794+00:00",
+  "runtime": {
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "free_threaded": true
+  },
+  "candidate": "PJSUA2/PJMEDIA 2.17 with approved Baresip 001-S PCMU peer",
+  "media_profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "pjmedia.stream_info"
+  },
+  "live_pcm_frames": 100,
+  "fanout_published": 100,
+  "fanout_delivery": {
+    "vad_frames": 100,
+    "asr_frames": 100
+  },
+  "chunks": [
+    {
+      "call_id": "call-c4-boundary",
+      "channel_id": "call-c4-boundary:media",
+      "generation": 1,
+      "sequence": 1,
+      "timestamp_ns": 269067353969,
+      "bytes": 16000,
+      "sample_count": 8000,
+      "duration_ms": 1000.0,
+      "flush_reason": "target",
+      "is_final": false,
+      "profile": {
+        "codec": "PCMU",
+        "payload_type": 0,
+        "rx_payload_type": 0,
+        "tx_payload_type": 0,
+        "ptime_ms": 20.0,
+        "frame_time_usec": 20000,
+        "sample_rate_hz": 8000,
+        "channels": 1,
+        "frame_size_samples": 160,
+        "frame_bytes": 320,
+        "pcm_bits_per_sample": 16,
+        "source": "pjmedia.stream_info"
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "channel_id": "call-c4-boundary:media",
+      "generation": 1,
+      "sequence": 2,
+      "timestamp_ns": 270067577384,
+      "bytes": 16000,
+      "sample_count": 8000,
+      "duration_ms": 1000.0,
+      "flush_reason": "target",
+      "is_final": false,
+      "profile": {
+        "codec": "PCMU",
+        "payload_type": 0,
+        "rx_payload_type": 0,
+        "tx_payload_type": 0,
+        "ptime_ms": 20.0,
+        "frame_time_usec": 20000,
+        "sample_rate_hz": 8000,
+        "channels": 1,
+        "frame_size_samples": 160,
+        "frame_bytes": 320,
+        "pcm_bits_per_sample": 16,
+        "source": "pjmedia.stream_info"
+      }
+    }
+  ],
+  "encoded_first_pcm_frame_bytes": 160,
+  "media_stats": {
+    "ingress_frames": 100,
+    "ingress_bytes": 32000,
+    "egress_frames": 100,
+    "egress_bytes": 32000,
+    "ingress_dropped_closed": 0,
+    "ingress_dropped_overflow": 0,
+    "egress_dropped_closed": 0,
+    "egress_dropped_overflow": 0,
+    "egress_underruns": 100,
+    "callback_errors": 0
+  },
+  "events": [
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "sip_transaction",
+      "timestamp_ns": 269047302882,
+      "sequence": 1,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 1
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "sip_transaction",
+      "timestamp_ns": 269047423048,
+      "sequence": 2,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 2
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "sip_transaction",
+      "timestamp_ns": 269047441411,
+      "sequence": 3,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 1
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "sip_transaction",
+      "timestamp_ns": 269047476891,
+      "sequence": 4,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 2
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "sip_transaction",
+      "timestamp_ns": 269047535685,
+      "sequence": 5,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 3
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "sip_transaction",
+      "timestamp_ns": 269047550516,
+      "sequence": 6,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 3
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "call_started",
+      "timestamp_ns": 269048444753,
+      "sequence": 7,
+      "method": null,
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "direction": "outgoing",
+        "peer_uri": "sip:peer@127.0.0.1:5080"
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "sip_transaction",
+      "timestamp_ns": 269049826698,
+      "sequence": 8,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 4
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "sip_transaction",
+      "timestamp_ns": 269050017781,
+      "sequence": 9,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 0
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "media_started",
+      "timestamp_ns": 269053652874,
+      "sequence": 10,
+      "method": null,
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "direction": 3,
+        "media_index": 0
+      },
+      "media_profile": {
+        "codec": "PCMU",
+        "payload_type": 0,
+        "rx_payload_type": 0,
+        "tx_payload_type": 0,
+        "ptime_ms": 20.0,
+        "frame_time_usec": 20000,
+        "sample_rate_hz": 8000,
+        "channels": 1,
+        "frame_size_samples": 160,
+        "frame_bytes": 320,
+        "pcm_bits_per_sample": 16,
+        "source": "pjmedia.stream_info"
+      }
+    },
+    {
+      "call_id": "call-c4-boundary",
+      "kind": "call_answered",
+      "timestamp_ns": 269053742392,
+      "sequence": 11,
+      "method": null,
+      "status_code": 200,
+      "reason": "Answering",
+      "details": {
+        "state": "CONFIRMED",
+        "pjsua_call_id": 0
+      }
+    }
+  ],
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-C/c4.peer.log",
+  "error": null,
+  "audio_recording": false,
+  "finished_at_utc": "2026-09-02T23:17:37.833905+00:00"
+}

@@ -1,0 +1,35 @@
+{
+  "plan": "plan-002-J-transfer-report-integration.md",
+  "scope": "J1-J4 deterministic and clean-start composition; live SIP-to-AI gate and J5 map closeout",
+  "status": "complete",
+  "owner_review": "accepted",
+  "contract_revision": "Map-002-I revision 21; base live SIP-to-AI driver materialized by 002-I.1",
+  "runtime": {
+    "host": "Windows 11 / PowerShell",
+    "python": "3.14.3",
+    "target_runtime": "CPython 3.14.7 free-threaded",
+    "target_gil_enabled": false
+  },
+  "heavy_inference_executed": true,
+  "real_sip_rtp_executed": true,
+  "evidence": [
+    "deterministic-results.json",
+    "commands.md",
+    "closeout.md",
+    "j4-preflight.md",
+    "next-plan-approval.md",
+    "j4-clean-start-20260903-r2/j4-evidence.json",
+    "j4-integration-gap.md",
+    "j4-full-live-20260904-r18/j4-full-live.json",
+    "j4-full-live-20260904-r18/README.md",
+    "j4-full-live-20260904-r19/j4-full-live.json",
+    "j4-full-live-20260904-r20/j4-full-live.json",
+    "j4-full-live-20260904-r20/README.md"
+  ],
+  "blocker": {
+    "id": "B-002-J-004",
+    "category": "APG-6.1-category-4",
+    "status": "resolved",
+    "summary": "Full clean-start J4 scenario matrix proven by one live SIP/RTP call; J5 closeout synchronized"
+  }
+}

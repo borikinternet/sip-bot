@@ -1,0 +1,30 @@
+{
+  "corpus_version": "ru-natural-science-demo-v1",
+  "license": "CC BY-SA 4.0",
+  "sources": [
+    {
+      "source_id": "wiki-physics-rayleigh",
+      "title": "Рассеяние Рэлея",
+      "url": "https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D1%81%D1%81%D0%B5%D1%8F%D0%BD%D0%B8%D0%B5_%D0%A0%D1%8D%D0%BB%D0%B5%D1%8F",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Википедия, статья «Рассеяние Рэлея», доступ 2026-09-03",
+      "file": "physics-rayleigh.md"
+    },
+    {
+      "source_id": "wiki-astronomy-mars",
+      "title": "Марс",
+      "url": "https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Википедия, статья «Марс», доступ 2026-09-03",
+      "file": "astronomy-mars.md"
+    },
+    {
+      "source_id": "wiki-chemistry-water",
+      "title": "Вода",
+      "url": "https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%B4%D0%B0",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Википедия, статья «Вода», доступ 2026-09-03",
+      "file": "chemistry-water.md"
+    }
+  ]
+}

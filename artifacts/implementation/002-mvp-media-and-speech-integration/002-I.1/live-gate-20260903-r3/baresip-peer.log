@@ -1,0 +1,40 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eth0|172.22.89.126 
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: aufile
+Populated 1 account
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+unhandeled request from 127.0.0.1:5080: REGISTER sip:127.0.0.1:5080
+[31mreg: sip:peer@127.0.0.1:5080: 501 Not Implemented (baresip v1.0.0 (x86_64/linux))
+[;mua: using AF from sdp offer: af=AF_INET
+call: answering call on line 1 from sip:tester@127.0.0.1 with 200
+stream: update 'audio'
+audio: Set audio decoder: PCMU 8000Hz 1ch
+audio: Set audio encoder: PCMU 8000Hz 1ch
+aufile: loading input file '/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.1/live-stand/input-question.wav'
+aufile: /mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.1/live-stand/input-question.wav: 8000 Hz, 1 channels
+aufile: audio ptime=20 sampc=160
+aufile: end of file
+aufile: loaded 512598 bytes
+audio: source started with sample format S16LE
+audio tx pipeline:      aufile ---> PCMU
+audio rx pipeline:      (play) <--- PCMU
+peer@127.0.0.1: Call established: sip:tester@127.0.0.1
+stream: incoming rtp for 'audio' established, receiving from 172.22.89.126:4000
+sip:tester@127.0.0.1: session closed: Connection reset by peer
+sip:peer@127.0.0.1: Call with sip:tester@127.0.0.1 terminated (duration: 9 secs)
+
+audio           Transmit:     Receive:
+packets:            470          136
+avg. bitrate:      64.1         18.5  (kbit/s)
+errors:               0            0
+pkt.report:         470          136
+lost:                 0            0
+jitter:             1.0          0.0  (ms)
+terminated by signal 15
+ua: stop all (forced=0)

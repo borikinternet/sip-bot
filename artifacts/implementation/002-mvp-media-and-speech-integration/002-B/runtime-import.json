@@ -1,0 +1,29 @@
+{
+  "evidence_id": "B-E-runtime-import",
+  "plan": "002-B",
+  "status": "pass",
+  "target": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "architecture": "x86_64",
+    "wsl": "WSL2",
+    "user": "sipbot",
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "version": "3.14.7",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1,
+    "gil_before_import": false,
+    "gil_after_import_and_lifecycle": false
+  },
+  "command": "wsl.exe -d Ubuntu-24.04 -u sipbot -- bash -lc '/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I -'",
+  "exit_code": 0,
+  "stdout": "{\"executable\": \"/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t\", \"gil_after_import_and_lifecycle\": false, \"gil_before_import\": false, \"gil_disabled_config\": 1, \"implementation\": \"cpython\", \"pjsua2_wrapper\": \"/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py\", \"pytest_version\": \"9.1.1\", \"soabi\": \"cpython-314t-x86_64-linux-gnu\", \"version\": \"3.14.7\"}\n",
+  "stderr": "22:58:23.741         os_core_unix.c !pjlib 2.17 for POSIX initialized\n22:58:23.742         sip_endpoint.c  .Creating endpoint instance...\n22:58:23.743                  pjlib  .select() I/O Queue created (0x64c4394fdf38)\n22:58:23.743           sip_endpoint.c  .Module \"mod-msg-print\" registered\n22:58:23.743        sip_transport.c  .Transport manager created.\n22:58:23.743           pjsua_core.c  .PJSUA state changed: NULL --> CREATED\n22:58:23.743           pjsua_core.c  Shutting down, flags=0...\n22:58:23.743           pjsua_core.c  PJSUA state changed: CREATED --> CLOSING\n22:58:23.743           pjsua_pres.c  .Shutting down presence..\n22:58:24.753           pjsua_core.c  .Destroying...\n22:58:24.753          pjsua_media.c  .Shutting down media..\n22:58:24.753         sip_endpoint.c  .Destroying endpoint instance..\n22:58:24.753         sip_endpoint.c  .Module \"mod-msg-print\" unregistered\n22:58:24.753        sip_transport.c  .Destroying transport manager\n22:58:24.753                timer.c  .Dumping timer heap:\n22:58:24.753                timer.c  .  Cur size: 0 entries, max: 3070\n22:58:24.753         sip_endpoint.c  .Endpoint 0x64c4394f3fc0 destroyed\n22:58:24.753          pjsua_core.c  .PJSUA state changed: CLOSING --> NULL\n22:58:24.753          pjsua_core.c  .PJSUA destroyed...\n",
+  "operations": [
+    "import pjsua2",
+    "Endpoint()",
+    "libCreate()",
+    "libDestroy()",
+    "import pytest"
+  ],
+  "windows_host_python_is_evidence": false
+}

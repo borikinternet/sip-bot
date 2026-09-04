@@ -1,0 +1,51 @@
+{
+  "schema": "sip-bot.feasibility.c4.environment.v1",
+  "plan": "001-C4",
+  "runtime": {
+    "distribution": "Ubuntu-24.04",
+    "python_executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "venv": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t",
+    "python_version": "3.14.7 free-threading build",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "Py_GIL_DISABLED": 1,
+    "gil_enabled_preflight": false
+  },
+  "exact_packages": {
+    "coqui-tts": "0.27.5",
+    "torch": "2.10.0",
+    "torchaudio": "2.10.0",
+    "torchcodec": "0.16.0",
+    "transformers": "4.57.5",
+    "tokenizers": "0.22.2",
+    "huggingface-hub": "0.36.2",
+    "librosa": "0.11.0",
+    "audioread": "3.0.1",
+    "standard-aifc": "3.13.0",
+    "standard-sunau": "3.13.0",
+    "standard-chunk": "3.13.0",
+    "audioop-lts": "0.2.2",
+    "grpcio": "1.83.0"
+  },
+  "package_selection": {
+    "primary": "coqui-tts==0.27.5",
+    "pytorch": "torch==2.10.0",
+    "audio_binding": "torchaudio==2.10.0",
+    "optional_codec_probe": "torchcodec==0.16.0",
+    "cuda_build_observed": "cu128"
+  },
+  "dependency_resolution": {
+    "pip_check": "No broken requirements found.",
+    "transient_install_events": [
+      "One SSL EOF during CUDA wheel download; pip resumed successfully.",
+      "One interrupted install left a zero-byte torch library and partial librosa dist-info; exact packages were repaired in place.",
+      "No persistent package/cache lock blocker observed."
+    ]
+  },
+  "constraints": {
+    "model_loaded": false,
+    "gpu_inference": false,
+    "tts_generation": false,
+    "benchmark": false,
+    "cancellation_test": false
+  }
+}

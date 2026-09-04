@@ -1,0 +1,7 @@
+{"status": "pass", "live_pcm_frames": 100, "chunks": 2, "error": null}
+02:17:34.753         os_core_unix.c !pjlib 2.17 for POSIX initialized
+02:17:34.754         sip_endpoint.c  .Creating endpoint instance...
+02:17:34.755                  pjlib  .select() I/O Queue created (0x5e7c4cbd0448)
+02:17:34.755         sip_endpoint.c  .Module "mod-msg-print" registered
+02:17:34.755        sip_transport.c  .Transport manager created.
+02:17:34.755           pjsua_core.c  .PJSUA state changed: NULL --> CREATED

@@ -1,0 +1,61 @@
+{
+  "status": "pass",
+  "call_id": "real-media-composition-call",
+  "state": "terminal",
+  "final_turn": {
+    "text": "Мы считаем, что это следующий логист.",
+    "revision": 4,
+    "boundary": "hard_endpoint"
+  },
+  "asr": {
+    "candidate": "faster-whisper-large-v3",
+    "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+    "hypotheses": [
+      "Мужчина",
+      "Мы считаем, что это...",
+      "Мы считаем, что это следующий логист.",
+      "Мы считаем, что это следующий логический шаг.",
+      "Мы считаем, что это следующий логический шаг."
+    ],
+    "hypothesis_count": 5,
+    "frames": 248,
+    "profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "001-S negotiated test profile"
+    }
+  },
+  "rag": {
+    "contexts": 1,
+    "sufficient": false,
+    "source_ids": [
+      "wiki-physics-rayleigh",
+      "wiki-chemistry-water"
+    ]
+  },
+  "transfer_confirmation_used": true,
+  "operator_accepted": true,
+  "operator_target": "sip:operator@127.0.0.1:5090",
+  "report": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260904-r4/real-media-transfer/reports/real-media-composition-call/report.md",
+  "audio": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260904-r4/real-media-transfer/tts-media-composition-sample.wav",
+    "bytes": 126976,
+    "sha256": "b8d18f6d01d5a959a55e48ab2ae114419e96c1be12d0cdfca8c9aa81233c3f3b"
+  },
+  "elapsed_from_media_start_ms": 24186.7,
+  "pipeline_errors": [],
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  }
+}

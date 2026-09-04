@@ -1,0 +1,21 @@
+# Isolated loopback peer configuration for media callback diagnostics.
+poll_method       epoll
+sip_listen        127.0.0.1:5080
+call_local_timeout 10
+call_max_calls    2
+rtp_ports         10040-10060
+rtcp_mux          no
+rtp_stats         yes
+module_path       /usr/lib/baresip/modules
+module            g711.so
+module            ausine.so
+module_tmp        uuid.so
+module_tmp        account.so
+module_app        echo.so
+module_app        menu.so
+audio_source      ausine,440
+ausrc_srate       48000
+ausrc_channels    2
+
+module            sndfile.so
+snd_path          /tmp/sipbot-map005-a-c_laplx6

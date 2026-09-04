@@ -1,0 +1,31 @@
+{
+  "evidence_id": "C2-OR-006-model-materialization",
+  "captured_at_utc": "2026-08-27",
+  "repository": "Systran/faster-whisper-large-v3",
+  "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+  "license": "MIT",
+  "local_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+  "download_status": "complete",
+  "expected_file_count": 7,
+  "expected_total_bytes": 3090839273,
+  "files": [
+    {"path": ".gitattributes", "size": 1519, "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"},
+    {"path": "README.md", "size": 2052, "sha256": "39e96252229f5a3d0141dc81afb65a36fd205461ac21e5b70f2cd1248ef0082c"},
+    {"path": "config.json", "size": 2394, "sha256": "a9306624f5ec14270a014b647e5c316b6e03a662c369758d1b90697a7b0655b9"},
+    {"path": "model.bin", "size": 3087284237, "sha256": "69f74147e3334731bc3a76048724833325d2ec74642fb52620eda87352e3d4f1"},
+    {"path": "preprocessor_config.json", "size": 340, "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711"},
+    {"path": "tokenizer.json", "size": 2480617, "sha256": "6d8cbd7cd0d8d5815e478dac67b85a26bbe77c1f5e0c6d76d1ce2abc0e5f21ca"},
+    {"path": "vocabulary.json", "size": 1068114, "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1"}
+  ],
+  "verification": {
+    "all_expected_files_present": true,
+    "hashes_verified": true,
+    "model_load": false,
+    "gpu_inference": false,
+    "benchmark": false
+  },
+  "source_urls": {
+    "model": "https://huggingface.co/Systran/faster-whisper-large-v3",
+    "revision": "https://huggingface.co/Systran/faster-whisper-large-v3/tree/edaa852ec7e145841d8ffdb056a99866b5f0a478"
+  }
+}

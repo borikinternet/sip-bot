@@ -1,0 +1,59 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eth0|172.22.89.126 
+pre-loading modules: 1
+stdio: could not setup terminal: Inappropriate ioctl for device
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: ausine
+Populated 1 account
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+unhandeled request from 127.0.0.1:5080: REGISTER sip:127.0.0.1:5080
+[31mreg: sip:peer@127.0.0.1:5080: 501 Not Implemented (baresip v1.0.0 (x86_64/linux))
+[;mua: using AF from sdp offer: af=AF_INET
+call: answering call on line 1 from sip:tester@127.0.0.1 with 200
+stream: update 'audio'
+audio: Set audio decoder: PCMU 8000Hz 1ch
+audio: Set audio encoder: PCMU 8000Hz 1ch
+audio: enable ausrc resampler: 8000Hz/1ch <-- 48000Hz/2ch
+ausine: 48000 Hz, 2 channels, frequency 440 Hz
+ausine: audio ptime=20 sampc=1920
+audio: source started with sample format S16LE
+audio tx pipeline:      ausine ---> PCMU
+audio rx pipeline:      (play) <--- PCMU
+peer@127.0.0.1: Call established: sip:tester@127.0.0.1
+call: terminate call 'bc1424ed-adab-4e9d-b8c7-3a2e5136b283' with sip:tester@127.0.0.1
+
+audio           Transmit:     Receive:
+packets:              1            0
+avg. bitrate:      98.4          0.0  (kbit/s)
+errors:               0            0
+--- Help ---
+                    ESC      Hangup call
+  /about                     About box
+  /accept           a        Accept incoming call
+  /answermode ..             Set answer mode
+  /auplay ..                 Switch audio player
+  /ausrc ..                  Switch audio source
+  /callstat         c        Call status
+  /dial ..          d ..     Dial
+  /hangup           b        Hangup call
+  /help             h        Help menu
+  /insmod ..                 Load module
+  /listcalls        l        List active calls
+  /options ..       o ..     Options
+  /quit             q        Quit
+  /reginfo          r        Registration info
+  /rmmod ..                  Unload module
+  /uadel ..                  Delete User-Agent
+  /uafind ..                 Find User-Agent <aor>
+  /uanew ..                  Create User-Agent
+  /uanext           T        Toggle UAs
+  /vidsrc ..                 Switch video source
+
+
+terminated by signal 15
+ua: stop all (forced=0)

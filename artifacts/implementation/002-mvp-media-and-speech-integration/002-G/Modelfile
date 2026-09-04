@@ -1,0 +1,5 @@
+FROM /home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf
+
+PARAMETER num_ctx 4096
+PARAMETER temperature 0.1
+PARAMETER num_predict 96

@@ -1,0 +1,32 @@
+/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/lib/python3.14t/site-packages/TTS/api.py:93: UserWarning: `gpu` will be deprecated. Please use `tts.to(device)` instead.
+  warnings.warn("`gpu` will be deprecated. Please use `tts.to(device)` instead.")
+2026-09-04T00:31:49+0300 INFO sip-bot application runtime started version=0.1.0
+2026-09-04T00:31:49+0300 INFO sip-bot call opened call_id=real-media-composition-call
+Traceback (most recent call last):
+  File "/mnt/c/devel/sip-bot/tools/real_media_composition_probe.py", line 311, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/mnt/c/devel/sip-bot/tools/real_media_composition_probe.py", line 254, in main
+    _wait_pipeline(pipeline, 30.0)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/mnt/c/devel/sip-bot/tools/real_media_composition_probe.py", line 99, in _wait_pipeline
+    pipeline.drain_control()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/mnt/c/devel/sip-bot/src/sip_bot/conversation_pipeline.py", line 130, in drain_control
+    return self.composition.drain_control(limit)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/mnt/c/devel/sip-bot/src/sip_bot/runtime_composition.py", line 156, in drain_control
+    self._flush_pending_report()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/mnt/c/devel/sip-bot/src/sip_bot/runtime_composition.py", line 253, in _flush_pending_report
+    self.finalize_report(reason)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/mnt/c/devel/sip-bot/src/sip_bot/runtime_composition.py", line 220, in finalize_report
+    result = self.owners.report.finalize(
+        ReportInput(
+    ...<7 lines>...
+        )
+    )
+  File "/mnt/c/devel/sip-bot/src/sip_bot/report/builder.py", line 124, in finalize
+    raise ReportFinalizationError("terminal report already exists with different content")
+sip_bot.report.builder.ReportFinalizationError: terminal report already exists with different content

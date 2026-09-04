@@ -1,0 +1,69 @@
+{
+  "schema": "sip-bot.feasibility.c4.asset-manifest.v1",
+  "plan": "001-C4",
+  "repository": "coqui/XTTS-v2",
+  "revision": "6b8036b35d787cf43d18d640587956b9db8fd1b8",
+  "model_version": "v2.0.3",
+  "revision_url": "https://huggingface.co/coqui/XTTS-v2/tree/6b8036b35d787cf43d18d640587956b9db8fd1b8",
+  "license": {
+    "name": "Coqui Public Model License 1.0.0",
+    "url": "https://huggingface.co/coqui/XTTS-v2/blob/6b8036b35d787cf43d18d640587956b9db8fd1b8/LICENSE.txt",
+    "local_license_path": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model/LICENSE.txt",
+    "local_license_sha256": "190f6d7c19b8984f91b97712b94ce92d2b2e640fc677dacab966e955ece9d043",
+    "verification": "exact revision file downloaded and hash recorded"
+  },
+  "local_root": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model",
+  "model_files": [
+    {
+      "path": "config.json",
+      "status": "present",
+      "bytes": 4354,
+      "sha256": "3870cdb946f90398a7e1dde84c7f185ab07d9e14bb3a157e2f1c00040cb64f3c"
+    },
+    {
+      "path": "dvae.pth",
+      "status": "present",
+      "bytes": 210514388,
+      "sha256": "b29bc227d410d4991e0a8c09b858f77415013eeb9fba9650258e96095557d97a"
+    },
+    {
+      "path": "mel_stats.pth",
+      "status": "present",
+      "bytes": 1067,
+      "sha256": "1f69422a8a8f344c4fca2f0c6b8d41d2151d6615b7321e48e6bb15ae949b119c"
+    },
+    {
+      "path": "model.pth",
+      "status": "present",
+      "bytes": 1867929118,
+      "sha256": "98f7297340c09d9d33cb3e2580f8cfb02e8b496270e2cf678ffcfe38b535d218"
+    },
+    {
+      "path": "vocab.json",
+      "status": "present",
+      "bytes": 361219,
+      "sha256": "928260878a59da8a72a2a5b7687fea29d5106137669d90945430fe17e415304a"
+    }
+  ],
+  "voice_asset": {
+    "path": "samples/en_sample.wav",
+    "local_path": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model/samples/en_sample.wav",
+    "status": "present",
+    "bytes": 299066,
+    "sha256": "2bb31e7bf2b1e6f98f21be9017f5daee44a40ca91126955485f430b272e1a8b5",
+    "format": "WAV",
+    "subtype": "FLOAT",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "frames": 74752,
+    "duration_ms": 3114.667,
+    "source": "https://huggingface.co/coqui/XTTS-v2/blob/6b8036b35d787cf43d18d640587956b9db8fd1b8/samples/en_sample.wav",
+    "license_state": "repository CPML verified; separate speaker-recording rights not independently documented"
+  },
+  "download_state": {
+    "status": "complete",
+    "weights_downloaded": true,
+    "download_command_was_interrupted_by_owner": false,
+    "resume_command": "snapshot_download(repo_id='coqui/XTTS-v2', revision='6b8036b35d787cf43d18d640587956b9db8fd1b8', local_dir='/home/sipbot/.cache/sip-bot-c4-xtts-v2-model', allow_patterns=['config.json','dvae.pth','mel_stats.pth','model.pth','vocab.json','LICENSE.txt','README.md','samples/en_sample.wav'])"
+  }
+}

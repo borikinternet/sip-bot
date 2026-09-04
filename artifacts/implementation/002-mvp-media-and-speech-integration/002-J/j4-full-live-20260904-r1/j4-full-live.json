@@ -1,0 +1,188 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260903T222353Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "fail",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-03T22:23:53.429208+00:00",
+  "elapsed_ms": 37355.734,
+  "elapsed_from_call_start_ms": null,
+  "warmup": {
+    "started_at_ns": 12488394651849,
+    "completed_at_ns": 12524213007641,
+    "elapsed_ms": 35818.355792,
+    "stages": [
+      {
+        "name": "rag-embedding-index",
+        "elapsed_ms": 3210.084268,
+        "details": {
+          "chunks": 6,
+          "embedding_model": "embeddinggemma"
+        }
+      },
+      {
+        "name": "llm-chat",
+        "elapsed_ms": 7702.520418,
+        "details": {
+          "sources": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "trace": {
+            "final_user_turn_ns": 12491654366274,
+            "request_started_ns": 12491654396122,
+            "first_stream_event_ns": 12498313251477,
+            "first_usable_output_ns": 12498313251477,
+            "final_result_ns": 12499306688805,
+            "cancel_requested_ns": null,
+            "completed_ns": 12499306688805,
+            "final_to_first_usable_ms": 6658.885203,
+            "final_to_final_result_ms": 7652.322531,
+            "request_to_first_usable_ms": 6658.855355,
+            "request_to_final_result_ms": 7652.292683
+          }
+        }
+      },
+      {
+        "name": "asr",
+        "elapsed_ms": 10386.05128,
+        "details": {
+          "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+          "model_sample_rate_hz": 16000,
+          "input_sample_rate_hz": 8000,
+          "input_duration_ms": 1000,
+          "model_loaded_by_warmup": true
+        }
+      },
+      {
+        "name": "tts-initialize",
+        "elapsed_ms": 11377.306939,
+        "details": {
+          "initialized": true
+        }
+      },
+      {
+        "name": "tts-stream",
+        "elapsed_ms": 368.691629,
+        "details": {
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "first_chunk_bytes": 14166
+        }
+      },
+      {
+        "name": "fixture",
+        "elapsed_ms": 2773.484576,
+        "details": {
+          "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r1/live-stand/input-scenario.wav",
+          "bytes": 2225390
+        }
+      }
+    ]
+  },
+  "fixture": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r1/live-stand/input-scenario.wav",
+    "bytes": 2225390,
+    "sha256": "0f62f7da555414ff80f4d4b32b8a9d1f9c31621c07599a0cc7819bb57fdbdebd",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "duration_s": 139.087,
+    "segments": [
+      {
+        "turn_id": "turn-1",
+        "text": "Почему небо днём кажется голубым?",
+        "speech_started_s": 1.5,
+        "speech_duration_s": 2.229,
+        "leading_s": 1.5,
+        "trailing_s": 15.0
+      },
+      {
+        "turn_id": "turn-2",
+        "text": "А почему на закате оно становится красным?",
+        "speech_started_s": 18.729,
+        "speech_duration_s": 2.229,
+        "leading_s": 0.0,
+        "trailing_s": 3.0
+      },
+      {
+        "turn_id": "turn-3",
+        "text": "Стоп, а что происходит с водой при охлаждении?",
+        "speech_started_s": 38.959,
+        "speech_duration_s": 2.923,
+        "leading_s": 15.0,
+        "trailing_s": 17.0
+      },
+      {
+        "turn_id": "turn-4",
+        "text": "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+        "speech_started_s": 75.882,
+        "speech_duration_s": 4.459,
+        "leading_s": 17.0,
+        "trailing_s": 15.0
+      },
+      {
+        "turn_id": "turn-5",
+        "text": "Да",
+        "speech_started_s": 110.34,
+        "speech_duration_s": 0.747,
+        "leading_s": 15.0,
+        "trailing_s": 28.0
+      }
+    ],
+    "source": "local XTTS-generated multi-turn fixture; not a call recording"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  },
+  "sip": {
+    "peer_established": false,
+    "rtp_ingress_established": false,
+    "pcmu_8000_mono": false,
+    "peer_rtp_packets": null,
+    "adapter_profile": null,
+    "adapter_media_stats": {},
+    "adapter_events": []
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r1/baresip-operator.log",
+    "transfer_result": null
+  },
+  "conversation": {
+    "context": [],
+    "user_turn_count": 0,
+    "assistant_turn_count": 0,
+    "rag_context_count": 0,
+    "rag_source_ids": []
+  },
+  "fsm": {
+    "state": null,
+    "trace_events": [],
+    "trace_states": []
+  },
+  "wiring": {},
+  "scenario_checks": {
+    "follow_up_turn_present": false,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "operator_peer_established": false,
+    "report_present": false
+  },
+  "report": null,
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r1/baresip-peer.log",
+  "errors": [
+    "ModuleNotFoundError: No module named 'pjsua2'"
+  ],
+  "audio_recording": false,
+  "external_pbx": false,
+  "notes": [
+    "The fixture is generated before call admission and is not a conversation recording.",
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario."
+  ]
+}

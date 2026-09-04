@@ -1,0 +1,128 @@
+C2 restricted pre-GPU preparation
+Date: 2026-08-27
+
+Baseline identity (from 001-B):
+  /home/sipbot/.local/cpython-3.14.7t/bin/python3.14t
+  CPython 3.14.7 free-threading build
+  SOABI=cpython-314t-x86_64-linux-gnu
+  Py_GIL_DISABLED=1
+
+Prepared environment:
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python
+
+Candidate installation (CPU-only preparation; no model weights):
+  /home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -m venv /home/sipbot/.local/c2-faster-whisper-1.2.1t
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -m pip install --no-cache-dir --no-binary=tokenizers faster-whisper==1.2.1
+
+Import/no-GIL probe actually executed:
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -I \
+    /mnt/c/devel/sip-bot/tools/asr_primary_probe.py \
+    --stage import \
+    --evidence-root /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2
+  exit code: 1 (expected evidence failure because CTranslate2 re-enabled GIL)
+
+The probe checks each native module in a fresh child process. Do not add
+PYTHON_GIL=0 or -Xgil=0: the result would not satisfy the project no-GIL gate.
+
+Model materialization command for the pinned revision (completed in the dependency-enabled continuation):
+
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -I -c \
+    "from huggingface_hub import snapshot_download; snapshot_download(\
+    repo_id='Systran/faster-whisper-large-v3',\
+    revision='edaa852ec7e145841d8ffdb056a99866b5f0a478',\
+    local_dir='/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e')"
+
+GPU commands (parent-only; run after reviewing patched import and fixture evidence):
+
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -I \
+    /mnt/c/devel/sip-bot/tools/asr_primary_probe.py \
+    --stage operation \
+    --evidence-root /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2 \
+    --fixture /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2/fixture.mp3 \
+    --model-id /home/sipbot/.local/models/faster-whisper-large-v3-edaa852e \
+    --device cuda --compute-type int8_float16 --language ru \
+    --allow-model-load
+
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -I \
+    /mnt/c/devel/sip-bot/tools/asr_primary_probe.py \
+    --stage streaming \
+    --evidence-root /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2 \
+    --fixture /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2/fixture.mp3 \
+    --model-id /home/sipbot/.local/models/faster-whisper-large-v3-edaa852e \
+    --device cuda --compute-type int8_float16 --language ru \
+    --chunk-seconds 1.0 --allow-model-load
+
+These commands are model-load/inference commands, not restricted-preparation commands.
+The restricted executor did not run them; the parent must review the operation-level gate before execution.
+
+## Restricted preparation additions (2026-08-27)
+
+Patch source/build:
+
+  cd /home/sipbot/.local/build/ctranslate2-v4.8.1/python
+  CMAKE_BUILD_PARALLEL_LEVEL=4 \
+  CTRANSLATE2_ROOT=/home/sipbot/.local/build/ctranslate2-link \
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python \
+    -m pip wheel --no-build-isolation --no-deps --no-cache-dir . \
+    --wheel-dir /home/sipbot/.local/build/ctranslate2-patched-wheel
+
+Patch artifact and hashes are recorded in patch-build.md. The native library was
+not rebuilt; the exact original wheel library is reused.
+
+Patched import/no-GIL gate:
+
+  LD_LIBRARY_PATH=/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages/ctranslate2.libs \
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -I \
+    /mnt/c/devel/sip-bot/tools/asr_primary_probe.py \
+    --stage import \
+    --evidence-root /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2
+
+Pinned model materialization (completed):
+
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -I -c \
+    "from huggingface_hub import snapshot_download; snapshot_download(\
+    repo_id='Systran/faster-whisper-large-v3',\
+    revision='edaa852ec7e145841d8ffdb056a99866b5f0a478',\
+    local_dir='/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e',\
+    local_dir_use_symlinks=False)"
+
+Model file hashes are in model-manifest.json. Do not use a different revision
+without a new candidate-freeze review.
+
+Fixture materialization (completed without model load/inference):
+
+  /home/sipbot/.local/fixture-tools/bin/python -c \
+    "import pyarrow.parquet as pq; p=pq.ParquetFile(\
+    '/home/sipbot/.local/fixtures/common-voice-26-ru/dev-ru.parquet'); \
+    a=p.read_row_group(0, columns=['audio'])['audio'][2].as_py(); \
+    open('/home/sipbot/.local/fixtures/common-voice-26-ru/fixture.mp3','wb').write(a['bytes'])"
+  cp /home/sipbot/.local/fixtures/common-voice-26-ru/fixture.mp3 \
+    /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2/fixture.mp3
+
+Fixture provenance, metadata and hashes are recorded in fixture.md. The
+publicly materialized shard is Common Voice 26.0; it is not silently relabeled
+as the originally selected 25.0 release.
+
+The parent executor may run the following GPU stages only after reviewing the
+patched import evidence and fixture metadata. These commands load the model and
+run inference; they were not run in restricted preparation:
+
+  LD_LIBRARY_PATH=/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages/ctranslate2.libs \
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -I \
+    /mnt/c/devel/sip-bot/tools/asr_primary_probe.py \
+    --stage operation \
+    --evidence-root /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2 \
+    --fixture /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2/fixture.mp3 \
+    --model-id /home/sipbot/.local/models/faster-whisper-large-v3-edaa852e \
+    --device cuda --compute-type int8_float16 --language ru \
+    --allow-model-load
+
+  LD_LIBRARY_PATH=/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages/ctranslate2.libs \
+  /home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python -I \
+    /mnt/c/devel/sip-bot/tools/asr_primary_probe.py \
+    --stage streaming \
+    --evidence-root /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2 \
+    --fixture /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2/fixture.mp3 \
+    --model-id /home/sipbot/.local/models/faster-whisper-large-v3-edaa852e \
+    --device cuda --compute-type int8_float16 --language ru \
+    --chunk-seconds 1.0 --allow-model-load

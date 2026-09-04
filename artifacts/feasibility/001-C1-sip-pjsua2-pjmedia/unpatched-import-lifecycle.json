@@ -1,0 +1,26 @@
+{
+  "probe": "001-C1-pjsua2-pjmedia",
+  "pid": 333,
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "py_gil_disabled": 1,
+  "gil_before_import": false,
+  "gil_after_import": true,
+  "gil_after_initialization": true,
+  "warnings": [
+    {
+      "category": "RuntimeWarning",
+      "message": "The global interpreter lock (GIL) has been enabled to load module '_pjsua2', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+    }
+  ],
+  "import": {
+    "status": "pass",
+    "python_wrapper": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py",
+    "native_module": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so"
+  },
+  "initialization": {
+    "status": "pass",
+    "elapsed_seconds": 0.011684792000000499
+  },
+  "status": "fail"
+}

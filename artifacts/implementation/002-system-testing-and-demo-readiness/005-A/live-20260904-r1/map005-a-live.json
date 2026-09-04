@@ -1,0 +1,286 @@
+{
+  "evidence_id": "E-005-A-live-protocol-media",
+  "plan": "005-A",
+  "scenario": "matrix",
+  "status": "pass",
+  "command": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I /mnt/c/devel/sip-bot/tools/map005_protocol_probe.py --scenario matrix --output-root /mnt/c/devel/sip-bot/artifacts/implementation/002-system-testing-and-demo-readiness/005-A/live-20260904-r1",
+  "working_directory": "/mnt/c/devel/sip-bot",
+  "started_at_utc": "2026-09-04T10:58:03.088175+00:00",
+  "runtime": {
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "implementation": "cpython",
+    "version": "3.14.7",
+    "py_gil_disabled": 1,
+    "gil_enabled": false,
+    "free_threaded": true
+  },
+  "options": {
+    "response_status": "SIP/2.0 200 OK",
+    "response_ok": true,
+    "elapsed_ms": 0.225
+  },
+  "events": [
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737007262559,
+      "sequence": 1,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 1
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737007499387,
+      "sequence": 2,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 2
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737007563699,
+      "sequence": 3,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 1
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737007718109,
+      "sequence": 4,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 2
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737007741748,
+      "sequence": 5,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 3
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737007752385,
+      "sequence": 6,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 3
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "call_started",
+      "timestamp_ns": 58737008286271,
+      "sequence": 7,
+      "method": null,
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "direction": "outgoing",
+        "peer_uri": "sip:peer@127.0.0.1:5080"
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737011579391,
+      "sequence": 8,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 4
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737011755335,
+      "sequence": 9,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 0
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "media_started",
+      "timestamp_ns": 58737012282094,
+      "sequence": 10,
+      "method": null,
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "direction": 3,
+        "media_index": 0
+      },
+      "media_profile": {
+        "codec": "PCMU",
+        "payload_type": 0,
+        "rx_payload_type": 0,
+        "tx_payload_type": 0,
+        "ptime_ms": 20.0,
+        "frame_time_usec": 20000,
+        "sample_rate_hz": 8000,
+        "channels": 1,
+        "frame_size_samples": 160,
+        "frame_bytes": 320,
+        "pcm_bits_per_sample": 16,
+        "source": "pjmedia.stream_info"
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "call_answered",
+      "timestamp_ns": 58737012394101,
+      "sequence": 11,
+      "method": null,
+      "status_code": 200,
+      "reason": "Answering",
+      "details": {
+        "state": "CONFIRMED",
+        "pjsua_call_id": 0
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737513249300,
+      "sequence": 12,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 2
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "sip_transaction",
+      "timestamp_ns": 58737513276742,
+      "sequence": 13,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 0
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "remote_hangup",
+      "timestamp_ns": 58737513311560,
+      "sequence": 14,
+      "method": "BYE",
+      "status_code": 200,
+      "reason": "Normal call clearing",
+      "details": {
+        "state": "DISCONNECTED",
+        "pjsua_call_id": 0
+      }
+    },
+    {
+      "call_id": "map005-a-live-call",
+      "kind": "media_stopped",
+      "timestamp_ns": 58737513531917,
+      "sequence": 15,
+      "method": null,
+      "status_code": null,
+      "reason": "Normal call clearing",
+      "details": {
+        "idempotent": false
+      }
+    }
+  ],
+  "media_profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "pjmedia.stream_info"
+  },
+  "media_stats": {
+    "ingress_frames": 25,
+    "ingress_bytes": 8000,
+    "egress_frames": 25,
+    "egress_bytes": 8000,
+    "ingress_dropped_closed": 0,
+    "ingress_dropped_overflow": 0,
+    "egress_dropped_closed": 0,
+    "egress_dropped_overflow": 0,
+    "egress_underruns": 25,
+    "callback_errors": 0
+  },
+  "recordings": [
+    {
+      "name": "dump-2026-09-04-13-58-04-dec.wav",
+      "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-system-testing-and-demo-readiness/005-A/live-20260904-r1/recordings/dump-2026-09-04-13-58-04-dec.wav",
+      "bytes": 6444,
+      "sha256": "321cefded8d49858db784e95e44bf826759fe8479a253ba627530ba3c2c58e75"
+    },
+    {
+      "name": "dump-2026-09-04-13-58-04-enc.wav",
+      "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-system-testing-and-demo-readiness/005-A/live-20260904-r1/recordings/dump-2026-09-04-13-58-04-enc.wav",
+      "bytes": 8364,
+      "sha256": "de128bdc36c869421d7791c71a9381aa217e3d9371a9f7bc7c9671174e55cf19"
+    }
+  ],
+  "deferred_live_stimuli": [
+    "CANCEL during an unanswered INVITE",
+    "re-INVITE/UPDATE hold-resume initiated by the peer",
+    "RTP timeout/transport failure stimulus"
+  ],
+  "errors": [],
+  "remote_bye": {
+    "stimulus_sent_ns": 58737512772798,
+    "observed": true,
+    "observed_ns": 58737513311560,
+    "active_call_id_after_bye": null
+  },
+  "peer_exit_code": 0,
+  "finished_at_utc": "2026-09-04T10:58:05.848299+00:00"
+}

@@ -1,0 +1,51 @@
+{
+  "plan": "001-A",
+  "date": "2026-08-27",
+  "timezone": "Europe/Moscow",
+  "status": "foundation_complete",
+  "environment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "arch": "x86_64",
+    "kernel": "6.6.87.2-microsoft-standard-WSL2",
+    "wsl": true,
+    "default_user": "sipbot",
+    "uid": 1000,
+    "systemd": true
+  },
+  "disk": {
+    "windows_c_free_bytes": 85727649792,
+    "linux_available_bytes": 1024027742208,
+    "minimum_free_bytes": 21474836480,
+    "status": "pass"
+  },
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 5060 Ti",
+    "driver": "610.88",
+    "memory_total_mib": 16311,
+    "ubuntu_visible": true,
+    "libcuda": "present",
+    "nvcc": "absent"
+  },
+  "source": {
+    "canonical_path": "/home/sipbot/src/sip-bot",
+    "filesystem": "ext4",
+    "owner": "sipbot",
+    "checkout": "not_applicable_yet",
+    "revision": null,
+    "blocker": null
+  },
+  "dependencies": {
+    "manifest": "dependencies/manifest.txt",
+    "scope": "generic build and inventory tooling"
+  },
+  "evidence": [
+    "raw/host-inventory.txt",
+    "raw/ubuntu-identity.txt",
+    "raw/ubuntu-gpu-cuda.txt",
+    "raw/ubuntu-source.txt",
+    "raw/ubuntu-tools.txt"
+  ],
+  "audio_recording": false,
+  "credentials_recorded": false,
+  "native_imports": false
+}

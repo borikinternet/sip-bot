@@ -1,0 +1,76 @@
+{
+  "audio_duration_seconds": 4.368,
+  "audio_samples": 69888,
+  "candidate_id": "ASR-PRIMARY-001-faster-whisper",
+  "candidate_package": "faster-whisper",
+  "candidate_version_expected": "1.2.1",
+  "chunk_seconds": 1.0,
+  "command": "/mnt/c/devel/sip-bot/tools/asr_primary_probe.py --stage streaming --evidence-root /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2 --fixture /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2/fixture.mp3 --model-id /home/sipbot/.local/models/faster-whisper-large-v3-edaa852e --device cuda --compute-type int8_float16 --language ru --chunk-seconds 1.0 --allow-model-load",
+  "compute_type": "int8_float16",
+  "conversion": {
+    "internal_pcm": "PCM S16LE, 8000 Hz, mono",
+    "media_boundary": "PCMU/G.711 mu-law, 8000 Hz, mono",
+    "model_input": "float32, 16000 Hz, mono",
+    "operation_probe_conversion": "PyAV fixture decode/resample to float32 16000 Hz mono"
+  },
+  "device": "cuda",
+  "evidence_root": "/mnt/c/devel/sip-bot/artifacts/feasibility/001-C2",
+  "executable": "/home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python",
+  "final": {
+    "authoritative": true,
+    "elapsed_seconds": 0.35856008529663086,
+    "emitted_at_epoch": 1787843218.1203828,
+    "kind": "final",
+    "text": "Мы считаем что это следующий логический шаг."
+  },
+  "finished_at_epoch": 1787843218.120394,
+  "fixture": "/mnt/c/devel/sip-bot/artifacts/feasibility/001-C2/fixture.mp3",
+  "gil_after_model_load": false,
+  "gil_after_operation": false,
+  "gil_before_import": false,
+  "language": "ru",
+  "machine": "x86_64-linux-gnu",
+  "model_id": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+  "model_load_seconds": 3.6764223269999547,
+  "partial_results": [
+    {
+      "elapsed_seconds": 0.3829305171966553,
+      "emitted_at_epoch": 1787843216.7578008,
+      "kind": "partial",
+      "prefix_end_seconds": 1.0,
+      "text": "мужчина"
+    },
+    {
+      "elapsed_seconds": 0.3080008029937744,
+      "emitted_at_epoch": 1787843217.065814,
+      "kind": "partial",
+      "prefix_end_seconds": 2.0,
+      "text": "Мы считаем, что это"
+    },
+    {
+      "elapsed_seconds": 0.3484683036804199,
+      "emitted_at_epoch": 1787843217.4142919,
+      "kind": "partial",
+      "prefix_end_seconds": 3.0,
+      "text": "Мы считаем, что это следующий логический"
+    },
+    {
+      "elapsed_seconds": 0.34750914573669434,
+      "emitted_at_epoch": 1787843217.7618089,
+      "kind": "partial",
+      "prefix_end_seconds": 4.0,
+      "text": "Мы считаем, что это следующий логический шаг"
+    }
+  ],
+  "pid": 636,
+  "platform": "linux",
+  "probe": "001-C2-asr-primary",
+  "py_gil_disabled": 1,
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "soabi": "cpython-314t-x86_64-linux-gnu",
+  "stage": "streaming",
+  "started_at_epoch": 1787843212.559939,
+  "status": "pass",
+  "warnings": [],
+  "working_directory": "/mnt/c/devel/sip-bot"
+}

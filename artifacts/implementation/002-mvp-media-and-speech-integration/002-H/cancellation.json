@@ -1,0 +1,25 @@
+{
+  "schema": "sip-bot.feasibility.c4.cancellation.v1",
+  "plan": "001-C4",
+  "slice": "C4-S4",
+  "status": "pass",
+  "executed": true,
+  "candidate_id": "xtts-v2",
+  "first_pcm_observed": true,
+  "cancellation": {
+    "cancel_requested": true,
+    "cancel_requested_at_ns": 1782258064596,
+    "mechanism": "close XTTS inference_stream generator after first chunk",
+    "candidate_native_cancel_token": false,
+    "stream_close_observed": true,
+    "post_close_items_observed": 0,
+    "stale_result_accepted": false,
+    "limitation": "XTTS-v2 inference_stream exposes generator close, not an independent native cancellation token"
+  },
+  "gil_after_model_load": false,
+  "gil_after_cancellation": false,
+  "command": "/mnt/c/devel/sip-bot/tools/feasibility/tts_primary_probe.py --manifest /mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-H/c4-manifest.json --stage cancellation --allow-tts-operation",
+  "stdout": "artifacts/implementation/002-mvp-media-and-speech-integration/002-H/main-gate-output.md",
+  "stderr": "artifacts/implementation/002-mvp-media-and-speech-integration/002-H/main-gate-output.md",
+  "exit_code": 0
+}

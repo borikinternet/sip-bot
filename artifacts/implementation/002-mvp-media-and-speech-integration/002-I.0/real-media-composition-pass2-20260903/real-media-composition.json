@@ -1,0 +1,62 @@
+{
+  "status": "pass",
+  "call_id": "real-media-composition-call",
+  "state": "terminal",
+  "final_turn": {
+    "text": "Продолжение следует...",
+    "revision": 4,
+    "boundary": "hard_endpoint"
+  },
+  "asr": {
+    "candidate": "faster-whisper-large-v3",
+    "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+    "hypotheses": [
+      "Продолжение следует...",
+      "Субтитры сделал DimaTorzok",
+      "Продолжение следует...",
+      "Продолжение следует...",
+      "Продолжение следует..."
+    ],
+    "hypothesis_count": 5,
+    "frames": 248,
+    "profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "001-S negotiated test profile"
+    }
+  },
+  "rag": {
+    "contexts": 1,
+    "sufficient": false,
+    "source_ids": [
+      "wiki-chemistry-water",
+      "wiki-astronomy-mars",
+      "wiki-physics-rayleigh"
+    ]
+  },
+  "transfer_confirmation_used": true,
+  "operator_accepted": true,
+  "operator_target": "sip:operator@127.0.0.1:5090",
+  "report": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.0/real-media-composition-pass2-20260903/reports/real-media-composition-call/report.md",
+  "audio": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.0/real-media-composition-pass2-20260903/tts-media-composition-sample.wav",
+    "bytes": 107692,
+    "sha256": "99ef7efa5993c5882c5d1c70aef514504cf9fabe9f2c04a2cbbaf711c954c3a9"
+  },
+  "elapsed_from_media_start_ms": 23903.743,
+  "pipeline_errors": [],
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  }
+}

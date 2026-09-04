@@ -1,0 +1,28 @@
+{
+  "schema": "sip-bot.feasibility.c4.pcmu-boundary.v1",
+  "plan": "001-C4",
+  "slice": "C4-S3",
+  "status": "pass",
+  "executed": true,
+  "candidate_id": "xtts-v2",
+  "input_contract": {
+    "codec": "PCM S16LE",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "samples": 70144
+  },
+  "output_contract": {
+    "codec": "PCMU/G.711 mu-law",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "bytes": 23382,
+    "frames": 23382,
+    "non_empty": true
+  },
+  "conversion": "soundfile WAV PCM16 -> torchaudio.functional.resample -> audioop.lin2ulaw",
+  "raw_output_saved": false,
+  "command": "tools/feasibility/tts_primary_probe.py --manifest artifacts/feasibility/001-C4-tts-primary/manifest.json --stage pcmu-boundary --allow-tts-operation",
+  "stdout": "artifacts/feasibility/001-C4-tts-primary/pcmu-boundary.stdout.json",
+  "stderr": "artifacts/feasibility/001-C4-tts-primary/pcmu-boundary.stderr.txt",
+  "exit_code": 0
+}

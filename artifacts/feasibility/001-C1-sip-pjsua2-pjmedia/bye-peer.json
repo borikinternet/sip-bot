@@ -1,0 +1,62 @@
+{
+  "probe": "001-C1-pjsua2-pjmedia",
+  "pid": 814,
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "py_gil_disabled": 1,
+  "gil_before_import": false,
+  "gil_after_import": false,
+  "gil_after_initialization": false,
+  "warnings": [],
+  "import": {
+    "status": "pass",
+    "python_wrapper": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py",
+    "native_module": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so"
+  },
+  "initialization": {
+    "status": "pass",
+    "elapsed_seconds": 0.003744003999997858
+  },
+  "call": {
+    "status": "pass",
+    "uri": "sip:peer@127.0.0.1:5060",
+    "callbacks": true,
+    "events": [
+      {
+        "event": "call_state",
+        "state": "CALLING",
+        "status_code": 0
+      },
+      {
+        "event": "call_state",
+        "state": "EARLY",
+        "status_code": 180
+      },
+      {
+        "event": "call_state",
+        "state": "CONNECTING",
+        "status_code": 200
+      },
+      {
+        "event": "call_media_state",
+        "media_count": null
+      },
+      {
+        "event": "call_state",
+        "state": "CONFIRMED",
+        "status_code": 200
+      },
+      {
+        "event": "probe_window_complete"
+      },
+      {
+        "event": "call_state",
+        "state": "DISCONNECTED",
+        "status_code": 200
+      }
+    ],
+    "gil_after_call": false
+  },
+  "status": "pass",
+  "gil_after_call": false
+}

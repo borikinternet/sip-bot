@@ -1,0 +1,22 @@
+{
+  "evidence_id": "D-E-ENDPOINT-001",
+  "plan": "002-D",
+  "status": "pass",
+  "policy": {
+    "min_speech_ms": 80,
+    "soft_endpoint_ms": 300,
+    "hard_endpoint_ms": 500
+  },
+  "full_pause_trace": [
+    {"kind": "speech_started", "timestamp_ms": 80, "silence_ms": 0},
+    {"kind": "pause_candidate", "timestamp_ms": 100, "silence_ms": 0},
+    {"kind": "soft_endpoint", "timestamp_ms": 380, "silence_ms": 300},
+    {"kind": "hard_endpoint", "timestamp_ms": 580, "silence_ms": 500, "authoritative": true}
+  ],
+  "resume_trace": [
+    {"kind": "soft_endpoint", "silence_ms": 100},
+    {"kind": "speech_resumed", "silence_ms": 200},
+    {"kind": "hard_endpoint", "present": false}
+  ],
+  "test": "tests/unit/test_speech_ingress.py::test_turn_detector_emits_soft_at_300ms_and_authoritative_hard_at_500ms"
+}

@@ -1,0 +1,88 @@
+{
+  "evidence_id": "E-C3-CANCEL-001",
+  "stage": "cancel",
+  "status": "cancelled_stream_closed",
+  "candidate": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "quantization": "4-bit",
+    "mode": "non-thinking/instruct",
+    "fallback_run": false
+  },
+  "backend": {
+    "name": "Ollama",
+    "version": "0.33.1",
+    "model_name": "c3-qwen35-9b-q4km",
+    "url": "http://127.0.0.1:11434",
+    "artifact_path": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "controller": "stdlib urllib.request"
+  },
+  "fixture": {
+    "fixture_id": "C3-FINAL-PHRASE-001",
+    "authority": "synthetic_authoritative_final_user_turn",
+    "final_user_phrase": "Почему небо днём кажется голубым?"
+  },
+  "safety": {
+    "model_weights_loaded": true,
+    "model_generation_started": true,
+    "gpu_inference_started": true,
+    "vram_benchmark_started": false,
+    "latency_benchmark_started": false,
+    "cancellation_benchmark_started": true
+  },
+  "fallback_run": false,
+  "response_contract": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "action",
+      "text"
+    ],
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "answer"
+        ]
+      },
+      "text": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "final_phrase_handoff": {
+    "authority": "synthetic_authoritative_final_user_turn",
+    "final_phrase_received_at": "2026-08-27T15:14:40.813+00:00",
+    "final_phrase_received_monotonic_ns": 2413499322817,
+    "request_started_at": "2026-08-27T15:14:40.813+00:00",
+    "request_started_monotonic_ns": 2413499338923
+  },
+  "first_useful_output_at": "2026-08-27T15:14:41.036+00:00",
+  "first_useful_output_monotonic_ns": 2413722171793,
+  "first_valid_response_at": null,
+  "first_valid_response_monotonic_ns": null,
+  "timings": {
+    "final_phrase_to_first_useful_output_ms": 222.849,
+    "final_phrase_to_first_valid_response_ms": "not_available; request cancelled before final response",
+    "request_to_first_useful_output_ms": 222.833,
+    "request_to_first_valid_response_ms": "not_available; request cancelled before final response"
+  },
+  "stream_mode": "stream_cancel_by_client_close",
+  "raw_output": "{\"",
+  "response": null,
+  "errors": [],
+  "cancellation": {
+    "mechanism": "close HTTP response after first useful output",
+    "cancel_requested": true,
+    "cancel_requested_at": "2026-08-27T15:14:41.036+00:00",
+    "cancel_requested_monotonic_ns": 2413722238859,
+    "stream_closed_at": "2026-08-27T15:14:41.037+00:00",
+    "stream_closed_monotonic_ns": 2413722488384,
+    "backend_cancel_ack": "not_available; Ollama HTTP API has no separate acknowledgement",
+    "tokens_after_cancel_observed": 0,
+    "published_result": false,
+    "stale_result_accepted": false,
+    "cleanup_wait_seconds": 1.0
+  }
+}

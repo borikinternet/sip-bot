@@ -1,0 +1,52 @@
+{
+  "plan_id": "001-B",
+  "status": "pass",
+  "evidence_recorded_at_utc": "2026-08-27T10:37:14.0579532Z",
+  "target_environment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "architecture": "x86_64",
+    "wsl": "WSL2",
+    "kernel": "6.6.87.2-microsoft-standard-WSL2",
+    "user": "sipbot"
+  },
+  "selection": {
+    "policy": "latest stable free-threaded CPython >= 3.14 at execution time",
+    "version": "3.14.7",
+    "release_page": "https://www.python.org/downloads/release/python-3147/",
+    "source_url": "https://www.python.org/ftp/python/3.14.7/Python-3.14.7.tar.xz",
+    "source_sha256": "3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81",
+    "source_path": "/home/sipbot/src/cpython-build/Python-3.14.7.tar.xz",
+    "source_directory": "/home/sipbot/src/cpython-build/Python-3.14.7"
+  },
+  "build": {
+    "configure": "./configure --prefix=/home/sipbot/.local/cpython-3.14.7t --disable-gil --with-ensurepip=install --without-lto",
+    "make": "make -j4",
+    "install": "make install",
+    "toolchain": {
+      "gcc": "13.3.0",
+      "make": "4.3"
+    },
+    "configure_exit_code": 0,
+    "make_exit_code": 0,
+    "install_exit_code": 0,
+    "optional_modules": {
+      "_zstd": "not built; optional and outside this plan's manifest"
+    }
+  },
+  "runtime": {
+    "prefix": "/home/sipbot/.local/cpython-3.14.7t",
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "executable_sha256": "0a916f87168ea31199a34188aa6bd528efaa2c9ce451e51ead13cc4a9dc32fa4",
+    "identity": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1,
+    "gil_enabled_before_import_probe": false
+  },
+  "scope": {
+    "project_native_imports": false,
+    "model_inference": false,
+    "audio_or_sip": false,
+    "cpu_fallback": false,
+    "docker_substitute": false
+  }
+}

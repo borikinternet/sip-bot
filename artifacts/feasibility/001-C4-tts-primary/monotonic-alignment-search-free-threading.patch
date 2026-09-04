@@ -1,0 +1,11 @@
+diff --git a/core.c b/core.c
+index ffffffff..ffffffff 100644
+--- a/core.c
++++ b/core.c
+@@ -20895,6 +20895,6 @@ static PyModuleDef_Slot __pyx_moduledef_slots[] = {
+   {Py_mod_create, (void*)__pyx_pymod_create},
+   {Py_mod_exec, (void*)__pyx_pymod_exec_core},
+   #if CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
+-  {Py_mod_gil, Py_MOD_GIL_USED},
++  {Py_mod_gil, Py_MOD_GIL_NOT_USED},
+   #endif

@@ -1,0 +1,103 @@
+{
+  "schema": "sip-bot.map005-d-rehearsal.v1",
+  "status": "fail",
+  "plan": "005-D",
+  "started_at_utc": "2026-09-04T23:23:45.749315+00:00",
+  "target_runtime": {
+    "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  },
+  "test_runtime_overrides": {
+    "pjsua2_media_no_vad": true,
+    "purpose": "emit explicit idle PCMU/RTP frames so Baresip sndfile decode recording retains the media timeline",
+    "application_source_changed": false
+  },
+  "upstream_j4": {
+    "evidence_id": "E-002-J4-FULL-LIVE-20260904T232345Z",
+    "plan": "002-J",
+    "stage": "J4",
+    "status": "fail",
+    "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+    "started_at_utc": "2026-09-04T23:23:45.733381+00:00",
+    "elapsed_ms": 52.0,
+    "elapsed_from_call_start_ms": null,
+    "warmup": null,
+    "fixture": {},
+    "runtime": {
+      "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+      "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+      "gil_enabled": false
+    },
+    "sip": {
+      "peer_established": false,
+      "rtp_ingress_established": false,
+      "pcmu_8000_mono": false,
+      "peer_rtp_packets": null,
+      "adapter_profile": null,
+      "adapter_media_stats": {},
+      "adapter_events": []
+    },
+    "operator": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "peer_established": false,
+      "log": "/mnt/c/devel/sip-bot/artifacts/report-preparation-20260904/006-D/target-20260905-r3/baresip-operator.log",
+      "transfer_result": null
+    },
+    "conversation": {
+      "context": [],
+      "user_turn_count": 0,
+      "assistant_turn_count": 0,
+      "rag_context_count": 0,
+      "rag_source_ids": []
+    },
+    "asr_hypotheses": [],
+    "fsm": {
+      "state": null,
+      "trace_events": [],
+      "trace_states": []
+    },
+    "wiring": {},
+    "tts_output": {},
+    "scenario_checks": {
+      "follow_up_turn_present": false,
+      "barge_in_transition_present": false,
+      "unknown_answer_offer_present": false,
+      "transfer_transition_present": false,
+      "operator_transfer_result": false,
+      "report_present": false
+    },
+    "report": null,
+    "peer_log": "/mnt/c/devel/sip-bot/artifacts/report-preparation-20260904/006-D/target-20260905-r3/baresip-peer.log",
+    "errors": [
+      "RuntimeWarmupError: warmup stage 'rag-embedding-index' failed: <urlopen error [Errno 111] Connection refused>"
+    ],
+    "audio_recording": false,
+    "external_pbx": false,
+    "notes": [
+      "The fixture is generated before call admission and is not a conversation recording.",
+      "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+      "A separate operator Baresip peer is used for the approved local transfer scenario."
+    ]
+  },
+  "scenario_checks": {
+    "follow_up_turn_present": false,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": false,
+    "stereo_recording_present": false
+  },
+  "recording": {
+    "status": "fail",
+    "error": "Baresip sndfile did not produce both *-enc.wav and *-dec.wav",
+    "files": []
+  },
+  "report": null,
+  "known_limitations": [
+    "Overall final-phrase-to-first-PCM latency remains above the 200–500 ms comfort target in 005-C evidence.",
+    "Recording is produced by the Baresip test peer, not by application runtime."
+  ],
+  "finished_at_utc": "2026-09-04T23:23:45.749341+00:00"
+}

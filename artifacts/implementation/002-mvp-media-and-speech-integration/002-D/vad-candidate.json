@@ -1,0 +1,24 @@
+{
+  "evidence_id": "D-E-VAD-001",
+  "plan": "002-D",
+  "status": "pass",
+  "candidate": "WebRtcVadCandidate",
+  "native_import_policy": "lazy",
+  "operation_backend": "deterministic injected backend",
+  "mode": 2,
+  "input": {
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "bits_per_sample": 16,
+    "frame_duration_ms": 20,
+    "frame_bytes": 320
+  },
+  "observations": [
+    {"payload": "silence fixture", "is_speech": false},
+    {"payload": "speech fixture", "is_speech": true},
+    {"payload": "40 ms invalid fixture", "result": "VadCandidateError"}
+  ],
+  "heavy_gpu_inference": false,
+  "real_native_webrtcvad_operation": "not run by explicit execution constraint",
+  "test": "tests/unit/test_speech_ingress.py::test_webrtc_candidate_contract_is_lazy_and_accepts_deterministic_backend"
+}

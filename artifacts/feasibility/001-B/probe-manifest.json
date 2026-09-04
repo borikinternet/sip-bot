@@ -1,0 +1,34 @@
+{
+  "plan_id": "001-B",
+  "probe": "tools/nogil_probe.py",
+  "runner": "tools/run_nogil_probe.ps1",
+  "evidence_recorded_at_utc": "2026-08-27T10:37:14.0579532Z",
+  "command": "wsl.exe -d Ubuntu-24.04 -u sipbot -- bash -lc '/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I /mnt/c/devel/sip-bot/tools/nogil_probe.py'",
+  "target_executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "target_executable_sha256": "0a916f87168ea31199a34188aa6bd528efaa2c9ce451e51ead13cc4a9dc32fa4",
+  "isolation_flags": ["-I"],
+  "import_manifest": [
+    "sysconfig",
+    "platform",
+    "json",
+    "pathlib",
+    "threading",
+    "queue",
+    "concurrent.futures",
+    "time",
+    "statistics"
+  ],
+  "concurrency": {
+    "workers": 4,
+    "iterations": 25000,
+    "barrier_timeout_seconds": 5.0,
+    "future_timeout_seconds": 15.0,
+    "repetitions": 3,
+    "expected_shared_total": 3115622
+  },
+  "runs": [
+    {"id": "run-01", "command_exit_code": 0, "stdout": "run-01/stdout.log", "stderr": "run-01/stderr.log", "summary": "run-01/runtime-probe.json"},
+    {"id": "run-02", "command_exit_code": 0, "stdout": "run-02/stdout.log", "stderr": "run-02/stderr.log", "summary": "run-02/runtime-probe.json"},
+    {"id": "run-03", "command_exit_code": 0, "stdout": "run-03/stdout.log", "stderr": "run-03/stderr.log", "summary": "run-03/runtime-probe.json"}
+  ]
+}

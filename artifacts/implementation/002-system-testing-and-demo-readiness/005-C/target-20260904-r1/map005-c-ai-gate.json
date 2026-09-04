@@ -1,0 +1,292 @@
+{
+  "schema": "sip-bot.map005-c-ai-gate.v1",
+  "status": "pass",
+  "started_at": "2026-09-04T11:27:09.590+00:00",
+  "target_runtime": {
+    "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "platform": "linux"
+  },
+  "candidate": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "quantization": "Q4_K_M / 4-bit",
+    "ollama_model": "c3-qwen35-9b-q4km:latest",
+    "ollama_version": "0.33.1",
+    "artifact": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "fallback_run": false
+  },
+  "gpu": {
+    "before": {
+      "label": "before",
+      "captured_at": "2026-09-04T11:27:09.590+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 3015,
+      "memory_free_mib": 13036,
+      "utilization_gpu_percent": 5
+    },
+    "after": {
+      "label": "after",
+      "captured_at": "2026-09-04T11:27:59.853+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 12039,
+      "memory_free_mib": 4012,
+      "utilization_gpu_percent": 81
+    }
+  },
+  "profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "001-S negotiated test profile"
+  },
+  "warmup": {
+    "embedding_index_ms": 6943.35,
+    "llm_trace": {
+      "final_user_turn_ns": 60571008628454,
+      "request_started_ns": 60571008745649,
+      "first_stream_event_ns": 60581031240949,
+      "first_usable_output_ns": 60581031240949,
+      "final_result_ns": 60581492914350,
+      "cancel_requested_ns": null,
+      "completed_ns": 60581492914350,
+      "final_to_first_usable_ms": 10022.612495,
+      "final_to_final_result_ms": 10484.285896,
+      "request_to_first_usable_ms": 10022.4953,
+      "request_to_final_result_ms": 10484.168701
+    },
+    "llm_wall_ms": 10484.631,
+    "tts_first_chunk": {
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "first_chunk_bytes": 14166
+    },
+    "tts_wall_ms": 508.794,
+    "excluded_from_live_turn_latency": true
+  },
+  "rag": {
+    "corpus_version": "ru-natural-science-demo-v1",
+    "index_version": "ollama-embeddinggemma-2026-09-03",
+    "embedding_model": "embeddinggemma",
+    "corpus_chunks": 6,
+    "query_builder": {
+      "policy_version": "ru-natural-science-v1",
+      "capabilities": {
+        "razdel": false,
+        "pymorphy3": false,
+        "policy_version": "ru-natural-science-v1"
+      },
+      "positive_normalized": "почему небо днём кажется голубым",
+      "positive_lexical_terms": [
+        "почему",
+        "небо",
+        "днём",
+        "кажется",
+        "голубым"
+      ],
+      "positive_phrases": [
+        "почему небо",
+        "небо днём",
+        "днём кажется",
+        "кажется голубым",
+        "почему небо днём",
+        "небо днём кажется",
+        "днём кажется голубым",
+        "почему небо днём кажется",
+        "небо днём кажется голубым"
+      ]
+    },
+    "positive": {
+      "query": "Почему небо днём кажется голубым?",
+      "sufficient": true,
+      "threshold": 0.35,
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      "hits": [
+        {
+          "source_id": "wiki-physics-rayleigh",
+          "chunk_id": "wiki-physics-rayleigh-001",
+          "score": 0.6060272983786639
+        },
+        {
+          "source_id": "wiki-astronomy-mars",
+          "chunk_id": "wiki-astronomy-mars-002",
+          "score": 0.273685029707806
+        },
+        {
+          "source_id": "wiki-astronomy-mars",
+          "chunk_id": "wiki-astronomy-mars-001",
+          "score": 0.2322283252999142
+        }
+      ]
+    },
+    "negative": {
+      "query": "Как устроен телескоп?",
+      "sufficient": false,
+      "allowed_action": [
+        "offer_transfer"
+      ],
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-chemistry-water"
+      ],
+      "top_scores": [
+        0.21666722735793253,
+        0.19468247238906472,
+        0.18350914038181496
+      ]
+    }
+  },
+  "llm": {
+    "final_phrase": "Почему небо днём кажется голубым?",
+    "request_started_ns": 60613415931807,
+    "trace": {
+      "final_user_turn_ns": 60613151865726,
+      "request_started_ns": 60613423554480,
+      "first_stream_event_ns": 60613640465424,
+      "first_usable_output_ns": 60613640465424,
+      "final_result_ns": 60614669957739,
+      "cancel_requested_ns": null,
+      "completed_ns": 60614669957739,
+      "final_to_first_usable_ms": 488.599698,
+      "final_to_final_result_ms": 1518.092013,
+      "request_to_first_usable_ms": 216.910944,
+      "request_to_final_result_ms": 1246.403259
+    },
+    "stream_event_kinds": [
+      "started",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "decision",
+      "completed"
+    ],
+    "status": "completed",
+    "decision": {
+      "action": "answer",
+      "text": "Небо днём кажется голубым, потому что молекулы атмосферы рассеивают коротковолновую часть видимого света сильнее длинноволновой. Это явление называют рассеянием Рэлея."
+    },
+    "request": {
+      "answer_mode": "rag_answer",
+      "allowed_actions": [
+        "answer",
+        "clarify"
+      ],
+      "skill_id": "answer-ru",
+      "skill_version": "1",
+      "prompt_template_id": "mvp-answer-ru",
+      "prompt_template_version": "2",
+      "generation_profile_id": "mvp-short-answer",
+      "generation_profile_version": "2",
+      "output_schema_id": "structured-dialogue-decision-v1",
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      "knowledge_context_id": "knowledge-context-map005-c-ai-gate:turn-1"
+    }
+  },
+  "tts": {
+    "status": "completed",
+    "text": "Небо днём кажется голубым, потому что молекулы атмосферы рассеивают коротковолновую часть видимого света сильнее длинноволновой. Это явление называют рассеянием Рэлея.",
+    "chunks": 11,
+    "pcm_bytes": 155308,
+    "wav": "/mnt/c/devel/sip-bot/artifacts/implementation/002-system-testing-and-demo-readiness/005-C/target-20260904-r1/tts-answer-sample.wav",
+    "wav_sha256": "12878eb52cc6ecf442767062f79a333f43035024560428cdb4b11d557b72e689",
+    "first_pcm_ms_from_llm_final": 1785.09,
+    "first_pcm_ms_from_tts_start": 263.917,
+    "completion_ms_from_tts_start": 2587.321,
+    "profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "001-S negotiated test profile"
+    },
+    "cancellation_evidence": "reused accepted 002-H cancellation.json; generator close, no independent native token"
+  },
+  "source_mode": {
+    "implementation": "PcmAudioBridge EgressSourceMode; IDLE/PREROLL/PLAYING/CANCELLED/CLOSED",
+    "underrun_policy": "only empty TTS buffer while PLAYING increments egress_underruns"
+  },
+  "errors": [],
+  "finished_at": "2026-09-04T11:27:59.919+00:00"
+}

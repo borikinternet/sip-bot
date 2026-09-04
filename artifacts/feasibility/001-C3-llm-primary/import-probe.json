@@ -1,0 +1,117 @@
+{
+  "probe": "001-C3-llm-primary",
+  "stage": "preflight",
+  "status": "prepared_only",
+  "started_at_utc": "2026-08-27T13:40:49.218+00:00",
+  "candidate": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "quantization": "4-bit",
+    "mode": "non-thinking/instruct",
+    "fallback_run": false
+  },
+  "runtime": {
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "implementation": "CPython",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1,
+    "gil_enabled": false
+  },
+  "backend": {
+    "name": "Ollama",
+    "version": "0.33.1",
+    "binary_path": "/home/sipbot/src/c3-ollama/v0.33.1/bin/ollama",
+    "release_asset_sha256": "88e0d36bd90121595e5516c84f6ab61b546368fbd2d825b4aae70999c949649d",
+    "python_native_import": false,
+    "controller_module": "urllib.request",
+    "process_boundary": "external native Ollama server"
+  },
+  "controller_import": {
+    "module": "urllib.request",
+    "status": "pass",
+    "gil_before": false,
+    "gil_after": false,
+    "scope": "stdlib HTTP controller only; no backend/model import"
+  },
+  "backend_binary_check": {
+    "status": "pass",
+    "reported_version": "0.33.1",
+    "model_load": "not_run",
+    "generation": "not_run",
+    "cuda_runners": ["cuda_v12", "cuda_v13"]
+  },
+  "artifact_check": {
+    "repo": "unsloth/Qwen3.5-9B-GGUF",
+    "revision": "3885219b6810b007914f3a7950a8d1b469d598a5",
+    "file": "Qwen3.5-9B-Q4_K_M.gguf",
+    "path": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "size_bytes": 5680522464,
+    "sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "status": "present_hash_verified",
+    "model_load": "not_run"
+  },
+  "safety": {
+    "model_weights_loaded": false,
+    "model_generation_started": false,
+    "gpu_inference_started": false,
+    "vram_benchmark_started": false,
+    "latency_benchmark_started": false,
+    "cancellation_benchmark_started": false
+  },
+  "gil_before_probe": false,
+  "module_discovery": [
+    {
+      "module": "torch",
+      "available": false,
+      "origin": null,
+      "loader": null
+    },
+    {
+      "module": "transformers",
+      "available": false,
+      "origin": null,
+      "loader": null
+    },
+    {
+      "module": "accelerate",
+      "available": false,
+      "origin": null,
+      "loader": null
+    },
+    {
+      "module": "safetensors",
+      "available": false,
+      "origin": null,
+      "loader": null
+    },
+    {
+      "module": "bitsandbytes",
+      "available": false,
+      "origin": null,
+      "loader": null
+    },
+    {
+      "module": "llama_cpp",
+      "available": false,
+      "origin": null,
+      "loader": null
+    },
+    {
+      "module": "vllm",
+      "available": false,
+      "origin": null,
+      "loader": null
+    }
+  ],
+  "import_results": [],
+  "notes": [
+    "Preflight does not import backend modules and does not load model weights.",
+    "Import stage is opt-in and limited to explicitly named modules; it still does not create a model or generate output.",
+    "Final-phrase timing is measured only in the later GPU execution stage from synthetic authoritative handoff.",
+    "The selected backend is an external native server; the no-GIL property tested here applies to the controller process, not to the native server process."
+  ],
+  "gil_after_probe": false,
+  "finished_at_utc": "2026-08-27T13:40:49.232+00:00"
+}

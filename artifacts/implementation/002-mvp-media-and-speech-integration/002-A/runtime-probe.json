@@ -1,0 +1,10 @@
+{
+  "executable": "C:\\Python314\\python.exe",
+  "implementation": "cpython",
+  "version": "3.14.3",
+  "Py_GIL_DISABLED": 0,
+  "gil_enabled": true,
+  "free_threaded_requirement": true,
+  "result": "blocked",
+  "blocker": "B-002-A-001"
+}

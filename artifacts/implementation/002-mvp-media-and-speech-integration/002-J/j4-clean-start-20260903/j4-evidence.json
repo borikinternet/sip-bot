@@ -1,0 +1,137 @@
+{
+  "evidence_id": "E-002-J4-CLEAN-START-20260903",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "pass",
+  "runs": [
+    {
+      "name": "target-full-regression",
+      "command": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I -m pytest tests/unit tests/contract tests/integration -q",
+      "cwd": "/mnt/c/devel/sip-bot",
+      "exit_code": 0,
+      "elapsed_s": 9.113,
+      "stdout": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/target-full-regression.stdout.log",
+      "stderr": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/target-full-regression.stderr.log",
+      "error": null
+    },
+    {
+      "name": "real-answer-composition",
+      "command": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python -I tools/real_composition_probe.py --output-root /mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-answer",
+      "cwd": "/mnt/c/devel/sip-bot",
+      "exit_code": 0,
+      "elapsed_s": 27.707,
+      "stdout": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-answer-composition.stdout.log",
+      "stderr": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-answer-composition.stderr.log",
+      "error": null
+    },
+    {
+      "name": "real-media-transfer-composition",
+      "command": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python -I tools/real_media_composition_probe.py --output-root /mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-media-transfer",
+      "cwd": "/mnt/c/devel/sip-bot",
+      "exit_code": 0,
+      "elapsed_s": 57.634,
+      "stdout": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-media-transfer-composition.stdout.log",
+      "stderr": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-media-transfer-composition.stderr.log",
+      "error": null
+    }
+  ],
+  "compositions": {
+    "answer": {
+      "status": "pass",
+      "call_id": "real-composition-call",
+      "state": "terminal",
+      "report": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-answer/reports/real-composition-call/report.md",
+      "rag": {
+        "contexts": 1,
+        "sufficient": true,
+        "source_ids": [
+          "wiki-physics-rayleigh",
+          "wiki-astronomy-mars"
+        ]
+      },
+      "audio": {
+        "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-answer/tts-composition-sample.wav",
+        "bytes": 155990,
+        "sample_rate_hz": 8000,
+        "channels": 1,
+        "sha256": "d77898fd82cd605f91a14d79c3b73179f7c5951ad99c2cf2395bbc64a06d97da"
+      },
+      "elapsed_from_final_turn_ms": 9651.255,
+      "pipeline_errors": [],
+      "runtime": {
+        "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+        "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+        "gil_enabled": false
+      }
+    },
+    "media_transfer": {
+      "status": "pass",
+      "call_id": "real-media-composition-call",
+      "state": "terminal",
+      "final_turn": {
+        "text": "Продолжение следует...",
+        "revision": 4,
+        "boundary": "hard_endpoint"
+      },
+      "asr": {
+        "candidate": "faster-whisper-large-v3",
+        "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+        "hypotheses": [
+          "Продолжение следует...",
+          "Субтитры сделал DimaTorzok",
+          "Продолжение следует...",
+          "Продолжение следует...",
+          "Продолжение следует..."
+        ],
+        "hypothesis_count": 5,
+        "frames": 248,
+        "profile": {
+          "codec": "PCMU",
+          "payload_type": 0,
+          "rx_payload_type": 0,
+          "tx_payload_type": 0,
+          "ptime_ms": 20.0,
+          "frame_time_usec": 20000,
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "frame_size_samples": 160,
+          "frame_bytes": 320,
+          "pcm_bits_per_sample": 16,
+          "source": "001-S negotiated test profile"
+        }
+      },
+      "rag": {
+        "contexts": 1,
+        "sufficient": false,
+        "source_ids": [
+          "wiki-chemistry-water",
+          "wiki-astronomy-mars",
+          "wiki-physics-rayleigh"
+        ]
+      },
+      "transfer_confirmation_used": true,
+      "operator_accepted": true,
+      "operator_target": "sip:operator@127.0.0.1:5090",
+      "report": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-media-transfer/reports/real-media-composition-call/report.md",
+      "audio": {
+        "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-clean-start-20260903/real-media-transfer/tts-media-composition-sample.wav",
+        "bytes": 116566,
+        "sha256": "418fdebdb464edf8fb8a84a7a6d95031ce1a1d322c9d53b832ed5be41e75820e"
+      },
+      "elapsed_from_media_start_ms": 55755.791,
+      "pipeline_errors": [],
+      "runtime": {
+        "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+        "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+        "gil_enabled": false
+      }
+    }
+  },
+  "audio_recording": false,
+  "external_pbx": false,
+  "notes": [
+    "Each real composition is a clean one-call run with a fresh output root.",
+    "The target regression supplies deterministic answer/follow-up/barge-in/unknown-transfer/report coverage and live SIP/RTP checks.",
+    "Generated WAV files are TTS output artifacts for inspection, not conversation recordings."
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "probe": "001-C1-pjsua2-pjmedia",
+  "stage": "call",
+  "command": "/mnt/c/devel/sip-bot/tools/feasibility/pjsua2_pjmedia_probe.py --output /mnt/c/devel/sip-bot/artifacts/feasibility/001-C1-sip-pjsua2-pjmedia/bye.json --initialize --call-uri sip:peer@127.0.0.1:5080 --call-seconds 30 --callbacks --tone --stop-on-disconnect",
+  "working_directory": "/mnt/c/devel/sip-bot",
+  "started_at_utc": "2026-08-27T11:52:25.295058+00:00",
+  "pid": 2397,
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "py_gil_disabled": 1,
+  "gil_before_import": false,
+  "gil_after_import": false,
+  "gil_after_initialization": false,
+  "warnings": [],
+  "import": {
+    "status": "pass",
+    "python_wrapper": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py",
+    "native_module": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so"
+  },
+  "initialization": {
+    "status": "pass",
+    "elapsed_seconds": 0.0042253960000380175
+  },
+  "call": {
+    "status": "pass",
+    "uri": "sip:peer@127.0.0.1:5080",
+    "callbacks": true,
+    "stop_on_disconnect": true,
+    "tone": true,
+    "capture": false,
+    "capture_stats": {
+      "frames": 0,
+      "bytes": 0,
+      "checksum": 0
+    },
+    "peer_disconnected_before_local_hangup": true,
+    "events": [
+      {
+        "event": "call_state",
+        "timestamp": 1787831545.333473,
+        "state": "CALLING",
+        "status_code": 0,
+        "call_id": 0
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831545.3338504,
+        "state": "EARLY",
+        "status_code": 180,
+        "call_id": 0
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831545.3340626,
+        "state": "CONNECTING",
+        "status_code": 200,
+        "call_id": 0
+      },
+      {
+        "event": "call_media_state",
+        "timestamp": 1787831545.3344717,
+        "media_count": null,
+        "media": [
+          {
+            "index": 0,
+            "type": 1,
+            "status": 1,
+            "direction": 3
+          },
+          {
+            "index": 1,
+            "type": 3,
+            "status": 0,
+            "direction": 0
+          }
+        ]
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831545.3346467,
+        "state": "CONFIRMED",
+        "status_code": 200,
+        "call_id": 0
+      },
+      {
+        "event": "tone_started",
+        "timestamp": 1787831545.334809
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831557.2810059,
+        "state": "DISCONNECTED",
+        "status_code": 200,
+        "call_id": 0
+      },
+      {
+        "event": "probe_window_complete",
+        "timestamp": 1787831557.2810574
+      }
+    ],
+    "gil_after_call": false
+  },
+  "status": "pass",
+  "gil_after_call": false,
+  "exit_code": 0,
+  "finished_at_utc": "2026-08-27T11:52:38.322837+00:00"
+}

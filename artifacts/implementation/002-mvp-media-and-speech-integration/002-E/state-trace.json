@@ -1,0 +1,52 @@
+{
+  "call_id": "call-fsm",
+  "event_sequence": [
+    "call_started",
+    "call_answered",
+    "utterance_final",
+    "structured_decision:answer",
+    "speech_started/barge_in",
+    "utterance_final",
+    "structured_decision:offer_transfer",
+    "playback_completed",
+    "utterance_final:yes",
+    "transfer_completed",
+    "remote_hangup"
+  ],
+  "state_trace": [
+    "idle -> call_open",
+    "call_open -> listening",
+    "listening -> thinking",
+    "thinking -> playing",
+    "playing -> listening",
+    "listening -> thinking",
+    "thinking -> offering_transfer",
+    "offering_transfer -> awaiting_transfer_confirmation",
+    "awaiting_transfer_confirmation -> transferring",
+    "transferring -> terminal"
+  ],
+  "commands_observed": [
+    "answer",
+    "open_channel:speech_ingress:generation=1",
+    "start_inference:operation=1",
+    "open_channel:playback:generation=1",
+    "approve_answer",
+    "cancel:barge_in",
+    "close_channel:playback:generation=1",
+    "transfer:configured_operator_target",
+    "cancel:transfer_completed",
+    "close_channel:speech_ingress:generation=1",
+    "report:transfer_completed"
+  ],
+  "cancellation_outcomes": {
+    "barge_in": "playback channel closed; stale playback completion ignored",
+    "terminal": "all scoped channels closed idempotently; stale decision ignored",
+    "reentry": "new call identity accepted; old terminal call identity not reused"
+  },
+  "payload_policy": {
+    "control_bus": "typed small dataclass events/commands only",
+    "binary_audio": "rejected",
+    "large_text": "bounded/rejected",
+    "tts_and_pcm": "not transported by the bus"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "sip-bot.feasibility.c4.import.v1",
+  "plan": "001-C4",
+  "slice": "C4-S1",
+  "status": "pass",
+  "executed": true,
+  "reason": "Clean-process import gate passed after the exact torchaudio, tokenizers and monotonic_alignment_search free-threading patches; optional Triton package is disabled because XTTS does not require it.",
+  "candidate_import_attempted": true,
+  "runtime_preflight": {
+    "python": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "py_gil_disabled": 1,
+    "gil_enabled": false
+  },
+  "gil_checkpoints": [
+    {"module": "torch", "status": "ok", "version": "2.10.0+cu128", "gil_before": false, "gil_after": false},
+    {"module": "librosa", "status": "ok", "version": "0.11.0", "gil_before": false, "gil_after": false},
+    {"module": "transformers", "status": "ok", "version": "4.57.5", "gil_before": false, "gil_after": false},
+    {"module": "TTS", "status": "ok", "version": "0.27.5", "gil_before": false, "gil_after": false},
+    {"module": "TTS.api", "status": "ok", "gil_before": false, "gil_after": false},
+    {"module": "torchaudio", "status": "ok", "version": "2.10.0+cu128", "gil_before": false, "gil_after": false},
+    {"module": "tokenizers", "status": "ok", "version": "0.22.2", "gil_before": false, "gil_after": false},
+    {"module": "huggingface_hub", "status": "ok", "version": "0.36.2", "gil_before": false, "gil_after": false},
+    {"module": "soundfile", "status": "ok", "version": "0.14.0", "gil_before": false, "gil_after": false},
+    {"module": "monotonic_alignment_search", "status": "ok", "version": "0.2.1", "gil_before": false, "gil_after": false}
+  ],
+  "optional_components": {
+    "triton": "disabled in disposable runtime; importing it would re-enable GIL through triton._C.libtriton",
+    "torchcodec": "not imported; direct import is incompatible with the available CUDA runtime (libnvrtc.so.13) and is not required by the patched XTTS operation path"
+  },
+  "stdout": "Captured by the command invocation; operation stdout is in operation.stdout.json.",
+  "stderr": "No GIL warnings; candidate deprecation warning is recorded in operation.stderr.txt.",
+  "exit_code": 0,
+  "blockers": [],
+  "non_blocking_observations": [
+    "The tested TTS API path uses soundfile plus torchaudio.functional.resample for reference audio instead of torchcodec.",
+    "The import gate proves the tested patched path, not arbitrary unpatched wheels or full thread-safety of every dependency."
+  ]
+}

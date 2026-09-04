@@ -1,0 +1,13 @@
+Probe: E-001-A-GPU-001 / E-001-A-CUDA-001
+Date: 2026-08-27
+GPU command output:
+NVIDIA GeForce RTX 5060 Ti, 610.88, 16311 MiB, 13327 MiB
+nvidia_smi_rc=0
+
+CUDA layer output:
+nvcc=absent
+libcuda=present
+libcuda.so.1 (libc6,x86-64) => /usr/lib/wsl/lib/libcuda.so.1
+
+Interpretation: WSL driver API is visible from Ubuntu; CUDA toolkit compiler is absent. No CPU-only fallback was
+introduced and no model/Python/CUDA binding was imported.

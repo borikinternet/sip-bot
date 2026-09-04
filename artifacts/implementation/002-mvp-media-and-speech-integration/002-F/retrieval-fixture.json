@@ -1,0 +1,23 @@
+{
+  "backend": "fake-deterministic-character-ngrams-v1",
+  "index_version": "fake-evidence-v1",
+  "corpus_version": "ru-natural-science-demo-v1",
+  "chunk_count": 6,
+  "positive": {
+    "query": "Почему небо днём кажется голубым?",
+    "sufficient": true,
+    "threshold": 0.1,
+    "hits": [
+      {"source_id": "wiki-physics-rayleigh", "score": 0.644514},
+      {"source_id": "wiki-astronomy-mars", "score": 0.552937}
+    ]
+  },
+  "negative": {
+    "query": "Как устроен телескоп?",
+    "sufficient": false,
+    "threshold": 0.99,
+    "scores": [0.454569, 0.431171],
+    "outcome": "unknown_answer/offer_transfer"
+  },
+  "index_sha256": "AEADB844C246F68ACDBB63C446E2FFA4F3029544560FA2B4713F506AEB520B36"
+}

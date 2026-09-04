@@ -1,0 +1,12 @@
+diff --git a/src/libtorchaudio/pybind/pybind.cpp b/src/libtorchaudio/pybind/pybind.cpp
+index ffffffff..ffffffff 100644
+--- a/src/libtorchaudio/pybind/pybind.cpp
++++ b/src/libtorchaudio/pybind/pybind.cpp
+@@ -19,6 +19,6 @@ namespace torchaudio {
+ namespace {
+ 
+-PYBIND11_MODULE(_torchaudio, m) {
++PYBIND11_MODULE(_torchaudio, m, pybind11::mod_gil_not_used()) {
+   m.def("is_align_available", &is_align_available, "");
+   m.def("cuda_version", &cuda_version, "");
+ }

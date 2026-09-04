@@ -1,0 +1,14 @@
+Probe: E-001-A-SRC-001
+Date: 2026-08-27
+Command output for /home/sipbot/src/sip-bot:
+/home/sipbot/src/sip-bot
+TARGET SOURCE   FSTYPE OPTIONS
+/      /dev/sdf ext4   rw,relatime,discard,errors=remount-ro,data=ordered
+Filesystem          1-blocks       Used     Available Capacity Mounted on
+/dev/sdf       1081101176832 2081067008 1024027754496       1% /
+owner=sipbot uid=1000 mode=755
+fatal: not a git repository (or any of the parent directories): .git
+git_checkout=absent
+
+Interpretation: canonical directory exists on the Linux ext4 filesystem and is accessible to sipbot. No project files
+were copied from the dirty Windows worktree; no checkout/revision exists yet.

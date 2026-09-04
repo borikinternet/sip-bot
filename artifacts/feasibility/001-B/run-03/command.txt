@@ -1,0 +1,2 @@
+wsl.exe -d Ubuntu-24.04 -u sipbot -- bash -lc '/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I /mnt/c/devel/sip-bot/tools/nogil_probe.py'
+exit_code=0

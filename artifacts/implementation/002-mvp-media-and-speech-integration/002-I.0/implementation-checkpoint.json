@@ -1,0 +1,93 @@
+{
+  "plan": "plan-002-I.0-call-session-orchestration-and-state.md",
+  "checkpoint": "I0-1 through I0-5 composition closeout checkpoint",
+  "date": "2026-09-03",
+  "status": "complete",
+  "owner_review": "accepted",
+  "scope": "CallSession composition around existing Dispatcher and DialogueFSM",
+  "changed_files": [
+    "src/sip_bot/control/dispatcher.py",
+    "src/sip_bot/control/__init__.py",
+    "src/sip_bot/dialogue/actions.py",
+    "src/sip_bot/dialogue/fsm.py",
+    "src/sip_bot/runtime.py",
+    "src/sip_bot/runtime_composition.py",
+    "src/sip_bot/conversation_pipeline.py",
+    "src/sip_bot/llm/ollama_client.py",
+    "tests/contract/test_call_session.py",
+    "tests/integration/test_application_composition.py",
+    "tests/integration/test_conversation_pipeline.py",
+    "tests/unit/__init__.py",
+    "tests/integration/__init__.py",
+    "tests/integration/test_sip_media.py",
+    "tests/unit/test_llm_facade.py",
+    "tests/contract/test_llm_http.py",
+    "tools/real_composition_probe.py",
+    "tools/real_media_composition_probe.py"
+  ],
+  "accepted_types": [
+    "CallSession",
+    "SessionLease",
+    "SessionComponent",
+    "EventHandler",
+    "ControlMessage",
+    "CallOwners",
+    "ConversationPipeline",
+    "TtsStreamPort"
+  ],
+  "windows": {
+    "unit_and_contract": {
+      "command": "python -m pytest tests/unit tests/contract -q",
+      "result": "98 passed in 0.19s",
+      "exit_code": 0
+    },
+    "targeted_integration": {
+      "command": "python -m pytest tests/integration/test_barge_in.py tests/integration/test_transfer_report.py -q",
+      "result": "7 passed in 0.08s",
+      "exit_code": 0
+    },
+    "compileall": {
+      "command": "python -m compileall -q src tests tools",
+      "result": "completed",
+      "exit_code": 0
+    },
+    "full_regression": {
+      "command": "python -m pytest tests/unit tests/contract tests/integration -q",
+      "result": "109 passed, 3 skipped in 0.26s; skips are host-only live baresip absence",
+      "exit_code": 0
+    }
+  },
+  "target_nogil": {
+    "runtime": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "unit_and_contract": {
+      "result": "98 passed in 1.65s",
+      "exit_code": 0
+    },
+    "import_probe": {
+      "result": "cpython (3, 14, 7) Py_GIL_DISABLED=1 gil_enabled=False Dispatcher CallSession SessionLease",
+      "exit_code": 0
+    },
+    "full_regression": {
+      "command": "python3.14t -I isolated pytest tests/unit tests/contract tests/integration -q",
+      "result": "112 passed in 8.57s; live Baresip SIP/RTP integration included",
+      "exit_code": 0
+    }
+  },
+  "corrective_pass": {
+    "initial_failure": "Top-level typed control imports caused an existing sip_media -> runtime -> control circular import; a stale data-plane assertion and report-before-terminal ordering were found; the first real composition run also exposed that format=json allowed an extra model field and that the real transfer owner was missing from the ASR composition probe.",
+    "action": "Moved runtime classification imports behind a lazy typed classifier, corrected assertions without weakening them, made pre-bound CALL_OPEN idempotent, deferred report finalization until terminal state is observable, added serialized direct-payload handoff, moved retrieval/LLM/TTS/transfer workers outside Dispatcher, passed a dynamic closed output schema to Ollama, and added the configured FakeOperator/TransferOrchestrator to the real ASR composition probe.",
+    "rerun": "109 host tests with 3 environment skips, 112 target no-GIL tests including live SIP/RTP, compileall/import checks, real RAG+LLM+XTTS answer composition and real ASR→unknown-answer→transfer composition pass"
+  },
+  "not_run": [
+    "dependency installation"
+  ],
+  "pre_existing_findings": [
+    "The Windows host does not provide baresip; live SIP/RTP integration is therefore skipped on host and passes in the canonical Ubuntu/WSL target."
+  ],
+  "real_evidence": {
+    "llm": "artifacts/implementation/002-mvp-media-and-speech-integration/002-G/inference-current.json and inference-warm.json; local Ollama 0.33.1, Qwen3.5-9B Q4_K_M, target RTX 5060 Ti",
+    "sip_rtp": "target integration regression includes tests/integration/test_sip_media.py; 112 total tests passed",
+    "composition": "tests/integration/test_conversation_pipeline.py covers direct RAG/query/prompt/LLM decision/TTS PCM path with deterministic owner doubles; J4 clean-start evidence proves real answer and real ASR/VAD/endpointing→RAG→LLM→XTTS→fake transfer→report lanes, but not one live SIP-to-AI call"
+  },
+  "remaining_scope": "I.0 is complete. J4 isolated clean-start lanes pass, but live SIP-to-AI driver wiring and a single Baresip→ASR→LLM→TTS→Baresip scenario remain open under B-002-J-006; J5 and final Map-002 closeout remain open."
+}

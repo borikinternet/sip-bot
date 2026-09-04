@@ -1,0 +1,287 @@
+{
+  "status": "fail",
+  "gate": "I1-8",
+  "call_id": "i1-8-live-call",
+  "started_at_utc": "2026-09-03T20:16:15.133854+00:00",
+  "elapsed_ms": 6383.557,
+  "fixture": {
+    "text": "Почему небо днём кажется голубым?",
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.1/live-stand/input-question.wav",
+    "bytes": 32598,
+    "sha256": "41bfd8b6a0a6edf6a960ee79ad9ad389a52e8c5aa17c1e4a97f21b1cb2fdd96c",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "source": "local XTTS-generated test fixture; not a call recording"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  },
+  "sip": {
+    "peer_established": true,
+    "rtp_ingress_established": true,
+    "pcmu_8000_mono": true,
+    "peer_reported_packets": false,
+    "adapter_profile": null,
+    "adapter_media_stats": {
+      "ingress_frames": 150,
+      "ingress_bytes": 48000,
+      "egress_frames": 150,
+      "egress_bytes": 48000,
+      "ingress_dropped_closed": 0,
+      "ingress_dropped_overflow": 0,
+      "egress_dropped_closed": 0,
+      "egress_dropped_overflow": 0,
+      "egress_underruns": 150,
+      "callback_errors": 0
+    },
+    "adapter_events": [
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4843698710627,
+        "sequence": 1,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 1
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4843699010125,
+        "sequence": 2,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4843699036855,
+        "sequence": 3,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 1,
+          "transport_state": 1
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4843699216000,
+        "sequence": 4,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 1,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4843699271221,
+        "sequence": 5,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4843699285371,
+        "sequence": 6,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 1,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "call_started",
+        "timestamp_ns": 4843700147532,
+        "sequence": 7,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": "outgoing",
+          "peer_uri": "sip:peer@127.0.0.1:5080"
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4843705988875,
+        "sequence": 8,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 4
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4843706843515,
+        "sequence": 9,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 1,
+          "transport_state": 0
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "media_started",
+        "timestamp_ns": 4843710374631,
+        "sequence": 10,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": 3,
+          "media_index": 0
+        },
+        "media_profile": {
+          "codec": "PCMU",
+          "payload_type": 0,
+          "rx_payload_type": 0,
+          "tx_payload_type": 0,
+          "ptime_ms": 20.0,
+          "frame_time_usec": 20000,
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "frame_size_samples": 160,
+          "frame_bytes": 320,
+          "pcm_bits_per_sample": 16,
+          "source": "pjmedia.stream_info"
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "call_answered",
+        "timestamp_ns": 4843710748270,
+        "sequence": 11,
+        "method": null,
+        "status_code": 200,
+        "reason": "Answering",
+        "details": {
+          "state": "CONFIRMED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4846716822851,
+        "sequence": 12,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 4846717044567,
+        "sequence": 13,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 0
+        }
+      },
+      {
+        "call_id": "i1-8-live-call",
+        "kind": "remote_hangup",
+        "timestamp_ns": 4846717295713,
+        "sequence": 14,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      }
+    ]
+  },
+  "wiring": {
+    "sip_polls": 294,
+    "control_dispatches": 28,
+    "ingress_frames": 150,
+    "fanout_frames": 300,
+    "asr_chunks_queued": 3,
+    "asr_chunks_dropped": 0,
+    "asr_hypotheses": 0,
+    "final_turns": 0,
+    "tts_chunks": 0,
+    "tts_frames_sent": 0,
+    "stale_hypotheses": 0,
+    "errors": 0
+  },
+  "context": [],
+  "report": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.1/live-gate-20260903/reports/i1-8-live-call/report.md",
+  "rag": {
+    "contexts": 0,
+    "sufficient": false,
+    "source_ids": []
+  },
+  "fsm": {
+    "state": "terminal",
+    "trace": [
+      {
+        "sequence": 1,
+        "event": "call_open",
+        "previous": "idle",
+        "current": "call_open",
+        "reason": null
+      },
+      {
+        "sequence": 2,
+        "event": "call_answered",
+        "previous": "call_open",
+        "current": "listening",
+        "reason": null
+      },
+      {
+        "sequence": 3,
+        "event": "remote_hangup",
+        "previous": "listening",
+        "current": "terminal",
+        "reason": "Normal call clearing"
+      }
+    ]
+  },
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.1/live-gate-20260903/baresip-peer.log",
+  "errors": []
+}

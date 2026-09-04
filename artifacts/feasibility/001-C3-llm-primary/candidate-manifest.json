@@ -1,0 +1,56 @@
+{
+  "evidence_id": "E-C3-CANDIDATE-001",
+  "stage": "gpu_execution_evidence",
+  "status": "pass_with_isolation",
+  "fallback_run": false,
+  "runtime": {
+    "os": "Ubuntu 24.04.4 LTS / WSL2 / x86_64",
+    "python_executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "python": "3.14.7t",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1,
+    "gil_enabled_before_controller_import": false
+  },
+  "candidate": {
+    "base_model_id": "Qwen/Qwen3.5-9B",
+    "base_model_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "quantization": "GGUF Q4_K_M",
+    "artifact_repo": "unsloth/Qwen3.5-9B-GGUF",
+    "artifact_revision": "3885219b6810b007914f3a7950a8d1b469d598a5",
+    "artifact_file": "Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_path": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_size_bytes": 5680522464,
+    "artifact_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "license": "Apache-2.0"
+  },
+  "backend": {
+    "name": "Ollama",
+    "version": "0.33.1",
+    "release_tag": "v0.33.1",
+    "binary_path": "/home/sipbot/src/c3-ollama/v0.33.1/bin/ollama",
+    "release_asset": "ollama-linux-amd64.tar.zst",
+    "release_asset_sha256": "88e0d36bd90121595e5516c84f6ab61b546368fbd2d825b4aae70999c949649d",
+    "runner": "bundled native llama.cpp CUDA runner (cuda_v12 and cuda_v13)",
+    "python_native_import": false,
+    "process_boundary": "external native Ollama server; main no-GIL controller uses standard-library HTTP",
+    "controller_module": "urllib.request",
+    "controller_import_gil_before": false,
+    "controller_import_gil_after": false,
+    "controller_import_status": "pass",
+    "owner_boundary_decision": {
+      "status": "accepted",
+      "boundary": "external native Ollama server",
+      "ipc": "HTTP over 127.0.0.1",
+      "main_process_no_gil": true,
+      "decision_source": "project owner decision, 2026-08-27"
+    }
+  },
+  "prepared_files": {
+    "modelfile": "/mnt/c/devel/sip-bot/artifacts/feasibility/001-C3-llm-primary/Modelfile",
+    "gpu_probe": "/mnt/c/devel/sip-bot/tools/llm_primary_probe.py"
+  },
+  "gpu_inference": "completed; see inference.json",
+  "latency_benchmark": "single-fixture timing recorded; not a statistical benchmark",
+  "vram_benchmark": "sampled; see vram.json and vram-samples.csv",
+  "cancellation": "completed by client stream close; see cancellation.json"
+}

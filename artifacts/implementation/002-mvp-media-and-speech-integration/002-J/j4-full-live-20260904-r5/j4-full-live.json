@@ -1,0 +1,435 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260903T224336Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "fail",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-03T22:43:36.823577+00:00",
+  "elapsed_ms": 44788.422,
+  "elapsed_from_call_start_ms": 21105.395,
+  "warmup": {
+    "started_at_ns": 13668891038636,
+    "completed_at_ns": 13691018763363,
+    "elapsed_ms": 22127.724727,
+    "stages": [
+      {
+        "name": "rag-embedding-index",
+        "elapsed_ms": 175.16992,
+        "details": {
+          "chunks": 6,
+          "embedding_model": "embeddinggemma"
+        }
+      },
+      {
+        "name": "llm-chat",
+        "elapsed_ms": 1056.644636,
+        "details": {
+          "sources": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "trace": {
+            "final_user_turn_ns": 13669087921537,
+            "request_started_ns": 13669087977830,
+            "first_stream_event_ns": 13669153420328,
+            "first_usable_output_ns": 13669153420328,
+            "final_result_ns": 13670122766588,
+            "cancel_requested_ns": null,
+            "completed_ns": 13670122766588,
+            "final_to_first_usable_ms": 65.498791,
+            "final_to_final_result_ms": 1034.845051,
+            "request_to_first_usable_ms": 65.442498,
+            "request_to_final_result_ms": 1034.788758
+          }
+        }
+      },
+      {
+        "name": "asr",
+        "elapsed_ms": 6753.577463,
+        "details": {
+          "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+          "model_sample_rate_hz": 16000,
+          "input_sample_rate_hz": 8000,
+          "input_duration_ms": 1000,
+          "model_loaded_by_warmup": true
+        }
+      },
+      {
+        "name": "tts-initialize",
+        "elapsed_ms": 10632.456244,
+        "details": {
+          "initialized": true
+        }
+      },
+      {
+        "name": "tts-stream",
+        "elapsed_ms": 317.281968,
+        "details": {
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "first_chunk_bytes": 14166
+        }
+      },
+      {
+        "name": "fixture",
+        "elapsed_ms": 3192.424931,
+        "details": {
+          "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r5/live-stand/input-scenario.wav",
+          "bytes": 2248260
+        }
+      }
+    ]
+  },
+  "fixture": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r5/live-stand/input-scenario.wav",
+    "bytes": 2248260,
+    "sha256": "e4518559df8d0ab7c3cb86df5c020e45fa69a287413ad247e6002e6d91c6398a",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "duration_s": 140.516,
+    "segments": [
+      {
+        "turn_id": "turn-1",
+        "text": "Почему небо днём кажется голубым?",
+        "speech_started_s": 1.5,
+        "speech_duration_s": 1.856,
+        "leading_s": 1.5,
+        "trailing_s": 15.0
+      },
+      {
+        "turn_id": "turn-2",
+        "text": "А почему на закате оно становится красным?",
+        "speech_started_s": 18.356,
+        "speech_duration_s": 2.411,
+        "leading_s": 0.0,
+        "trailing_s": 3.0
+      },
+      {
+        "turn_id": "turn-3",
+        "text": "Стоп, а что происходит с водой при охлаждении?",
+        "speech_started_s": 38.767,
+        "speech_duration_s": 3.019,
+        "leading_s": 15.0,
+        "trailing_s": 17.0
+      },
+      {
+        "turn_id": "turn-4",
+        "text": "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+        "speech_started_s": 75.785,
+        "speech_duration_s": 5.621,
+        "leading_s": 17.0,
+        "trailing_s": 15.0
+      },
+      {
+        "turn_id": "turn-5",
+        "text": "Да",
+        "speech_started_s": 111.407,
+        "speech_duration_s": 1.109,
+        "leading_s": 15.0,
+        "trailing_s": 28.0
+      }
+    ],
+    "source": "local XTTS-generated multi-turn fixture; not a call recording"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  },
+  "sip": {
+    "peer_established": true,
+    "rtp_ingress_established": true,
+    "pcmu_8000_mono": true,
+    "peer_rtp_packets": {
+      "transmit": 1003,
+      "receive": 205
+    },
+    "adapter_profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "pjmedia.stream_info"
+    },
+    "adapter_media_stats": {
+      "ingress_frames": 1002,
+      "ingress_bytes": 320640,
+      "egress_frames": 1002,
+      "egress_bytes": 320640,
+      "ingress_dropped_closed": 0,
+      "ingress_dropped_overflow": 0,
+      "egress_dropped_closed": 0,
+      "egress_dropped_overflow": 0,
+      "egress_underruns": 909,
+      "callback_errors": 0
+    },
+    "adapter_events": [
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 13692565875804,
+        "sequence": 1,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 1
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 13692566027937,
+        "sequence": 2,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 13692566046494,
+        "sequence": 3,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 1,
+          "transport_state": 1
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 13692566082649,
+        "sequence": 4,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 1,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 13692566095078,
+        "sequence": 5,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 13692566100354,
+        "sequence": 6,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 1,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "call_started",
+        "timestamp_ns": 13692566280917,
+        "sequence": 7,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": "outgoing",
+          "peer_uri": "sip:peer@127.0.0.1:5080"
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 13692575496506,
+        "sequence": 8,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 4
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "sip_transaction",
+        "timestamp_ns": 13692576292706,
+        "sequence": 9,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 1,
+          "transport_state": 0
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "media_started",
+        "timestamp_ns": 13692579822176,
+        "sequence": 10,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": 3,
+          "media_index": 0
+        },
+        "media_profile": {
+          "codec": "PCMU",
+          "payload_type": 0,
+          "rx_payload_type": 0,
+          "tx_payload_type": 0,
+          "ptime_ms": 20.0,
+          "frame_time_usec": 20000,
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "frame_size_samples": 160,
+          "frame_bytes": 320,
+          "pcm_bits_per_sample": 16,
+          "source": "pjmedia.stream_info"
+        }
+      },
+      {
+        "call_id": "j4-full-live-call",
+        "kind": "call_answered",
+        "timestamp_ns": 13692580158763,
+        "sequence": 11,
+        "method": null,
+        "status_code": 200,
+        "reason": "Answering",
+        "details": {
+          "state": "CONFIRMED",
+          "pjsua_call_id": 0
+        }
+      }
+    ]
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r5/baresip-operator.log",
+    "transfer_result": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "available": true,
+      "accepted": []
+    }
+  },
+  "conversation": {
+    "context": [
+      {
+        "store_revision": 1,
+        "turn": {
+          "call_id": "j4-full-live-call",
+          "knowledge_context_id": null,
+          "revision": 4,
+          "role": "user",
+          "source_ids": [],
+          "text": "Почему небо днём кажется голубым?",
+          "turn_id": "j4-full-live-call:turn-1"
+        }
+      },
+      {
+        "store_revision": 2,
+        "turn": {
+          "call_id": "j4-full-live-call",
+          "knowledge_context_id": "knowledge-context-j4-full-live-call:turn-1",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "text": "Небо днём кажется голубым, потому что молекулы атмосферы рассеивают коротковолновую часть видимого света сильнее длинноволновой. Это явление называют рассеянием Рэлея.",
+          "turn_id": "j4-full-live-call:turn-1:answer"
+        }
+      }
+    ],
+    "user_turn_count": 1,
+    "assistant_turn_count": 1,
+    "rag_context_count": 1,
+    "rag_source_ids": [
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ]
+    ]
+  },
+  "fsm": {
+    "state": "listening",
+    "trace_events": [
+      "call_open",
+      "call_answered",
+      "utterance_final",
+      "answer_approved",
+      "playback_finished"
+    ],
+    "trace_states": [
+      "call_open",
+      "listening",
+      "thinking",
+      "playing",
+      "listening"
+    ]
+  },
+  "wiring": {
+    "sip_polls": 1920,
+    "control_dispatches": 35,
+    "ingress_frames": 1000,
+    "fanout_frames": 2000,
+    "asr_chunks_queued": 20,
+    "asr_chunks_dropped": 0,
+    "asr_hypotheses": 20,
+    "final_turns": 1,
+    "tts_chunks": 13,
+    "tts_frames_sent": 93,
+    "stale_hypotheses": 0,
+    "errors": 0
+  },
+  "scenario_checks": {
+    "follow_up_turn_present": false,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "operator_peer_established": false,
+    "report_present": false
+  },
+  "report": null,
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r5/baresip-peer.log",
+  "errors": [
+    "TranscriptContractError: ASR revision contradicts the already stable prefix"
+  ],
+  "audio_recording": false,
+  "external_pbx": false,
+  "notes": [
+    "The fixture is generated before call admission and is not a conversation recording.",
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario."
+  ]
+}

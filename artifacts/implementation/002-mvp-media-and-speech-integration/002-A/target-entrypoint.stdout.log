@@ -1,0 +1,2 @@
+2026-09-02T22:24:55+0300 INFO sip-bot runtime probe implementation=cpython version=3.14.7 executable=/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t Py_GIL_DISABLED=1 gil_enabled=False
+2026-09-02T22:24:55+0300 INFO sip-bot runtime preflight passed

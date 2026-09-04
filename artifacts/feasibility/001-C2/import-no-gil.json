@@ -1,0 +1,125 @@
+{
+  "candidate_id": "ASR-PRIMARY-001-faster-whisper",
+  "candidate_package": "faster-whisper",
+  "candidate_version_expected": "1.2.1",
+  "command": "/mnt/c/devel/sip-bot/tools/asr_primary_probe.py --stage import --evidence-root /mnt/c/devel/sip-bot/artifacts/feasibility/001-C2",
+  "evidence_root": "/mnt/c/devel/sip-bot/artifacts/feasibility/001-C2",
+  "executable": "/home/sipbot/.local/c2-faster-whisper-1.2.1t/bin/python",
+  "finished_at_epoch": 1787842324.1340363,
+  "gil_after_import": false,
+  "gil_before_import": false,
+  "import_errors": [],
+  "imports": [
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"numpy\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "numpy",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"yaml\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "yaml",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"ctranslate2\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "ctranslate2",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"onnxruntime\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "onnxruntime",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"av\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "av",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"tokenizers\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "tokenizers",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"faster_whisper\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "faster_whisper",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"faster_whisper.transcribe\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "faster_whisper.transcribe",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"faster_whisper.vad\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "faster_whisper.vad",
+      "status": "pass",
+      "warnings": []
+    }
+  ],
+  "machine": "x86_64-linux-gnu",
+  "package_versions": {
+    "PyYAML": "6.0.3",
+    "av": "18.1.0",
+    "ctranslate2": "4.8.1",
+    "faster-whisper": "1.2.1",
+    "numpy": "2.5.2",
+    "onnxruntime": "1.29.0",
+    "tokenizers": "0.23.1"
+  },
+  "pid": 510,
+  "platform": "linux",
+  "probe": "001-C2-asr-primary",
+  "py_gil_disabled": 1,
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "soabi": "cpython-314t-x86_64-linux-gnu",
+  "stage": "import",
+  "started_at_epoch": 1787842322.211205,
+  "status": "pass",
+  "warnings": [],
+  "working_directory": "/mnt/c/devel/sip-bot"
+}

@@ -1,0 +1,30 @@
+{
+  "evidence_id": "E-005-PREP-NOGIL-STDLIB-20260904",
+  "status": "pass",
+  "stage": "map-preparation",
+  "command": "wsl -d Ubuntu-24.04 -- /home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I /mnt/c/devel/sip-bot/tools/nogil_probe.py",
+  "runtime": {
+    "implementation": "CPython",
+    "version": "3.14.7 free-threading build",
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1,
+    "gil_before_stdlib_imports": false,
+    "gil_after_stdlib_imports": false
+  },
+  "imports": {
+    "manifest_status": "pass",
+    "import_errors": []
+  },
+  "controlled_concurrency": {
+    "workers": 4,
+    "iterations": 25000,
+    "expected_shared_total": 3115622,
+    "shared_total": 3115622,
+    "gil_before": false,
+    "gil_after": false,
+    "status": "pass"
+  },
+  "exit_code": 0,
+  "scope_note": "Preparation evidence only; component/native and GPU gates remain child-plan execution work."
+}

@@ -1,0 +1,4 @@
+/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/lib/python3.14t/site-packages/TTS/api.py:93: UserWarning: `gpu` will be deprecated. Please use `tts.to(device)` instead.
+  warnings.warn("`gpu` will be deprecated. Please use `tts.to(device)` instead.")
+2026-09-03T14:52:23+0300 INFO sip-bot application runtime started version=0.1.0
+2026-09-03T14:52:23+0300 INFO sip-bot call opened call_id=real-composition-call

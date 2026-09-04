@@ -1,0 +1,75 @@
+{
+  "schema": "sip-bot.implementation.002-H.rtp-playback.v1",
+  "status": "pass",
+  "plan": "002-H",
+  "stand": "001-S",
+  "call_id": "call-h-rtp",
+  "runtime": {
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "gil_after": false
+  },
+  "negotiated_profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "pjmedia.stream_info"
+  },
+  "source_sample": {
+    "path": "artifacts/implementation/002-mvp-media-and-speech-integration/002-H/tts-sample.wav",
+    "source_rate_hz": 24000,
+    "source_samples": 78080,
+    "converted_rate_hz": 8000,
+    "converted_samples": 26027
+  },
+  "playback": {
+    "frames_available": 163,
+    "frames_pushed": 35,
+    "frames_sent_before_barge_in": 35,
+    "cancel_at_frame": 35,
+    "post_cancel_frames_sent": 0,
+    "stale_push_accepted": false,
+    "channel_closed": true,
+    "cancel_reason": "barge_in"
+  },
+  "media_stats_before_close": {
+    "ingress_frames": 50,
+    "ingress_bytes": 16000,
+    "egress_frames": 51,
+    "egress_bytes": 16320,
+    "ingress_dropped_closed": 0,
+    "ingress_dropped_overflow": 1,
+    "egress_dropped_closed": 0,
+    "egress_dropped_overflow": 0,
+    "egress_underruns": 16,
+    "callback_errors": 0
+  },
+  "peer_rtp": {
+    "codec": "PCMU/8000/1",
+    "transmit_packets": 59,
+    "receive_packets": 58,
+    "errors": 0,
+    "lost": 0,
+    "jitter_ms": {
+      "transmit": 0.6,
+      "receive": 0.1
+    }
+  },
+  "checks": {
+    "pcmu_boundary": true,
+    "ptime_from_call_profile": true,
+    "direct_playback_to_media_bridge": true,
+    "inbound_media_continued_during_playback": true,
+    "barge_in_closed_channel": true,
+    "stale_audio_submission_suppressed": true
+  },
+  "exit_code": 0
+}

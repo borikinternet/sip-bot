@@ -1,0 +1,38 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eth0|172.22.89.126 
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: ausine
+Populated 1 account
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+unhandeled request from 127.0.0.1:5080: REGISTER sip:127.0.0.1:5080
+[31mreg: sip:peer@127.0.0.1:5080: 501 Not Implemented (baresip v1.0.0 (x86_64/linux))
+[;mua: using AF from sdp offer: af=AF_INET
+call: answering call on line 1 from sip:tester@127.0.0.1 with 200
+stream: update 'audio'
+audio: Set audio decoder: PCMU 8000Hz 1ch
+audio: Set audio encoder: PCMU 8000Hz 1ch
+audio: enable ausrc resampler: 8000Hz/1ch <-- 48000Hz/2ch
+ausine: 48000 Hz, 2 channels, frequency 440 Hz
+ausine: audio ptime=20 sampc=1920
+audio: source started with sample format S16LE
+audio tx pipeline:      ausine ---> PCMU
+audio rx pipeline:      (play) <--- PCMU
+peer@127.0.0.1: Call established: sip:tester@127.0.0.1
+stream: incoming rtp for 'audio' established, receiving from 172.22.89.126:4000
+[0:00:00] audio=0/0 (bit/s)    [0:00:00] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    sip:tester@127.0.0.1: session closed: Connection reset by peer
+sip:peer@127.0.0.1: Call with sip:tester@127.0.0.1 terminated (duration: 2 secs)
+
+audio           Transmit:     Receive:
+packets:            101           31
+avg. bitrate:      64.2         19.8  (kbit/s)
+errors:               0            0
+pkt.report:         101           31
+lost:                 0            0
+jitter:             1.8          0.2  (ms)
+terminated by signal 15
+ua: stop all (forced=0)

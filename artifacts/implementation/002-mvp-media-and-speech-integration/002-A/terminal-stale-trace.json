@@ -1,0 +1,9 @@
+{
+  "stale_delivered": false,
+  "current_delivered": true,
+  "accepted_count": 1,
+  "old_cancelled": true,
+  "new_cancelled": true,
+  "event_kinds": ["call_open", "channel_open", "channel_close", "channel_open", "terminal", "channel_close", "call_close"],
+  "event_sequences": [1, 2, 3, 4, 5, 6, 7]
+}

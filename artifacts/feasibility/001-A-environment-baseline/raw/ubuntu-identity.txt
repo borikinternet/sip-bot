@@ -1,0 +1,18 @@
+Probe: E-001-A-OS-001 / E-001-A-USER-001
+Date: 2026-08-27
+Command output:
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+VERSION_ID="24.04"
+x86_64
+6.6.87.2-microsoft-standard-WSL2
+sipbot
+1000
+1000 27
+[boot]
+systemd=true
+[user]
+default=sipbot
+Command exit code: 0.
+
+Sudo reference: existing bootstrap evidence records passworded sudo to uid 0 and non-interactive sudo without a
+password as rejected. No credential is copied into this evidence.

@@ -1,0 +1,18 @@
+Captured before 001-B execution, 2026-08-27, Europe/Moscow.
+
+A  .idea/.gitignore
+A  .idea/inspectionProfiles/profiles_settings.xml
+A  .idea/modules.xml
+AM .idea/sip-bot.iml
+A  .idea/vcs.xml
+?? .codex/
+?? .gitignore
+?? .idea/deployment.xml
+?? .idea/misc.xml
+?? artifacts/
+?? docs/
+?? tools/
+
+Interpretation: pre-existing user changes; 001-B write-set is limited to tools/nogil_probe.py,
+tools/run_nogil_probe.ps1 and artifacts/feasibility/001-B. External WSL runtime/build paths are
+outside the Windows worktree.

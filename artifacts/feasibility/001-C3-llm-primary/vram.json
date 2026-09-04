@@ -1,0 +1,16 @@
+{
+  "evidence_id": "E-C3-VRAM-001",
+  "status": "pass_sampled",
+  "method": "nvidia-smi query-gpu timestamp,name,memory.total,memory.used,memory.free,utilization.gpu at 200ms during successful warm GPU inference",
+  "samples": 375,
+  "gpu_name": "NVIDIA GeForce RTX 5060 Ti",
+  "total_memory_MiB": 16311,
+  "max_sampled_used_MiB": 8227,
+  "min_sampled_free_MiB": 7824,
+  "headroom_at_peak_MiB": 8084,
+  "first_timestamp": "2026/08/27 18:11:05.923",
+  "last_timestamp": "2026/08/27 18:12:20.068",
+  "oom": false,
+  "source": "vram-samples.csv",
+  "model": "Qwen/Qwen3.5-9B Q4_K_M via Ollama 0.33.1"
+}

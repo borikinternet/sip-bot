@@ -1,0 +1,85 @@
+{
+  "schema": "sip-bot.feasibility.c4.operation.v1",
+  "plan": "001-C4",
+  "slice": "C4-S2",
+  "status": "pass",
+  "executed": true,
+  "candidate_id": "xtts-v2",
+  "candidate_revision": "XTTS-v2 v2.0.3 @ 6b8036b35d787cf43d18d640587956b9db8fd1b8",
+  "model_root": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model",
+  "voice_path": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model/samples/en_sample.wav",
+  "input_text": "Вода кипит при ста градусах Цельсия.",
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+  "command": "/mnt/c/devel/sip-bot/tools/feasibility/tts_primary_probe.py --manifest /mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-H/c4-manifest.json --stage operation --allow-tts-operation",
+  "timing_contract": {
+    "clock": "time.monotonic_ns",
+    "final_phrase_received_at_ns": 1738801494502,
+    "conditioning_started_at_ns": 1738801494502,
+    "conditioning_finished_at_ns": 1739247900811,
+    "first_pcm_at_ns": 1739623311934,
+    "operation_finished_at_ns": 1740103219367,
+    "final_phrase_to_first_pcm_ms": 821.817432,
+    "final_phrase_to_complete_ms": 1301.724865,
+    "conditioning_ms": 446.406309,
+    "first_pcm_to_complete_ms": 479.907433
+  },
+  "first_pcm": {
+    "bytes": 84992,
+    "sample_format": "float32",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "samples": 21248,
+    "duration_ms": 885.3333333333334,
+    "sha256": "119d18fa418cd5ee35c76fe597f02d1650d0176732bfd4bff0fe5d71d64b8949"
+  },
+  "stream": {
+    "chunks": [
+      {
+        "samples": 21248,
+        "sample_rate_hz": 24000,
+        "sample_format": "float32"
+      },
+      {
+        "samples": 22272,
+        "sample_rate_hz": 24000,
+        "sample_format": "float32"
+      },
+      {
+        "samples": 22272,
+        "sample_rate_hz": 24000,
+        "sample_format": "float32"
+      },
+      {
+        "samples": 12288,
+        "sample_rate_hz": 24000,
+        "sample_format": "float32"
+      }
+    ],
+    "chunk_count": 4
+  },
+  "tts_sample": {
+    "path": "artifacts/implementation/002-mvp-media-and-speech-integration/002-H/tts-sample.wav",
+    "exists": true,
+    "format": "WAV",
+    "sample_format": "PCM_16LE",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "samples": 78080,
+    "duration_ms": 3253.3333333333335,
+    "bytes": 156204,
+    "sha256": "a7f374d101139de5445fb2a9ebfeac5edfc37ac0c6e2d869247169625797364a"
+  },
+  "gil_checkpoints": {
+    "before_candidate_import": false,
+    "after_candidate_import": false,
+    "after_model_load": false,
+    "after_first_pcm": false,
+    "after_operation": false
+  },
+  "model_load_seconds": 8.79122045,
+  "warnings": [],
+  "stdout": "artifacts/implementation/002-mvp-media-and-speech-integration/002-H/main-gate-output.md",
+  "stderr": "artifacts/implementation/002-mvp-media-and-speech-integration/002-H/main-gate-output.md",
+  "exit_code": 0
+}

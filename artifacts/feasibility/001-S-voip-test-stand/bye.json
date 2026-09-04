@@ -1,0 +1,210 @@
+{
+  "evidence_id": "S-E-bye",
+  "plan": "001-S",
+  "candidate": "Baresip + PJSUA2/PJMEDIA local peer",
+  "stage": "bye",
+  "command": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I /mnt/c/devel/sip-bot/tools/feasibility/pjsua2_pjmedia_probe.py --output /mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/bye.pjsua.json --initialize --call-uri sip:peer@127.0.0.1:5080 --call-seconds 30.0 --callbacks --tone --busy-seconds 10.0 --stop-on-disconnect",
+  "peer_command": "baresip -f /mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/config/peer-5080 -t 45.0 -m stdio.so",
+  "working_directory": "/mnt/c/devel/sip-bot",
+  "started_at_utc": "2026-08-27T12:04:44.601508+00:00",
+  "peer_config": "/mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/config/peer-5080",
+  "status": "pass",
+  "exit_code": 0,
+  "blocker": null,
+  "runtime": {
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "py_gil_disabled": 1,
+    "gil_before_import": false,
+    "gil_after_call": false
+  },
+  "pjsua": {
+    "probe": "001-C1-pjsua2-pjmedia",
+    "stage": "call",
+    "command": "/mnt/c/devel/sip-bot/tools/feasibility/pjsua2_pjmedia_probe.py --output /mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/bye.pjsua.json --initialize --call-uri sip:peer@127.0.0.1:5080 --call-seconds 30.0 --callbacks --tone --busy-seconds 10.0 --stop-on-disconnect",
+    "working_directory": "/mnt/c/devel/sip-bot",
+    "started_at_utc": "2026-08-27T12:04:46.244206+00:00",
+    "pid": 2723,
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "py_gil_disabled": 1,
+    "gil_before_import": false,
+    "gil_after_import": false,
+    "gil_after_initialization": false,
+    "warnings": [],
+    "import": {
+      "status": "pass",
+      "python_wrapper": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py",
+      "native_module": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so"
+    },
+    "initialization": {
+      "status": "pass",
+      "elapsed_seconds": 0.013817045999985567
+    },
+    "call": {
+      "status": "pass",
+      "uri": "sip:peer@127.0.0.1:5080",
+      "callbacks": true,
+      "stop_on_disconnect": true,
+      "tone": true,
+      "capture": false,
+      "transfer_uri": null,
+      "transfer_attempted": false,
+      "busy_seconds": 10.0,
+      "busy_operation_started": true,
+      "busy_operation_finished": false,
+      "busy_operation_active_at_disconnect": true,
+      "capture_stats": {
+        "frames": 0,
+        "bytes": 0,
+        "checksum": 0
+      },
+      "peer_disconnected_before_local_hangup": true,
+      "events": [
+        {
+          "event": "call_state",
+          "timestamp": 1787832286.2890215,
+          "state": "CALLING",
+          "status_code": 0,
+          "call_id": 0
+        },
+        {
+          "event": "call_state",
+          "timestamp": 1787832286.2892914,
+          "state": "EARLY",
+          "status_code": 180,
+          "call_id": 0
+        },
+        {
+          "event": "call_state",
+          "timestamp": 1787832286.2908015,
+          "state": "CONNECTING",
+          "status_code": 200,
+          "call_id": 0
+        },
+        {
+          "event": "call_media_state",
+          "timestamp": 1787832286.2909942,
+          "media_count": null,
+          "media": [
+            {
+              "index": 0,
+              "type": 1,
+              "status": 1,
+              "direction": 3
+            },
+            {
+              "index": 1,
+              "type": 3,
+              "status": 0,
+              "direction": 0
+            }
+          ]
+        },
+        {
+          "event": "call_state",
+          "timestamp": 1787832286.2927835,
+          "state": "CONFIRMED",
+          "status_code": 200,
+          "call_id": 0
+        },
+        {
+          "event": "busy_operation_started",
+          "timestamp": 1787832286.2931044,
+          "duration_seconds": 10.0
+        },
+        {
+          "event": "tone_started",
+          "timestamp": 1787832286.2939513
+        },
+        {
+          "event": "call_state",
+          "timestamp": 1787832286.3047488,
+          "state": "DISCONNECTED",
+          "status_code": 200,
+          "call_id": 0
+        },
+        {
+          "event": "probe_window_complete",
+          "timestamp": 1787832286.304769
+        }
+      ],
+      "gil_after_call": false
+    },
+    "status": "pass",
+    "gil_after_call": false,
+    "exit_code": 0,
+    "finished_at_utc": "2026-08-27T12:04:47.338125+00:00"
+  },
+  "stdout": "call: transportCreate\ncall: libStart\ncall: setNullDev\ncall: account.create\ncall: Call.makeCall\ncall: event loop\ncall: hangup\ncall: libDestroy\n{\n  \"probe\": \"001-C1-pjsua2-pjmedia\",\n  \"stage\": \"call\",\n  \"command\": \"/mnt/c/devel/sip-bot/tools/feasibility/pjsua2_pjmedia_probe.py --output /mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/bye.pjsua.json --initialize --call-uri sip:peer@127.0.0.1:5080 --call-seconds 30.0 --callbacks --tone --busy-seconds 10.0 --stop-on-disconnect\",\n  \"working_directory\": \"/mnt/c/devel/sip-bot\",\n  \"started_at_utc\": \"2026-08-27T12:04:46.244206+00:00\",\n  \"pid\": 2723,\n  \"python\": \"3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]\",\n  \"executable\": \"/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t\",\n  \"py_gil_disabled\": 1,\n  \"gil_before_import\": false,\n  \"gil_after_import\": false,\n  \"gil_after_initialization\": false,\n  \"warnings\": [],\n  \"import\": {\n    \"status\": \"pass\",\n    \"python_wrapper\": \"/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py\",\n    \"native_module\": \"/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so\"\n  },\n  \"initialization\": {\n    \"status\": \"pass\",\n    \"elapsed_seconds\": 0.013817045999985567\n  },\n  \"call\": {\n    \"status\": \"pass\",\n    \"uri\": \"sip:peer@127.0.0.1:5080\",\n    \"callbacks\": true,\n    \"stop_on_disconnect\": true,\n    \"tone\": true,\n    \"capture\": false,\n    \"transfer_uri\": null,\n    \"transfer_attempted\": false,\n    \"busy_seconds\": 10.0,\n    \"busy_operation_started\": true,\n    \"busy_operation_finished\": false,\n    \"busy_operation_active_at_disconnect\": true,\n    \"capture_stats\": {\n      \"frames\": 0,\n      \"bytes\": 0,\n      \"checksum\": 0\n    },\n    \"peer_disconnected_before_local_hangup\": true,\n    \"events\": [\n      {\n        \"event\": \"call_state\",\n        \"timestamp\": 1787832286.2890215,\n        \"state\": \"CALLING\",\n        \"status_code\": 0,\n        \"call_id\": 0\n      },\n      {\n        \"event\": \"call_state\",\n        \"timestamp\": 1787832286.2892914,\n        \"state\": \"EARLY\",\n        \"status_code\": 180,\n        \"call_id\": 0\n      },\n      {\n        \"event\": \"call_state\",\n        \"timestamp\": 1787832286.2908015,\n        \"state\": \"CONNECTING\",\n        \"status_code\": 200,\n        \"call_id\": 0\n      },\n      {\n        \"event\": \"call_media_state\",\n        \"timestamp\": 1787832286.2909942,\n        \"media_count\": null,\n        \"media\": [\n          {\n            \"index\": 0,\n            \"type\": 1,\n            \"status\": 1,\n            \"direction\": 3\n          },\n          {\n            \"index\": 1,\n            \"type\": 3,\n            \"status\": 0,\n            \"direction\": 0\n          }\n        ]\n      },\n      {\n        \"event\": \"call_state\",\n        \"timestamp\": 1787832286.2927835,\n        \"state\": \"CONFIRMED\",\n        \"status_code\": 200,\n        \"call_id\": 0\n      },\n      {\n        \"event\": \"busy_operation_started\",\n        \"timestamp\": 1787832286.2931044,\n        \"duration_seconds\": 10.0\n      },\n      {\n        \"event\": \"tone_started\",\n        \"timestamp\": 1787832286.2939513\n      },\n      {\n        \"event\": \"call_state\",\n        \"timestamp\": 1787832286.3047488,\n        \"state\": \"DISCONNECTED\",\n        \"status_code\": 200,\n        \"call_id\": 0\n      },\n      {\n        \"event\": \"probe_window_complete\",\n        \"timestamp\": 1787832286.304769\n      }\n    ],\n    \"gil_after_call\": false\n  },\n  \"status\": \"pass\",\n  \"gil_after_call\": false,\n  \"exit_code\": 0,\n  \"finished_at_utc\": \"2026-08-27T12:04:47.338125+00:00\"\n}\n15:04:46.275         os_core_unix.c !pjlib 2.17 for POSIX initialized\n15:04:46.277         sip_endpoint.c  .Creating endpoint instance...\n15:04:46.277                  pjlib  .select() I/O Queue created (0x5709acf91608)\n15:04:46.278         sip_endpoint.c  .Module \"mod-msg-print\" registered\n15:04:46.278        sip_transport.c  .Transport manager created.\n15:04:46.278           pjsua_core.c  .PJSUA state changed: NULL --> CREATED\n",
+  "stderr": "",
+  "peer_log": "baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.\nLocal network address:  IPv4=eth0|172.22.89.126 \npre-loading modules: 1\nstdio: could not setup terminal: Inappropriate ioctl for device\naucodec: PCMU/8000/1\naucodec: PCMA/8000/1\nausrc: ausine\nPopulated 1 account\nPopulated 2 audio codecs\nPopulated 0 audio filters\nPopulated 0 video codecs\nPopulated 0 video filters\nbaresip is ready.\nunhandeled request from 127.0.0.1:5080: REGISTER sip:127.0.0.1:5080\n\u001b[31mreg: sip:peer@127.0.0.1:5080: 501 Not Implemented (baresip v1.0.0 (x86_64/linux))\n\u001b[;mua: using AF from sdp offer: af=AF_INET\ncall: answering call on line 1 from sip:tester@127.0.0.1 with 200\nstream: update 'audio'\naudio: Set audio decoder: PCMU 8000Hz 1ch\naudio: Set audio encoder: PCMU 8000Hz 1ch\naudio: enable ausrc resampler: 8000Hz/1ch <-- 48000Hz/2ch\nausine: 48000 Hz, 2 channels, frequency 440 Hz\nausine: audio ptime=20 sampc=1920\naudio: source started with sample format S16LE\naudio tx pipeline:      ausine ---> PCMU\naudio rx pipeline:      (play) <--- PCMU\npeer@127.0.0.1: Call established: sip:tester@127.0.0.1\ncall: terminate call 'bc1424ed-adab-4e9d-b8c7-3a2e5136b283' with sip:tester@127.0.0.1\n\naudio           Transmit:     Receive:\npackets:              1            0\navg. bitrate:      98.4          0.0  (kbit/s)\nerrors:               0            0\n--- Help ---\n                    ESC      Hangup call\n  /about                     About box\n  /accept           a        Accept incoming call\n  /answermode ..             Set answer mode\n  /auplay ..                 Switch audio player\n  /ausrc ..                  Switch audio source\n  /callstat         c        Call status\n  /dial ..          d ..     Dial\n  /hangup           b        Hangup call\n  /help             h        Help menu\n  /insmod ..                 Load module\n  /listcalls        l        List active calls\n  /options ..       o ..     Options\n  /quit             q        Quit\n  /reginfo          r        Registration info\n  /rmmod ..                  Unload module\n  /uadel ..                  Delete User-Agent\n  /uafind ..                 Find User-Agent <aor>\n  /uanew ..                  Create User-Agent\n  /uanext           T        Toggle UAs\n  /vidsrc ..                 Switch video source\n\n\n",
+  "peer_log_path": "/mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/bye.peer.log",
+  "event_sequence": [
+    {
+      "event": "call_state",
+      "state": "CALLING",
+      "status_code": 0
+    },
+    {
+      "event": "call_state",
+      "state": "EARLY",
+      "status_code": 180
+    },
+    {
+      "event": "call_state",
+      "state": "CONNECTING",
+      "status_code": 200
+    },
+    {
+      "event": "call_media_state",
+      "state": null,
+      "status_code": null
+    },
+    {
+      "event": "call_state",
+      "state": "CONFIRMED",
+      "status_code": 200
+    },
+    {
+      "event": "busy_operation_started",
+      "state": null,
+      "status_code": null
+    },
+    {
+      "event": "tone_started",
+      "state": null,
+      "status_code": null
+    },
+    {
+      "event": "call_state",
+      "state": "DISCONNECTED",
+      "status_code": 200
+    },
+    {
+      "event": "probe_window_complete",
+      "state": null,
+      "status_code": null
+    }
+  ],
+  "pcmu": {
+    "negotiated_in_peer_log": true,
+    "decoder_encoder_in_peer_log": true,
+    "rtp_counters": {
+      "transmit": 1,
+      "receive": 0
+    },
+    "pjsua_capture": {
+      "frames": 0,
+      "bytes": 0,
+      "checksum": 0
+    }
+  },
+  "bye": {
+    "sent_at_utc": "2026-08-27T12:04:46.304296+00:00",
+    "received_at_utc": "2026-08-27T12:04:46.304749+00:00",
+    "latency_ms": 0.453,
+    "peer_disconnected_before_local_hangup": true
+  },
+  "finished_at_utc": "2026-08-27T12:04:47.363162+00:00"
+}

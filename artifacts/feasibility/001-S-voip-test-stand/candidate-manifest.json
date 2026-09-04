@@ -1,0 +1,59 @@
+{
+  "plan_id": "001-S",
+  "stage": "S0-S5",
+  "status": "pass",
+  "evidence_recorded_at": "2026-08-27",
+  "target_environment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "architecture": "x86_64",
+    "wsl": "WSL2",
+    "user": "sipbot",
+    "python_executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "python_version": "3.14.7 free-threading",
+    "py_gil_disabled": 1
+  },
+  "candidate": {
+    "name": "Baresip",
+    "package": "baresip",
+    "version": "1.0.0-4build14",
+    "source": "Ubuntu 24.04 Noble stable package, universe",
+    "modules": {
+      "g711.so": "af69520a8cc8e1cce6a3c467fa3a5cf8ada5dd98e4bb1a1a3f460fd5287fe68e",
+      "ausine.so": "34074708f3eb17ac493ea55accd39bae4620e6d9676a617afe471d1734e09fac",
+      "echo.so": "1c1b1dc25d2d7be924e78bfe1cd16e27805d7f738315325599cd5edcdb4fce79",
+      "menu.so": "0293ff1a0f96ec34c0c716d6d5b10730a96538411c02146395440fdbe1ab04aa"
+    },
+    "module_path": "/usr/lib/baresip/modules",
+    "peer_config": "config/peer-5080",
+    "operator_config": "config/operator-5090",
+    "codec": "PCMU/8000/1",
+    "rtp_ports": {
+      "peer": "10040-10060",
+      "operator": "10080-10100"
+    }
+  },
+  "dut": {
+    "name": "PJSUA2 + PJMEDIA",
+    "version": "2.17",
+    "binding": "SWIG Python binding with explicit free-threading compatibility patch",
+    "native_module": "_pjsua2.cpython-314t-x86_64-linux-gnu.so",
+    "gil_before_import": false,
+    "gil_after_import": false,
+    "gil_after_call": false
+  },
+  "acceptance": {
+    "S-S0_preflight": "pass",
+    "S-S1_lifecycle": "pass: local call established and cleaned up",
+    "S-S2_pcmu_rtp": "pass: PCMU/8000/1 negotiated; RTP counters and DUT capture are non-zero",
+    "S-S3_remote_bye": "pass: remote BYE observed while 10 s busy fixture was active and before local hangup; measured loopback delivery 0.453 ms",
+    "S-S4_fake_operator_transfer": "pass: REFER requested and fake operator reported established call",
+    "S-S5_closeout": "pass: commands, logs, event sequences and redaction record present"
+  },
+  "policy": {
+    "fallback_started": false,
+    "external_pbx_used": false,
+    "audio_recorded": false,
+    "production_contract_changed": false,
+    "parallel_calls_tested": false
+  }
+}

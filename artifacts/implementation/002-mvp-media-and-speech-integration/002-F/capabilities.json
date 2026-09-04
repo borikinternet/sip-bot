@@ -1,0 +1,12 @@
+{
+  "target_runtime": "CPython 3.14.7 free-threading build",
+  "gil_enabled": false,
+  "imports": ["sip_bot.context", "sip_bot.retrieval", "sip_bot.prompt"],
+  "import_status": "pass",
+  "query_capabilities": {
+    "razdel": true,
+    "pymorphy3": true,
+    "policy_version": "ru-natural-science-v1"
+  },
+  "policy": "target no-GIL optional capability path was installed and probed; protected scientific-token tokenizer keeps H2O and 10^3 intact"
+}

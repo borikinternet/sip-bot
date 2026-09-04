@@ -1,0 +1,20 @@
+{
+  "evidence_id": "D-E-TRANSCRIPT-001",
+  "plan": "002-D",
+  "status": "pass",
+  "scope": {"call_id": "call-speech", "channel_id": "call-speech:audio", "generation": 1, "turn_id": "call-speech:turn-1"},
+  "revisions": [
+    {"revision": 1, "text": "почему небо", "kind": "partial", "authoritative": false},
+    {"revision": 2, "text": "почему небо днем голубое", "stable_prefix": "почему небо", "unstable_suffix": " днем голубое", "kind": "partial", "authoritative": false},
+    {"revision": 1, "text": "почему", "result": "discarded_as_stale"}
+  ],
+  "hard_boundary": {"silence_ms": 500, "authoritative": true},
+  "final": {
+    "revision": 3,
+    "text": "почему небо днем голубое",
+    "kind": "final",
+    "authoritative": true,
+    "boundary": "hard_endpoint"
+  },
+  "test": "tests/unit/test_speech_ingress.py::test_transcript_assembler_replaces_revisions_and_finalizes_only_at_hard_boundary"
+}

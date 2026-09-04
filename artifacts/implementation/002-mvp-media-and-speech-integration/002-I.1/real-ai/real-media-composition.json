@@ -1,0 +1,64 @@
+{
+  "status": "fail",
+  "call_id": "real-media-composition-call",
+  "state": "terminal",
+  "final_turn": {
+    "text": "Продолжение следует...",
+    "revision": 4,
+    "boundary": "hard_endpoint"
+  },
+  "asr": {
+    "candidate": "faster-whisper-large-v3",
+    "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+    "hypotheses": [
+      "Продолжение следует...",
+      "Субтитры сделал DimaTorzok",
+      "Продолжение следует...",
+      "Продолжение следует...",
+      "Продолжение следует..."
+    ],
+    "hypothesis_count": 5,
+    "frames": 248,
+    "profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "001-S negotiated test profile"
+    }
+  },
+  "rag": {
+    "contexts": 1,
+    "sufficient": false,
+    "source_ids": [
+      "wiki-chemistry-water",
+      "wiki-astronomy-mars",
+      "wiki-physics-rayleigh"
+    ]
+  },
+  "transfer_confirmation_used": false,
+  "operator_accepted": false,
+  "operator_target": "sip:operator@127.0.0.1:5090",
+  "report": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.1/real-ai/reports/real-media-composition-call/report.md",
+  "audio": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-I.1/real-ai/tts-media-composition-sample.wav",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "elapsed_from_media_start_ms": 107900.215,
+  "pipeline_errors": [
+    "PipelineError: LLM operation failed: timeout"
+  ],
+  "runtime": {
+    "python": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  }
+}

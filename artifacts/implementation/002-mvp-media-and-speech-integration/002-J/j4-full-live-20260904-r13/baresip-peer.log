@@ -1,0 +1,41 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eth0|172.22.89.126 
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: aufile
+uuid: generated new UUID in /mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-J/j4-full-live-20260904-r13/live-stand/peer-5080/uuid
+Populated 1 account
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+unhandeled request from 127.0.0.1:5080: REGISTER sip:127.0.0.1:5080
+[31mreg: sip:peer@127.0.0.1:5080: 501 Not Implemented (baresip v1.0.0 (x86_64/linux))
+[;mua: using AF from sdp offer: af=AF_INET
+call: answering call on line 1 from sip:tester@127.0.0.1 with 200
+stream: update 'audio'
+audio: Set audio decoder: PCMU 8000Hz 1ch
+audio: Set audio encoder: PCMU 8000Hz 1ch
+aufile: loading input file '/tmp/sip-bot-j4-input-scenario.wav'
+aufile: /tmp/sip-bot-j4-input-scenario.wav: 8000 Hz, 1 channels
+aufile: audio ptime=20 sampc=160
+aufile: end of file
+aufile: loaded 2022124 bytes
+audio: source started with sample format S16LE
+audio tx pipeline:      aufile ---> PCMU
+audio rx pipeline:      (play) <--- PCMU
+peer@127.0.0.1: Call established: sip:tester@127.0.0.1
+stream: incoming rtp for 'audio' established, receiving from 172.22.89.126:4000
+[0:00:00] audio=0/0 (bit/s)    [0:00:00] audio=0/0 (bit/s)    [0:00:00] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:01] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:02] audio=0/0 (bit/s)    [0:00:03] audio=0/0 (bit/s)    [0:00:03] audio=0/0 (bit/s)    [0:00:03] audio=0/0 (bit/s)    [0:00:03] audio=0/0 (bit/s)    [0:00:03] audio=0/0 (bit/s)    [0:00:03] audio=0/0 (bit/s)    [0:00:03] audio=0/0 (bit/s)    [0:00:03] audio=0/0 (bit/s)    [0:00:03] audio=63978/11089 (bit/s)    [0:00:03] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:04] audio=63978/11089 (bit/s)    [0:00:05] audio=63978/11089 (bit/s)    sip:tester@127.0.0.1: session closed: Connection reset by peer
+sip:peer@127.0.0.1: Call with sip:tester@127.0.0.1 terminated (duration: 5 secs)
+
+audio           Transmit:     Receive:
+packets:            220           31
+avg. bitrate:      64.3          9.0  (kbit/s)
+errors:               0            0
+pkt.report:         219           31
+lost:                 0            0
+jitter:             0.8          0.1  (ms)
+terminated by signal 15
+ua: stop all (forced=0)

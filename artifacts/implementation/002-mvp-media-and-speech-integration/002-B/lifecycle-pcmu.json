@@ -1,0 +1,174 @@
+{
+  "evidence_id": "B-E-lifecycle-pcmu",
+  "plan": "002-B",
+  "stage": "lifecycle-pcmu",
+  "status": "fail",
+  "command": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I -m pytest -q /mnt/c/devel/sip-bot/tests/integration/test_sip_media.py",
+  "working_directory": "/mnt/c/devel/sip-bot",
+  "started_at_utc": "2026-09-02T19:51:46.106043+00:00",
+  "runtime": {
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "implementation": "cpython",
+    "version": "3.14.7",
+    "py_gil_disabled": 1,
+    "gil_enabled": false,
+    "free_threaded": true
+  },
+  "candidate": {
+    "sip_media": "PJSUA2/PJMEDIA 2.17",
+    "binding": "patched SWIG CPython 3.14t",
+    "peer": "Baresip 1.0.0-4build14 from approved 001-S stand"
+  },
+  "events": [
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "sip_transaction",
+      "timestamp_ns": 16486922055,
+      "sequence": 1,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 1
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "sip_transaction",
+      "timestamp_ns": 16487013607,
+      "sequence": 2,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 2
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "sip_transaction",
+      "timestamp_ns": 16487066008,
+      "sequence": 3,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 1
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "sip_transaction",
+      "timestamp_ns": 16487147320,
+      "sequence": 4,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 2
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "sip_transaction",
+      "timestamp_ns": 16487163010,
+      "sequence": 5,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 3
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "sip_transaction",
+      "timestamp_ns": 16487168741,
+      "sequence": 6,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 3
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "call_started",
+      "timestamp_ns": 16487720514,
+      "sequence": 7,
+      "method": null,
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "direction": "outgoing",
+        "peer_uri": "sip:peer@127.0.0.1:5080"
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "sip_transaction",
+      "timestamp_ns": 16489417385,
+      "sequence": 8,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 0,
+        "transport_state": 4
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "sip_transaction",
+      "timestamp_ns": 16489525668,
+      "sequence": 9,
+      "method": "RTP",
+      "status_code": null,
+      "reason": null,
+      "details": {
+        "media_index": 1,
+        "transport_state": 0
+      }
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "media_failed",
+      "timestamp_ns": 16491937413,
+      "sequence": 10,
+      "method": "RTP",
+      "status_code": null,
+      "reason": "media_state:OverflowError:in method 'Call_getStreamInfo', argument 2 of type 'unsigned int'",
+      "details": {}
+    },
+    {
+      "call_id": "call-integration-pcmu",
+      "kind": "call_answered",
+      "timestamp_ns": 16492051496,
+      "sequence": 11,
+      "method": null,
+      "status_code": 200,
+      "reason": "Answering",
+      "details": {
+        "state": "CONFIRMED",
+        "pjsua_call_id": 0
+      }
+    }
+  ],
+  "media_profile": null,
+  "media_stats": {},
+  "peer_exit_code": 0,
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-B/lifecycle-pcmu.peer.log",
+  "audio_recording": false,
+  "external_pbx": false,
+  "finished_at_utc": "2026-09-02T19:51:46.106276+00:00",
+  "options_response_status": "SIP/2.0 200 OK",
+  "negotiated_profile_source": null,
+  "test_result": "fail"
+}

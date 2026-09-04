@@ -1,0 +1,51 @@
+{
+  "evidence_id": "C2-OR-003-before-patch",
+  "captured_at_utc": "2026-08-27",
+  "status": "fail",
+  "source_note": "Pre-patch import probe observation; the original import-no-gil.json was replaced by the post-patch rerun.",
+  "runtime": {
+    "python_executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "python_version": "3.14.7",
+    "soabi": "cpython-314t-x86_64-linux-gnu",
+    "py_gil_disabled": 1
+  },
+  "candidate": {
+    "package": "ctranslate2",
+    "version": "4.8.1",
+    "extension": "ctranslate2._ext",
+    "extension_sha256": "a141a20ad4abf5a225595811a969b418107a3dff3438f485c203a394d3531b59"
+  },
+  "observations": {
+    "ctranslate2._ext": {
+      "gil_before": false,
+      "gil_after": true,
+      "warnings": [
+        "The global interpreter lock (GIL) has been enabled to load module 'ctranslate2._ext', which has not declared that it can run safely without the GIL."
+      ]
+    },
+    "faster_whisper": {
+      "gil_before": false,
+      "gil_after": true,
+      "warnings": [
+        "The global interpreter lock (GIL) has been enabled to load module 'ctranslate2._ext', which has not declared that it can run safely without the GIL."
+      ]
+    },
+    "faster_whisper.transcribe": {
+      "gil_before": false,
+      "gil_after": true
+    },
+    "faster_whisper.vad": {
+      "gil_before": false,
+      "gil_after": true
+    },
+    "numpy": {"gil_before": false, "gil_after": false},
+    "yaml": {"gil_before": false, "gil_after": false},
+    "onnxruntime": {"gil_before": false, "gil_after": false},
+    "av": {"gil_before": false, "gil_after": false},
+    "tokenizers": {"gil_before": false, "gil_after": false}
+  },
+  "model_load": false,
+  "gpu_inference": false,
+  "benchmark": false,
+  "blocker": "C2-B-004"
+}

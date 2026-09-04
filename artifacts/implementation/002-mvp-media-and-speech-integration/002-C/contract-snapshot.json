@@ -1,0 +1,37 @@
+{
+  "evidence_id": "C-E-contract-snapshot",
+  "plan": "002-C",
+  "status": "pass",
+  "profile_source": "002-B NegotiatedMediaProfile from PJMEDIA per-call media index",
+  "profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_format": "S16LE"
+  },
+  "data_plane": {
+    "frame_type": "PcmFrame",
+    "fanout": {
+      "component": "PcmFanOut",
+      "subscriptions": ["vad", "asr_input_accumulator"],
+      "delivery": "independent bounded non-blocking queues"
+    },
+    "asr_chunk": {
+      "component": "AsrChunker",
+      "target_ms": 1000,
+      "timer_flush": true,
+      "hard_endpoint_flush": true,
+      "graceful_close_flush": true,
+      "cancel_discard": true,
+      "overflow": "drop_new_chunk_and_count"
+    }
+  },
+  "control_plane_payload": false,
+  "audio_recording": false
+}

@@ -1,0 +1,10 @@
+diff --git a/bindings/python/src/lib.rs b/bindings/python/src/lib.rs
+index ffffffff..ffffffff 100644
+--- a/bindings/python/src/lib.rs
++++ b/bindings/python/src/lib.rs
+@@ -50,4 +50,4 @@
+ 
+ /// Tokenizers Module
+-#[pymodule]
++#[pymodule(gil_used = false)]
+ pub fn tokenizers(m: &Bound<'_, PyModule>) -> PyResult<()> {

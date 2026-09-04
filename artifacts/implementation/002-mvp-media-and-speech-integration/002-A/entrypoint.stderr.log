@@ -1,0 +1,2 @@
+2026-09-02T22:06:23+0300 INFO sip-bot runtime probe implementation=cpython version=3.14.3 executable=C:\Python314\python.exe Py_GIL_DISABLED=0 gil_enabled=True
+2026-09-02T22:06:23+0300 ERROR sip-bot runtime preflight failed: free-threaded CPython is required

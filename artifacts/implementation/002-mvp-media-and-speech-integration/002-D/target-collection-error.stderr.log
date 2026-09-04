@@ -1,0 +1,7 @@
+==================================== ERRORS ====================================
+______________ ERROR collecting tests/unit/test_speech_ingress.py ______________
+E   ModuleNotFoundError: No module named 'config'
+___________ ERROR collecting tests/contract/test_speech_contracts.py ___________
+E   ModuleNotFoundError: No module named 'config'
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!
+2 errors in 0.34s

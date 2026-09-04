@@ -1,0 +1,85 @@
+{
+  "schema": "sip-bot.feasibility.c4.operation.v1",
+  "plan": "001-C4",
+  "slice": "C4-S2",
+  "status": "pass",
+  "executed": true,
+  "candidate_id": "xtts-v2",
+  "candidate_revision": "XTTS-v2 v2.0.3 @ 6b8036b35d787cf43d18d640587956b9db8fd1b8",
+  "model_root": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model",
+  "voice_path": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-model/samples/en_sample.wav",
+  "input_text": "Вода кипит при ста градусах Цельсия.",
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+  "command": "tools/feasibility/tts_primary_probe.py --manifest artifacts/feasibility/001-C4-tts-primary/manifest.json --stage operation --allow-tts-operation",
+  "timing_contract": {
+    "clock": "time.monotonic_ns",
+    "final_phrase_received_at_ns": 219613453392,
+    "conditioning_started_at_ns": 219613453392,
+    "conditioning_finished_at_ns": 220531665305,
+    "first_pcm_at_ns": 220921881808,
+    "operation_finished_at_ns": 221390287716,
+    "final_phrase_to_first_pcm_ms": 1308.428416,
+    "final_phrase_to_complete_ms": 1776.834324,
+    "conditioning_ms": 918.211913,
+    "first_pcm_to_complete_ms": 468.405908
+  },
+  "first_pcm": {
+    "bytes": 84992,
+    "sample_format": "float32",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "samples": 21248,
+    "duration_ms": 885.3333333333334,
+    "sha256": "4d48431255f4614c2d756e35ddf690e3eed37e7ede49841697a004b234b4c2f4"
+  },
+  "stream": {
+    "chunks": [
+      {
+        "samples": 21248,
+        "sample_rate_hz": 24000,
+        "sample_format": "float32"
+      },
+      {
+        "samples": 22272,
+        "sample_rate_hz": 24000,
+        "sample_format": "float32"
+      },
+      {
+        "samples": 22272,
+        "sample_rate_hz": 24000,
+        "sample_format": "float32"
+      },
+      {
+        "samples": 4352,
+        "sample_rate_hz": 24000,
+        "sample_format": "float32"
+      }
+    ],
+    "chunk_count": 4
+  },
+  "tts_sample": {
+    "path": "artifacts/feasibility/001-C4-tts-primary/tts-sample.wav",
+    "exists": true,
+    "format": "WAV",
+    "sample_format": "PCM_16LE",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "samples": 70144,
+    "duration_ms": 2922.6666666666665,
+    "bytes": 140332,
+    "sha256": "42eb21016a4ab147738c06b69c43d67752856008a2985a0feadc6ccf1f7920bd"
+  },
+  "gil_checkpoints": {
+    "before_candidate_import": false,
+    "after_candidate_import": false,
+    "after_model_load": false,
+    "after_first_pcm": false,
+    "after_operation": false
+  },
+  "model_load_seconds": 8.137570976,
+  "warnings": [],
+  "stdout": "artifacts/feasibility/001-C4-tts-primary/operation.stdout.json",
+  "stderr": "artifacts/feasibility/001-C4-tts-primary/operation.stderr.txt",
+  "exit_code": 0
+}

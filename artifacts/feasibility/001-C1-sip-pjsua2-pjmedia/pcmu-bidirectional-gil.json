@@ -1,0 +1,57 @@
+{
+  "probe": "001-C1-pjsua2-pjmedia",
+  "pid": 1509,
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "py_gil_disabled": 1,
+  "gil_before_import": true,
+  "gil_after_import": true,
+  "gil_after_initialization": true,
+  "warnings": [],
+  "import": {
+    "status": "pass",
+    "python_wrapper": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/pjsua2.py",
+    "native_module": "/home/sipbot/.local/cpython-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so"
+  },
+  "initialization": {
+    "status": "pass",
+    "elapsed_seconds": 0.003409666999914407
+  },
+  "call": {
+    "status": "pass",
+    "uri": "sip:peer@127.0.0.1:5060",
+    "callbacks": true,
+    "stop_on_disconnect": false,
+    "tone": true,
+    "capture": true,
+    "capture_stats": {
+      "frames": 0,
+      "bytes": 0,
+      "checksum": 0
+    },
+    "peer_disconnected_before_local_hangup": true,
+    "events": [
+      {
+        "event": "call_state",
+        "timestamp": 1787831114.887792,
+        "state": "CALLING",
+        "status_code": 0,
+        "call_id": 0
+      },
+      {
+        "event": "call_state",
+        "timestamp": 1787831114.8880708,
+        "state": "DISCONNECTED",
+        "status_code": 404,
+        "call_id": 0
+      },
+      {
+        "event": "probe_window_complete",
+        "timestamp": 1787831118.8941634
+      }
+    ],
+    "gil_after_call": true
+  },
+  "status": "fail",
+  "gil_after_call": true
+}

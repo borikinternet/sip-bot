@@ -1,0 +1,12 @@
+{
+  "call_id": "evidence-call",
+  "clock_ns": [100, 101, 102, 103, 104, 105],
+  "events": [
+    {"kind": "call_open", "sequence": 1, "timestamp_ns": 100, "channel_id": null, "channel_generation": null, "already_closed": null},
+    {"kind": "channel_open", "sequence": 2, "timestamp_ns": 101, "channel_id": "operation", "channel_generation": 1, "already_closed": null},
+    {"kind": "channel_close", "sequence": 3, "timestamp_ns": 102, "channel_id": "operation", "channel_generation": 1, "already_closed": false},
+    {"kind": "channel_close", "sequence": 4, "timestamp_ns": 103, "channel_id": "operation", "channel_generation": 1, "already_closed": true},
+    {"kind": "call_close", "sequence": 5, "timestamp_ns": 104, "channel_id": null, "channel_generation": null, "already_closed": false},
+    {"kind": "call_close", "sequence": 6, "timestamp_ns": 105, "channel_id": null, "channel_generation": null, "already_closed": true}
+  ]
+}

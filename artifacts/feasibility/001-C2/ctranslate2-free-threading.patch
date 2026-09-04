@@ -1,0 +1,13 @@
+diff --git a/python/cpp/module.cc b/python/cpp/module.cc
+index 550aea5..716def9 100644
+--- a/python/cpp/module.cc
++++ b/python/cpp/module.cc
+@@ -45,7 +45,7 @@ get_supported_compute_types(const std::string& device_str, const int device_index)
+ }
+ 
+ 
+-PYBIND11_MODULE(_ext, m)
++PYBIND11_MODULE(_ext, m, py::mod_gil_not_used())
+ {
+   py::options options;
+   options.disable_enum_members_docstring();
