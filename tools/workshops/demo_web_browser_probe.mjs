@@ -4,7 +4,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const modules = process.env.RUNTIME_NODE_MODULES;
-const url = process.env.DEMO_TEST_URL ?? 'https://172.16.15.72:8443/';
+const url = process.env.DEMO_TEST_URL ?? 'https://demo.libnas.ru/';
 if (!modules) throw new Error('RUNTIME_NODE_MODULES is required');
 const { chromium } = await import(pathToFileURL(path.join(modules, 'playwright', 'index.mjs')).href);
 const browser = await chromium.launch({

@@ -61,14 +61,14 @@ function renderQr() {
   if (!url || !tile) return;
   tile.textContent = "";
   const image = document.createElement("img");
-  image.src = window.DEMO_QR_ASSET || "/assets/qr-demo-ip.png";
+  image.src = window.DEMO_QR_ASSET || "/assets/qr-demo-domain.png";
   image.alt = `QR-код: ${url}`;
   tile.appendChild(image);
-  $("qr-message").textContent = `Сканируйте, чтобы открыть локальный demo: ${url}`;
+  $("qr-message").textContent = `Сканируйте, чтобы открыть Василису: ${url}`;
 }
 
 async function jsonRequest(url, options) {
-  const response = await fetch(url, options);
+  const response = await fetch(new URL(url, window.DEMO_PUBLIC_URL).href, options);
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(payload.detail || payload.message || `HTTP ${response.status}`);
   return payload;
@@ -77,7 +77,9 @@ async function jsonRequest(url, options) {
 async function openSession() {
   const status = await jsonRequest("/api/session");
   render(status);
-  state.socket = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws/${status.session_id}`);
+  const dataSocketUrl = new URL(`/ws/${status.session_id}`, window.DEMO_PUBLIC_URL);
+  dataSocketUrl.protocol = dataSocketUrl.protocol === "https:" ? "wss:" : "ws:";
+  state.socket = new WebSocket(dataSocketUrl.href);
   state.socket.onmessage = (event) => {
     const payload = JSON.parse(event.data);
     if (payload.type === "ping") state.socket.send(JSON.stringify({ type: "pong" }));
