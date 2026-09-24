@@ -12,6 +12,8 @@ from sip_bot.sip_media.models import NegotiatedMediaProfile, PcmFrame
 from sip_bot.speech import (
     AsrAudioChunk,
     AsrHypothesis,
+    AsrSpeechDecision,
+    AsrSpeechEvidence,
     EndpointEvent,
     EndpointEventKind,
     EndpointingConfig,
@@ -139,6 +141,18 @@ def test_turn_detector_emits_soft_at_300ms_and_authoritative_hard_at_500ms() -> 
     assert detector.active_turn_id is None
 
 
+def test_default_turn_detector_hard_endpoint_stays_below_400ms_owner_limit() -> None:
+    detector = TurnDetector()
+
+    events = list(_decision_sequence(detector))
+    hard = [event for event in events if event.kind is EndpointEventKind.HARD_ENDPOINT]
+
+    assert len(hard) == 1
+    assert hard[0].silence_ms == 360
+    assert hard[0].silence_ms <= 400
+    assert hard[0].authoritative is True
+
+
 def test_turn_detector_resume_before_hard_cancels_speculative_endpoint() -> None:
     detector = TurnDetector(EndpointingConfig(soft_endpoint_ms=100, hard_endpoint_ms=500, min_speech_ms=40))
 
@@ -167,6 +181,7 @@ def test_transcript_assembler_replaces_revisions_and_finalizes_only_at_hard_boun
             revision=1,
             timestamp_ns=1,
             text="почему небо",
+            turn_id="call-speech:turn-1",
         )
     )
     second = assembler.accept(
@@ -178,6 +193,7 @@ def test_transcript_assembler_replaces_revisions_and_finalizes_only_at_hard_boun
             timestamp_ns=2,
             text="почему небо днем голубое",
             stable_prefix="почему небо",
+            turn_id="call-speech:turn-1",
         )
     )
 
@@ -193,6 +209,7 @@ def test_transcript_assembler_replaces_revisions_and_finalizes_only_at_hard_boun
             revision=1,
             timestamp_ns=3,
             text="почему",
+            turn_id="call-speech:turn-1",
         )
     ) is None
 
@@ -221,6 +238,7 @@ def test_transcript_assembler_replaces_revisions_and_finalizes_only_at_hard_boun
             revision=3,
             timestamp_ns=4,
             text="поздняя stale revision",
+            turn_id="call-speech:turn-1",
         )
     ) is None
 
@@ -228,7 +246,7 @@ def test_transcript_assembler_replaces_revisions_and_finalizes_only_at_hard_boun
 def test_transcript_assembler_requires_hard_boundary_and_nonempty_text() -> None:
     assembler = TranscriptAssembler("call", "channel", 1, "call:turn", stable_prefix_min_chars=0)
     assembler.accept(
-        AsrHypothesis("call", "channel", 1, 1, 1, "ответ", is_final=True)
+        AsrHypothesis("call", "channel", 1, 1, 1, "ответ", is_final=True, turn_id="call:turn")
     )
     not_hard = EndpointEvent(
         kind=EndpointEventKind.SOFT_ENDPOINT,
@@ -246,7 +264,7 @@ def test_transcript_assembler_requires_hard_boundary_and_nonempty_text() -> None
 
 def test_transcript_assembler_accepts_russian_yo_e_spelling_revision() -> None:
     assembler = TranscriptAssembler("call", "channel", 1, "call:turn", stable_prefix_min_chars=0)
-    assembler.accept(AsrHypothesis("call", "channel", 1, 1, 1, "Почему небо днём"))
+    assembler.accept(AsrHypothesis("call", "channel", 1, 1, 1, "Почему небо днём", turn_id="call:turn"))
 
     update = assembler.accept(
         AsrHypothesis(
@@ -257,6 +275,7 @@ def test_transcript_assembler_accepts_russian_yo_e_spelling_revision() -> None:
             2,
             "Почему небо днем кажется голубым",
             stable_prefix="Почему небо дн",
+            turn_id="call:turn",
         )
     )
 
@@ -268,9 +287,9 @@ def test_transcript_assembler_accepts_russian_yo_e_spelling_revision() -> None:
 def test_transcript_assembler_does_not_freeze_an_early_common_asr_prefix() -> None:
     assembler = TranscriptAssembler("call", "channel", 1, "call:turn", stable_prefix_min_chars=12)
 
-    first = assembler.accept(AsrHypothesis("call", "channel", 1, 1, 1, "Почему не ободнёшься?"))
-    second = assembler.accept(AsrHypothesis("call", "channel", 1, 2, 2, "Почему не ободнем, кажется, глупость?"))
-    corrected = assembler.accept(AsrHypothesis("call", "channel", 1, 3, 3, "Почему небо днем кажется голубым"))
+    first = assembler.accept(AsrHypothesis("call", "channel", 1, 1, 1, "Почему не ободнёшься?", turn_id="call:turn"))
+    second = assembler.accept(AsrHypothesis("call", "channel", 1, 2, 2, "Почему не ободнем, кажется, глупость?", turn_id="call:turn"))
+    corrected = assembler.accept(AsrHypothesis("call", "channel", 1, 3, 3, "Почему небо днем кажется голубым", turn_id="call:turn"))
 
     assert first is not None and second is not None and corrected is not None
     assert first.stable_prefix == ""
@@ -293,6 +312,7 @@ def _chunk(sequence: int, generation: int = 1) -> AsrAudioChunk:
         call_id="call-speech",
         channel_id="call-speech:asr",
         generation=generation,
+        turn_id="call-speech:turn-1",
         sequence=sequence,
         timestamp_ns=sequence * 1_000_000,
         pcm_s16le=b"\x00" * 320,
@@ -360,6 +380,133 @@ def test_faster_whisper_partial_is_transcribed_from_growing_turn_prefix() -> Non
     assert [item.shape[0] for item in observed] == [320, 640, 960, 320]
 
 
+def test_faster_whisper_preserves_segment_speech_evidence() -> None:
+    pytest.importorskip("numpy")
+
+    class FakeModel:
+        def transcribe(self, _samples, **_kwargs):
+            segment = SimpleNamespace(
+                text=" Продолжение следует... ",
+                no_speech_prob=0.91,
+                avg_logprob=-0.2,
+                compression_ratio=1.1,
+                start=0.0,
+                end=29.98,
+            )
+            return iter((segment,)), None
+
+    backend = FasterWhisperC2Backend(
+        "fake-model",
+        no_speech_threshold=0.60,
+        segment_end_tolerance_ms=500.0,
+        model_factory=lambda *_args, **_kwargs: FakeModel(),
+    )
+    adapter = StreamingAsrAdapter(backend)
+    operation = adapter.open_operation(
+        call_id="call-speech",
+        channel_id="call-speech:asr",
+        generation=1,
+    )
+
+    result = list(adapter.stream(operation, [replace(_chunk(1), is_final=True)]))
+
+    assert len(result) == 1
+    assert result[0].speech_supported is False
+    assert result[0].evidence is not None
+    assert result[0].evidence.no_speech_probability == pytest.approx(0.91)
+    assert result[0].evidence.max_segment_end_ms == pytest.approx(29_980.0)
+    assert result[0].evidence.reason == "no_speech_probability"
+    assert result[0].evidence.segment_timeline_valid is False
+
+
+def test_rejected_final_discards_matching_turn_and_next_turn_remains_usable() -> None:
+    def assembler(turn_id: str) -> TranscriptAssembler:
+        return TranscriptAssembler(
+            "call-speech",
+            "call-speech:audio",
+            1,
+            turn_id,
+            stable_prefix_min_chars=0,
+        )
+
+    ingress = SpeechIngress(
+        vad=_speech_processor(),
+        turn_detector=TurnDetector(
+            EndpointingConfig(soft_endpoint_ms=40, hard_endpoint_ms=60, min_speech_ms=40)
+        ),
+        assembler=assembler("call-speech:turn-1"),
+        assembler_factory=assembler,
+        defer_endpoint_finalization=True,
+    )
+    sequence = 1
+    for speech in (True, True, False, False, False, False):
+        ingress.process_frame(_frame(sequence, speech=speech, timestamp_ms=(sequence - 1) * 20))
+        sequence += 1
+    ingress.accept_hypothesis(
+        AsrHypothesis(
+            "call-speech",
+            "call-speech:audio",
+            1,
+            1,
+            100_000_000,
+            "ложный partial",
+            turn_id="call-speech:turn-1",
+        )
+    )
+    rejected = AsrHypothesis(
+        "call-speech",
+        "call-speech:audio",
+        1,
+        2,
+        120_000_000,
+        "Продолжение следует...",
+        is_final=True,
+        turn_id="call-speech:turn-1",
+        evidence=AsrSpeechEvidence(
+            AsrSpeechDecision.NO_SPEECH,
+            0.91,
+            -0.2,
+            1.1,
+            440.0,
+            29_980.0,
+            "no_speech_probability",
+        ),
+    )
+
+    assert ingress.accept_hypothesis(rejected) is None
+    assert ingress.take_final_turn() is None
+    assert ingress.rejected_turns == 1
+
+    for speech in (True, True, False, False, False, False):
+        ingress.process_frame(_frame(sequence, speech=speech, timestamp_ms=(sequence - 1) * 20))
+        sequence += 1
+    accepted = AsrHypothesis(
+        "call-speech",
+        "call-speech:audio",
+        1,
+        3,
+        sequence * 20_000_000,
+        "настоящий вопрос",
+        is_final=True,
+        turn_id="call-speech:turn-2",
+        evidence=AsrSpeechEvidence(
+            AsrSpeechDecision.SPEECH,
+            0.01,
+            -0.1,
+            1.0,
+            800.0,
+            780.0,
+            "speech_supported",
+        ),
+    )
+
+    assert ingress.accept_hypothesis(accepted) is not None
+    final_turn = ingress.take_final_turn()
+    assert final_turn is not None
+    assert final_turn.turn_id == "call-speech:turn-2"
+    assert final_turn.text == "настоящий вопрос"
+
+
 def test_composed_ingress_emits_final_user_turn_at_hard_endpoint() -> None:
     detector = TurnDetector(EndpointingConfig(soft_endpoint_ms=100, hard_endpoint_ms=200, min_speech_ms=40))
     assembler = TranscriptAssembler("call-speech", "call-speech:audio", 1, "call-speech:turn-1", 0)
@@ -368,7 +515,10 @@ def test_composed_ingress_emits_final_user_turn_at_hard_endpoint() -> None:
     for sequence, timestamp_ms in enumerate((0, 20), start=1):
         ingress.process_frame(_frame(sequence, speech=True, timestamp_ms=timestamp_ms))
     partial = ingress.accept_hypothesis(
-        AsrHypothesis("call-speech", "call-speech:audio", 1, 1, 50_000_000, "ответ пользователю")
+        AsrHypothesis(
+            "call-speech", "call-speech:audio", 1, 1, 50_000_000,
+            "ответ пользователю", turn_id="call-speech:turn-1"
+        )
     )
     assert partial is not None
 

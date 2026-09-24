@@ -1,0 +1,235 @@
+{
+  "status": "pass",
+  "runtime": {
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "py_gil_disabled": 1,
+    "gil_enabled": false
+  },
+  "input": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-A/corpus/calibration-corpus.wav",
+    "sha256": "41b2c914ce029324ff2cc9da8ae18c5ad3c394cff0c7bc47e4691b71f3b14525",
+    "sample_rate_hz": 8000,
+    "source_channels": 1,
+    "selected_channel": 0,
+    "frame_ms": 20,
+    "frame_count": 729
+  },
+  "configuration": {
+    "vad_mode": 2,
+    "energy_gate_enabled": true,
+    "minimum_dbfs": -42.0,
+    "noise_margin_db": 10.0,
+    "hard_endpoint_ms": 520,
+    "min_speech_ms": 80
+  },
+  "analytics": {
+    "total_frames": 729,
+    "raw_speech_frames": 549,
+    "accepted_speech_frames": 548,
+    "rejected_low_energy_frames": 1,
+    "noise_floor_dbfs": -96.0,
+    "speech_threshold_dbfs": -42.0,
+    "speech_level_dbfs": -21.437
+  },
+  "raw_speech_ranges": [
+    {
+      "start_s": 0.7,
+      "end_s": 2.62,
+      "duration_ms": 1920
+    },
+    {
+      "start_s": 2.84,
+      "end_s": 5.3,
+      "duration_ms": 2460
+    },
+    {
+      "start_s": 5.92,
+      "end_s": 7.68,
+      "duration_ms": 1760
+    },
+    {
+      "start_s": 8.18,
+      "end_s": 11.14,
+      "duration_ms": 2960
+    },
+    {
+      "start_s": 11.24,
+      "end_s": 12.54,
+      "duration_ms": 1300
+    },
+    {
+      "start_s": 13.2,
+      "end_s": 13.78,
+      "duration_ms": 580
+    }
+  ],
+  "accepted_speech_ranges": [
+    {
+      "start_s": 0.7,
+      "end_s": 2.62,
+      "duration_ms": 1920
+    },
+    {
+      "start_s": 2.84,
+      "end_s": 5.3,
+      "duration_ms": 2460
+    },
+    {
+      "start_s": 5.92,
+      "end_s": 7.68,
+      "duration_ms": 1760
+    },
+    {
+      "start_s": 8.18,
+      "end_s": 11.14,
+      "duration_ms": 2960
+    },
+    {
+      "start_s": 11.26,
+      "end_s": 12.54,
+      "duration_ms": 1280
+    },
+    {
+      "start_s": 13.2,
+      "end_s": 13.78,
+      "duration_ms": 580
+    }
+  ],
+  "endpoint_events": [
+    {
+      "kind": "speech_started",
+      "turn_id": "recorded-call-replay:turn-1",
+      "timestamp_s": 0.78,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "recorded-call-replay:turn-1",
+      "timestamp_s": 2.64,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "speech_resumed",
+      "turn_id": "recorded-call-replay:turn-1",
+      "timestamp_s": 2.86,
+      "silence_ms": 220,
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "recorded-call-replay:turn-1",
+      "timestamp_s": 5.32,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "soft_endpoint",
+      "turn_id": "recorded-call-replay:turn-1",
+      "timestamp_s": 5.6,
+      "silence_ms": 300,
+      "authoritative": false
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "recorded-call-replay:turn-1",
+      "timestamp_s": 5.82,
+      "silence_ms": 520,
+      "authoritative": true
+    },
+    {
+      "kind": "speech_started",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 6.0,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 7.7,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "soft_endpoint",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 7.98,
+      "silence_ms": 300,
+      "authoritative": false
+    },
+    {
+      "kind": "speech_resumed",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 8.2,
+      "silence_ms": 500,
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 11.16,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "speech_resumed",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 11.28,
+      "silence_ms": 120,
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 12.56,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "soft_endpoint",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 12.84,
+      "silence_ms": 300,
+      "authoritative": false
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "recorded-call-replay:turn-2",
+      "timestamp_s": 13.06,
+      "silence_ms": 520,
+      "authoritative": true
+    },
+    {
+      "kind": "speech_started",
+      "turn_id": "recorded-call-replay:turn-3",
+      "timestamp_s": 13.28,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "recorded-call-replay:turn-3",
+      "timestamp_s": 13.8,
+      "silence_ms": 0,
+      "authoritative": false
+    },
+    {
+      "kind": "soft_endpoint",
+      "turn_id": "recorded-call-replay:turn-3",
+      "timestamp_s": 14.08,
+      "silence_ms": 300,
+      "authoritative": false
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "recorded-call-replay:turn-3",
+      "timestamp_s": 14.3,
+      "silence_ms": 520,
+      "authoritative": true
+    }
+  ],
+  "authoritative_turn_count": 3
+}

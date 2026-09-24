@@ -97,6 +97,7 @@ def test_chunker_uses_negotiated_30ms_frames_and_timer_flush() -> None:
         chunk_ms=900,
         flush_ms=1000,
     )
+    chunker.begin_turn("call-map005-b:turn-1")
 
     for sequence in range(1, 31):
         assert chunker.push(_frame(sequence, ptime_ms=30.0)) in (0, 1)
@@ -121,8 +122,9 @@ def test_chunker_hard_endpoint_has_one_authoritative_final_marker_and_drops_stal
         channel_id="call-map005-b:audio",
         generation=1,
     )
+    chunker.begin_turn("call-map005-b:turn-1")
     chunker.push(_frame(1))
-    assert chunker.hard_endpoint() == 1
+    assert chunker.hard_endpoint("call-map005-b:turn-1") == 1
     final_chunk = chunker.next_chunk()
     assert final_chunk is not None
     assert final_chunk.is_final is True
@@ -175,7 +177,7 @@ def test_resumed_speech_cancels_speculative_endpoint_and_partial_revisions_are_r
     assert EndpointEventKind.HARD_ENDPOINT not in [event.kind for event in events]
 
     assembler = TranscriptAssembler("call-map005-b", "call-map005-b:audio", 1, "call-map005-b:turn-1", 8)
-    first = assembler.accept(AsrHypothesis("call-map005-b", "call-map005-b:audio", 1, 1, 1, "почему небо"))
+    first = assembler.accept(AsrHypothesis("call-map005-b", "call-map005-b:audio", 1, 1, 1, "почему небо", turn_id="call-map005-b:turn-1"))
     second = assembler.accept(
         AsrHypothesis(
             "call-map005-b",
@@ -185,9 +187,10 @@ def test_resumed_speech_cancels_speculative_endpoint_and_partial_revisions_are_r
             2,
             "почему небо днем голубое",
             stable_prefix="почему небо",
+            turn_id="call-map005-b:turn-1",
         )
     )
-    stale = assembler.accept(AsrHypothesis("call-map005-b", "call-map005-b:audio", 1, 1, 3, "старый текст"))
+    stale = assembler.accept(AsrHypothesis("call-map005-b", "call-map005-b:audio", 1, 1, 3, "старый текст", turn_id="call-map005-b:turn-1"))
 
     assert first is not None and first.kind is TranscriptUpdateKind.PARTIAL
     assert second is not None and second.text == "почему небо днем голубое"
@@ -203,7 +206,10 @@ def test_speech_ingress_emits_exactly_one_final_user_turn_after_hard_endpoint() 
     for sequence in range(1, 4):
         ingress.process_frame(_frame(sequence, value=1))
     ingress.accept_hypothesis(
-        AsrHypothesis("call-map005-b", "call-map005-b:audio", 1, 1, 100_000_000, "вопрос о небе")
+        AsrHypothesis(
+            "call-map005-b", "call-map005-b:audio", 1, 1, 100_000_000,
+            "вопрос о небе", turn_id="call-map005-b:turn-1"
+        )
     )
 
     final_results = []

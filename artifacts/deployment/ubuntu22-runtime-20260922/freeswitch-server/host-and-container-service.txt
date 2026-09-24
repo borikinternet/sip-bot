@@ -1,0 +1,8 @@
+captured_at=2026-09-22T12:17:11+00:00
+host=a100-test
+host_os=Ubuntu 22.04.5 LTS jammy
+nspawn_enabled=enabled
+nspawn_active=active
+Service=systemd-nspawn
+RootDirectory=/var/lib/machines/freeswitch-bookworm
+State=running

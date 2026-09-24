@@ -1,0 +1,999 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260913T233621Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "fail",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-13T23:36:21.704134+00:00",
+  "elapsed_ms": 203558.821,
+  "elapsed_from_call_start_ms": 201953.698,
+  "warmup": {
+    "started_at_ns": 39171237081454,
+    "completed_at_ns": 39194085183816,
+    "elapsed_ms": 22848.102362,
+    "stages": [
+      {
+        "name": "rag-embedding-index",
+        "elapsed_ms": 567.883147,
+        "details": {
+          "chunks": 6,
+          "embedding_model": "embeddinggemma"
+        }
+      },
+      {
+        "name": "llm-chat",
+        "elapsed_ms": 1133.972211,
+        "details": {
+          "sources": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "trace": {
+            "final_user_turn_ns": 39171829774437,
+            "request_started_ns": 39171829806736,
+            "first_stream_event_ns": 39172009982784,
+            "first_usable_output_ns": 39172009982784,
+            "final_result_ns": 39172938856897,
+            "cancel_requested_ns": null,
+            "completed_ns": 39172938856897,
+            "final_to_first_usable_ms": 180.208347,
+            "final_to_final_result_ms": 1109.08246,
+            "request_to_first_usable_ms": 180.176048,
+            "request_to_final_result_ms": 1109.050161
+          }
+        }
+      },
+      {
+        "name": "asr",
+        "elapsed_ms": 8905.937177,
+        "details": {
+          "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+          "model_sample_rate_hz": 16000,
+          "input_sample_rate_hz": 8000,
+          "input_duration_ms": 1000,
+          "model_loaded_by_warmup": true
+        }
+      },
+      {
+        "name": "tts-initialize",
+        "elapsed_ms": 11859.869714,
+        "details": {
+          "initialized": true
+        }
+      },
+      {
+        "name": "tts-stream",
+        "elapsed_ms": 380.265277,
+        "details": {
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "first_chunk_bytes": 14166
+        }
+      }
+    ]
+  },
+  "fixture": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/010-continuous-pcmu-comfort-noise/010-C/target-20260914-r8/live-stand/input-scenario.wav",
+    "bytes": 2624582,
+    "source": "prepared XTTS-generated multi-turn fixture copied for readiness replay",
+    "source_path": "/tmp/sip-bot-010-c-recording-pn9ll1zb/input-scenario-with-continuity-tail.wav",
+    "leading_silence_s": 45.0,
+    "trailing_silence_s": 30.0,
+    "fixture_generation": "compact-demo baseline with deterministic 3 s barge-in shift and 30 s continuity tail",
+    "barge_in_shift_s": 5.0,
+    "continuity_tail_purpose": "keep Baresip aufile transmitting until the bot finishes its final response"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "readiness": {
+      "runtime_id": "application",
+      "state": "ready",
+      "sequence": 2,
+      "started_at_ns": 39171235510477,
+      "completed_at_ns": 39194086141384,
+      "error_type": null,
+      "error_message": null
+    }
+  },
+  "sip": {
+    "peer_established": true,
+    "rtp_ingress_established": true,
+    "pcmu_8000_mono": true,
+    "peer_rtp_packets": {
+      "transmit": 8204,
+      "receive": 8644
+    },
+    "adapter_profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "pjmedia.stream_info"
+    },
+    "adapter_media_stats": {
+      "ingress_frames": 8644,
+      "ingress_bytes": 2766080,
+      "egress_frames": 8644,
+      "egress_bytes": 2766080,
+      "ingress_dropped_closed": 0,
+      "ingress_dropped_overflow": 0,
+      "egress_dropped_closed": 0,
+      "egress_dropped_overflow": 0,
+      "egress_underruns": 0,
+      "tts_startup_wait": 2,
+      "intentional_silence_frames": 6828,
+      "source_mode_transitions": 20,
+      "callback_errors": 0
+    },
+    "adapter_events": [
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 39171106686600,
+        "sequence": 1,
+        "method": null,
+        "status_code": null,
+        "reason": "registration requested by account.create",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "registration requested by account.create",
+          "expires_seconds": 300,
+          "observed_at_ns": 39171106658338,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 39171106949942,
+        "sequence": 2,
+        "method": null,
+        "status_code": null,
+        "reason": "PJSUA2 registration transaction started",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "PJSUA2 registration transaction started",
+          "expires_seconds": 300,
+          "observed_at_ns": 39171106934496,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 39171116947524,
+        "sequence": 3,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "registered",
+          "registration_event": "registration_succeeded",
+          "readiness": true
+        },
+        "registration_status": {
+          "state": "registered",
+          "event": "registration_succeeded",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": 200,
+          "reason": "OK",
+          "expires_seconds": 300,
+          "observed_at_ns": 39171116897073,
+          "expires_at_ns": 39471116869633,
+          "readiness": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 39171230199914,
+        "sequence": 4,
+        "method": "INVITE",
+        "status_code": 180,
+        "reason": "Ringing",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 180,
+          "reason": "Ringing",
+          "action": "ring_before_readiness",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "call_started",
+        "timestamp_ns": 39171230232624,
+        "sequence": 5,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": "incoming",
+          "peer_uri": "\"Workshop Peer\" <sip:9000@172.18.0.2>",
+          "provisional_status": 180,
+          "answer_pending": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 39171230492675,
+        "sequence": 6,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 39194086599852,
+        "sequence": 7,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 4
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "media_started",
+        "timestamp_ns": 39194087541246,
+        "sequence": 8,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": 3,
+          "media_index": 0
+        },
+        "media_profile": {
+          "codec": "PCMU",
+          "payload_type": 0,
+          "rx_payload_type": 0,
+          "tx_payload_type": 0,
+          "ptime_ms": 20.0,
+          "frame_time_usec": 20000,
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "frame_size_samples": 160,
+          "frame_bytes": 320,
+          "pcm_bits_per_sample": 16,
+          "source": "pjmedia.stream_info"
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 39194087691115,
+        "sequence": 9,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "action": "accept_incoming_call",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "call_answered",
+        "timestamp_ns": 39194090550505,
+        "sequence": 10,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "CONFIRMED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 39366974143242,
+        "sequence": 11,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 39366974576780,
+        "sequence": 12,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "remote_hangup",
+        "timestamp_ns": 39366975014153,
+        "sequence": 13,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "media_stopped",
+        "timestamp_ns": 39366975195819,
+        "sequence": 14,
+        "method": null,
+        "status_code": null,
+        "reason": "Normal call clearing",
+        "details": {
+          "idempotent": false
+        }
+      }
+    ]
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/mnt/c/devel/sip-bot/artifacts/implementation/010-continuous-pcmu-comfort-noise/010-C/target-20260914-r8/baresip-operator.log",
+    "transfer_result": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "available": true,
+      "accepted": []
+    }
+  },
+  "conversation": {
+    "context": [
+      {
+        "store_revision": 1,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 4,
+          "role": "user",
+          "source_ids": [],
+          "text": "Почему небо днём кажется голубым?",
+          "turn_id": "call-in-0:turn-1"
+        }
+      },
+      {
+        "store_revision": 2,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-1",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "text": "Небо кажется голубым из-за рассеяния Рэлея, когда молекулы атмосферы сильнее рассеивают коротковолновый свет. Это явление делает видимой часть спектра синего цвета.",
+          "turn_id": "call-in-0:turn-1:answer"
+        }
+      },
+      {
+        "store_revision": 3,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 8,
+          "role": "user",
+          "source_ids": [],
+          "text": "А почему на закате оно становится красным?",
+          "turn_id": "call-in-0:turn-2"
+        }
+      },
+      {
+        "store_revision": 4,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-2",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "text": "На закате свет проходит более длинный путь в атмосфере, поэтому рассеивается больше синего света, а прямой свет выглядит красноватым.",
+          "turn_id": "call-in-0:turn-2:answer"
+        }
+      },
+      {
+        "store_revision": 5,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 10,
+          "role": "user",
+          "source_ids": [],
+          "text": "Стоп, небо голубое.",
+          "turn_id": "call-in-0:turn-3"
+        }
+      },
+      {
+        "store_revision": 6,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 12,
+          "role": "user",
+          "source_ids": [],
+          "text": "Боя",
+          "turn_id": "call-in-0:turn-4"
+        }
+      },
+      {
+        "store_revision": 7,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-4",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "text": "Ваше сообщение не содержит вопроса. Пожалуйста, уточните тему или задайте вопрос.",
+          "turn_id": "call-in-0:turn-4:answer"
+        }
+      },
+      {
+        "store_revision": 8,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 18,
+          "role": "user",
+          "source_ids": [],
+          "text": "Каков точный состав атмосферы на экзопланете Кеплер-786?",
+          "turn_id": "call-in-0:turn-5"
+        }
+      },
+      {
+        "store_revision": 9,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 20,
+          "role": "user",
+          "source_ids": [],
+          "text": "Да.",
+          "turn_id": "call-in-0:turn-6"
+        }
+      },
+      {
+        "store_revision": 10,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-6",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "text": "Ваш запрос требует специализированных астрономических данных, которых нет в текущей базе. Я предлагаю подключить оператора для получения точной информации.",
+          "turn_id": "call-in-0:turn-6:answer"
+        }
+      }
+    ],
+    "user_turn_count": 6,
+    "assistant_turn_count": 4,
+    "rag_context_count": 5,
+    "rag_source_ids": [
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ]
+    ]
+  },
+  "asr_hypotheses": [
+    "Почему небо днём...",
+    "Почему небо днём кажется голубым?",
+    "Почему небо днём кажется голубым?",
+    "А почему на закате?",
+    "А почему на закате оно становится красным?",
+    "А почему на закате оно становится красным?",
+    "А почему на закате оно становится красным?",
+    "Стоп, небо...",
+    "Стоп, небо голубое.",
+    "Боя",
+    "Боя",
+    "Каков точный состав?",
+    "Каков точный состав атмосферы на экзамене?",
+    "Каков точный состав атмосферы на экзопланете Кепли?",
+    "Каков точный состав атмосферы на экзопланете Кеплер-780?",
+    "Каков точный состав атмосферы на экзопланете Кеплер-786?",
+    "Каков точный состав атмосферы на экзопланете Кеплер-786?",
+    "Да.",
+    "Да."
+  ],
+  "fsm": {
+    "state": "terminal",
+    "trace_events": [
+      "call_open",
+      "call_answered",
+      "utterance_final",
+      "answer_approved",
+      "playback_finished",
+      "utterance_final",
+      "answer_approved",
+      "playback_finished",
+      "utterance_final",
+      "speech_started",
+      "utterance_final",
+      "answer_approved",
+      "offer_played",
+      "confirmation_unclear",
+      "utterance_final",
+      "answer_approved",
+      "offer_played",
+      "remote_hangup"
+    ],
+    "trace_states": [
+      "call_open",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "listening",
+      "thinking",
+      "offering_transfer",
+      "awaiting_transfer_confirmation",
+      "listening",
+      "thinking",
+      "offering_transfer",
+      "awaiting_transfer_confirmation",
+      "terminal"
+    ]
+  },
+  "wiring": {
+    "sip_polls": 18783,
+    "control_dispatches": 62,
+    "ingress_frames": 8644,
+    "fanout_frames": 17288,
+    "asr_chunks_queued": 19,
+    "asr_chunks_dropped": 0,
+    "asr_hypotheses": 19,
+    "final_turns": 6,
+    "tts_chunks": 42,
+    "tts_frames_sent": 1814,
+    "stale_hypotheses": 0,
+    "errors": 0
+  },
+  "speech": {
+    "candidate": "WebRtcVadCandidate",
+    "mode": 2,
+    "decision_count": 8644,
+    "speech_decision_count": 613,
+    "silence_decision_count": 8031,
+    "sample_rates_hz": [
+      8000
+    ],
+    "frame_durations_ms": [
+      20
+    ],
+    "first_speech_sequence": 2466,
+    "last_speech_sequence": 6492,
+    "max_frame_abs": 28109,
+    "nonzero_frame_count": 615,
+    "endpoint_events": [
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-1",
+        "timestamp_ns": 39243487018411,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-1",
+        "timestamp_ns": 39245647600397,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-1",
+        "timestamp_ns": 39245927872224,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-1",
+        "timestamp_ns": 39246147727700,
+        "silence_ms": 520,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-2",
+        "timestamp_ns": 39260228334601,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-2",
+        "timestamp_ns": 39262727806783,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-2",
+        "timestamp_ns": 39263027409136,
+        "silence_ms": 319,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-2",
+        "timestamp_ns": 39263232897938,
+        "silence_ms": 525,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-3",
+        "timestamp_ns": 39270267163557,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-3",
+        "timestamp_ns": 39271607912231,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-3",
+        "timestamp_ns": 39271906877622,
+        "silence_ms": 318,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-3",
+        "timestamp_ns": 39272127245710,
+        "silence_ms": 539,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-4",
+        "timestamp_ns": 39273027547176,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-4",
+        "timestamp_ns": 39273527286608,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-4",
+        "timestamp_ns": 39273827780203,
+        "silence_ms": 320,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-4",
+        "timestamp_ns": 39274027657784,
+        "silence_ms": 520,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-5",
+        "timestamp_ns": 39295547519946,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-5",
+        "timestamp_ns": 39300368121366,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-5",
+        "timestamp_ns": 39300668491620,
+        "silence_ms": 320,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-5",
+        "timestamp_ns": 39300888171887,
+        "silence_ms": 540,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-6",
+        "timestamp_ns": 39322888262240,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-6",
+        "timestamp_ns": 39323348043377,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-6",
+        "timestamp_ns": 39323628398065,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "speech_resumed",
+        "turn_id": "call-in-0:turn-6",
+        "timestamp_ns": 39323848271310,
+        "silence_ms": 500,
+        "reason": "speech_before_hard_endpoint",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-6",
+        "timestamp_ns": 39323967143034,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-6",
+        "timestamp_ns": 39324248322583,
+        "silence_ms": 301,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-6",
+        "timestamp_ns": 39324467828485,
+        "silence_ms": 520,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      }
+    ]
+  },
+  "tts_output": {
+    "accepted_chunks": 42,
+    "accepted_bytes": 580098,
+    "emitted_frames": 1814,
+    "emitted_bytes": 580480,
+    "flushed_tail_frames": 3,
+    "dropped_tail_bytes": 0,
+    "dropped_stale_chunks": 0,
+    "dropped_closed_chunks": 0,
+    "dropped_cancelled_chunks": 0,
+    "dropped_overflow_bytes": 0,
+    "buffered_bytes": 0,
+    "pending_frames": 0
+  },
+  "scenario_checks": {
+    "follow_up_turn_present": true,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": true,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": true,
+    "rtp_continuity_present": true,
+    "stereo_recording_present": false
+  },
+  "report": "/mnt/c/devel/sip-bot/artifacts/implementation/010-continuous-pcmu-comfort-noise/010-C/target-20260914-r8/reports/call-in-0/report.md",
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/010-continuous-pcmu-comfort-noise/010-C/target-20260914-r8/baresip-peer.log",
+  "errors": [],
+  "audio_recording": false,
+  "external_pbx": false,
+  "notes": [
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario.",
+    "Baresip test peer sndfile raw enc/dec tracks are retained under recordings/raw.",
+    "conversation-stereo.wav maps left=user_to_bot and right=bot_to_user; alignment is explicit in recording-manifest.json.",
+    "The registered input fixture includes an explicit 30 s trailing continuity tail for the Baresip aufile source.",
+    "RTP continuity acceptance uses the answered-call event window and negotiated ptime; enc/dec WAV duration is diagnostic only."
+  ],
+  "acceptance_checks": {
+    "follow_up_turn_present": true,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": true,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": true,
+    "rtp_continuity_present": true
+  },
+  "diagnostic_checks": {
+    "stereo_recording_present": false,
+    "stereo_recording_required_for_rtp_continuity": false
+  },
+  "rtp_continuity": {
+    "schema": "sip-bot.map010-c-rtp-continuity.v1",
+    "status": "pass",
+    "acceptance_scope": "answered-call media continuity; recording timeline is diagnostic only",
+    "window": {
+      "start_event": {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 39194087691115,
+        "sequence": 9,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "action": "accept_incoming_call",
+          "automatic": true
+        }
+      },
+      "start_semantics": "200 OK to INVITE / call answer",
+      "stop_event": {
+        "call_id": "call-in-0",
+        "kind": "remote_hangup",
+        "timestamp_ns": 39366975014153,
+        "sequence": 13,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      },
+      "stop_semantics": "BYE received (or media_stopped fallback); 200 OK to BYE is transaction confirmation",
+      "elapsed_ms": 172887.323
+    },
+    "negotiated": {
+      "ptime_ms": 20.0,
+      "codec": "PCMU",
+      "sample_rate_hz": 8000
+    },
+    "expected_frames": 8644,
+    "egress_frames": 8644,
+    "peer_receive_packets": 8644,
+    "peer_receive_lost_packets": 0,
+    "frame_tolerance": 1,
+    "checks": {
+      "answered_call_window_present": true,
+      "ptime_is_negotiated": true,
+      "egress_count_matches_call_window": true,
+      "peer_received_egress_count": true,
+      "peer_reported_no_receive_loss": true,
+      "egress_underruns_zero": true,
+      "callback_errors_zero": true,
+      "egress_drops_zero": true
+    },
+    "recording_duration_is_not_used_for_acceptance": true
+  },
+  "recording": {
+    "status": "fail",
+    "error": "ValueError: raw Baresip track duration gap exceeds the allowed cleanup tail: 8700.000 ms > 500.000 ms (164.080000 s vs 172.780000 s)"
+  },
+  "registration_mode": "enabled",
+  "incoming_admission": {
+    "gate": "IncomingCallReadinessGate",
+    "incoming_call_requested": true,
+    "runtime_ready_at_replay_end": true,
+    "readiness_state_at_replay_end": "ready",
+    "prewarm_triggered": false,
+    "policy": "registered peer calls 7000; gate admits only after aggregate readiness"
+  },
+  "wrapper_debug": {
+    "popen_commands": [
+      "baresip -f /mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/config/operator-5090 -t 330.0",
+      "baresip -f /mnt/c/devel/sip-bot/artifacts/implementation/010-continuous-pcmu-comfort-noise/010-C/target-20260914-r8/live-stand/peer-5080 -t 330.0"
+    ],
+    "peer_captured": true
+  }
+}

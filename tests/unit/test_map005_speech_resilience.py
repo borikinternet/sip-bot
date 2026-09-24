@@ -60,6 +60,7 @@ def test_chunker_preserves_negotiated_pcm_profile_and_frame_units() -> None:
         generation=1,
         chunk_ms=100,
     )
+    chunker.begin_turn("unit-call:turn-1")
 
     for sequence in range(1, 6):
         chunker.push(_frame(sequence))

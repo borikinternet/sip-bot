@@ -1,0 +1,1153 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260921T181120Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "fail",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-21T18:11:20.153386+00:00",
+  "elapsed_ms": 140935.134,
+  "elapsed_from_call_start_ms": 139362.475,
+  "warmup": {
+    "started_at_ns": 2940780457591,
+    "completed_at_ns": 2962281172323,
+    "elapsed_ms": 21500.714732,
+    "stages": [
+      {
+        "name": "rag-embedding-index",
+        "elapsed_ms": 8.82467,
+        "details": {
+          "operation": "load-prebuilt-index",
+          "chunks": 12,
+          "dimension": 768,
+          "embedding_model": "embeddinggemma",
+          "corpus_embedding_requests": 0
+        }
+      },
+      {
+        "name": "llm-chat",
+        "elapsed_ms": 1017.277094,
+        "details": {
+          "sources": [
+            "company-pricing-and-terms",
+            "company-schedule"
+          ],
+          "trace": {
+            "final_user_turn_ns": 2940831946025,
+            "request_started_ns": 2940831979905,
+            "first_stream_event_ns": 2941119372600,
+            "first_usable_output_ns": 2941119372600,
+            "final_result_ns": 2941806453314,
+            "cancel_requested_ns": null,
+            "completed_ns": 2941806453314,
+            "final_to_first_usable_ms": 287.426575,
+            "final_to_final_result_ms": 974.507289,
+            "request_to_first_usable_ms": 287.392695,
+            "request_to_final_result_ms": 974.473409
+          }
+        }
+      },
+      {
+        "name": "asr",
+        "elapsed_ms": 8372.572279,
+        "details": {
+          "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+          "model_sample_rate_hz": 16000,
+          "input_sample_rate_hz": 8000,
+          "input_duration_ms": 1000,
+          "model_loaded_by_warmup": true
+        }
+      },
+      {
+        "name": "tts-initialize",
+        "elapsed_ms": 11801.754271,
+        "details": {
+          "initialized": true
+        }
+      },
+      {
+        "name": "tts-stream",
+        "elapsed_ms": 300.168379,
+        "details": {
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "first_chunk_bytes": 14166
+        }
+      }
+    ]
+  },
+  "fixture": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/live-r2/live-stand/input-scenario.wav",
+    "bytes": 1876886,
+    "source": "prepared XTTS-generated multi-turn fixture copied for readiness replay",
+    "source_path": "/tmp/sip-bot-010-c-recording-kv_m_idr/input-scenario-with-continuity-tail.wav",
+    "leading_silence_s": 2.0,
+    "trailing_silence_s": 30.0,
+    "fixture_generation": "prepared scenario with configurable barge-in shift and continuity tail",
+    "barge_in_shift_s": 0.0,
+    "continuity_tail_purpose": "keep Baresip aufile transmitting until the bot finishes its final response"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "readiness": {
+      "runtime_id": "application",
+      "state": "ready",
+      "sequence": 2,
+      "started_at_ns": 2940758607895,
+      "completed_at_ns": 2962281522091,
+      "error_type": null,
+      "error_message": null
+    }
+  },
+  "sip": {
+    "peer_established": true,
+    "rtp_ingress_established": true,
+    "pcmu_8000_mono": true,
+    "peer_rtp_packets": {
+      "transmit": 5882,
+      "receive": 5588
+    },
+    "adapter_profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "pjmedia.stream_info"
+    },
+    "adapter_media_stats": {
+      "ingress_frames": 5587,
+      "ingress_bytes": 1787840,
+      "egress_frames": 5587,
+      "egress_bytes": 1787840,
+      "ingress_dropped_closed": 0,
+      "ingress_dropped_overflow": 0,
+      "egress_dropped_closed": 0,
+      "egress_dropped_overflow": 0,
+      "egress_underruns": 0,
+      "tts_startup_wait": 1,
+      "intentional_silence_frames": 3784,
+      "source_mode_transitions": 26,
+      "callback_errors": 0
+    },
+    "adapter_events": [
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 2940758086547,
+        "sequence": 1,
+        "method": null,
+        "status_code": null,
+        "reason": "registration requested by account.create",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "registration requested by account.create",
+          "expires_seconds": 300,
+          "observed_at_ns": 2940758063920,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 2940758545322,
+        "sequence": 2,
+        "method": null,
+        "status_code": null,
+        "reason": "PJSUA2 registration transaction started",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "PJSUA2 registration transaction started",
+          "expires_seconds": 300,
+          "observed_at_ns": 2940758529677,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 2940768138671,
+        "sequence": 3,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "registered",
+          "registration_event": "registration_succeeded",
+          "readiness": true
+        },
+        "registration_status": {
+          "state": "registered",
+          "event": "registration_succeeded",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": 200,
+          "reason": "OK",
+          "expires_seconds": 300,
+          "observed_at_ns": 2940768070351,
+          "expires_at_ns": 3240768042546,
+          "readiness": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 2940877941100,
+        "sequence": 4,
+        "method": "INVITE",
+        "status_code": 180,
+        "reason": "Ringing",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 180,
+          "reason": "Ringing",
+          "action": "ring_before_readiness",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "call_started",
+        "timestamp_ns": 2940877994915,
+        "sequence": 5,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": "incoming",
+          "peer_uri": "\"Workshop Peer\" <sip:9000@172.18.0.2>",
+          "provisional_status": 180,
+          "answer_pending": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 2940878395649,
+        "sequence": 6,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 2962282073464,
+        "sequence": 7,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 4
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "media_started",
+        "timestamp_ns": 2962302195024,
+        "sequence": 8,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": 3,
+          "media_index": 0
+        },
+        "media_profile": {
+          "codec": "PCMU",
+          "payload_type": 0,
+          "rx_payload_type": 0,
+          "tx_payload_type": 0,
+          "ptime_ms": 20.0,
+          "frame_time_usec": 20000,
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "frame_size_samples": 160,
+          "frame_bytes": 320,
+          "pcm_bits_per_sample": 16,
+          "source": "pjmedia.stream_info"
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 2962302356074,
+        "sequence": 9,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "action": "accept_incoming_call",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "call_answered",
+        "timestamp_ns": 2962304029779,
+        "sequence": 10,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "CONFIRMED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 3074048546749,
+        "sequence": 11,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 3074049060641,
+        "sequence": 12,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "remote_hangup",
+        "timestamp_ns": 3074049621570,
+        "sequence": 13,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "media_stopped",
+        "timestamp_ns": 3074051868147,
+        "sequence": 14,
+        "method": null,
+        "status_code": null,
+        "reason": "Normal call clearing",
+        "details": {
+          "idempotent": false
+        }
+      }
+    ]
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/live-r2/baresip-operator.log",
+    "transfer_result": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "available": true,
+      "accepted": []
+    }
+  },
+  "conversation": {
+    "context": [
+      {
+        "store_revision": 1,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 5,
+          "role": "user",
+          "source_ids": [],
+          "text": "Сколько стоит диагностический выезд мастера?",
+          "turn_id": "call-in-0:turn-1"
+        }
+      },
+      {
+        "store_revision": 2,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-1",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "company-pricing-and-terms",
+            "company-schedule"
+          ],
+          "text": "Диагностический выезд мастера стоит 1500 рублей. Эта сумма засчитывается в стоимость работ, если клиент заказывает ремонт по результатам диагностики.",
+          "turn_id": "call-in-0:turn-1:answer"
+        }
+      },
+      {
+        "store_revision": 3,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 7,
+          "role": "user",
+          "source_ids": [],
+          "text": "А ночью сколько?",
+          "turn_id": "call-in-0:turn-2"
+        }
+      },
+      {
+        "store_revision": 4,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-2",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "company-pricing-and-terms",
+            "company-schedule"
+          ],
+          "text": "Ночью с 20:00 до 08:00 к стоимости выезда применяется коэффициент 1,5. Итоговая сумма составит 2250 рублей.",
+          "turn_id": "call-in-0:turn-2:answer"
+        }
+      },
+      {
+        "store_revision": 5,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 10,
+          "role": "user",
+          "source_ids": [],
+          "text": "Стоп, а какие данные нужны для заявки?",
+          "turn_id": "call-in-0:turn-3"
+        }
+      },
+      {
+        "store_revision": 6,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-3",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "company-request-procedure",
+            "company-schedule"
+          ],
+          "text": "Для заявки нужны имя, адрес, номер телефона, описание проблемы, признаки срочности и удобный интервал доступа. Диспетчер не запрашивает пароли, коды из СМС и полные данные банковской карты.",
+          "turn_id": "call-in-0:turn-3:answer"
+        }
+      },
+      {
+        "store_revision": 7,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 12,
+          "role": "user",
+          "source_ids": [],
+          "text": "Голубое",
+          "turn_id": "call-in-0:turn-4"
+        }
+      },
+      {
+        "store_revision": 8,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-4",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "company-pricing-and-terms",
+            "company-schedule"
+          ],
+          "text": "Пожалуйста, уточните ваш вопрос, так как фраза 'Голубое' не содержит запроса информации.",
+          "turn_id": "call-in-0:turn-4:answer"
+        }
+      },
+      {
+        "store_revision": 9,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": null,
+          "revision": 14,
+          "role": "user",
+          "source_ids": [],
+          "text": "Да.",
+          "turn_id": "call-in-0:turn-5"
+        }
+      },
+      {
+        "store_revision": 10,
+        "turn": {
+          "call_id": "call-in-0",
+          "knowledge_context_id": "knowledge-context-call-in-0:turn-5",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "company-pricing-and-terms",
+            "company-schedule"
+          ],
+          "text": "Пожалуйста, уточните ваш вопрос, так как фраза 'Да' не содержит запроса информации.",
+          "turn_id": "call-in-0:turn-5:answer"
+        }
+      }
+    ],
+    "user_turn_count": 5,
+    "assistant_turn_count": 5,
+    "rag_context_count": 5,
+    "rag_source_ids": [
+      [
+        "company-pricing-and-terms",
+        "company-schedule"
+      ],
+      [
+        "company-pricing-and-terms",
+        "company-schedule"
+      ],
+      [
+        "company-request-procedure",
+        "company-schedule"
+      ],
+      [
+        "company-pricing-and-terms",
+        "company-schedule"
+      ],
+      [
+        "company-pricing-and-terms",
+        "company-schedule"
+      ]
+    ],
+    "rag_contexts": [
+      {
+        "query_text": "Сколько стоит диагностический выезд мастера?",
+        "sufficient": true,
+        "source_ids": [
+          "company-pricing-and-terms",
+          "company-schedule"
+        ],
+        "hits": [
+          {
+            "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+            "source_id": "company-pricing-and-terms",
+            "score": 0.7359583878714788
+          },
+          {
+            "chunk_id": "company-schedule-001-5e5b15bd64c2",
+            "source_id": "company-schedule",
+            "score": 0.4421690344668094
+          },
+          {
+            "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+            "source_id": "company-pricing-and-terms",
+            "score": 0.485398201262616
+          }
+        ]
+      },
+      {
+        "query_text": "А ночью сколько?",
+        "sufficient": true,
+        "source_ids": [
+          "company-pricing-and-terms",
+          "company-schedule"
+        ],
+        "hits": [
+          {
+            "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+            "source_id": "company-pricing-and-terms",
+            "score": 0.8428516412634769
+          },
+          {
+            "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+            "source_id": "company-pricing-and-terms",
+            "score": 0.5381108022207894
+          },
+          {
+            "chunk_id": "company-schedule-001-5e5b15bd64c2",
+            "source_id": "company-schedule",
+            "score": 0.47242116433135595
+          }
+        ]
+      },
+      {
+        "query_text": "Стоп, а какие данные нужны для заявки?",
+        "sufficient": true,
+        "source_ids": [
+          "company-request-procedure",
+          "company-schedule"
+        ],
+        "hits": [
+          {
+            "chunk_id": "company-request-procedure-001-002ba7a76c98",
+            "source_id": "company-request-procedure",
+            "score": 0.5405219630459339
+          },
+          {
+            "chunk_id": "company-request-procedure-002-679e27ff67be",
+            "source_id": "company-request-procedure",
+            "score": 0.42579582546524314
+          },
+          {
+            "chunk_id": "company-schedule-001-5e5b15bd64c2",
+            "source_id": "company-schedule",
+            "score": 0.3462305969214098
+          }
+        ]
+      },
+      {
+        "query_text": "Голубое",
+        "sufficient": true,
+        "source_ids": [
+          "company-pricing-and-terms",
+          "company-schedule"
+        ],
+        "hits": [
+          {
+            "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+            "source_id": "company-pricing-and-terms",
+            "score": 0.7587648753886518
+          },
+          {
+            "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+            "source_id": "company-pricing-and-terms",
+            "score": 0.5833575605542903
+          },
+          {
+            "chunk_id": "company-schedule-001-5e5b15bd64c2",
+            "source_id": "company-schedule",
+            "score": 0.49076824995150164
+          }
+        ]
+      },
+      {
+        "query_text": "Да.",
+        "sufficient": true,
+        "source_ids": [
+          "company-pricing-and-terms",
+          "company-schedule"
+        ],
+        "hits": [
+          {
+            "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+            "source_id": "company-pricing-and-terms",
+            "score": 0.753726119914026
+          },
+          {
+            "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+            "source_id": "company-pricing-and-terms",
+            "score": 0.6294601653091391
+          },
+          {
+            "chunk_id": "company-schedule-001-5e5b15bd64c2",
+            "source_id": "company-schedule",
+            "score": 0.5099487341438864
+          }
+        ]
+      }
+    ]
+  },
+  "asr_hypotheses": [
+    "Сколько стоит день?",
+    "Сколько стоит диагностический выезд?",
+    "Сколько стоит диагностический выезд мастера?",
+    "Сколько стоит диагностический выезд мастера?",
+    "А ночью сколько?",
+    "А ночью сколько?",
+    "Стоп, а какие данные?",
+    "Стоп, а какие данные нужны для заявки?",
+    "Стоп, а какие данные нужны для заявки?",
+    "Голубое",
+    "Голубое",
+    "Да.",
+    "Да."
+  ],
+  "fsm": {
+    "state": "terminal",
+    "trace_events": [
+      "call_open",
+      "call_answered",
+      "utterance_final",
+      "answer_approved",
+      "playback_finished",
+      "utterance_final",
+      "answer_approved",
+      "barge_in",
+      "utterance_final",
+      "answer_approved",
+      "playback_finished",
+      "utterance_final",
+      "answer_approved",
+      "playback_finished",
+      "utterance_final",
+      "answer_approved",
+      "playback_finished",
+      "remote_hangup"
+    ],
+    "trace_states": [
+      "call_open",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "terminal"
+    ]
+  },
+  "wiring": {
+    "sip_polls": 13504,
+    "control_dispatches": 60,
+    "ingress_frames": 5587,
+    "fanout_frames": 11174,
+    "asr_chunks_queued": 13,
+    "asr_chunks_dropped": 0,
+    "asr_hypotheses": 13,
+    "final_turns": 5,
+    "tts_chunks": 48,
+    "tts_frames_sent": 1802,
+    "stale_hypotheses": 0,
+    "errors": 0
+  },
+  "speech": {
+    "candidate": "WebRtcVadCandidate",
+    "mode": 2,
+    "decision_count": 5587,
+    "speech_decision_count": 390,
+    "silence_decision_count": 5197,
+    "sample_rates_hz": [
+      8000
+    ],
+    "frame_durations_ms": [
+      20
+    ],
+    "first_speech_sequence": 177,
+    "last_speech_sequence": 3694,
+    "max_frame_abs": 22755,
+    "nonzero_frame_count": 372,
+    "endpoint_events": [
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-1",
+        "timestamp_ns": 2965918660570,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-1",
+        "timestamp_ns": 2968758668947,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-1",
+        "timestamp_ns": 2969046122026,
+        "silence_ms": 307,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-1",
+        "timestamp_ns": 2969278253243,
+        "silence_ms": 539,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-2",
+        "timestamp_ns": 2983318400482,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-2",
+        "timestamp_ns": 2984279597430,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-2",
+        "timestamp_ns": 2984578747745,
+        "silence_ms": 319,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-2",
+        "timestamp_ns": 2984798201713,
+        "silence_ms": 538,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-3",
+        "timestamp_ns": 2990258653406,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-3",
+        "timestamp_ns": 2992479047918,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-3",
+        "timestamp_ns": 2992759357190,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-3",
+        "timestamp_ns": 2992979446756,
+        "silence_ms": 520,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-4",
+        "timestamp_ns": 3014039796327,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-4",
+        "timestamp_ns": 3014899664221,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-4",
+        "timestamp_ns": 3015199381594,
+        "silence_ms": 319,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-4",
+        "timestamp_ns": 3015419297053,
+        "silence_ms": 539,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0:turn-5",
+        "timestamp_ns": 3035598990098,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0:turn-5",
+        "timestamp_ns": 3036218975610,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0:turn-5",
+        "timestamp_ns": 3036499666655,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0:turn-5",
+        "timestamp_ns": 3036719122928,
+        "silence_ms": 520,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      }
+    ]
+  },
+  "tts_output": {
+    "accepted_chunks": 48,
+    "accepted_bytes": 674138,
+    "emitted_frames": 1802,
+    "emitted_bytes": 576640,
+    "flushed_tail_frames": 5,
+    "dropped_tail_bytes": 98582,
+    "dropped_stale_chunks": 0,
+    "dropped_closed_chunks": 0,
+    "dropped_cancelled_chunks": 0,
+    "dropped_overflow_bytes": 0,
+    "buffered_bytes": 0,
+    "pending_frames": 0
+  },
+  "scenario_checks": {
+    "follow_up_turn_present": true,
+    "barge_in_transition_present": true,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": true,
+    "rtp_continuity_present": true,
+    "stereo_recording_present": true
+  },
+  "report": "/mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/live-r2/reports/call-in-0/report.md",
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/live-r2/baresip-peer.log",
+  "errors": [],
+  "audio_recording": true,
+  "external_pbx": false,
+  "notes": [
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario.",
+    "Baresip test peer sndfile raw enc/dec tracks are retained under recordings/raw.",
+    "conversation-stereo.wav maps left=user_to_bot and right=bot_to_user; its target duration is the answered-call event window and alignment is explicit in recording-manifest.json.",
+    "The registered input fixture includes an explicit 30 s trailing continuity tail for the Baresip aufile source.",
+    "RTP continuity acceptance uses the answered-call event window and negotiated ptime; enc/dec WAV duration is diagnostic only."
+  ],
+  "acceptance_checks": {
+    "follow_up_turn_present": true,
+    "barge_in_transition_present": true,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": true,
+    "rtp_continuity_present": true
+  },
+  "diagnostic_checks": {
+    "stereo_recording_present": true,
+    "stereo_recording_required_for_rtp_continuity": false
+  },
+  "rtp_continuity": {
+    "schema": "sip-bot.map010-c-rtp-continuity.v1",
+    "status": "pass",
+    "acceptance_scope": "answered-call media continuity; recording timeline is diagnostic only",
+    "window": {
+      "start_event": {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 2962302356074,
+        "sequence": 9,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "action": "accept_incoming_call",
+          "automatic": true
+        }
+      },
+      "start_semantics": "200 OK to INVITE / call answer",
+      "stop_event": {
+        "call_id": "call-in-0",
+        "kind": "remote_hangup",
+        "timestamp_ns": 3074049621570,
+        "sequence": 13,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      },
+      "stop_semantics": "BYE received (or media_stopped fallback); 200 OK to BYE is transaction confirmation",
+      "elapsed_ms": 111747.265
+    },
+    "negotiated": {
+      "ptime_ms": 20.0,
+      "codec": "PCMU",
+      "sample_rate_hz": 8000
+    },
+    "expected_frames": 5587,
+    "egress_frames": 5587,
+    "peer_receive_packets": 5588,
+    "peer_receive_lost_packets": 0,
+    "frame_tolerance": 1,
+    "checks": {
+      "answered_call_window_present": true,
+      "ptime_is_negotiated": true,
+      "egress_count_matches_call_window": true,
+      "peer_received_egress_count": true,
+      "peer_reported_no_receive_loss": true,
+      "egress_underruns_zero": true,
+      "callback_errors_zero": true,
+      "egress_drops_zero": true
+    },
+    "recording_duration_is_not_used_for_acceptance": true
+  },
+  "recording": {
+    "schema": "sip-bot.map010-b-stereo-recording.v2",
+    "status": "pass",
+    "mapping": {
+      "left": "user_to_bot",
+      "right": "bot_to_user"
+    },
+    "alignment": {
+      "policy": "answered_call_event_window",
+      "target_frames": 893978,
+      "target_duration_s": 111.74725,
+      "call_window_ms": 111747.265,
+      "call_window_is_authoritative": true,
+      "call_window_start_ns": 1790014155257949965,
+      "timeline_origin_ns": 1790014155257949965,
+      "timeline_origin_policy": "answered_call_event_window_start",
+      "user_to_bot_start_offset_frames": -2064,
+      "bot_to_user_start_offset_frames": -2064,
+      "user_to_bot_padded_frames": 0,
+      "bot_to_user_padded_frames": 2762,
+      "user_to_bot_leading_padding_frames": 0,
+      "user_to_bot_trailing_padding_frames": 0,
+      "bot_to_user_leading_padding_frames": 0,
+      "bot_to_user_trailing_padding_frames": 2762,
+      "user_to_bot_trimmed_frames": 47142,
+      "bot_to_user_trimmed_frames": 2064,
+      "max_trailing_padding_ms": 500.0,
+      "max_trailing_padding_frames": 4000,
+      "max_trailing_padding_applies": false,
+      "padding_mode": "materialize_answered_call_window",
+      "actual_padding_ms": 345.25,
+      "expected_ptime_ms": 20.0,
+      "padding_is_explicit_in_manifest": true
+    },
+    "raw_tracks": {
+      "enc": {
+        "path": "/mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/live-r2/recordings/raw/dump-2026-09-21-21-09-15-enc.wav",
+        "role": "user_to_bot",
+        "bytes": 1882284,
+        "sha256": "725ec033af167f71a12317b14c1815e7e1a1607f56985e321eff87576e8ab266",
+        "channels": 1,
+        "sample_width": 2,
+        "sample_rate_hz": 8000,
+        "frames": 941120,
+        "duration_s": 117.64,
+        "recording_start_ns": 1790014155000000000
+      },
+      "dec": {
+        "path": "/mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/live-r2/recordings/raw/dump-2026-09-21-21-09-15-dec.wav",
+        "role": "bot_to_user",
+        "bytes": 1786604,
+        "sha256": "443c9716026b817df8d634b3c62296c9806cf71718f0436166a2e928a86fb1d9",
+        "channels": 1,
+        "sample_width": 2,
+        "sample_rate_hz": 8000,
+        "frames": 893280,
+        "duration_s": 111.66,
+        "recording_start_ns": 1790014155000000000
+      }
+    },
+    "stereo": {
+      "path": "/mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/live-r2/recordings/conversation-stereo.wav",
+      "bytes": 3575956,
+      "sha256": "eddb47cb525cb7472c158703787c0d7b106335d1280abf9d6cb535ad1dab13e1",
+      "channels": 2,
+      "sample_width": 2,
+      "sample_rate_hz": 8000,
+      "frames": 893978,
+      "duration_s": 111.74725
+    }
+  },
+  "registration_mode": "enabled",
+  "incoming_admission": {
+    "gate": "IncomingCallReadinessGate",
+    "incoming_call_requested": true,
+    "runtime_ready_at_replay_end": true,
+    "readiness_state_at_replay_end": "ready",
+    "prewarm_triggered": true,
+    "policy": "registered peer calls 7000; gate admits only after aggregate readiness"
+  },
+  "wrapper_debug": {
+    "popen_commands": [
+      "baresip -f /mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/config/operator-5090 -t 330.0",
+      "baresip -f /mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/live-r2/live-stand/peer-5080 -t 330.0"
+    ],
+    "peer_captured": true
+  },
+  "rag_workshop": {
+    "scenario": "rag-workshop-v1",
+    "checks": {
+      "registered_inner_gate_passed": false,
+      "prebuilt_index_loaded_without_corpus_embeddings": true,
+      "workshop_positive_source_present": true,
+      "old_science_question_is_insufficient": false,
+      "no_old_science_source_leakage": true,
+      "report_contains_workshop_sources": true
+    },
+    "active_source_ids": [
+      "company-pricing-and-terms",
+      "company-request-procedure",
+      "company-schedule"
+    ]
+  }
+}

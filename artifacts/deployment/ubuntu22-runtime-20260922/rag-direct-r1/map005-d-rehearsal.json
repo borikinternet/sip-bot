@@ -1,0 +1,996 @@
+{
+  "schema": "sip-bot.map005-d-rehearsal.v1",
+  "status": "pass",
+  "plan": "005-D",
+  "started_at_utc": "2026-09-22T11:40:32.062760+00:00",
+  "target_runtime": {
+    "executable": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "python": "3.14.7 free-threading build (main, Sep 22 2026, 10:09:00) [GCC 11.4.0]",
+    "gil_enabled": false
+  },
+  "test_runtime_overrides": {
+    "pjsua2_media_no_vad": true,
+    "purpose": "emit explicit idle PCMU/RTP frames so Baresip sndfile decode recording retains the media timeline",
+    "application_source_changed": false
+  },
+  "upstream_j4": {
+    "evidence_id": "E-002-J4-FULL-LIVE-20260922T114031Z",
+    "plan": "002-J",
+    "stage": "J4",
+    "status": "pass",
+    "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+    "started_at_utc": "2026-09-22T11:40:31.537296+00:00",
+    "elapsed_ms": 116037.068,
+    "elapsed_from_call_start_ms": 82063.328,
+    "warmup": {
+      "started_at_ns": 6389965952772,
+      "completed_at_ns": 6422418433775,
+      "elapsed_ms": 32452.481003,
+      "stages": [
+        {
+          "name": "rag-embedding-index",
+          "elapsed_ms": 8.315382,
+          "details": {
+            "operation": "load-prebuilt-index",
+            "chunks": 12,
+            "dimension": 768,
+            "embedding_model": "embeddinggemma",
+            "corpus_embedding_requests": 0
+          }
+        },
+        {
+          "name": "llm-chat",
+          "elapsed_ms": 672.315455,
+          "details": {
+            "sources": [
+              "company-pricing-and-terms",
+              "company-schedule"
+            ],
+            "trace": {
+              "final_user_turn_ns": 6390037809647,
+              "request_started_ns": 6390037847639,
+              "first_stream_event_ns": 6390250242938,
+              "first_usable_output_ns": 6390250242938,
+              "final_result_ns": 6390646455273,
+              "cancel_requested_ns": null,
+              "completed_ns": 6390646455273,
+              "final_to_first_usable_ms": 212.433291,
+              "final_to_final_result_ms": 608.645626,
+              "request_to_first_usable_ms": 212.395299,
+              "request_to_final_result_ms": 608.607634
+            }
+          }
+        },
+        {
+          "name": "asr",
+          "elapsed_ms": 7453.055412,
+          "details": {
+            "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+            "model_sample_rate_hz": 16000,
+            "input_sample_rate_hz": 8000,
+            "input_duration_ms": 1000,
+            "model_loaded_by_warmup": true
+          }
+        },
+        {
+          "name": "tts-initialize",
+          "elapsed_ms": 17966.602722,
+          "details": {
+            "initialized": true
+          }
+        },
+        {
+          "name": "tts-stream",
+          "elapsed_ms": 652.410232,
+          "details": {
+            "sample_rate_hz": 8000,
+            "channels": 1,
+            "first_chunk_bytes": 14166
+          }
+        },
+        {
+          "name": "fixture",
+          "elapsed_ms": 5699.55353,
+          "details": {
+            "path": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/live-stand/input-scenario.wav",
+            "bytes": 1364504
+          }
+        }
+      ]
+    },
+    "fixture": {
+      "path": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/live-stand/input-scenario.wav",
+      "bytes": 1364504,
+      "sha256": "a86a034ddadc012049297e11e91fc62624c5925c2e1bec18c8f72b84163660ac",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_s": 85.282,
+      "segments": [
+        {
+          "turn_id": "turn-1",
+          "text": "Сколько стоит диагностический выезд мастера?",
+          "speech_started_s": 1.5,
+          "speech_duration_s": 2.923,
+          "leading_s": 1.5,
+          "trailing_s": 14.5
+        },
+        {
+          "turn_id": "turn-2",
+          "text": "А ночью сколько будет стоить?",
+          "speech_started_s": 18.923,
+          "speech_duration_s": 1.76,
+          "leading_s": 0.0,
+          "trailing_s": 1.0
+        },
+        {
+          "turn_id": "turn-3",
+          "text": "Стоп, а какие данные нужны для заявки?",
+          "speech_started_s": 27.183,
+          "speech_duration_s": 2.688,
+          "leading_s": 5.5,
+          "trailing_s": 11.0
+        },
+        {
+          "turn_id": "turn-4",
+          "text": "Почему небо днём голубое?",
+          "speech_started_s": 51.871,
+          "speech_duration_s": 1.621,
+          "leading_s": 11.0,
+          "trailing_s": 10.5
+        },
+        {
+          "turn_id": "turn-5",
+          "text": "Да",
+          "speech_started_s": 74.492,
+          "speech_duration_s": 0.789,
+          "leading_s": 10.5,
+          "trailing_s": 10.0
+        }
+      ],
+      "source": "local XTTS-generated multi-turn fixture; not a call recording",
+      "timing_profile": "compact-demo-v1"
+    },
+    "runtime": {
+      "python": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+      "version": "3.14.7 free-threading build (main, Sep 22 2026, 10:09:00) [GCC 11.4.0]",
+      "gil_enabled": false,
+      "readiness": null
+    },
+    "sip": {
+      "peer_established": true,
+      "rtp_ingress_established": true,
+      "pcmu_8000_mono": true,
+      "peer_rtp_packets": {
+        "transmit": 4050,
+        "receive": 4049
+      },
+      "adapter_profile": {
+        "codec": "PCMU",
+        "payload_type": 0,
+        "rx_payload_type": 0,
+        "tx_payload_type": 0,
+        "ptime_ms": 20.0,
+        "frame_time_usec": 20000,
+        "sample_rate_hz": 8000,
+        "channels": 1,
+        "frame_size_samples": 160,
+        "frame_bytes": 320,
+        "pcm_bits_per_sample": 16,
+        "source": "pjmedia.stream_info"
+      },
+      "adapter_media_stats": {
+        "ingress_frames": 4049,
+        "ingress_bytes": 1295680,
+        "egress_frames": 4049,
+        "egress_bytes": 1295680,
+        "ingress_dropped_closed": 0,
+        "ingress_dropped_overflow": 0,
+        "egress_dropped_closed": 0,
+        "egress_dropped_overflow": 0,
+        "egress_underruns": 0,
+        "tts_startup_wait": 1,
+        "intentional_silence_frames": 2720,
+        "source_mode_transitions": 21,
+        "callback_errors": 0
+      },
+      "adapter_events": [
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6423942689051,
+          "sequence": 1,
+          "method": "RTP",
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "media_index": 0,
+            "transport_state": 1
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6423943065339,
+          "sequence": 2,
+          "method": "RTP",
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "media_index": 0,
+            "transport_state": 2
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6423943116185,
+          "sequence": 3,
+          "method": "RTP",
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "media_index": 1,
+            "transport_state": 1
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6423943399419,
+          "sequence": 4,
+          "method": "RTP",
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "media_index": 1,
+            "transport_state": 2
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6423943459639,
+          "sequence": 5,
+          "method": "RTP",
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "media_index": 0,
+            "transport_state": 3
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6423943483488,
+          "sequence": 6,
+          "method": "RTP",
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "media_index": 1,
+            "transport_state": 3
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "call_started",
+          "timestamp_ns": 6423943858747,
+          "sequence": 7,
+          "method": null,
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "direction": "outgoing",
+            "peer_uri": "sip:peer@127.0.0.1:5080"
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6423953790926,
+          "sequence": 8,
+          "method": "RTP",
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "media_index": 0,
+            "transport_state": 4
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6423957316339,
+          "sequence": 9,
+          "method": "RTP",
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "media_index": 1,
+            "transport_state": 0
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "media_started",
+          "timestamp_ns": 6423958954698,
+          "sequence": 10,
+          "method": null,
+          "status_code": null,
+          "reason": null,
+          "details": {
+            "direction": 3,
+            "media_index": 0
+          },
+          "media_profile": {
+            "codec": "PCMU",
+            "payload_type": 0,
+            "rx_payload_type": 0,
+            "tx_payload_type": 0,
+            "ptime_ms": 20.0,
+            "frame_time_usec": 20000,
+            "sample_rate_hz": 8000,
+            "channels": 1,
+            "frame_size_samples": 160,
+            "frame_bytes": 320,
+            "pcm_bits_per_sample": 16,
+            "source": "pjmedia.stream_info"
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "call_answered",
+          "timestamp_ns": 6423959809438,
+          "sequence": 11,
+          "method": null,
+          "status_code": 200,
+          "reason": "Answering",
+          "details": {
+            "state": "CONFIRMED",
+            "pjsua_call_id": 0
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6499927355705,
+          "sequence": 12,
+          "method": "INVITE",
+          "status_code": 100,
+          "reason": "Accepted",
+          "details": {
+            "operation": "transfer",
+            "final_notify": false
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6499936241543,
+          "sequence": 13,
+          "method": "INVITE",
+          "status_code": 100,
+          "reason": "Trying",
+          "details": {
+            "operation": "transfer",
+            "final_notify": false
+          }
+        },
+        {
+          "call_id": "j4-full-live-call",
+          "kind": "sip_transaction",
+          "timestamp_ns": 6499940064130,
+          "sequence": 14,
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "details": {
+            "operation": "transfer",
+            "final_notify": true
+          }
+        }
+      ]
+    },
+    "operator": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "peer_established": true,
+      "log": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/baresip-operator.log",
+      "transfer_result": {
+        "target": "sip:operator@127.0.0.1:5090",
+        "available": true,
+        "accepted": [
+          {
+            "call_id": "j4-full-live-call",
+            "target": "sip:operator@127.0.0.1:5090",
+            "reason": "user_confirmed",
+            "operation_id": 5
+          }
+        ]
+      }
+    },
+    "conversation": {
+      "context": [
+        {
+          "store_revision": 1,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": null,
+            "revision": 1,
+            "role": "assistant",
+            "source_ids": [],
+            "text": "Алло.",
+            "turn_id": "j4-full-live-call:greeting"
+          }
+        },
+        {
+          "store_revision": 2,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": null,
+            "revision": 5,
+            "role": "user",
+            "source_ids": [],
+            "text": "Сколько стоит диагностический выезд мастера?",
+            "turn_id": "j4-full-live-call:turn-1"
+          }
+        },
+        {
+          "store_revision": 3,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": "knowledge-context-j4-full-live-call:turn-1",
+            "revision": 1,
+            "role": "assistant",
+            "source_ids": [
+              "company-pricing-and-terms",
+              "company-schedule"
+            ],
+            "text": "Диагностический выезд мастера стоит 1500 рублей. Эта сумма засчитывается в стоимость работ, если клиент заказывает ремонт.",
+            "turn_id": "j4-full-live-call:turn-1:answer"
+          }
+        },
+        {
+          "store_revision": 4,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": null,
+            "revision": 8,
+            "role": "user",
+            "source_ids": [],
+            "text": "А ночью сколько будет стоить?",
+            "turn_id": "j4-full-live-call:turn-2"
+          }
+        },
+        {
+          "store_revision": 5,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": null,
+            "revision": 12,
+            "role": "user",
+            "source_ids": [],
+            "text": "Стоп, а какие данные нужны для заявки?",
+            "turn_id": "j4-full-live-call:turn-3"
+          }
+        },
+        {
+          "store_revision": 6,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": "knowledge-context-j4-full-live-call:turn-3",
+            "revision": 1,
+            "role": "assistant",
+            "source_ids": [
+              "company-request-procedure",
+              "company-schedule"
+            ],
+            "text": "Для заявки нужны имя, адрес, номер телефона, описание проблемы, признаки срочности и удобный интервал доступа. Диспетчер не запрашивает пароли, коды из СМС и полные данные банковской карты.",
+            "turn_id": "j4-full-live-call:turn-3:answer"
+          }
+        },
+        {
+          "store_revision": 7,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": null,
+            "revision": 15,
+            "role": "user",
+            "source_ids": [],
+            "text": "Почему небо днем голубое?",
+            "turn_id": "j4-full-live-call:turn-4"
+          }
+        },
+        {
+          "store_revision": 8,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": "knowledge-context-j4-full-live-call:turn-4",
+            "revision": 1,
+            "role": "assistant",
+            "source_ids": [
+              "company-schedule",
+              "company-request-procedure"
+            ],
+            "text": "Я не могу надёжно ответить на этот вопрос по доступной базе знаний. Подключить оператора?",
+            "turn_id": "j4-full-live-call:turn-4:answer"
+          }
+        },
+        {
+          "store_revision": 9,
+          "turn": {
+            "call_id": "j4-full-live-call",
+            "knowledge_context_id": null,
+            "revision": 17,
+            "role": "user",
+            "source_ids": [],
+            "text": "Да.",
+            "turn_id": "j4-full-live-call:turn-5"
+          }
+        }
+      ],
+      "user_turn_count": 5,
+      "assistant_turn_count": 4,
+      "rag_context_count": 3,
+      "rag_source_ids": [
+        [
+          "company-pricing-and-terms",
+          "company-schedule"
+        ],
+        [
+          "company-request-procedure",
+          "company-schedule"
+        ],
+        [
+          "company-schedule",
+          "company-request-procedure"
+        ]
+      ],
+      "rag_contexts": [
+        {
+          "query_text": "Сколько стоит диагностический выезд мастера?",
+          "sufficient": true,
+          "source_ids": [
+            "company-pricing-and-terms",
+            "company-schedule"
+          ],
+          "hits": [
+            {
+              "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+              "source_id": "company-pricing-and-terms",
+              "score": 0.7365132875616682
+            },
+            {
+              "chunk_id": "company-schedule-001-5e5b15bd64c2",
+              "source_id": "company-schedule",
+              "score": 0.4428598990253131
+            },
+            {
+              "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+              "source_id": "company-pricing-and-terms",
+              "score": 0.48567046116520873
+            }
+          ]
+        },
+        {
+          "query_text": "Стоп, а какие данные нужны для заявки?",
+          "sufficient": true,
+          "source_ids": [
+            "company-request-procedure",
+            "company-schedule"
+          ],
+          "hits": [
+            {
+              "chunk_id": "company-request-procedure-001-002ba7a76c98",
+              "source_id": "company-request-procedure",
+              "score": 0.5404551577010288
+            },
+            {
+              "chunk_id": "company-request-procedure-002-679e27ff67be",
+              "source_id": "company-request-procedure",
+              "score": 0.42573034398429127
+            },
+            {
+              "chunk_id": "company-schedule-001-5e5b15bd64c2",
+              "source_id": "company-schedule",
+              "score": 0.3463897898201441
+            }
+          ]
+        },
+        {
+          "query_text": "Почему небо днем голубое?",
+          "sufficient": false,
+          "source_ids": [
+            "company-schedule",
+            "company-request-procedure"
+          ],
+          "hits": [
+            {
+              "chunk_id": "company-schedule-001-5e5b15bd64c2",
+              "source_id": "company-schedule",
+              "score": 0.2542278817495463
+            },
+            {
+              "chunk_id": "company-request-procedure-001-002ba7a76c98",
+              "source_id": "company-request-procedure",
+              "score": 0.19035931157767116
+            },
+            {
+              "chunk_id": "company-schedule-002-037877069b79",
+              "source_id": "company-schedule",
+              "score": 0.18679710740381575
+            }
+          ]
+        }
+      ]
+    },
+    "asr_hypotheses": [
+      "Сколько стоит диагноз?",
+      "Сколько стоит диагностический выезд?",
+      "Сколько стоит диагностический выезд мастера?",
+      "Сколько стоит диагностический выезд мастера?",
+      "А ночью сколько было?",
+      "А ночью сколько будет стоить?",
+      "А ночью сколько будет стоить?",
+      "Стоп, а какие...",
+      "Стоп, а какие данные нужны для...",
+      "Стоп, а какие данные нужны для заявки?",
+      "Стоп, а какие данные нужны для заявки?",
+      "Почему небо днем голубой?",
+      "Почему небо днем голубое?",
+      "Почему небо днем голубое?",
+      "Да.",
+      "Да."
+    ],
+    "fsm": {
+      "state": "terminal",
+      "trace_events": [
+        "call_open",
+        "call_greeting",
+        "barge_in",
+        "utterance_final",
+        "answer_approved",
+        "playback_finished",
+        "utterance_final",
+        "speech_started",
+        "utterance_final",
+        "answer_approved",
+        "playback_finished",
+        "utterance_final",
+        "answer_approved",
+        "offer_played",
+        "user_confirmed",
+        "transfer_result"
+      ],
+      "trace_states": [
+        "call_open",
+        "playing",
+        "listening",
+        "thinking",
+        "playing",
+        "listening",
+        "thinking",
+        "listening",
+        "thinking",
+        "playing",
+        "listening",
+        "thinking",
+        "offering_transfer",
+        "awaiting_transfer_confirmation",
+        "transferring",
+        "terminal"
+      ]
+    },
+    "wiring": {
+      "sip_polls": 7645,
+      "control_dispatches": 65,
+      "ingress_frames": 4048,
+      "fanout_frames": 8096,
+      "asr_chunks_queued": 16,
+      "asr_chunks_dropped": 0,
+      "asr_hypotheses": 16,
+      "final_turns": 5,
+      "tts_chunks": 31,
+      "tts_frames_sent": 1328,
+      "stale_hypotheses": 0,
+      "errors": 0
+    },
+    "speech": {
+      "candidate": "WebRtcVadCandidate",
+      "mode": 2,
+      "decision_count": 4048,
+      "speech_decision_count": 488,
+      "silence_decision_count": 3560,
+      "sample_rates_hz": [
+        8000
+      ],
+      "frame_durations_ms": [
+        20
+      ],
+      "first_speech_sequence": 75,
+      "last_speech_sequence": 3763,
+      "max_frame_abs": 25145,
+      "nonzero_frame_count": 471,
+      "endpoint_events": [
+        {
+          "kind": "speech_started",
+          "turn_id": "j4-full-live-call:turn-1",
+          "timestamp_ns": 6425543784824,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "j4-full-live-call:turn-1",
+          "timestamp_ns": 6428425002971,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "j4-full-live-call:turn-1",
+          "timestamp_ns": 6428721848469,
+          "silence_ms": 316,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "j4-full-live-call:turn-1",
+          "timestamp_ns": 6428945088433,
+          "silence_ms": 540,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "j4-full-live-call:turn-2",
+          "timestamp_ns": 6442980918993,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "j4-full-live-call:turn-2",
+          "timestamp_ns": 6444686470694,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "j4-full-live-call:turn-2",
+          "timestamp_ns": 6444982825154,
+          "silence_ms": 316,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "j4-full-live-call:turn-2",
+          "timestamp_ns": 6445204596211,
+          "silence_ms": 538,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "j4-full-live-call:turn-3",
+          "timestamp_ns": 6451222508673,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "j4-full-live-call:turn-3",
+          "timestamp_ns": 6453841637207,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "j4-full-live-call:turn-3",
+          "timestamp_ns": 6454122730425,
+          "silence_ms": 301,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "j4-full-live-call:turn-3",
+          "timestamp_ns": 6454344172705,
+          "silence_ms": 522,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "j4-full-live-call:turn-4",
+          "timestamp_ns": 6475928733643,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "j4-full-live-call:turn-4",
+          "timestamp_ns": 6477488079582,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "j4-full-live-call:turn-4",
+          "timestamp_ns": 6477784064241,
+          "silence_ms": 315,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "j4-full-live-call:turn-4",
+          "timestamp_ns": 6478001808482,
+          "silence_ms": 533,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "j4-full-live-call:turn-5",
+          "timestamp_ns": 6498562227686,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "j4-full-live-call:turn-5",
+          "timestamp_ns": 6499268302632,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "j4-full-live-call:turn-5",
+          "timestamp_ns": 6499562786544,
+          "silence_ms": 314,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "j4-full-live-call:turn-5",
+          "timestamp_ns": 6499787579858,
+          "silence_ms": 539,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        }
+      ]
+    },
+    "tts_output": {
+      "accepted_chunks": 31,
+      "accepted_bytes": 427008,
+      "emitted_frames": 1328,
+      "emitted_bytes": 424960,
+      "flushed_tail_frames": 4,
+      "dropped_tail_bytes": 2688,
+      "dropped_stale_chunks": 0,
+      "dropped_closed_chunks": 0,
+      "dropped_cancelled_chunks": 0,
+      "dropped_overflow_bytes": 0,
+      "buffered_bytes": 0,
+      "pending_frames": 0
+    },
+    "scenario_checks": {
+      "follow_up_turn_present": true,
+      "barge_in_transition_present": true,
+      "unknown_answer_offer_present": true,
+      "transfer_transition_present": true,
+      "operator_transfer_result": true,
+      "report_present": true
+    },
+    "report": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/reports/j4-full-live-call/report.md",
+    "peer_log": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/baresip-peer.log",
+    "errors": [],
+    "audio_recording": false,
+    "external_pbx": false,
+    "notes": [
+      "The fixture is generated before call admission and is not a conversation recording.",
+      "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+      "A separate operator Baresip peer is used for the approved local transfer scenario."
+    ]
+  },
+  "scenario_checks": {
+    "follow_up_turn_present": true,
+    "barge_in_transition_present": true,
+    "unknown_answer_offer_present": true,
+    "transfer_transition_present": true,
+    "operator_transfer_result": true,
+    "report_present": true,
+    "stereo_recording_present": true
+  },
+  "recording": {
+    "schema": "sip-bot.map010-b-stereo-recording.v2",
+    "status": "pass",
+    "mapping": {
+      "left": "user_to_bot",
+      "right": "bot_to_user"
+    },
+    "alignment": {
+      "policy": "strict_shared_timeline_trailing_cleanup_only",
+      "target_frames": 648000,
+      "target_duration_s": 81.0,
+      "call_window_ms": null,
+      "call_window_is_authoritative": false,
+      "call_window_start_ns": null,
+      "timeline_origin_ns": 1790077149000000000,
+      "timeline_origin_policy": "earliest_recording_start_or_zero",
+      "user_to_bot_start_offset_frames": 0,
+      "bot_to_user_start_offset_frames": 0,
+      "user_to_bot_padded_frames": 0,
+      "bot_to_user_padded_frames": 960,
+      "user_to_bot_leading_padding_frames": 0,
+      "user_to_bot_trailing_padding_frames": 0,
+      "bot_to_user_leading_padding_frames": 0,
+      "bot_to_user_trailing_padding_frames": 960,
+      "user_to_bot_trimmed_frames": 0,
+      "bot_to_user_trimmed_frames": 0,
+      "max_trailing_padding_ms": 500.0,
+      "max_trailing_padding_frames": 4000,
+      "max_trailing_padding_applies": true,
+      "padding_mode": "strict_cleanup_tail_only",
+      "actual_padding_ms": 120.0,
+      "expected_ptime_ms": null,
+      "padding_is_explicit_in_manifest": true
+    },
+    "raw_tracks": {
+      "enc": {
+        "path": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/recordings/raw/dump-2026-09-22-11-39-09-enc.wav",
+        "role": "user_to_bot",
+        "bytes": 1296044,
+        "sha256": "2ddbdda55cbb2b9b4f47bfabf39f7650c8209aaab11318619fd858579535a2b6",
+        "channels": 1,
+        "sample_width": 2,
+        "sample_rate_hz": 8000,
+        "frames": 648000,
+        "duration_s": 81.0,
+        "recording_start_ns": 1790077149000000000
+      },
+      "dec": {
+        "path": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/recordings/raw/dump-2026-09-22-11-39-09-dec.wav",
+        "role": "bot_to_user",
+        "bytes": 1294124,
+        "sha256": "439a4191344bfece4d79ee8f8fd47d383341e83b9888dbe90241bab953c7adf4",
+        "channels": 1,
+        "sample_width": 2,
+        "sample_rate_hz": 8000,
+        "frames": 647040,
+        "duration_s": 80.88,
+        "recording_start_ns": 1790077149000000000
+      }
+    },
+    "stereo": {
+      "path": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/recordings/conversation-stereo.wav",
+      "bytes": 2592044,
+      "sha256": "7e059f466384c6909debc69e7912b3f8933d437d9fdbcfe8ec9388e4fc4ce87b",
+      "channels": 2,
+      "sample_width": 2,
+      "sample_rate_hz": 8000,
+      "frames": 648000,
+      "duration_s": 81.0
+    }
+  },
+  "report": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/rag-direct-r1/reports/j4-full-live-call/report.md",
+  "known_limitations": [
+    "Overall final-phrase-to-first-PCM latency remains above the 200–500 ms comfort target in 005-C evidence.",
+    "Recording is produced by the Baresip test peer, not by application runtime."
+  ],
+  "finished_at_utc": "2026-09-22T11:40:32.062777+00:00"
+}

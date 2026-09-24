@@ -1,0 +1,199 @@
+{
+  "evidence_id": "E-008-A-VAD-SWEEP-20260913T150318Z",
+  "status": "pass",
+  "plan": "008-A",
+  "corpus": {
+    "manifest": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-A/corpus/manifest.json",
+    "wav": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-A/corpus/calibration-corpus.wav",
+    "sha256": "a031570e9954d249851997f33252ccc783dc27f0511cee3bb427a1d32579f5c8",
+    "duration_s": 14.58,
+    "segment_count": 5
+  },
+  "frame_contract": {
+    "codec": "PCMU/G.711 mu-law",
+    "decoded_format": "PCM S16LE",
+    "sample_rate_hz": 8000,
+    "frame_duration_ms": 20,
+    "frame_size_samples": 160,
+    "pcmu_roundtrip": true
+  },
+  "runtime": {
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "implementation": "CPython",
+    "gil_enabled": false,
+    "webrtcvad_import": "lazy candidate import succeeded"
+  },
+  "score_formula": "5*missed_speech_rate + false_speech_rate + (mean_abs_onset_ms + mean_abs_offset_ms)/10000",
+  "modes": [
+    {
+      "mode": 0,
+      "frame_count": 729,
+      "speech_frame_count": 563,
+      "expected_speech_frame_count": 552,
+      "confusion": {
+        "true_positive": 548,
+        "false_positive": 15,
+        "false_negative": 4,
+        "true_negative": 162
+      },
+      "missed_speech_rate": 0.00724638,
+      "false_speech_rate": 0.08474576,
+      "onset_delay_ms": {
+        "values": [
+          0.0,
+          -219.0,
+          -3.0,
+          -3.0,
+          17.0
+        ],
+        "mean_abs": 48.4
+      },
+      "offset_delay_ms": {
+        "values": [
+          301.0,
+          37.0,
+          37.0,
+          97.0,
+          40.0
+        ],
+        "mean_abs": 102.4
+      },
+      "speech_run_count": 6,
+      "expected_speech_run_count": 5,
+      "fragmentation_delta": 1,
+      "score": 0.13605765,
+      "repeat_count": 2,
+      "deterministic_replay": true,
+      "elapsed_ms": 136.061
+    },
+    {
+      "mode": 1,
+      "frame_count": 729,
+      "speech_frame_count": 562,
+      "expected_speech_frame_count": 552,
+      "confusion": {
+        "true_positive": 548,
+        "false_positive": 14,
+        "false_negative": 4,
+        "true_negative": 163
+      },
+      "missed_speech_rate": 0.00724638,
+      "false_speech_rate": 0.07909605,
+      "onset_delay_ms": {
+        "values": [
+          0.0,
+          -219.0,
+          -3.0,
+          -3.0,
+          17.0
+        ],
+        "mean_abs": 48.4
+      },
+      "offset_delay_ms": {
+        "values": [
+          301.0,
+          37.0,
+          37.0,
+          97.0,
+          40.0
+        ],
+        "mean_abs": 102.4
+      },
+      "speech_run_count": 6,
+      "expected_speech_run_count": 5,
+      "fragmentation_delta": 1,
+      "score": 0.13040793,
+      "repeat_count": 2,
+      "deterministic_replay": true,
+      "elapsed_ms": 114.679
+    },
+    {
+      "mode": 2,
+      "frame_count": 729,
+      "speech_frame_count": 549,
+      "expected_speech_frame_count": 552,
+      "confusion": {
+        "true_positive": 545,
+        "false_positive": 4,
+        "false_negative": 7,
+        "true_negative": 173
+      },
+      "missed_speech_rate": 0.01268116,
+      "false_speech_rate": 0.02259887,
+      "onset_delay_ms": {
+        "values": [
+          0.0,
+          1.0,
+          -3.0,
+          17.0,
+          17.0
+        ],
+        "mean_abs": 7.6
+      },
+      "offset_delay_ms": {
+        "values": [
+          301.0,
+          -3.0,
+          -3.0,
+          57.0,
+          0.0
+        ],
+        "mean_abs": 72.8
+      },
+      "speech_run_count": 6,
+      "expected_speech_run_count": 5,
+      "fragmentation_delta": 1,
+      "score": 0.09404467,
+      "repeat_count": 2,
+      "deterministic_replay": true,
+      "elapsed_ms": 112.313
+    },
+    {
+      "mode": 3,
+      "frame_count": 729,
+      "speech_frame_count": 541,
+      "expected_speech_frame_count": 552,
+      "confusion": {
+        "true_positive": 538,
+        "false_positive": 3,
+        "false_negative": 14,
+        "true_negative": 174
+      },
+      "missed_speech_rate": 0.02536232,
+      "false_speech_rate": 0.01694915,
+      "onset_delay_ms": {
+        "values": [
+          0.0,
+          21.0,
+          -3.0,
+          17.0,
+          17.0
+        ],
+        "mean_abs": 11.6
+      },
+      "offset_delay_ms": {
+        "values": [
+          301.0,
+          -23.0,
+          -23.0,
+          37.0,
+          -40.0
+        ],
+        "mean_abs": 84.8
+      },
+      "speech_run_count": 7,
+      "expected_speech_run_count": 5,
+      "fragmentation_delta": 2,
+      "score": 0.15340075,
+      "repeat_count": 2,
+      "deterministic_replay": true,
+      "elapsed_ms": 112.433
+    }
+  ],
+  "recommendation": {
+    "mode": 2,
+    "score": 0.09404467,
+    "reason": "minimum explicit corpus score; all modes and all frames included"
+  }
+}

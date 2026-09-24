@@ -1,0 +1,85 @@
+{
+  "schema": "sip-bot.tts-latency-live-audit.v1",
+  "status": "pass",
+  "baseline_chunk_20_median_ms": 398.0593265,
+  "trace_count": 4,
+  "minimum_llm_final_to_playback_ms": 173.499,
+  "maximum_llm_final_to_playback_ms": 223.834,
+  "traces": [
+    {
+      "call_id": "call-in-0-b411bd47fa144b3caa5d6368695a2ccb",
+      "turn_id": "call-in-0-b411bd47fa144b3caa5d6368695a2ccb:turn-2",
+      "channel_id": "playback",
+      "generation": 2,
+      "ordered": true,
+      "stage_ms": {
+        "llm_final_to_command": 6.94,
+        "command_to_worker": 0.431,
+        "worker_to_adapter": 2.463,
+        "adapter_to_engine_first_chunk": 192.562,
+        "engine_to_pcm_first_chunk": 2.784,
+        "pcm_to_playback_first_frame": 1.692,
+        "llm_final_to_playback_first_frame": 206.873
+      }
+    },
+    {
+      "call_id": "call-in-0-b411bd47fa144b3caa5d6368695a2ccb",
+      "turn_id": "call-in-0-b411bd47fa144b3caa5d6368695a2ccb:turn-3",
+      "channel_id": "playback",
+      "generation": 3,
+      "ordered": true,
+      "stage_ms": {
+        "llm_final_to_command": 1.566,
+        "command_to_worker": 0.32,
+        "worker_to_adapter": 1.254,
+        "adapter_to_engine_first_chunk": 166.487,
+        "engine_to_pcm_first_chunk": 2.645,
+        "pcm_to_playback_first_frame": 1.227,
+        "llm_final_to_playback_first_frame": 173.499
+      }
+    },
+    {
+      "call_id": "call-in-0-b411bd47fa144b3caa5d6368695a2ccb",
+      "turn_id": "call-in-0-b411bd47fa144b3caa5d6368695a2ccb:turn-4",
+      "channel_id": "playback",
+      "generation": 4,
+      "ordered": true,
+      "stage_ms": {
+        "llm_final_to_command": 4.774,
+        "command_to_worker": 0.695,
+        "worker_to_adapter": 0.996,
+        "adapter_to_engine_first_chunk": 176.862,
+        "engine_to_pcm_first_chunk": 2.687,
+        "pcm_to_playback_first_frame": 6.96,
+        "llm_final_to_playback_first_frame": 192.975
+      }
+    },
+    {
+      "call_id": "call-in-0-b411bd47fa144b3caa5d6368695a2ccb",
+      "turn_id": "call-in-0-b411bd47fa144b3caa5d6368695a2ccb:turn-5",
+      "channel_id": "playback",
+      "generation": 5,
+      "ordered": true,
+      "stage_ms": {
+        "llm_final_to_command": 8.532,
+        "command_to_worker": 0.235,
+        "worker_to_adapter": 0.157,
+        "adapter_to_engine_first_chunk": 210.945,
+        "engine_to_pcm_first_chunk": 2.768,
+        "pcm_to_playback_first_frame": 1.197,
+        "llm_final_to_playback_first_frame": 223.834
+      }
+    }
+  ],
+  "incomplete_traces": [],
+  "checks": {
+    "registered_runner_pass": true,
+    "free_threaded_runtime": true,
+    "complete_answer_traces": true,
+    "timestamps_ordered": true,
+    "improves_over_chunk_20_baseline": true,
+    "no_runtime_errors": true,
+    "no_output_overflow": true,
+    "no_egress_underruns": true
+  }
+}

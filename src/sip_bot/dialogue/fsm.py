@@ -10,7 +10,14 @@ from typing import Any
 from ..control.events import ControlEvent, ControlEventKind
 from ..control.lifecycle import CallScope
 from ..sip_media.protocol_events import NormalizedSipEvent, SipEventKind
-from ..speech.contracts import FinalUserTurn
+from ..understanding import (
+    ConfirmPendingAct,
+    DialogueExpectation,
+    ExpectationKind,
+    KnowledgeRequestAct,
+    RejectPendingAct,
+    TransferRequestAct,
+)
 from .actions import (
     ActionValidationError,
     ActionValidator,
@@ -61,11 +68,13 @@ class DialogueFSM:
         self,
         *,
         operator_target: str = "sip:operator@127.0.0.1:5090",
+        greeting_enabled: bool = False,
         command_sink: Callable[[DialogueCommand], None] | None = None,
         validator: ActionValidator | None = None,
         channels: ChannelOrchestrator | None = None,
     ) -> None:
         self.operator_target = operator_target
+        self.greeting_enabled = bool(greeting_enabled)
         self.command_sink = command_sink
         self.validator = validator or ActionValidator()
         self.channels = channels or ChannelOrchestrator()
@@ -76,6 +85,8 @@ class DialogueFSM:
         self._input_generation: int | None = None
         self._playback_generation: int | None = None
         self._pending_playback_action: DialogueAction | None = None
+        self._pending_transfer_reconfirmation = False
+        self._greeting_played = False
         self._terminalized = False
         self.trace: list[Transition] = []
         self.commands: list[DialogueCommand] = []
@@ -89,6 +100,13 @@ class DialogueFSM:
     @property
     def active_operation_id(self) -> int:
         return self.operation_id
+
+    def current_expectation(self) -> DialogueExpectation:
+        """Return the immutable semantic expectation for the next final turn."""
+
+        if self.state is DialogueState.AWAITING_TRANSFER_CONFIRMATION or self._pending_transfer_reconfirmation:
+            return DialogueExpectation(ExpectationKind.TRANSFER_CONFIRMATION, self.operator_target)
+        return DialogueExpectation()
 
     @property
     def is_terminal(self) -> bool:
@@ -112,8 +130,8 @@ class DialogueFSM:
             self._handle_sip(event)
         elif isinstance(event, SpeechEvent):
             self._handle_speech(event)
-        elif isinstance(event, FinalUserTurn):
-            self._handle_turn(event)
+        elif isinstance(event, (ConfirmPendingAct, RejectPendingAct, KnowledgeRequestAct, TransferRequestAct)):
+            self._handle_act(event)
         elif isinstance(event, StructuredDecision):
             self._handle_decision(event)
         elif isinstance(event, PlaybackEvent):
@@ -154,7 +172,10 @@ class DialogueFSM:
         if event.kind is SipEventKind.CALL_ANSWERED:
             self._ensure_call(event.call_id)
             self._open_input_channel()
-            self._transition(DialogueState.LISTENING, "call_answered")
+            if self.greeting_enabled and not self._greeting_played:
+                self._start_greeting()
+            elif self.state is not DialogueState.PLAYING:
+                self._transition(DialogueState.LISTENING, "call_answered")
         elif event.kind in {
             SipEventKind.REMOTE_HANGUP,
             SipEventKind.REMOTE_CANCEL,
@@ -177,7 +198,14 @@ class DialogueFSM:
             if self.state in {DialogueState.PLAYING, DialogueState.OFFERING_TRANSFER}:
                 self._cancel_playback("barge_in")
             if self.state is DialogueState.THINKING:
-                self._cancel_inference("speech_resumed")
+                if event.kind is SpeechEventKind.BARGE_IN:
+                    self._cancel_inference("barge_in")
+                else:
+                    # A VAD start/resume is not an authoritative new turn.
+                    # It may be a short acoustic return after the prior final
+                    # turn; cancelling here leaves the caller unanswered.
+                    self.ignored_events.append((event.kind.value, "waiting for final user turn"))
+                    return
             if self.state is DialogueState.AWAITING_TRANSFER_CONFIRMATION:
                 # The confirmation turn is already owned by the FSM. Keep the
                 # state until its authoritative FinalUserTurn arrives; moving
@@ -190,27 +218,67 @@ class DialogueFSM:
             # Final text arrives separately from the assembler; no inference is started here.
             self.ignored_events.append((event.kind.value, "awaiting authoritative final turn"))
 
-    def _handle_turn(self, event: FinalUserTurn) -> None:
-        if not self._matches_call(event.call_id) or self.is_terminal:
+    def _handle_act(
+        self,
+        event: ConfirmPendingAct | RejectPendingAct | KnowledgeRequestAct | TransferRequestAct,
+    ) -> None:
+        if self.call_id is None or self.is_terminal:
+            return
+        if isinstance(event, ConfirmPendingAct):
+            if (
+                self.state is not DialogueState.AWAITING_TRANSFER_CONFIRMATION
+                and not self._pending_transfer_reconfirmation
+            ):
+                self.ignored_events.append((event.kind.value, f"not accepted in {self.state.value}"))
+                return
+            if event.has_following_content:
+                self._pending_transfer_reconfirmation = True
+                self._transition(DialogueState.LISTENING, "transfer_confirmation_deferred")
+            else:
+                self._start_transfer("user_confirmed")
+            return
+        if isinstance(event, RejectPendingAct):
+            if (
+                self.state is not DialogueState.AWAITING_TRANSFER_CONFIRMATION
+                and not self._pending_transfer_reconfirmation
+            ):
+                self.ignored_events.append((event.kind.value, f"not accepted in {self.state.value}"))
+                return
+            self._pending_transfer_reconfirmation = False
+            self._transition(DialogueState.LISTENING, "transfer_declined")
+            return
+        if isinstance(event, TransferRequestAct):
+            if self.state not in {
+                DialogueState.LISTENING,
+                DialogueState.CONNECTED,
+                DialogueState.CALL_OPEN,
+                DialogueState.AWAITING_TRANSFER_CONFIRMATION,
+            }:
+                self.ignored_events.append((event.kind.value, f"not accepted in {self.state.value}"))
+                return
+            self._pending_transfer_reconfirmation = False
+            self._start_transfer("explicit_user_request")
             return
         if self.state is DialogueState.AWAITING_TRANSFER_CONFIRMATION:
-            if self._is_positive(event.text):
-                self._start_transfer("user_confirmed")
-            elif self._is_negative(event.text):
-                self._transition(DialogueState.LISTENING, "transfer_declined")
-            else:
-                self._transition(DialogueState.LISTENING, "confirmation_unclear")
-            return
+            # The user supplied content instead of an unambiguous yes/no.
+            # Preserve the pending intent and ask again after a substantive
+            # answer; the content itself must not be discarded.
+            self._pending_transfer_reconfirmation = True
+            self._transition(DialogueState.LISTENING, "confirmation_deferred_for_content")
+        if self.state is DialogueState.THINKING:
+            # A real, finalized new request supersedes the in-flight answer.
+            self._cancel_inference("new_final_user_turn")
+            self._transition(DialogueState.LISTENING, "new_final_user_turn")
         if self.state not in {
             DialogueState.LISTENING,
             DialogueState.CONNECTED,
             DialogueState.CALL_OPEN,
         }:
-            self.ignored_events.append(("utterance_final", f"not accepted in {self.state.value}"))
+            self.ignored_events.append((event.kind.value, f"not accepted in {self.state.value}"))
             return
         self.operation_id += 1
-        self._transition(DialogueState.THINKING, "utterance_final")
-        self._emit(DialogueCommand(CommandKind.START_INFERENCE, event.call_id, operation_id=self.operation_id))
+        self._transition(DialogueState.THINKING, "knowledge_request")
+        self._emit(DialogueCommand(CommandKind.START_INFERENCE, self.call_id, operation_id=self.operation_id))
 
     def _handle_decision(self, decision: StructuredDecision) -> None:
         if self.call_id is None or self.is_terminal:
@@ -253,6 +321,11 @@ class DialogueFSM:
                 self._transition(DialogueState.OFFERING_TRANSFER, "playback_started")
             else:
                 self._transition(DialogueState.PLAYING, "playback_started")
+        elif event.status is PlaybackStatus.PRODUCER_COMPLETED:
+            # TTS has stopped producing PCM, but the media egress may still
+            # contain frames. Only the physical playback owner may move the
+            # FSM out of PLAYING after that buffer has drained.
+            return
         elif event.status in {PlaybackStatus.COMPLETED, PlaybackStatus.STOPPED}:
             generation = self._playback_generation
             if generation is not None and self.call_id is not None:
@@ -270,7 +343,14 @@ class DialogueFSM:
             self._playback_generation = None
             self._pending_playback_action = None
             if pending is DialogueAction.OFFER_TRANSFER and event.status is PlaybackStatus.COMPLETED:
+                self._pending_transfer_reconfirmation = False
                 self._transition(DialogueState.AWAITING_TRANSFER_CONFIRMATION, "offer_played")
+            elif (
+                pending is DialogueAction.ANSWER
+                and event.status is PlaybackStatus.COMPLETED
+                and self._pending_transfer_reconfirmation
+            ):
+                self._start_transfer_confirmation()
             else:
                 self._transition(DialogueState.LISTENING, "playback_finished")
         elif event.status in {PlaybackStatus.CANCELLED, PlaybackStatus.FAILED}:
@@ -316,6 +396,8 @@ class DialogueFSM:
         self._input_generation = None
         self._playback_generation = None
         self._pending_playback_action = None
+        self._pending_transfer_reconfirmation = False
+        self._greeting_played = False
         self._terminalized = False
         self._transition(DialogueState.CALL_OPEN, "call_open")
         self._emit(DialogueCommand(CommandKind.ANSWER, call_id))
@@ -336,6 +418,61 @@ class DialogueFSM:
         self._transition(DialogueState.OFFERING_TRANSFER if action is DialogueAction.OFFER_TRANSFER else DialogueState.PLAYING, "answer_approved")
         self._emit(DialogueCommand(CommandKind.OPEN_CHANNEL, self.call_id, channel_id="playback", channel_kind="tts_playback", generation=handle.generation))
         self._emit(DialogueCommand(CommandKind.APPROVE_ANSWER, self.call_id, action=action, channel_id="playback", generation=handle.generation, operation_id=self.operation_id))
+
+    def _start_greeting(self) -> None:
+        """Open one interruptible static-TTS playback for the answered call."""
+
+        assert self.call_id is not None
+        handle = self.channels.open(self.call_id, "playback", "tts_playback")
+        self._greeting_played = True
+        self._playback_generation = handle.generation
+        self._pending_playback_action = None
+        self._transition(DialogueState.PLAYING, "call_greeting")
+        self._emit(
+            DialogueCommand(
+                CommandKind.OPEN_CHANNEL,
+                self.call_id,
+                channel_id="playback",
+                channel_kind="tts_playback",
+                generation=handle.generation,
+            )
+        )
+        self._emit(
+            DialogueCommand(
+                CommandKind.PLAY_GREETING,
+                self.call_id,
+                channel_id="playback",
+                generation=handle.generation,
+                operation_id=self.operation_id,
+            )
+        )
+
+    def _start_transfer_confirmation(self) -> None:
+        """Play the application-owned re-confirmation without answer LLM/RAG."""
+
+        assert self.call_id is not None
+        handle = self.channels.open(self.call_id, "playback", "tts_playback")
+        self._playback_generation = handle.generation
+        self._pending_playback_action = DialogueAction.OFFER_TRANSFER
+        self._transition(DialogueState.OFFERING_TRANSFER, "transfer_reconfirmation")
+        self._emit(
+            DialogueCommand(
+                CommandKind.OPEN_CHANNEL,
+                self.call_id,
+                channel_id="playback",
+                channel_kind="tts_playback",
+                generation=handle.generation,
+            )
+        )
+        self._emit(
+            DialogueCommand(
+                CommandKind.PLAY_TRANSFER_CONFIRMATION,
+                self.call_id,
+                channel_id="playback",
+                generation=handle.generation,
+                operation_id=self.operation_id,
+            )
+        )
 
     def _open_input_channel(self) -> None:
         assert self.call_id is not None
@@ -365,15 +502,25 @@ class DialogueFSM:
 
     def _start_transfer(self, reason: str) -> None:
         assert self.call_id is not None
+        self._pending_transfer_reconfirmation = False
         self._cancel_playback(reason)
         self._cancel_inference(reason)
         self._transition(DialogueState.TRANSFERRING, reason)
-        self._emit(DialogueCommand(CommandKind.TRANSFER, self.call_id, reason=reason, target=self.operator_target, operation_id=self.operation_id))
+        self._emit(
+            DialogueCommand(
+                CommandKind.TRANSFER,
+                self.call_id,
+                reason=reason,
+                target=self.operator_target,
+                operation_id=self.operation_id or None,
+            )
+        )
 
     def _terminate(self, reason: str, event_name: str, *, emit_hangup: bool = False) -> None:
         if self._terminalized:
             return
         self._terminalized = True
+        self._pending_transfer_reconfirmation = False
         if self.call_id is not None:
             self.operation_id += 1
             if emit_hangup:
@@ -396,16 +543,5 @@ class DialogueFSM:
         self.commands.append(command)
         if self.command_sink is not None:
             self.command_sink(command)
-
-    @staticmethod
-    def _is_positive(text: str) -> bool:
-        normalized = text.strip().casefold().strip(" \t\r\n.,!?;:")
-        return normalized in {"да", "так", "конечно", "подтверждаю", "соедините", "yes"}
-
-    @staticmethod
-    def _is_negative(text: str) -> bool:
-        normalized = text.strip().casefold().strip(" \t\r\n.,!?;:")
-        return normalized in {"нет", "не надо", "не нужно", "отмена", "no"}
-
 
 DialogueStateMachine = DialogueFSM

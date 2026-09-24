@@ -152,6 +152,7 @@ def test_asr_chunker_emits_exact_target_from_media_frames() -> None:
         chunk_ms=1000,
         flush_ms=1000,
     )
+    chunker.begin_turn("call-test:turn-1")
 
     emitted = 0
     for sequence in range(1, 51):
@@ -177,6 +178,7 @@ def test_asr_chunker_timer_flushes_partial_tail_without_background_thread() -> N
         generation=1,
         flush_ms=1000,
     )
+    chunker.begin_turn("call-test:turn-1")
 
     assert chunker.push(frame(sequence=1, timestamp_ns=0, media_profile=selected)) == 0
     assert chunker.on_timer(999_999_999) == 0
@@ -196,8 +198,9 @@ def test_asr_chunker_hard_endpoint_and_close_mark_final_tail() -> None:
         channel_id="call-test:asr",
         generation=1,
     )
+    hard.begin_turn("call-test:turn-1")
     hard.push(frame(sequence=1, media_profile=selected))
-    assert hard.hard_endpoint() == 1
+    assert hard.hard_endpoint("call-test:turn-1") == 1
     hard_chunk = hard.next_chunk()
     assert hard_chunk is not None
     assert hard_chunk.flush_reason is FlushReason.HARD_ENDPOINT
@@ -209,6 +212,7 @@ def test_asr_chunker_hard_endpoint_and_close_mark_final_tail() -> None:
         channel_id="call-test:asr",
         generation=1,
     )
+    closing.begin_turn("call-test:turn-1")
     closing.push(frame(sequence=1, media_profile=selected))
     assert closing.close() is True
     assert closing.close() is False
@@ -228,10 +232,11 @@ def test_asr_chunker_hard_endpoint_marks_exact_target_asr_chunk_without_duplicat
         generation=1,
         chunk_ms=40,
     )
+    chunker.begin_turn("call-test:turn-1")
     for sequence in range(1, 3):
         chunker.push(frame(sequence=sequence, media_profile=selected))
 
-    assert chunker.hard_endpoint() == 1
+    assert chunker.hard_endpoint("call-test:turn-1") == 1
     target = chunker.next_chunk()
     marker = chunker.next_chunk()
     assert target is not None and target.flush_reason is FlushReason.TARGET
@@ -250,6 +255,7 @@ def test_asr_chunker_cancel_discards_pending_and_future_stale_audio() -> None:
         generation=1,
         max_pending_chunks=1,
     )
+    chunker.begin_turn("call-test:turn-1")
     chunker.push(frame(sequence=1, media_profile=selected))
     assert chunker.cancel() is True
     assert chunker.cancel() is False
@@ -268,6 +274,7 @@ def test_asr_chunker_overflow_is_non_blocking_and_observable() -> None:
         generation=1,
         max_pending_chunks=1,
     )
+    chunker.begin_turn("call-test:turn-1")
     for sequence in range(1, 101):
         chunker.push(frame(sequence=sequence, media_profile=selected))
 
@@ -285,6 +292,7 @@ def test_asr_chunker_rejects_duplicate_and_wrong_generation_frames() -> None:
         channel_id="call-test:asr",
         generation=2,
     )
+    chunker.begin_turn("call-test:turn-1")
     assert chunker.push(frame(sequence=1, generation=1, media_profile=selected)) == 0
     assert chunker.push(frame(sequence=1, generation=2, media_profile=selected)) == 0
     assert chunker.push(frame(sequence=2, generation=2, media_profile=selected)) == 0

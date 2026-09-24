@@ -1,0 +1,211 @@
+{
+  "probe": "009-B-pjsua2-registration-lifecycle",
+  "status": "pass",
+  "error": null,
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "python_version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "py_gil_disabled": 1,
+  "gil_enabled_at_finish": false,
+  "elapsed_seconds": 2.348,
+  "registrar": {
+    "address": "127.0.0.1:48010",
+    "request_count": 5,
+    "requests": [
+      {
+        "method": "REGISTER",
+        "cseq": 47992,
+        "expires": 2,
+        "has_authorization": false,
+        "has_digest_response": false
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 47993,
+        "expires": 2,
+        "has_authorization": true,
+        "has_digest_response": true
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 47994,
+        "expires": 2,
+        "has_authorization": false,
+        "has_digest_response": false
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 47995,
+        "expires": 0,
+        "has_authorization": false,
+        "has_digest_response": false
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 47996,
+        "expires": 0,
+        "has_authorization": true,
+        "has_digest_response": true
+      }
+    ]
+  },
+  "registration_events": [
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15257112771755,
+      "sequence": 1,
+      "method": null,
+      "status_code": null,
+      "reason": "registration requested by account.create",
+      "details": {
+        "state": "registering",
+        "registration_event": "registration_started",
+        "readiness": false
+      },
+      "registration_status": {
+        "state": "registering",
+        "event": "registration_started",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48010",
+        "status_code": null,
+        "reason": "registration requested by account.create",
+        "expires_seconds": 2,
+        "observed_at_ns": 15257112730746,
+        "expires_at_ns": null,
+        "readiness": false
+      }
+    },
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15257112994355,
+      "sequence": 2,
+      "method": null,
+      "status_code": null,
+      "reason": "PJSUA2 registration transaction started",
+      "details": {
+        "state": "registering",
+        "registration_event": "registration_started",
+        "readiness": false
+      },
+      "registration_status": {
+        "state": "registering",
+        "event": "registration_started",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48010",
+        "status_code": null,
+        "reason": "PJSUA2 registration transaction started",
+        "expires_seconds": 2,
+        "observed_at_ns": 15257112980018,
+        "expires_at_ns": null,
+        "readiness": false
+      }
+    },
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15257113796533,
+      "sequence": 3,
+      "method": null,
+      "status_code": 200,
+      "reason": "OK",
+      "details": {
+        "state": "registered",
+        "registration_event": "registration_succeeded",
+        "readiness": true
+      },
+      "registration_status": {
+        "state": "registered",
+        "event": "registration_succeeded",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48010",
+        "status_code": 200,
+        "reason": "OK",
+        "expires_seconds": 2,
+        "observed_at_ns": 15257113784797,
+        "expires_at_ns": 15259113773428,
+        "readiness": true
+      }
+    },
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15258114064239,
+      "sequence": 4,
+      "method": null,
+      "status_code": null,
+      "reason": "unregistration requested before account shutdown",
+      "details": {
+        "state": "unregistering",
+        "registration_event": "registration_unregistering",
+        "readiness": false
+      },
+      "registration_status": {
+        "state": "unregistering",
+        "event": "registration_unregistering",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48010",
+        "status_code": null,
+        "reason": "unregistration requested before account shutdown",
+        "expires_seconds": 0,
+        "observed_at_ns": 15258114040735,
+        "expires_at_ns": null,
+        "readiness": false
+      }
+    },
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15258114219128,
+      "sequence": 5,
+      "method": null,
+      "status_code": null,
+      "reason": "PJSUA2 unregistration transaction started",
+      "details": {
+        "state": "unregistering",
+        "registration_event": "registration_unregistering",
+        "readiness": false
+      },
+      "registration_status": {
+        "state": "unregistering",
+        "event": "registration_unregistering",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48010",
+        "status_code": null,
+        "reason": "PJSUA2 unregistration transaction started",
+        "expires_seconds": 0,
+        "observed_at_ns": 15258114205629,
+        "expires_at_ns": null,
+        "readiness": false
+      }
+    },
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15258114263985,
+      "sequence": 6,
+      "method": null,
+      "status_code": null,
+      "reason": "account shutdown completed",
+      "details": {
+        "state": "unregistered",
+        "registration_event": "registration_unregistered",
+        "readiness": false
+      },
+      "registration_status": {
+        "state": "unregistered",
+        "event": "registration_unregistered",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48010",
+        "status_code": null,
+        "reason": "account shutdown completed",
+        "expires_seconds": 0,
+        "observed_at_ns": 15258114258846,
+        "expires_at_ns": null,
+        "readiness": false
+      }
+    }
+  ],
+  "password_in_output": false,
+  "gpu_inference": false
+}

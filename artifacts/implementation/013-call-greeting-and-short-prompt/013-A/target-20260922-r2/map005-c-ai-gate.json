@@ -1,0 +1,91 @@
+{
+  "schema": "sip-bot.map005-c-ai-gate.v1",
+  "status": "fail",
+  "started_at": "2026-09-22T08:38:10.330+00:00",
+  "target_runtime": {
+    "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "platform": "linux"
+  },
+  "candidate": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "quantization": "Q4_K_M / 4-bit",
+    "ollama_model": "c3-qwen35-9b-q4km:latest",
+    "ollama_version": "0.33.1",
+    "artifact": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "fallback_run": false
+  },
+  "gpu": {
+    "before": {
+      "label": "before",
+      "captured_at": "2026-09-22T08:38:10.330+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 3330,
+      "memory_free_mib": 12721,
+      "utilization_gpu_percent": 3
+    },
+    "after_error": {
+      "label": "after-error",
+      "captured_at": "2026-09-22T08:39:05.531+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 10709,
+      "memory_free_mib": 5342,
+      "utilization_gpu_percent": 56
+    }
+  },
+  "profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "001-S negotiated test profile"
+  },
+  "warmup": {
+    "embedding_index_ms": 7.022,
+    "index_operation": "load-prebuilt-index",
+    "corpus_embedding_requests": 0,
+    "llm_trace": {
+      "final_user_turn_ns": 24636323877395,
+      "request_started_ns": 24636323903086,
+      "first_stream_event_ns": 24641017245339,
+      "first_usable_output_ns": 24641017245339,
+      "final_result_ns": 24641655792072,
+      "cancel_requested_ns": null,
+      "completed_ns": 24641655792072,
+      "final_to_first_usable_ms": 4693.367944,
+      "final_to_final_result_ms": 5331.914677,
+      "request_to_first_usable_ms": 4693.342253,
+      "request_to_final_result_ms": 5331.888986
+    },
+    "llm_wall_ms": 5332.207,
+    "tts_first_chunk": {
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "first_chunk_bytes": 14166
+    },
+    "tts_wall_ms": 652.51,
+    "excluded_from_live_turn_latency": true
+  },
+  "rag": {},
+  "llm": {},
+  "tts": {},
+  "source_mode": {
+    "implementation": "PcmAudioBridge EgressSourceMode; IDLE/PREROLL/PLAYING/CANCELLED/CLOSED",
+    "underrun_policy": "only empty TTS buffer while PLAYING increments egress_underruns"
+  },
+  "errors": [
+    "NameError: name 'corpus_chunks' is not defined"
+  ],
+  "finished_at": "2026-09-22T08:39:05.569+00:00"
+}

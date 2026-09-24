@@ -50,6 +50,63 @@ class TranscriptUpdateKind(StrEnum):
     FINAL = "final"
 
 
+class AsrSpeechDecision(StrEnum):
+    """Model evidence decision attached to one ASR hypothesis."""
+
+    SPEECH = "speech"
+    NO_SPEECH = "no_speech"
+
+
+@dataclass(frozen=True, slots=True)
+class AsrSpeechEvidence:
+    """Inspectable faster-whisper evidence; not a generic confidence score."""
+
+    decision: AsrSpeechDecision
+    no_speech_probability: float | None
+    average_log_probability: float | None
+    compression_ratio: float | None
+    input_duration_ms: float
+    max_segment_end_ms: float | None
+    reason: str
+    segment_timeline_valid: bool = True
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.decision, AsrSpeechDecision):
+            raise TypeError("decision must be AsrSpeechDecision")
+        if self.no_speech_probability is not None:
+            if (
+                not isinstance(self.no_speech_probability, (int, float))
+                or not 0.0 <= self.no_speech_probability <= 1.0
+            ):
+                raise ValueError("no_speech_probability must be between 0 and 1")
+        if self.average_log_probability is not None and not isinstance(
+            self.average_log_probability, (int, float)
+        ):
+            raise TypeError("average_log_probability must be numeric or None")
+        if self.compression_ratio is not None:
+            if not isinstance(self.compression_ratio, (int, float)) or self.compression_ratio < 0:
+                raise ValueError("compression_ratio must be non-negative")
+        if not isinstance(self.input_duration_ms, (int, float)) or self.input_duration_ms < 0:
+            raise ValueError("input_duration_ms must be non-negative")
+        if self.max_segment_end_ms is not None:
+            if not isinstance(self.max_segment_end_ms, (int, float)) or self.max_segment_end_ms < 0:
+                raise ValueError("max_segment_end_ms must be non-negative")
+        if not isinstance(self.reason, str) or not self.reason:
+            raise ValueError("speech evidence reason must not be empty")
+        if not isinstance(self.segment_timeline_valid, bool):
+            raise TypeError("segment_timeline_valid must be bool")
+
+    @property
+    def speech_supported(self) -> bool:
+        return self.decision is AsrSpeechDecision.SPEECH
+
+    @property
+    def timeline_overrun_ms(self) -> float:
+        if self.max_segment_end_ms is None:
+            return 0.0
+        return max(0.0, self.max_segment_end_ms - self.input_duration_ms)
+
+
 @dataclass(frozen=True, slots=True)
 class VadDecision:
     """One frame-level VAD result, tied to one call generation."""
@@ -63,6 +120,13 @@ class VadDecision:
     is_speech: bool
     confidence: float | None = None
     source: str = "webrtc-vad"
+    raw_is_speech: bool | None = None
+    rms_dbfs: float | None = None
+    noise_floor_dbfs: float | None = None
+    speech_threshold_dbfs: float | None = None
+    speech_level_dbfs: float | None = None
+    barge_in_threshold_dbfs: float | None = None
+    barge_in_qualified: bool | None = None
 
     def __post_init__(self) -> None:
         _identifier(self.call_id, "call_id")
@@ -75,6 +139,20 @@ class VadDecision:
             raise ValueError("frame_duration_ms must be 10, 20 or 30")
         if self.confidence is not None and not 0.0 <= self.confidence <= 1.0:
             raise ValueError("confidence must be between 0 and 1")
+        if self.raw_is_speech is not None and not isinstance(self.raw_is_speech, bool):
+            raise TypeError("raw_is_speech must be bool or None")
+        for name in (
+            "rms_dbfs",
+            "noise_floor_dbfs",
+            "speech_threshold_dbfs",
+            "speech_level_dbfs",
+            "barge_in_threshold_dbfs",
+        ):
+            value = getattr(self, name)
+            if value is not None and (not isinstance(value, (int, float)) or not -96.0 <= value <= 0.0):
+                raise ValueError(f"{name} must be between -96 and 0 dBFS")
+        if self.barge_in_qualified is not None and not isinstance(self.barge_in_qualified, bool):
+            raise TypeError("barge_in_qualified must be bool or None")
 
     @property
     def end_timestamp_ns(self) -> int:
@@ -123,10 +201,13 @@ class AsrHypothesis:
     stable_prefix: str | None = None
     confidence: float | None = None
     source: str = "streaming-asr"
+    turn_id: str = ""
+    evidence: AsrSpeechEvidence | None = None
 
     def __post_init__(self) -> None:
         _identifier(self.call_id, "call_id")
         _identifier(self.channel_id, "channel_id")
+        _identifier(self.turn_id, "turn_id")
         _generation(self.generation)
         if isinstance(self.revision, bool) or not isinstance(self.revision, int) or self.revision < 1:
             raise ValueError("revision must be a positive integer")
@@ -138,10 +219,16 @@ class AsrHypothesis:
                 raise ValueError("stable_prefix must be a prefix of text")
         if self.confidence is not None and not 0.0 <= self.confidence <= 1.0:
             raise ValueError("confidence must be between 0 and 1")
+        if self.evidence is not None and not isinstance(self.evidence, AsrSpeechEvidence):
+            raise TypeError("evidence must be AsrSpeechEvidence or None")
 
     @property
     def normalized_text(self) -> str:
         return " ".join(self.text.split())
+
+    @property
+    def speech_supported(self) -> bool:
+        return self.evidence is None or self.evidence.speech_supported
 
 
 @dataclass(frozen=True, slots=True)
@@ -208,13 +295,19 @@ def coerce_backend_hypothesis(
     call_id: str,
     channel_id: str,
     generation: int,
+    turn_id: str,
     revision: int,
     timestamp_ns: int,
 ) -> AsrHypothesis:
     """Map a C2/backend item to the application ASR contract."""
 
     if isinstance(value, AsrHypothesis):
-        if (value.call_id, value.channel_id, value.generation) != (call_id, channel_id, generation):
+        if (value.call_id, value.channel_id, value.generation, value.turn_id) != (
+            call_id,
+            channel_id,
+            generation,
+            turn_id,
+        ):
             raise ValueError("backend hypothesis lifecycle metadata does not match the operation")
         return value
     if isinstance(value, str):
@@ -225,8 +318,21 @@ def coerce_backend_hypothesis(
             revision=revision,
             timestamp_ns=timestamp_ns,
             text=value,
+            turn_id=turn_id,
         )
     if isinstance(value, dict):
+        evidence = value.get("evidence")
+        if isinstance(evidence, dict):
+            evidence = AsrSpeechEvidence(
+                decision=AsrSpeechDecision(str(evidence["decision"])),
+                no_speech_probability=evidence.get("no_speech_probability"),
+                average_log_probability=evidence.get("average_log_probability"),
+                compression_ratio=evidence.get("compression_ratio"),
+                input_duration_ms=float(evidence.get("input_duration_ms", 0.0)),
+                max_segment_end_ms=evidence.get("max_segment_end_ms"),
+                reason=str(evidence.get("reason", "backend_evidence")),
+                segment_timeline_valid=bool(evidence.get("segment_timeline_valid", True)),
+            )
         return AsrHypothesis(
             call_id=call_id,
             channel_id=channel_id,
@@ -238,5 +344,7 @@ def coerce_backend_hypothesis(
             stable_prefix=value.get("stable_prefix"),
             confidence=value.get("confidence"),
             source=str(value.get("source", "streaming-asr")),
+            turn_id=turn_id,
+            evidence=evidence,
         )
     raise TypeError(f"unsupported ASR backend item: {type(value).__name__}")

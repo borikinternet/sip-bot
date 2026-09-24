@@ -1,0 +1,250 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260913T183539Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "fail",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-13T18:35:39.480281+00:00",
+  "elapsed_ms": 28157.95,
+  "elapsed_from_call_start_ms": 1057.802,
+  "warmup": {
+    "started_at_ns": 20424979757548,
+    "completed_at_ns": 20450512795905,
+    "elapsed_ms": 25533.038357,
+    "stages": [
+      {
+        "name": "rag-embedding-index",
+        "elapsed_ms": 214.243632,
+        "details": {
+          "chunks": 6,
+          "embedding_model": "embeddinggemma"
+        }
+      },
+      {
+        "name": "llm-chat",
+        "elapsed_ms": 1094.423777,
+        "details": {
+          "sources": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "trace": {
+            "final_user_turn_ns": 20425216976264,
+            "request_started_ns": 20425217014778,
+            "first_stream_event_ns": 20425293351753,
+            "first_usable_output_ns": 20425293351753,
+            "final_result_ns": 20426288320069,
+            "cancel_requested_ns": null,
+            "completed_ns": 20426288320069,
+            "final_to_first_usable_ms": 76.375489,
+            "final_to_final_result_ms": 1071.343805,
+            "request_to_first_usable_ms": 76.336975,
+            "request_to_final_result_ms": 1071.305291
+          }
+        }
+      },
+      {
+        "name": "asr",
+        "elapsed_ms": 8248.972324,
+        "details": {
+          "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+          "model_sample_rate_hz": 16000,
+          "input_sample_rate_hz": 8000,
+          "input_duration_ms": 1000,
+          "model_loaded_by_warmup": true
+        }
+      },
+      {
+        "name": "tts-initialize",
+        "elapsed_ms": 11993.898547,
+        "details": {
+          "initialized": true
+        }
+      },
+      {
+        "name": "tts-stream",
+        "elapsed_ms": 355.579811,
+        "details": {
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "first_chunk_bytes": 14166
+        }
+      },
+      {
+        "name": "fixture",
+        "elapsed_ms": 3625.758723,
+        "details": {
+          "path": "/mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C/registered-full-r7/live-stand/input-scenario.wav",
+          "bytes": 1351190
+        }
+      }
+    ]
+  },
+  "fixture": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C/registered-full-r7/live-stand/input-scenario.wav",
+    "bytes": 1351190,
+    "sha256": "f7bcad75506e6febaa89a8e92235ac4339d531a7cbffc1d2c49fc76b033af307",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "duration_s": 84.449,
+    "segments": [
+      {
+        "turn_id": "turn-1",
+        "text": "Почему небо днём кажется голубым?",
+        "speech_started_s": 1.5,
+        "speech_duration_s": 1.856,
+        "leading_s": 1.5,
+        "trailing_s": 14.5
+      },
+      {
+        "turn_id": "turn-2",
+        "text": "А почему на закате оно становится красным?",
+        "speech_started_s": 17.856,
+        "speech_duration_s": 2.368,
+        "leading_s": 0.0,
+        "trailing_s": 1.0
+      },
+      {
+        "turn_id": "turn-3",
+        "text": "Стоп, небо голубое?",
+        "speech_started_s": 22.724,
+        "speech_duration_s": 2.229,
+        "leading_s": 1.5,
+        "trailing_s": 11.0
+      },
+      {
+        "turn_id": "turn-4",
+        "text": "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+        "speech_started_s": 46.953,
+        "speech_duration_s": 5.248,
+        "leading_s": 11.0,
+        "trailing_s": 10.5
+      },
+      {
+        "turn_id": "turn-5",
+        "text": "Да",
+        "speech_started_s": 73.201,
+        "speech_duration_s": 1.248,
+        "leading_s": 10.5,
+        "trailing_s": 10.0
+      }
+    ],
+    "source": "local XTTS-generated multi-turn fixture; not a call recording",
+    "timing_profile": "compact-demo-v1"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  },
+  "sip": {
+    "peer_established": false,
+    "rtp_ingress_established": false,
+    "pcmu_8000_mono": false,
+    "peer_rtp_packets": null,
+    "adapter_profile": null,
+    "adapter_media_stats": {},
+    "adapter_events": []
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C/registered-full-r7/baresip-operator.log",
+    "transfer_result": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "available": true,
+      "accepted": []
+    }
+  },
+  "conversation": {
+    "context": [],
+    "user_turn_count": 0,
+    "assistant_turn_count": 0,
+    "rag_context_count": 0,
+    "rag_source_ids": []
+  },
+  "asr_hypotheses": [],
+  "fsm": {
+    "state": "call_open",
+    "trace_events": [
+      "call_open"
+    ],
+    "trace_states": [
+      "call_open"
+    ]
+  },
+  "wiring": {
+    "sip_polls": 0,
+    "control_dispatches": 0,
+    "ingress_frames": 0,
+    "fanout_frames": 0,
+    "asr_chunks_queued": 0,
+    "asr_chunks_dropped": 0,
+    "asr_hypotheses": 0,
+    "final_turns": 0,
+    "tts_chunks": 0,
+    "tts_frames_sent": 0,
+    "stale_hypotheses": 0,
+    "errors": 0
+  },
+  "speech": {
+    "candidate": "WebRtcVadCandidate",
+    "mode": 2,
+    "decision_count": 0,
+    "speech_decision_count": 0,
+    "silence_decision_count": 0,
+    "sample_rates_hz": [],
+    "frame_durations_ms": [],
+    "first_speech_sequence": null,
+    "last_speech_sequence": null,
+    "endpoint_events": []
+  },
+  "tts_output": {
+    "accepted_chunks": 0,
+    "accepted_bytes": 0,
+    "emitted_frames": 0,
+    "emitted_bytes": 0,
+    "flushed_tail_frames": 0,
+    "dropped_tail_bytes": 0,
+    "dropped_stale_chunks": 0,
+    "dropped_closed_chunks": 0,
+    "dropped_cancelled_chunks": 0,
+    "dropped_overflow_bytes": 0,
+    "buffered_bytes": 0,
+    "pending_frames": 0
+  },
+  "scenario_checks": {
+    "follow_up_turn_present": false,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": false
+  },
+  "report": null,
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C/registered-full-r7/baresip-peer.log",
+  "errors": [
+    "RuntimeError: registered Baresip peer is not available"
+  ],
+  "audio_recording": false,
+  "external_pbx": false,
+  "notes": [
+    "The fixture is generated before call admission and is not a conversation recording.",
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario."
+  ],
+  "registration_mode": "enabled",
+  "incoming_admission": {
+    "gate": "IncomingCallReadinessGate",
+    "incoming_call_requested": false,
+    "runtime_ready_at_call": false,
+    "policy": "registered peer calls 7000; gate admits only after aggregate readiness"
+  },
+  "wrapper_debug": {
+    "popen_commands": [
+      "baresip -f /mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/config/operator-5090 -t 330.0",
+      "baresip -f /mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C/registered-full-r7/live-stand/peer-5080 -t 330.0"
+    ],
+    "peer_captured": true
+  }
+}

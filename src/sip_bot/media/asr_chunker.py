@@ -28,6 +28,7 @@ class AsrAudioChunk:
     call_id: str
     channel_id: str
     generation: int
+    turn_id: str
     sequence: int
     timestamp_ns: int
     pcm_s16le: bytes
@@ -36,8 +37,8 @@ class AsrAudioChunk:
     is_final: bool = False
 
     def __post_init__(self) -> None:
-        if not self.call_id or not self.channel_id:
-            raise ValueError("call_id and channel_id must be non-empty")
+        if not self.call_id or not self.channel_id or not self.turn_id:
+            raise ValueError("call_id, channel_id and turn_id must be non-empty")
         if self.generation < 1 or self.sequence < 1 or self.timestamp_ns < 0:
             raise ValueError("invalid ASR chunk lifecycle metadata")
         if not isinstance(self.pcm_s16le, bytes):
@@ -60,6 +61,7 @@ class AsrAudioChunk:
             "call_id": self.call_id,
             "channel_id": self.channel_id,
             "generation": self.generation,
+            "turn_id": self.turn_id,
             "sequence": self.sequence,
             "timestamp_ns": self.timestamp_ns,
             "bytes": len(self.pcm_s16le),
@@ -85,6 +87,7 @@ class ChunkerStats:
     dropped_closed: int = 0
     dropped_cancelled: int = 0
     dropped_overflow: int = 0
+    dropped_unscoped: int = 0
 
     def as_dict(self) -> dict[str, int]:
         return {field: int(getattr(self, field)) for field in self.__dataclass_fields__}
@@ -132,6 +135,7 @@ class AsrChunker:
         self._buffer_timestamp_ns: int | None = None
         self._last_audio_timestamp_ns: int | None = None
         self._turn_has_audio = False
+        self._active_turn_id: str | None = None
         self._pending: deque[AsrAudioChunk] = deque()
         self._last_frame_sequence = 0
         self._next_chunk_sequence = 1
@@ -160,6 +164,30 @@ class AsrChunker:
         with self._lock:
             return len(self._pending)
 
+    @property
+    def active_turn_id(self) -> str | None:
+        with self._lock:
+            return self._active_turn_id
+
+    def begin_turn(self, turn_id: str) -> bool:
+        """Open the authoritative TurnDetector scope for following PCM frames."""
+
+        if not turn_id:
+            raise ValueError("turn_id must be non-empty")
+        with self._lock:
+            if self._closed or self._cancelled:
+                return False
+            if self._active_turn_id == turn_id:
+                return False
+            if self._active_turn_id is not None:
+                raise ValueError(
+                    f"cannot begin ASR turn {turn_id!r} before {self._active_turn_id!r} is finalized"
+                )
+            if self._buffer or self._turn_has_audio:
+                raise RuntimeError("unscoped ASR audio exists before begin_turn")
+            self._active_turn_id = turn_id
+            return True
+
     def push(self, frame: PcmFrame) -> int:
         """Accept a frame and return the number of chunks emitted/queued."""
 
@@ -174,6 +202,9 @@ class AsrChunker:
                 return 0
             if frame.call_id != self.call_id or frame.channel_id != self.channel_id or frame.generation != self.generation:
                 self.stats.dropped_stale += 1
+                return 0
+            if self._active_turn_id is None:
+                self.stats.dropped_unscoped += 1
                 return 0
             if frame.profile != self.profile or frame.sequence <= self._last_frame_sequence:
                 self.stats.dropped_stale += 1
@@ -211,8 +242,19 @@ class AsrChunker:
                 return 0
             return self._flush_locked(reason, is_final=is_final)
 
-    def hard_endpoint(self) -> int:
-        return self.flush(FlushReason.HARD_ENDPOINT, is_final=True)
+    def hard_endpoint(self, turn_id: str) -> int:
+        if not turn_id:
+            raise ValueError("turn_id must be non-empty")
+        with self._lock:
+            if self._closed or self._cancelled:
+                return 0
+            if self._active_turn_id != turn_id:
+                raise ValueError(
+                    f"hard endpoint {turn_id!r} does not match active ASR turn {self._active_turn_id!r}"
+                )
+            emitted = self._flush_locked(FlushReason.HARD_ENDPOINT, is_final=True)
+            self._active_turn_id = None
+            return emitted
 
     def next_chunk(self) -> AsrAudioChunk | None:
         with self._lock:
@@ -242,6 +284,7 @@ class AsrChunker:
             self._buffer_timestamp_ns = None
             self._last_audio_timestamp_ns = None
             self._turn_has_audio = False
+            self._active_turn_id = None
             self._pending.clear()
             self.stats.dropped_cancelled += 1
             return True
@@ -309,6 +352,7 @@ class AsrChunker:
             call_id=self.call_id,
             channel_id=self.channel_id,
             generation=self.generation,
+            turn_id=self._required_turn_id(),
             sequence=self._next_chunk_sequence,
             timestamp_ns=timestamp_ns,
             pcm_s16le=payload,
@@ -321,6 +365,11 @@ class AsrChunker:
         self.stats.emitted_chunks += 1
         self.stats.emitted_bytes += len(payload)
         return True
+
+    def _required_turn_id(self) -> str:
+        if self._active_turn_id is None:
+            raise RuntimeError("ASR chunk cannot be emitted outside an authoritative turn")
+        return self._active_turn_id
 
 
 __all__ = ["AsrAudioChunk", "AsrChunker", "ChunkerStats", "FlushReason"]

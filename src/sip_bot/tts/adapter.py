@@ -10,11 +10,13 @@ from __future__ import annotations
 from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass
 from threading import Event
+from time import monotonic_ns
 from typing import Protocol
 
 from sip_bot.sip_media.models import NegotiatedMediaProfile
 
 from .contracts import ApprovedTextChunk, TtsPcmChunk
+from .telemetry import TtsLatencyEvent, TtsLatencySink, TtsLatencyStage
 
 
 @dataclass(frozen=True, slots=True)
@@ -71,9 +73,13 @@ class XttsV2Adapter:
         engine: XttsEngine,
         *,
         operation_id_factory: Callable[[], str],
+        latency_sink: TtsLatencySink | None = None,
+        clock_ns: Callable[[], int] = monotonic_ns,
     ) -> None:
         self.engine = engine
         self.operation_id_factory = operation_id_factory
+        self.latency_sink = latency_sink
+        self.clock_ns = clock_ns
 
     def stream(
         self,
@@ -93,12 +99,31 @@ class XttsV2Adapter:
         cancel_event = cancel or Event()
         operation_id = self.operation_id_factory()
         sequence = 1
+        first_engine_chunk = True
+        self._emit_latency(
+            operation_id=operation_id,
+            call_id=call_id,
+            turn_id=turn_id,
+            channel_id=channel_id,
+            generation=generation,
+            stage=TtsLatencyStage.ADAPTER_STARTED,
+        )
         try:
             for engine_chunk in self.engine.stream(text, cancel_event):
                 if cancel_event.is_set():
                     return
                 if engine_chunk.channels != 1:
                     raise TtsAdapterError("XTTS engine output must be mono")
+                if first_engine_chunk:
+                    self._emit_latency(
+                        operation_id=operation_id,
+                        call_id=call_id,
+                        turn_id=turn_id,
+                        channel_id=channel_id,
+                        generation=generation,
+                        stage=TtsLatencyStage.ENGINE_FIRST_CHUNK,
+                        payload_bytes=len(engine_chunk.pcm_s16le),
+                    )
                 pcm = _resample_pcm16_mono(
                     engine_chunk.pcm_s16le,
                     engine_chunk.sample_rate_hz,
@@ -106,6 +131,17 @@ class XttsV2Adapter:
                 )
                 if not pcm:
                     continue
+                if first_engine_chunk:
+                    self._emit_latency(
+                        operation_id=operation_id,
+                        call_id=call_id,
+                        turn_id=turn_id,
+                        channel_id=channel_id,
+                        generation=generation,
+                        stage=TtsLatencyStage.PCM_FIRST_CHUNK,
+                        payload_bytes=len(pcm),
+                    )
+                    first_engine_chunk = False
                 yield TtsPcmChunk(
                     operation_id=operation_id,
                     call_id=call_id,
@@ -122,6 +158,37 @@ class XttsV2Adapter:
             if isinstance(exc, TtsAdapterError):
                 raise
             raise TtsAdapterError("XTTS stream failed") from exc
+
+    def _emit_latency(
+        self,
+        *,
+        operation_id: str,
+        call_id: str,
+        turn_id: str,
+        channel_id: str,
+        generation: int,
+        stage: TtsLatencyStage,
+        payload_bytes: int = 0,
+    ) -> None:
+        sink = self.latency_sink
+        if sink is None:
+            return
+        try:
+            sink(
+                TtsLatencyEvent(
+                    operation_id=operation_id,
+                    call_id=call_id,
+                    turn_id=turn_id,
+                    channel_id=channel_id,
+                    generation=generation,
+                    stage=stage,
+                    timestamp_ns=self.clock_ns(),
+                    payload_bytes=payload_bytes,
+                )
+            )
+        except Exception:
+            # Observability must never change synthesis or playback behavior.
+            return
 
     def stream_approved_text(
         self,

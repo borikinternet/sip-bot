@@ -1,0 +1,163 @@
+{
+  "status": "pass",
+  "runtime": {
+    "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "py_gil_disabled": 1,
+    "gil_enabled": false
+  },
+  "input": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/diagnostics/latest-live-call-20260922-184910/conversation-stereo.wav",
+    "sha256": "d13e10a87280a24dd2feae7a35135f689b44bbda1a556ca184af9a729a7d98c7",
+    "sample_rate_hz": 8000,
+    "source_channels": 2,
+    "selected_channel": 0,
+    "frame_count": 2834
+  },
+  "configuration": {
+    "vad_mode": 2,
+    "no_speech_threshold": 0.6,
+    "segment_end_tolerance_ms": 500.0
+  },
+  "vad_analytics": {
+    "total_frames": 2834,
+    "raw_speech_frames": 1701,
+    "accepted_speech_frames": 494,
+    "rejected_low_energy_frames": 1207,
+    "noise_floor_dbfs": -81.27809882470774,
+    "speech_threshold_dbfs": -23.212799510808345,
+    "speech_level_dbfs": -11.212799510808347,
+    "barge_in_threshold_dbfs": -19.212799510808345,
+    "barge_in_qualified_frames": 192
+  },
+  "turn_count": 4,
+  "accepted_turn_count": 4,
+  "rejected_turn_count": 0,
+  "turns": [
+    {
+      "turn_id": "recorded-speech-evidence-replay:turn-8",
+      "timeline_end_s": 6.4,
+      "accepted_audio_ms": 2420.0,
+      "text": "Алло.",
+      "speech_supported": true,
+      "evidence": {
+        "decision": "speech",
+        "no_speech_probability": 0.480224609375,
+        "average_log_probability": -0.6056429445743561,
+        "compression_ratio": 0.5625,
+        "input_duration_ms": 2420.0,
+        "max_segment_end_ms": 1000.0,
+        "reason": "speech_supported",
+        "segment_timeline_valid": true
+      }
+    },
+    {
+      "turn_id": "recorded-speech-evidence-replay:turn-9",
+      "timeline_end_s": 8.92,
+      "accepted_audio_ms": 1580.0,
+      "text": "Какого цвета небо?",
+      "speech_supported": true,
+      "evidence": {
+        "decision": "speech",
+        "no_speech_probability": 0.005908966064453125,
+        "average_log_probability": -0.15623218417167664,
+        "compression_ratio": 0.75,
+        "input_duration_ms": 1580.0,
+        "max_segment_end_ms": 980.0,
+        "reason": "speech_supported",
+        "segment_timeline_valid": true
+      }
+    },
+    {
+      "turn_id": "recorded-speech-evidence-replay:turn-11",
+      "timeline_end_s": 23.04,
+      "accepted_audio_ms": 2340.0,
+      "text": "Нет, скажи, какого цвета небо?",
+      "speech_supported": true,
+      "evidence": {
+        "decision": "speech",
+        "no_speech_probability": 0.0041961669921875,
+        "average_log_probability": -0.09202248752117156,
+        "compression_ratio": 0.8833333333333333,
+        "input_duration_ms": 2340.0,
+        "max_segment_end_ms": 2120.0,
+        "reason": "speech_supported",
+        "segment_timeline_valid": true
+      }
+    },
+    {
+      "turn_id": "recorded-speech-evidence-replay:turn-12",
+      "timeline_end_s": 44.94,
+      "accepted_audio_ms": 3120.0,
+      "text": "Нет, не надо. А почему небо голубое?",
+      "speech_supported": true,
+      "evidence": {
+        "decision": "speech",
+        "no_speech_probability": 0.03399658203125,
+        "average_log_probability": -0.09541428415104747,
+        "compression_ratio": 0.9402985074626866,
+        "input_duration_ms": 3120.0,
+        "max_segment_end_ms": 2080.0,
+        "reason": "speech_supported",
+        "segment_timeline_valid": true
+      }
+    }
+  ],
+  "interval_probes": [
+    {
+      "turn_id": "recorded-speech-evidence-replay:probe-1",
+      "start_s": 10.06,
+      "end_s": 10.5,
+      "input_duration_ms": 440.0,
+      "text": "Продолжение следует...",
+      "speech_supported": false,
+      "evidence": {
+        "decision": "no_speech",
+        "no_speech_probability": 0.8828125,
+        "average_log_probability": -0.20638412833213807,
+        "compression_ratio": 0.8333333333333334,
+        "input_duration_ms": 440.0,
+        "max_segment_end_ms": 29980.0,
+        "reason": "no_speech_probability",
+        "segment_timeline_valid": false
+      }
+    },
+    {
+      "turn_id": "recorded-speech-evidence-replay:probe-2",
+      "start_s": 11.36,
+      "end_s": 12.1,
+      "input_duration_ms": 740.0,
+      "text": "Продолжение следует...",
+      "speech_supported": false,
+      "evidence": {
+        "decision": "no_speech",
+        "no_speech_probability": 0.94091796875,
+        "average_log_probability": -0.15946132242679595,
+        "compression_ratio": 0.8333333333333334,
+        "input_duration_ms": 740.0,
+        "max_segment_end_ms": 29980.0,
+        "reason": "no_speech_probability",
+        "segment_timeline_valid": false
+      }
+    },
+    {
+      "turn_id": "recorded-speech-evidence-replay:probe-3",
+      "start_s": 14.18,
+      "end_s": 14.5,
+      "input_duration_ms": 320.0,
+      "text": "Продолжение следует...",
+      "speech_supported": false,
+      "evidence": {
+        "decision": "no_speech",
+        "no_speech_probability": 0.93896484375,
+        "average_log_probability": -0.17616925835609437,
+        "compression_ratio": 0.8333333333333334,
+        "input_duration_ms": 320.0,
+        "max_segment_end_ms": 29980.0,
+        "reason": "no_speech_probability",
+        "segment_timeline_valid": false
+      }
+    }
+  ],
+  "rejected_probe_count": 3
+}

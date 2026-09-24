@@ -1,0 +1,19 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eno1|10.0.0.45 
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: ausine
+Populated 1 account
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+unhandeled request from 127.0.0.1:5090: REGISTER sip:127.0.0.1:5090
+[31mreg: sip:operator@127.0.0.1:5090: 501 Not Implemented (baresip v1.0.0 (x86_64/linux))
+[;munhandeled request from 127.0.0.1:5090: REGISTER sip:127.0.0.1:5090
+[31mreg: sip:operator@127.0.0.1:5090: 501 Not Implemented (baresip v1.0.0 (x86_64/linux))
+[;munhandeled request from 127.0.0.1:5090: REGISTER sip:127.0.0.1:5090
+[31mreg: sip:operator@127.0.0.1:5090: 501 Not Implemented (baresip v1.0.0 (x86_64/linux))
+[;mterminated by signal 15
+ua: stop all (forced=0)

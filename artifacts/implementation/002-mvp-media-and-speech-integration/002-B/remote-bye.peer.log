@@ -26,11 +26,11 @@ audio tx pipeline:      ausine ---> PCMU
 audio rx pipeline:      (play) <--- PCMU
 peer@127.0.0.1: Call established: sip:tester@127.0.0.1
 stream: incoming rtp for 'audio' established, receiving from 172.22.89.126:4000
-[0:00:00] audio=0/0 (bit/s)    call: terminate call 'a6806bbb-c316-4bde-b84e-b4a89c3ff8d5' with sip:tester@127.0.0.1
+[0:00:00] audio=0/0 (bit/s)    call: terminate call 'e3a2a2d8-ac74-4259-8d47-3f9c4d139701' with sip:tester@127.0.0.1
 
 audio           Transmit:     Receive:
 packets:             11           10
-avg. bitrate:      71.1         69.5  (kbit/s)
+avg. bitrate:      70.7         69.1  (kbit/s)
 errors:               0            0
 --- Help ---
                     ESC      Hangup call

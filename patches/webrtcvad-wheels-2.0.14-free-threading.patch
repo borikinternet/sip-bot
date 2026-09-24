@@ -1,0 +1,20 @@
+--- a/cbits/pywebrtcvad.c
++++ b/cbits/pywebrtcvad.c
+@@ -160,7 +160,17 @@ PyInit__webrtcvad(void)
+     if (module == NULL) {
+       INITERROR;
+     }
+
++#if defined(Py_GIL_DISABLED) && !defined(Py_LIMITED_API)
++    /* The WebRTC C implementation does not use the Python C API while
++       processing a frame.  Declare the single-phase module safe to import
++       without enabling the interpreter GIL in a free-threaded build. */
++    if (PyUnstable_Module_SetGIL(module, Py_MOD_GIL_NOT_USED) < 0) {
++      Py_DECREF(module);
++      INITERROR;
++    }
++#endif
++
+     VadError = PyErr_NewException("webrtcvad.Error", NULL, NULL);
+     Py_INCREF(VadError);
+     PyModule_AddObject(module, "Error", VadError);

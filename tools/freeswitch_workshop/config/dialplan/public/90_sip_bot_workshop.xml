@@ -1,0 +1,9 @@
+<include>
+  <context name="public">
+    <extension name="sip-bot-workshop-entry">
+      <condition field="destination_number" expression="^7000$">
+        <action application="transfer" data="7000 XML default"/>
+      </condition>
+    </extension>
+  </context>
+</include>

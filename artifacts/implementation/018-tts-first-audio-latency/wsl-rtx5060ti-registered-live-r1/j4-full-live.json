@@ -1,0 +1,161 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260922T223853Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "fail",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-22T22:38:53.431059+00:00",
+  "elapsed_ms": 103562.755,
+  "elapsed_from_call_start_ms": 101979.992,
+  "warmup": {
+    "started_at_ns": 75007503221444,
+    "completed_at_ns": 75093270190954,
+    "elapsed_ms": 85766.96951,
+    "stages": [
+      {
+        "name": "rag-embedding-index",
+        "elapsed_ms": 5.773716,
+        "details": {
+          "operation": "load-prebuilt-index",
+          "chunks": 6,
+          "dimension": 768,
+          "embedding_model": "embeddinggemma",
+          "corpus_embedding_requests": 0
+        }
+      },
+      {
+        "name": "llm-chat",
+        "elapsed_ms": 19627.62527,
+        "details": {
+          "sources": [
+            "wiki-chemistry-water",
+            "wiki-astronomy-mars",
+            "wiki-physics-rayleigh"
+          ],
+          "trace": {
+            "final_user_turn_ns": 75013053864293,
+            "request_started_ns": 75013053911694,
+            "first_stream_event_ns": 75026520350085,
+            "first_usable_output_ns": 75026520350085,
+            "final_result_ns": 75027135677970,
+            "cancel_requested_ns": null,
+            "completed_ns": 75027135677970,
+            "final_to_first_usable_ms": 13466.485792,
+            "final_to_final_result_ms": 14081.813677,
+            "request_to_first_usable_ms": 13466.438391,
+            "request_to_final_result_ms": 14081.766276
+          }
+        }
+      },
+      {
+        "name": "asr",
+        "elapsed_ms": 35601.92182,
+        "details": {
+          "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+          "model_sample_rate_hz": 16000,
+          "input_sample_rate_hz": 8000,
+          "input_duration_ms": 1000,
+          "model_loaded_by_warmup": true
+        }
+      },
+      {
+        "name": "tts-initialize",
+        "elapsed_ms": 30096.533081,
+        "details": {
+          "initialized": true,
+          "stream_chunk_size": 5,
+          "overlap_wav_len": 1024
+        }
+      },
+      {
+        "name": "tts-stream",
+        "elapsed_ms": 434.77252,
+        "details": {
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "first_chunk_bytes": 2902
+        }
+      }
+    ]
+  },
+  "fixture": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r1/live-stand/input-scenario.wav",
+    "bytes": 2608582,
+    "source": "prepared XTTS-generated multi-turn fixture copied for readiness replay",
+    "source_path": "/tmp/sip-bot-010-c-recording-uwpyccku/input-scenario-with-continuity-tail.wav",
+    "leading_silence_s": 45.0
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "readiness": {
+      "runtime_id": "application",
+      "state": "ready",
+      "sequence": 2,
+      "started_at_ns": 75007502282764,
+      "completed_at_ns": 75093277003874,
+      "error_type": null,
+      "error_message": null
+    }
+  },
+  "sip": {
+    "peer_established": false,
+    "rtp_ingress_established": false,
+    "pcmu_8000_mono": false,
+    "peer_rtp_packets": null,
+    "adapter_profile": null,
+    "adapter_media_stats": {},
+    "adapter_events": []
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r1/baresip-operator.log",
+    "transfer_result": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "available": true,
+      "accepted": []
+    }
+  },
+  "conversation": {
+    "context": [],
+    "user_turn_count": 0,
+    "assistant_turn_count": 0,
+    "rag_context_count": 0,
+    "rag_source_ids": [],
+    "rag_contexts": [],
+    "semantic_acts": []
+  },
+  "asr_hypotheses": [],
+  "fsm": {
+    "state": null,
+    "trace_events": [],
+    "trace_states": [],
+    "barge_in_observed": false
+  },
+  "wiring": {},
+  "speech": {},
+  "tts_output": {},
+  "tts_latency_events": [],
+  "scenario_checks": {
+    "follow_up_turn_present": false,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": false
+  },
+  "report": null,
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r1/baresip-peer.log",
+  "errors": [
+    "RuntimeError: bot registration did not become ready before incoming call"
+  ],
+  "audio_recording": false,
+  "external_pbx": false,
+  "notes": [
+    "The fixture is generated before call admission and is not a conversation recording.",
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario."
+  ]
+}

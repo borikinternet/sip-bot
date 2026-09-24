@@ -108,17 +108,23 @@ class SkillPromptManager:
         if not final_user_text.strip():
             raise ValueError("final user text must be non-empty")
         context_text = "\n".join(f"[{turn.role}] {turn.text}" for turn in snapshot.turns)
-        evidence_text = "\n\n".join(
-            f"[source_id={hit.source_id}; score={hit.score:.4f}; chunk_id={hit.chunk_id}]\n{hit.text}"
-            for hit in knowledge_context.hits
+        sufficient = knowledge_context.sufficient and bool(knowledge_context.hits)
+        evidence_text = (
+            "\n\n".join(
+                f"[source_id={hit.source_id}; score={hit.score:.4f}; chunk_id={hit.chunk_id}]\n{hit.text}"
+                for hit in knowledge_context.hits
+            )
+            if sufficient
+            else ""
         )
         context_text = context_text[-self.max_context_chars :]
         evidence_text = evidence_text[-self.max_context_chars :]
-        sufficient = knowledge_context.sufficient and bool(knowledge_context.hits)
         answer_mode = "rag_answer" if sufficient else "unknown_answer"
         allowed_actions = ("answer", "clarify") if sufficient else ("offer_transfer",)
         instruction = self.skill.instruction if sufficient else (
-            "Недостаточно подтверждённых фрагментов локальной базы. Сообщи об этом и предложи подключить оператора."
+            "Не используй найденные фрагменты как основание для ответа: их релевантность ниже порога. "
+            "Верни action=offer_transfer. В поле text дословно напиши: "
+            "«Я не могу надёжно ответить на этот вопрос по доступной базе знаний. Подключить оператора?»"
         )
         rendered = self.prompt_spec.template.format(
             instruction=instruction,

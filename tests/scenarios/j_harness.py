@@ -21,6 +21,7 @@ from sip_bot.dialogue import (
 from sip_bot.sip_media.protocol_events import NormalizedSipEvent, SipEventKind
 from sip_bot.speech import EndpointEventKind
 from sip_bot.transfer import FakeOperator, TransferOrchestrator
+from sip_bot.understanding import SemanticTurnParser
 
 
 @dataclass(slots=True)
@@ -58,14 +59,22 @@ class JScenario:
         self.store.append_user(turn_id, text)
         return turn
 
+    def handle_turn(self, text: str, turn_id: str) -> None:
+        semantic = SemanticTurnParser().parse(
+            self.turn(text, turn_id),
+            self.fsm.current_expectation(),
+        )
+        for act in semantic.acts:
+            self.fsm.handle(act)
+
     def confirmed_transfer(self) -> TransferResult:
         self.answered()
-        self.fsm.handle(self.turn("Нужен оператор", "turn-1"))
+        self.handle_turn("Нужен оператор", "turn-1")
         operation = self.fsm.active_operation_id
         self.fsm.handle(StructuredDecision("offer_transfer", "Подключить оператора?", operation_id=operation))
         generation = self.fsm.commands[-2].generation
         self.fsm.handle(PlaybackEvent(self.call_id, PlaybackStatus.COMPLETED, channel_generation=generation, operation_id=operation))
-        self.fsm.handle(self.turn("Да", "turn-2"))
+        self.handle_turn("Да", "turn-2")
         command = self.fsm.commands[-1]
         result = self.transfer.execute(command)
         self.fsm.handle(result)

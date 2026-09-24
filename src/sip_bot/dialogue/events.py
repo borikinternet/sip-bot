@@ -40,6 +40,7 @@ class SpeechEvent:
 class PlaybackStatus(StrEnum):
     STARTED = "started"
     STOPPED = "stopped"
+    PRODUCER_COMPLETED = "producer_completed"
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"

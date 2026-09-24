@@ -1,0 +1,4 @@
+freeswitch	1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+freeswitch-meta-vanilla	1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+freeswitch-mod-callcenter	1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+freeswitch-systemd	1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1

@@ -1,0 +1,54 @@
+{
+  "schema": "sip-bot.endpoint-live-audit.v1",
+  "status": "pass",
+  "maximum_allowed_ms": 400,
+  "observed_silence_ms": [
+    380,
+    362,
+    361,
+    383
+  ],
+  "maximum_observed_ms": 383,
+  "hard_endpoints": [
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "call-in-0-887286b30412467db06a474278ba0407:turn-1",
+      "timestamp_ns": 40361933331020,
+      "silence_ms": 380,
+      "reason": "hard_silence_threshold_reached",
+      "authoritative": true
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "call-in-0-887286b30412467db06a474278ba0407:turn-2",
+      "timestamp_ns": 40374212994990,
+      "silence_ms": 362,
+      "reason": "hard_silence_threshold_reached",
+      "authoritative": true
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "call-in-0-887286b30412467db06a474278ba0407:turn-3",
+      "timestamp_ns": 40379816181289,
+      "silence_ms": 361,
+      "reason": "hard_silence_threshold_reached",
+      "authoritative": true
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "call-in-0-887286b30412467db06a474278ba0407:turn-4",
+      "timestamp_ns": 40402396465754,
+      "silence_ms": 383,
+      "reason": "hard_silence_threshold_reached",
+      "authoritative": true
+    }
+  ],
+  "checks": {
+    "registered_runner_pass": true,
+    "free_threaded_runtime": true,
+    "four_hard_endpoints": true,
+    "all_hard_endpoints_within_limit": true,
+    "four_final_turns": true,
+    "no_runtime_errors": true
+  }
+}

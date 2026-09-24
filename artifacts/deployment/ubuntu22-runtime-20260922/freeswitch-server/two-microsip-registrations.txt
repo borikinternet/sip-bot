@@ -1,0 +1,34 @@
+
+Registrations:
+=================================================================================================
+Call-ID:    	501e55e7ac654c9aa2e510c95727834c
+User:       	1001@10.0.0.45
+Contact:    	"Workshop agent 1001" <sip:1001@172.18.0.1:5064;ob>
+Agent:      	MicroSIP/3.22.16
+Status:     	Registered(UDP)(unknown) EXP(2026-09-22 12:29:04) EXPSECS(359)
+Ping-Status:	Reachable
+Ping-Time:	0.00
+Host:       	freeswitch-bookworm
+IP:         	10.0.0.1
+Port:       	5064
+Auth-User:  	1001
+Auth-Realm: 	10.0.0.45
+MWI-Account:	1001@10.0.0.45
+
+Call-ID:    	b24e66cadca14e999db24b23a4829085
+User:       	1000@10.0.0.45
+Contact:    	"Workshop caller 1000" <sip:1000@172.18.0.1:5062;ob>
+Agent:      	MicroSIP/3.22.16
+Status:     	Registered(UDP)(unknown) EXP(2026-09-22 12:29:04) EXPSECS(359)
+Ping-Status:	Reachable
+Ping-Time:	0.00
+Host:       	freeswitch-bookworm
+IP:         	10.0.0.1
+Port:       	5062
+Auth-User:  	1000
+Auth-Realm: 	10.0.0.45
+MWI-Account:	1000@10.0.0.45
+
+Total items returned: 2
+=================================================================================================
+

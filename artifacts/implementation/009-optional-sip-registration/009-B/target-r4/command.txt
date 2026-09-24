@@ -1,0 +1,2 @@
+wsl.exe -d Ubuntu-24.04 -u sipbot -- bash -lc 'export LD_LIBRARY_PATH=/home/sipbot/.local/pjsip-2.17t/lib:${LD_LIBRARY_PATH:-}; cd /mnt/c/devel/sip-bot; /home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I tools/registration_lifecycle_probe.py --output /mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-B/target-r4/registration-lifecycle.json --seconds 6'
+exit_code=0

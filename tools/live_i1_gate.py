@@ -17,6 +17,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -37,9 +38,9 @@ from sip_bot.context import ContextSnapshot, ContextStore  # noqa: E402
 from sip_bot.conversation_pipeline import ConversationPipeline  # noqa: E402
 from sip_bot.llm import LlmFacade, OllamaHttpClient  # noqa: E402
 from sip_bot.media import AsrChunker  # noqa: E402
-from sip_bot.prompt import GenerationProfile, PromptSpec, SkillPromptManager, SkillSpec  # noqa: E402
+from sip_bot.prompt import SkillPromptManager, build_default_prompt_manager  # noqa: E402
 from sip_bot.report import ReportFinalizer  # noqa: E402
-from sip_bot.retrieval import KnowledgeQueryBuilder, LocalKnowledgeIndex, load_corpus  # noqa: E402
+from sip_bot.retrieval import KnowledgeQueryBuilder, LocalKnowledgeIndex  # noqa: E402
 from sip_bot.runtime import ApplicationRuntime  # noqa: E402
 from sip_bot.runtime_composition import CallOwners  # noqa: E402
 from sip_bot.runtime_wiring import CallRuntimeWiring  # noqa: E402
@@ -53,7 +54,7 @@ from sip_bot.speech import (  # noqa: E402
     StreamingAsrAdapter,
     TranscriptAssembler,
     TurnDetector,
-    VadProcessor,
+    build_configured_web_rtc_vad_processor,
 )
 from sip_bot.tts import ApprovedTextChunk, XttsV2Adapter  # noqa: E402
 
@@ -61,15 +62,77 @@ from sip_bot.tts import ApprovedTextChunk, XttsV2Adapter  # noqa: E402
 C2_MODEL = "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e"
 XTTS_MODEL = Path("/home/sipbot/.cache/sip-bot-c4-xtts-v2-model")
 C2_SITE = "/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages"
+PEER_CONFIG_TEMPLATE = PROJECT_ROOT / "artifacts" / "feasibility" / "001-S-voip-test-stand" / "config" / "peer-5080"
 
 
 class _AmplitudeVad:
-    """Deterministic test VAD for the live media gate."""
+    """Deterministic test double retained for isolated non-live probes."""
 
     def is_speech(self, pcm_s16le: bytes, sample_rate_hz: int) -> bool:
         del sample_rate_hz
         values = np.frombuffer(pcm_s16le, dtype=np.int16)
         return bool(values.size and np.max(np.abs(values)) > 350)
+
+
+class _RecordingSpeechIngress(SpeechIngress):
+    """Test-harness observer over the existing speech ingress boundary."""
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self._vad_decisions: list[dict[str, object]] = []
+        self._endpoint_events: list[dict[str, object]] = []
+        self._max_frame_abs = 0
+        self._nonzero_frame_count = 0
+
+    def process_frame(self, frame: Any):
+        values = np.frombuffer(frame.pcm_s16le, dtype=np.int16)
+        frame_abs = int(np.max(np.abs(values))) if values.size else 0
+        self._max_frame_abs = max(self._max_frame_abs, frame_abs)
+        if frame_abs:
+            self._nonzero_frame_count += 1
+        result = super().process_frame(frame)
+        decision = result.vad_decision
+        self._vad_decisions.append(
+            {
+                "sequence": decision.sequence,
+                "timestamp_ns": decision.timestamp_ns,
+                "frame_duration_ms": decision.frame_duration_ms,
+                "sample_rate_hz": frame.profile.sample_rate_hz,
+                "is_speech": decision.is_speech,
+                "source": decision.source,
+            }
+        )
+        self._endpoint_events.extend(
+            {
+                "kind": event.kind.value,
+                "turn_id": event.turn_id,
+                "timestamp_ns": event.timestamp_ns,
+                "silence_ms": event.silence_ms,
+                "reason": event.reason,
+                "authoritative": event.authoritative,
+            }
+            for event in result.endpoint_events
+        )
+        return result
+
+    def evidence(self) -> dict[str, object]:
+        speech = [item for item in self._vad_decisions if item["is_speech"]]
+        rates = sorted({int(item["sample_rate_hz"]) for item in self._vad_decisions})
+        durations = sorted({int(item["frame_duration_ms"]) for item in self._vad_decisions})
+        return {
+            "candidate": "WebRtcVadCandidate",
+            "mode": constants.VAD_MODE,
+            "decision_count": len(self._vad_decisions),
+            "speech_decision_count": len(speech),
+            "silence_decision_count": len(self._vad_decisions) - len(speech),
+            "sample_rates_hz": rates,
+            "frame_durations_ms": durations,
+            "first_speech_sequence": speech[0]["sequence"] if speech else None,
+            "last_speech_sequence": speech[-1]["sequence"] if speech else None,
+            "max_frame_abs": self._max_frame_abs,
+            "nonzero_frame_count": self._nonzero_frame_count,
+            "endpoint_events": list(self._endpoint_events),
+        }
 
 
 class _RecordingAsrBackend(FasterWhisperC2Backend):
@@ -146,26 +209,25 @@ def _make_input_fixture(tts: XttsV2Adapter, profile: Any, path: Path) -> dict[st
     }
 
 
+def _prepare_peer_config(root: Path, fixture_path: Path) -> Path:
+    """Create a clean Baresip peer from the accepted local stand template."""
+
+    peer_config = root / "peer-5080"
+    root.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(PEER_CONFIG_TEMPLATE, peer_config)
+    (peer_config / "uuid").unlink(missing_ok=True)
+    config_path = peer_config / "config"
+    config = config_path.read_text(encoding="utf-8")
+    config = re.sub(r"^module\s+ausine\.so\s*$", "module            aufile.so", config, flags=re.MULTILINE)
+    config = re.sub(r"^audio_source\s+.*$", f"audio_source      aufile,{fixture_path}", config, flags=re.MULTILINE)
+    config = re.sub(r"^ausrc_srate\s+.*$", "ausrc_srate       8000", config, flags=re.MULTILINE)
+    config = re.sub(r"^ausrc_channels\s+.*$", "ausrc_channels    1", config, flags=re.MULTILINE)
+    config_path.write_text(config, encoding="utf-8")
+    return peer_config
+
+
 def _prompt() -> SkillPromptManager:
-    return SkillPromptManager(
-        skill=SkillSpec(constants.DEFAULT_SKILL_ID, "1", "Отвечай кратко и только на основании найденных источников."),
-        prompt=PromptSpec(
-            constants.PROMPT_TEMPLATE_ID,
-            constants.PROMPT_TEMPLATE_VERSION,
-            "Отвечай только валидным JSON без Markdown и рассуждений. "
-            "Допустимые action: answer, clarify, offer_transfer. Для action=answer "
-            "дай не более двух коротких предложений в поле text.\n"
-            "{instruction}\nКонтекст:\n{context}\nЗнания:\n{knowledge}\n"
-            "Вопрос пользователя:\n{user_text}",
-        ),
-        profile=GenerationProfile(
-            constants.GENERATION_PROFILE_ID,
-            constants.GENERATION_PROFILE_VERSION,
-            constants.LLM_MAX_GENERATION_TOKENS,
-            constants.LLM_TEMPERATURE,
-        ),
-        output_schema_id=constants.OUTPUT_SCHEMA_ID,
-    )
+    return build_default_prompt_manager()
 
 
 def _load_context(path: Path) -> list[dict[str, object]]:
@@ -183,8 +245,12 @@ async def _run(args: argparse.Namespace) -> dict[str, object]:
     if output_root.exists() and any(output_root.iterdir()):
         raise RuntimeError(f"live gate output root must be new or empty: {output_root}")
     output_root.mkdir(parents=True, exist_ok=True)
-    live_root = output_root.parent / "live-stand"
-    peer_config = live_root / "peer-5080"
+    # Keep every clean-start run self-contained; a previous gate must not
+    # leave a peer config or fixture that changes the next run.
+    live_root = output_root / "live-stand"
+    peer_fixture_path = Path("/tmp/sip-bot-i1-input-question.wav")
+    peer_fixture_path.unlink(missing_ok=True)
+    peer_config = _prepare_peer_config(live_root, peer_fixture_path)
     input_fixture = live_root / "input-question.wav"
     peer_log_path = output_root / "baresip-peer.log"
     call_id = "i1-8-live-call"
@@ -198,6 +264,7 @@ async def _run(args: argparse.Namespace) -> dict[str, object]:
     events: list[NormalizedSipEvent] = []
     adapter: SipMediaAdapter | None = None
     wiring: CallRuntimeWiring | None = None
+    speech: _RecordingSpeechIngress | None = None
     runtime: ApplicationRuntime | None = None
     composition: Any | None = None
     pipeline: ConversationPipeline | None = None
@@ -220,14 +287,22 @@ async def _run(args: argparse.Namespace) -> dict[str, object]:
         query_builder = KnowledgeQueryBuilder()
 
         def warm_rag_index() -> dict[str, object]:
-            _, corpus_chunks = load_corpus(PROJECT_ROOT / constants.KNOWLEDGE_CORPUS_PATH)
-            index_holder["index"] = LocalKnowledgeIndex.build(
-                corpus_chunks,
-                llm,
-                index_version=constants.RAG_INDEX_VERSION,
-                embedding_model=constants.RAG_EMBEDDING_MODEL,
+            index_holder["index"] = LocalKnowledgeIndex.load(
+                PROJECT_ROOT / constants.KNOWLEDGE_INDEX_PATH,
+                expected_index_version=constants.RAG_INDEX_VERSION,
+                expected_corpus_version=constants.RAG_CORPUS_VERSION,
+                expected_embedding_model=constants.RAG_EMBEDDING_MODEL,
+                expected_dimension=constants.RAG_INDEX_DIMENSION,
+                expected_chunking_policy=constants.RAG_CHUNKING_POLICY_VERSION,
+                expected_corpus_sha256=constants.RAG_CORPUS_SHA256,
             )
-            return {"chunks": len(corpus_chunks), "embedding_model": constants.RAG_EMBEDDING_MODEL}
+            return {
+                "operation": "load-prebuilt-index",
+                "chunks": index_holder["index"].item_count,
+                "dimension": index_holder["index"].dimension,
+                "embedding_model": index_holder["index"].embedding_model,
+                "corpus_embedding_requests": 0,
+            }
 
         def warm_llm_chat() -> dict[str, object]:
             knowledge = index_holder["index"].query(
@@ -273,6 +348,7 @@ async def _run(args: argparse.Namespace) -> dict[str, object]:
         index = index_holder["index"]
         tts = tts_holder["tts"]
         fixture = fixture_holder["fixture"]
+        shutil.copy2(input_fixture, peer_fixture_path)
 
         # The peer is started only after every lazy model and the RAG index
         # have passed readiness.  A caller therefore cannot enter a cold AI
@@ -311,37 +387,40 @@ async def _run(args: argparse.Namespace) -> dict[str, object]:
             llm=llm,
             tts=tts,
             media_profile=adapter.media_profile,
+            greeting_text=runtime.config.call_greeting_text,
+            transfer_confirmation_text=runtime.config.transfer_confirmation_text,
             top_k=constants.RAG_TOP_K,
             threshold=constants.RAG_RELEVANCE_THRESHOLD,
+        )
+        speech = _RecordingSpeechIngress(
+            vad=build_configured_web_rtc_vad_processor(runtime.config),
+            turn_detector=TurnDetector(
+                EndpointingConfig(
+                    soft_endpoint_ms=constants.ENDPOINT_SOFT_MS,
+                    hard_endpoint_ms=constants.ENDPOINT_HARD_MS,
+                    min_speech_ms=constants.MIN_SPEECH_MS,
+                )
+            ),
+            assembler=TranscriptAssembler(
+                call_id,
+                f"{call_id}:media",
+                1,
+                f"{call_id}:turn-1",
+                constants.TRANSCRIPT_STABLE_PREFIX_MIN_CHARS,
+            ),
+            assembler_factory=lambda turn_id: TranscriptAssembler(
+                call_id,
+                f"{call_id}:media",
+                1,
+                turn_id,
+                constants.TRANSCRIPT_STABLE_PREFIX_MIN_CHARS,
+            ),
+            defer_endpoint_finalization=True,
         )
         wiring = runtime.create_call_wiring(
             composition,
             sip_media=adapter,
-            speech=SpeechIngress(
-                vad=VadProcessor(_AmplitudeVad()),
-                turn_detector=TurnDetector(
-                    EndpointingConfig(
-                        soft_endpoint_ms=constants.ENDPOINT_SOFT_MS,
-                        hard_endpoint_ms=constants.ENDPOINT_HARD_MS,
-                        min_speech_ms=constants.MIN_SPEECH_MS,
-                    )
-                ),
-                assembler=TranscriptAssembler(
-                    call_id,
-                    f"{call_id}:media",
-                    1,
-                    f"{call_id}:turn-1",
-                    constants.TRANSCRIPT_STABLE_PREFIX_MIN_CHARS,
-                ),
-                assembler_factory=lambda turn_id: TranscriptAssembler(
-                    call_id,
-                    f"{call_id}:media",
-                    1,
-                    turn_id,
-                    constants.TRANSCRIPT_STABLE_PREFIX_MIN_CHARS,
-                ),
-                defer_endpoint_finalization=True,
-            ),
+            speech=speech,
             asr=StreamingAsrAdapter(asr_backend),
             pipeline=pipeline,
         )
@@ -432,6 +511,7 @@ async def _run(args: argparse.Namespace) -> dict[str, object]:
             "adapter_events": [_event_dict(event) for event in events],
         },
         "wiring": wiring.stats.as_dict() if wiring is not None else {},
+        "speech": speech.evidence() if speech is not None else {},
         "context": _load_context(context_path),
         "report": str(report_path) if report_path.exists() else None,
         "rag": {

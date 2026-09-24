@@ -6,6 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from sip_bot.config import RuntimeConfig
 from sip_bot.sip_media.adapter import AdapterState, SipMediaAdapter, SipMediaConfig
 from sip_bot.sip_media.media_port import PcmAudioBridge, PcmFrameQueue
 from sip_bot.sip_media.models import MediaNegotiationError, NegotiatedMediaProfile, PcmFrame
@@ -27,10 +28,10 @@ class _FakeVector:
 
 
 class _FakeFrame:
-    def __init__(self, payload: bytes = b"", capacity: int | None = None) -> None:
+    def __init__(self, payload: bytes = b"", capacity: int | None = None, frame_type: int = 1) -> None:
         self.buf = _FakeVector(payload)
         self.size = len(payload) if capacity is None else capacity
-        self.type = 0
+        self.type = frame_type
 
 
 class _FakeAudioMediaPort:
@@ -92,6 +93,18 @@ def _frame(profile: NegotiatedMediaProfile, sequence: int = 1, byte: int = 1) ->
         pcm_s16le=bytes([byte]) * profile.frame_bytes,
         profile=profile,
     )
+
+
+def test_runtime_registration_profile_is_forwarded_without_changing_media_defaults() -> None:
+    runtime_config = RuntimeConfig.from_constants()
+    sip_config = SipMediaConfig.from_runtime_config(runtime_config)
+
+    assert sip_config.registration_profile is runtime_config.registration_profile
+    assert sip_config.registration_profile.enabled is True
+    assert sip_config.registration_profile.username == "1002"
+    assert sip_config.local_uri == "sip:tester@127.0.0.1"
+    assert sip_config.media_no_vad is True
+    assert sip_config.comfort_noise_level_dbov_magnitude == 50
 
 
 def test_profile_comes_from_pjmedia_without_a_global_ptime() -> None:
@@ -218,6 +231,10 @@ def test_media_port_handoff_is_bounded_and_close_drops_stale_frames() -> None:
     bridge.port.onFrameReceived(inbound)
     assert bridge.stats.ingress_frames == 1
     assert bridge.next_ingress().pcm_s16le == bytes(profile.frame_bytes)  # type: ignore[union-attr]
+
+    bridge.port.onFrameReceived(_FakeFrame(b"\x00", frame_type=_FakePjsua.PJMEDIA_FRAME_TYPE_NONE))
+    assert bridge.stats.callback_errors == 0
+    assert bridge.stats.ingress_frames == 1
 
     outbound = _frame(profile)
     assert bridge.enqueue(outbound) is True

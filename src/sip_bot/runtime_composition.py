@@ -24,7 +24,7 @@ from .dialogue import DialogueCommand, DialogueFSM
 from .dialogue.events import PlaybackEvent, StructuredDecision, TransferResult
 from .report import ReportFinalizer, ReportInput
 from .retrieval import KnowledgeContext
-from .speech import FinalUserTurn
+from .understanding import SemanticActTrace, SemanticTurn
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,6 +69,7 @@ class CallComposition:
         "_pending_report_reason",
         "_report_finalized",
         "_rag_contexts",
+        "_semantic_traces",
         "_transfer_result",
         "commands",
         "dispatcher",
@@ -99,6 +100,7 @@ class CallComposition:
         self.owners = owners
         self.commands: list[DialogueCommand] = []
         self._rag_contexts: list[KnowledgeContext] = []
+        self._semantic_traces: list[SemanticActTrace] = []
         self._transfer_result: TransferResult | None = None
         self._report_finalized = False
         self._pending_report_reason: str | None = None
@@ -121,18 +123,44 @@ class CallComposition:
     def rag_contexts(self) -> tuple[KnowledgeContext, ...]:
         return tuple(self._rag_contexts)
 
-    def accept_final_turn(self, turn: FinalUserTurn) -> bool:
-        """Deliver authoritative text directly to ContextStore and FSM."""
+    @property
+    def semantic_traces(self) -> tuple[SemanticActTrace, ...]:
+        return tuple(self._semantic_traces)
 
-        if not isinstance(turn, FinalUserTurn):
-            raise TypeError("composition accepts FinalUserTurn only")
-        lease = SessionLease(turn.call_id, turn.generation)
+    def accept_semantic_turn(self, turn: SemanticTurn) -> bool:
+        """Persist raw text once, then apply ordered typed acts to the FSM."""
+
+        if not isinstance(turn, SemanticTurn):
+            raise TypeError("composition accepts SemanticTurn only")
+        source = turn.source
+        lease = SessionLease(source.call_id, source.generation)
+
+        def consume() -> None:
+            self.owners.context.append_user(source.turn_id, source.text, revision=source.revision)
+            for act_index, act in enumerate(turn.acts, start=1):
+                if self.fsm.is_terminal:
+                    break
+                state_before = self.fsm.state.value
+                ignored_before = len(self.fsm.ignored_events)
+                self.fsm.handle(act)
+                ignored = len(self.fsm.ignored_events) > ignored_before
+                reason = self.fsm.ignored_events[-1][1] if ignored else None
+                self._semantic_traces.append(
+                    SemanticActTrace(
+                        turn_id=source.turn_id,
+                        act_index=act_index,
+                        kind=act.kind,
+                        span=act.span,
+                        outcome="ignored" if ignored else "applied",
+                        state_before=state_before,
+                        state_after=self.fsm.state.value,
+                        reason=reason,
+                    )
+                )
+
         accepted = self.session.dispatch_data(
             lease,
-            lambda: (
-                self.owners.context.append_user(turn.turn_id, turn.text, revision=turn.revision),
-                self.fsm.handle(turn),
-            ),
+            consume,
         )
         if not accepted:
             return False
@@ -225,6 +253,7 @@ class CallComposition:
                 context=self.owners.context.snapshot(),
                 rag_contexts=tuple(self._rag_contexts),
                 transitions=tuple(self.fsm.trace),
+                semantic_traces=tuple(self._semantic_traces),
                 transfer_result=self._transfer_result,
             )
         )

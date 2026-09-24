@@ -1,7 +1,9 @@
 """Procedural live-call wiring for the one-call asyncio runtime.
 
-This module contains no dialogue, lifecycle, media, speech, or delivery
-ownership.  It only materializes the already accepted typed boundaries:
+This module contains no dialogue, media, speech, or delivery ownership.  Its
+optional admission gate owns only the pending incoming-call admission
+lifecycle; it does not own dialogue state or model state.  The module
+materializes the already accepted typed boundaries:
 PJSUA2/PJMEDIA polling, the specialised PCM fan-out, the ASR worker bridge,
 the existing speech/conversation owners, and paced playback.  The only
 cross-thread queues here are bounded ``queue.Queue`` instances.  The module
@@ -14,12 +16,14 @@ from __future__ import annotations
 import asyncio
 from collections.abc import Callable
 from dataclasses import dataclass
+import inspect
 from queue import Empty, Full, Queue
 from threading import Event, Lock, Thread
 from time import monotonic_ns
 from typing import Any
 
 from .config import RuntimeConfig
+from .control import SessionLease
 from .conversation_pipeline import ConversationPipeline
 from .dialogue.actions import CommandKind, DialogueCommand
 from .dialogue.events import (
@@ -33,9 +37,10 @@ from .playback import PlaybackChannel, PlaybackEventKind
 from .runtime_composition import CallComposition
 from .sip_media.models import NegotiatedMediaProfile, PcmFrame
 from .sip_media.media_port import EgressSourceMode
-from .sip_media.protocol_events import NormalizedSipEvent
+from .sip_media.protocol_events import NormalizedSipEvent, SipEventKind
 from .speech import AsrAudioChunk, AsrHypothesis, EndpointEvent, EndpointEventKind, SpeechIngress, StreamingAsrAdapter
-from .tts import MediaPacer, TtsOutputBuffer, TtsPcmChunk
+from .tts import MediaPacer, TtsLatencyEvent, TtsLatencySink, TtsLatencyStage, TtsOutputBuffer, TtsPcmChunk
+from .understanding import SemanticTurnParser
 
 
 @dataclass(slots=True)
@@ -47,6 +52,7 @@ class RuntimeWiringStats:
     asr_chunks_queued: int = 0
     asr_chunks_dropped: int = 0
     asr_hypotheses: int = 0
+    asr_rejected_hypotheses: int = 0
     final_turns: int = 0
     tts_chunks: int = 0
     tts_frames_sent: int = 0
@@ -61,6 +67,249 @@ class RuntimeWiringError(RuntimeError):
     """Raised when a required existing boundary is not available."""
 
 
+class _WiringSipEventSink:
+    """Object-shaped sink kept compatible with SipMediaAdapter.dispatch_events."""
+
+    def __init__(self, owner: "CallRuntimeWiring") -> None:
+        self.owner = owner
+
+    def publish(self, event: NormalizedSipEvent) -> None:
+        self.owner._on_sip_event(event)
+
+
+class IncomingCallReadinessGate:
+    """Admit an incoming call only after aggregate runtime readiness.
+
+    The SIP adapter sends the immediate provisional ``180 Ringing`` itself.
+    This owner performs only the later application decision on the main
+    asyncio loop. Synchronous warmup is moved to a worker thread so the loop
+    continues polling SIP and can observe a remote terminal event.
+    """
+
+    _TERMINAL_EVENTS = {
+        SipEventKind.REMOTE_HANGUP,
+        SipEventKind.REMOTE_CANCEL,
+        SipEventKind.CALL_ENDED,
+        SipEventKind.MEDIA_FAILED,
+        SipEventKind.RTP_TIMEOUT,
+    }
+
+    def __init__(
+        self,
+        sip_media: Any,
+        *,
+        readiness: Any,
+        failure_status_code: int = 503,
+        call_prepare: Callable[[str, str], object] | None = None,
+        call_cleanup: Callable[[str, str], object] | None = None,
+        preparation_timeout_s: float = 15.0,
+    ) -> None:
+        if not callable(getattr(sip_media, "answer", None)):
+            raise TypeError("sip_media must provide answer()")
+        if not callable(getattr(sip_media, "reject", None)):
+            raise TypeError("sip_media must provide reject()")
+        if not callable(getattr(readiness, "ensure_ready", None)) or not isinstance(
+            getattr(readiness, "ready", None), bool
+        ):
+            raise TypeError("readiness gate requires a coordinator with bool ready and ensure_ready()")
+        if not 300 <= int(failure_status_code) <= 699:
+            raise ValueError("failure_status_code must be in the 3xx..6xx range")
+        if preparation_timeout_s <= 0:
+            raise ValueError("preparation_timeout_s must be positive")
+        if call_prepare is not None and not callable(call_prepare):
+            raise TypeError("call_prepare must be callable")
+        if call_cleanup is not None and not callable(call_cleanup):
+            raise TypeError("call_cleanup must be callable")
+        self.sip_media = sip_media
+        self.readiness = readiness
+        self.failure_status_code = int(failure_status_code)
+        self.call_prepare = call_prepare
+        self.call_cleanup = call_cleanup
+        self.preparation_timeout_s = float(preparation_timeout_s)
+        self._task: asyncio.Task[None] | None = None
+        self._pending_call_id: str | None = None
+        self._pending_caller_id: str | None = None
+        self._active_call_id: str | None = None
+        self._active_caller_id: str | None = None
+        self._preparation_tasks: dict[str, asyncio.Task[object]] = {}
+        self._cleanup_tasks: set[asyncio.Task[None]] = set()
+        self._closed = False
+
+    @property
+    def pending_call_id(self) -> str | None:
+        return self._pending_call_id
+
+    @property
+    def warmup_running(self) -> bool:
+        return self._task is not None and not self._task.done()
+
+    def observe(self, event: NormalizedSipEvent) -> None:
+        """Observe an already queued SIP event; never run warmup inline."""
+
+        if not isinstance(event, NormalizedSipEvent) or self._closed:
+            return
+        details = event.details_dict()
+        if (
+            event.kind is SipEventKind.CALL_STARTED
+            and details.get("direction") == "incoming"
+            and details.get("answer_pending") is True
+        ):
+            if self._pending_call_id is not None:
+                return
+            self._pending_call_id = event.call_id
+            self._pending_caller_id = event.caller_id or _caller_id_from_details(details)
+            try:
+                loop = asyncio.get_running_loop()
+            except RuntimeError as exc:
+                self._pending_call_id = None
+                raise RuntimeWiringError("incoming readiness must be observed in the main asyncio loop") from exc
+            self._task = loop.create_task(
+                self._admit(event.call_id, self._pending_caller_id),
+                name=f"sip-bot-admission-{event.call_id}",
+            )
+            return
+        if event.kind in self._TERMINAL_EVENTS:
+            if self._pending_call_id == event.call_id:
+                caller_id = self._pending_caller_id
+                self._cancel_pending()
+                self._schedule_cleanup(event.call_id, caller_id)
+            elif self._active_call_id == event.call_id:
+                caller_id = self._active_caller_id
+                self._active_call_id = None
+                self._active_caller_id = None
+                self._schedule_cleanup(event.call_id, caller_id)
+
+    def close(self) -> None:
+        self._closed = True
+        pending = (self._pending_call_id, self._pending_caller_id)
+        active = (self._active_call_id, self._active_caller_id)
+        self._cancel_pending()
+        if pending[0] is not None:
+            self._schedule_cleanup(*pending)  # type: ignore[arg-type]
+        if active[0] is not None:
+            self._active_call_id = None
+            self._active_caller_id = None
+            self._schedule_cleanup(*active)  # type: ignore[arg-type]
+
+    async def _admit(self, call_id: str, caller_id: str | None) -> None:
+        prepare_attempted = False
+        prepared = False
+        try:
+            if not self._is_current(call_id):
+                return
+            if not self.readiness.ready:
+                await self.readiness.ensure_ready()
+            if not self._is_current(call_id) or not self.readiness.ready:
+                return
+            if self.call_prepare is not None:
+                prepare_attempted = True
+                if caller_id is None:
+                    raise RuntimeError("incoming call has no caller-id routing key")
+                await self._run_hook(self.call_prepare, call_id, caller_id, self.preparation_timeout_s)
+                prepared = True
+            if not self._is_current(call_id):
+                if prepared:
+                    self._schedule_cleanup(call_id, caller_id)
+                return
+            if not self.sip_media.answer():
+                raise RuntimeError("SIP adapter did not accept pending call")
+            self._active_call_id = call_id
+            self._active_caller_id = caller_id
+        except asyncio.CancelledError:
+            if prepare_attempted:
+                self._schedule_cleanup(call_id, caller_id)
+            raise
+        except BaseException as exc:
+            if prepare_attempted or prepared:
+                self._schedule_cleanup(call_id, caller_id)
+            if self._is_current(call_id):
+                failure_type = getattr(self.readiness, "error_type", None) or type(exc).__name__
+                self.sip_media.reject(self.failure_status_code, f"ai_readiness_failed:{failure_type}")
+        finally:
+            if self._pending_call_id == call_id:
+                self._pending_call_id = None
+                self._pending_caller_id = None
+            if self._task is asyncio.current_task():
+                self._task = None
+
+    async def _run_hook(
+        self,
+        hook: Callable[[str, str], object],
+        call_id: str,
+        caller_id: str,
+        timeout_s: float,
+    ) -> object:
+        worker = asyncio.create_task(asyncio.to_thread(hook, call_id, caller_id))
+        self._preparation_tasks[call_id] = worker
+        done, _ = await asyncio.wait({worker}, timeout=timeout_s)
+        if not done:
+            # Do not cancel the thread-backed work.  A late index publication
+            # must be followed by cleanup before another call can use it.
+            raise TimeoutError(f"call preparation exceeded {timeout_s:.1f}s")
+        try:
+            result = await worker
+            if inspect.isawaitable(result):
+                return await asyncio.wait_for(result, timeout=timeout_s)
+            return result
+        finally:
+            self._preparation_tasks.pop(call_id, None)
+
+    def _schedule_cleanup(self, call_id: str, caller_id: str | None) -> None:
+        if self.call_cleanup is None or caller_id is None:
+            return
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            return
+        task = loop.create_task(
+            self._run_cleanup_after_preparation(call_id, caller_id),
+            name=f"sip-bot-rag-cleanup-{call_id}",
+        )
+        self._cleanup_tasks.add(task)
+        task.add_done_callback(self._cleanup_tasks.discard)
+
+    async def _run_cleanup(self, call_id: str, caller_id: str) -> None:
+        try:
+            result = await asyncio.to_thread(self.call_cleanup, call_id, caller_id)
+            if inspect.isawaitable(result):
+                await result
+        except BaseException:
+            # Cleanup is best-effort at the protocol edge; the web session
+            # endpoint remains an idempotent secondary cleanup path.
+            return
+
+    async def _run_cleanup_after_preparation(self, call_id: str, caller_id: str) -> None:
+        worker = self._preparation_tasks.get(call_id)
+        if worker is not None:
+            try:
+                await asyncio.shield(worker)
+            except BaseException:
+                pass
+            finally:
+                self._preparation_tasks.pop(call_id, None)
+        await self._run_cleanup(call_id, caller_id)
+
+    def _is_current(self, call_id: str) -> bool:
+        if self._closed or self._pending_call_id != call_id:
+            return False
+        if hasattr(self.sip_media, "active_call_id"):
+            return getattr(self.sip_media, "active_call_id") == call_id
+        return True
+
+    def _cancel_pending(self) -> None:
+        task = self._task
+        self._task = None
+        self._pending_call_id = None
+        self._pending_caller_id = None
+        if task is not None and not task.done():
+            task.cancel()
+
+
+def _caller_id_from_details(details: dict[str, object]) -> str | None:
+    value = details.get("caller_id")
+    return value if isinstance(value, str) and value else None
+
+
 class CallRuntimeWiring:
     """Materialize one call's existing boundaries on the main asyncio loop."""
 
@@ -73,7 +322,10 @@ class CallRuntimeWiring:
         asr: StreamingAsrAdapter,
         pipeline: ConversationPipeline | Any,
         config: RuntimeConfig | None = None,
+        incoming_admission: IncomingCallReadinessGate | None = None,
+        semantic_parser: SemanticTurnParser | None = None,
         clock_ns: Callable[[], int] = monotonic_ns,
+        latency_sink: TtsLatencySink | None = None,
     ) -> None:
         if not isinstance(composition, CallComposition):
             raise TypeError("runtime wiring requires CallComposition")
@@ -84,7 +336,7 @@ class CallRuntimeWiring:
         for name in ("poll", "dispatch_events", "next_ingress_frame", "enqueue_egress_frame"):
             if not callable(getattr(sip_media, name, None)):
                 raise TypeError(f"sip_media must provide {name}()")
-        for name in ("submit_final_turn", "drain_control"):
+        for name in ("submit_semantic_turn", "drain_control"):
             if not callable(getattr(pipeline, name, None)):
                 raise TypeError(f"pipeline must provide {name}()")
         self.composition = composition
@@ -92,8 +344,13 @@ class CallRuntimeWiring:
         self.speech = speech
         self.asr = asr
         self.pipeline = pipeline
+        self.semantic_parser = semantic_parser or SemanticTurnParser()
         self.config = config or RuntimeConfig.from_constants()
+        if incoming_admission is not None and incoming_admission.sip_media is not sip_media:
+            raise ValueError("incoming_admission must own the supplied sip_media instance")
+        self.incoming_admission = incoming_admission
         self.clock_ns = clock_ns
+        self.latency_sink = latency_sink
         self.stats = RuntimeWiringStats()
         self.errors: list[str] = []
         self._loop: asyncio.AbstractEventLoop | None = None
@@ -108,13 +365,16 @@ class CallRuntimeWiring:
         self._vad_input: PcmFanOutSubscription | None = None
         self._asr_input_subscription: PcmFanOutSubscription | None = None
         self._chunker: AsrChunker | None = None
-        self._speech_frame_sequences: set[int] = set()
+        self._speech_frame_turns: dict[int, str] = {}
+        self._candidate_speech_sequences: list[int] = []
+        self._candidate_asr_frames: list[PcmFrame] = []
         self._playback_lock = Lock()
         self._outputs: dict[tuple[str, int], TtsOutputBuffer] = {}
         self._playback: dict[tuple[str, int], PlaybackChannel] = {}
         self._pending_physical_close: set[tuple[str, int]] = set()
         self._speech_event_sequence = 0
         self._previous_audio_sink = getattr(pipeline, "audio_sink", None)
+        self._sip_event_sink = _WiringSipEventSink(self)
         self._bind_existing_boundaries()
 
     @property
@@ -164,7 +424,7 @@ class CallRuntimeWiring:
         # SIP control is delivered to the existing Dispatcher queue.  The
         # adapter's native callbacks still only enqueue compact events.
         if hasattr(self.sip_media, "event_sink"):
-            self.sip_media.event_sink = self.composition.dispatcher
+            self.sip_media.event_sink = self._sip_event_sink
         self.composition.add_command_observer(self._on_command)
         self.composition.add_control_observer(self._on_control_submitted)
         if hasattr(self.pipeline, "audio_sink"):
@@ -236,6 +496,8 @@ class CallRuntimeWiring:
         if not self._started:
             return
         self._stop.set()
+        if self.incoming_admission is not None:
+            self.incoming_admission.close()
         if self._chunker is not None:
             self._chunker.cancel()
         self.asr.close()
@@ -245,10 +507,18 @@ class CallRuntimeWiring:
         if worker is not None:
             worker.join(timeout=1.0)
         self._asr_thread = None
-        self._speech_frame_sequences.clear()
+        self._speech_frame_turns.clear()
+        self._candidate_speech_sequences.clear()
+        self._candidate_asr_frames.clear()
         self._started = False
 
     def _drain_media_ingress(self) -> None:
+        # An incoming INVITE is first observed as a control event.  Until the
+        # adapter has materialized its call context there is no media source
+        # to poll; asking the native adapter for a frame at that point would
+        # raise ``no active call`` and abort the main loop.
+        if hasattr(self.sip_media, "active_call_id") and getattr(self.sip_media, "active_call_id") is None:
+            return
         while True:
             frame = self.sip_media.next_ingress_frame()
             if frame is None:
@@ -297,24 +567,41 @@ class CallRuntimeWiring:
         for frame in self._drain_subscription(self._vad_input):
             result = self.speech.process_frame(frame)
             if result.vad_decision.is_speech:
-                self._speech_frame_sequences.add(frame.sequence)
-            self._publish_speech_events(result.endpoint_events)
-            if (
-                self.speech.defer_endpoint_finalization
-                and any(event.kind is EndpointEventKind.HARD_ENDPOINT for event in result.endpoint_events)
-                and self._chunker is not None
-            ):
-                # The hard-endpoint chunk is the ASR-side commit marker.  It
-                # is queued after all target chunks already accumulated for
-                # this turn, so the assembler waits for the most complete
-                # revision instead of finalizing on a late earlier chunk.
-                self._queue_ready_chunks(self._chunker.hard_endpoint())
+                self._candidate_speech_sequences.append(frame.sequence)
+                turn_id = self.speech.turn_detector.active_turn_id
+                if turn_id is not None:
+                    assert self._chunker is not None
+                    if self._chunker.active_turn_id is None:
+                        self._chunker.begin_turn(turn_id)
+                    elif self._chunker.active_turn_id != turn_id:
+                        raise RuntimeWiringError(
+                            "TurnDetector changed turn before the ASR accumulator received its hard endpoint"
+                        )
+                    for sequence in self._candidate_speech_sequences:
+                        self._speech_frame_turns[sequence] = turn_id
+                    self._candidate_speech_sequences.clear()
+                    self._flush_qualified_candidate_frames(turn_id)
+            elif self.speech.turn_detector.active_turn_id is None:
+                # WebRTC/energy-positive bursts shorter than min_speech_ms are
+                # not user turns and must not contaminate the next ASR prefix.
+                self._candidate_speech_sequences.clear()
+                self._candidate_asr_frames.clear()
+            self._publish_speech_events(result.endpoint_events, result.vad_decision)
+            if self.speech.defer_endpoint_finalization and self._chunker is not None:
+                for event in result.endpoint_events:
+                    if event.kind is EndpointEventKind.HARD_ENDPOINT:
+                        # The hard-endpoint chunk is the ASR-side commit marker.
+                        # It retains the authoritative TurnDetector turn_id so
+                        # delayed worker results cannot finalize another turn.
+                        self._queue_ready_chunks(self._chunker.hard_endpoint(event.turn_id))
             if result.final_turn is not None:
-                self.stats.final_turns += 1
-                if not self.pipeline.submit_final_turn(result.final_turn):
-                    self._record_error(RuntimeWiringError("ConversationPipeline rejected FinalUserTurn"))
+                self._deliver_final_turn(result.final_turn)
 
-    def _publish_speech_events(self, events: tuple[EndpointEvent, ...]) -> None:
+    def _publish_speech_events(
+        self,
+        events: tuple[EndpointEvent, ...],
+        decision: Any | None = None,
+    ) -> None:
         """Materialize speech lifecycle outputs on the existing control edge.
 
         ``SpeechIngress`` owns VAD/endpointing and returns typed endpoint data;
@@ -324,14 +611,21 @@ class CallRuntimeWiring:
         before the next authoritative turn is accepted.
         """
 
+        barge_in_submitted = False
         for event in events:
             self._speech_event_sequence += 1
             kind = _speech_event_kind(event.kind)
+            playback_active = self.composition.fsm.state.value in {"playing", "offering_transfer"}
             if (
                 event.kind in {EndpointEventKind.SPEECH_STARTED, EndpointEventKind.SPEECH_RESUMED}
-                and self.composition.fsm.state.value in {"playing", "offering_transfer"}
+                and playback_active
             ):
+                if decision is not None and decision.barge_in_qualified is False:
+                    # Keep endpointing/ASR state local, but do not let weak
+                    # acoustic return mutate the playback control state.
+                    continue
                 kind = SpeechEventKind.BARGE_IN
+                barge_in_submitted = True
             accepted = self.composition.submit_control(
                 SpeechEvent(
                     event.call_id,
@@ -345,13 +639,56 @@ class CallRuntimeWiring:
             if not accepted:
                 self._record_error(RuntimeWiringError("Dispatcher rejected SpeechEvent"))
 
+        # A weak acoustic-return frame can be the frame on which TurnDetector
+        # emits SPEECH_STARTED.  If near-end speech then becomes strong enough
+        # during the same active turn, no second start event is emitted.  The
+        # frame-level typed decision therefore completes the existing control
+        # edge once the already-open turn is positively qualified.
+        playback_active = self.composition.fsm.state.value in {"playing", "offering_transfer"}
+        if (
+            not barge_in_submitted
+            and playback_active
+            and decision is not None
+            and decision.is_speech
+            and decision.barge_in_qualified is True
+            and self.speech.turn_detector.active_turn_id is not None
+        ):
+            self._speech_event_sequence += 1
+            accepted = self.composition.submit_control(
+                SpeechEvent(
+                    decision.call_id,
+                    SpeechEventKind.BARGE_IN,
+                    sequence=self._speech_event_sequence,
+                    channel_id=decision.channel_id,
+                    channel_generation=decision.generation,
+                    reason="near_end_speech_qualified_during_active_turn",
+                )
+            )
+            if not accepted:
+                self._record_error(RuntimeWiringError("Dispatcher rejected SpeechEvent"))
+
     def _drain_asr_audio(self) -> None:
         if self._asr_input_subscription is None or self._chunker is None:
             return
         for frame in self._drain_subscription(self._asr_input_subscription):
-            if frame.sequence not in self._speech_frame_sequences:
+            turn_id = self._speech_frame_turns.pop(frame.sequence, None)
+            if turn_id is None:
+                if frame.sequence in self._candidate_speech_sequences:
+                    self._candidate_asr_frames.append(frame)
                 continue
-            self._speech_frame_sequences.discard(frame.sequence)
+            if self._chunker.active_turn_id != turn_id:
+                raise RuntimeWiringError("ASR frame turn_id does not match the active accumulator turn")
+            self._queue_ready_chunks(self._chunker.push(frame))
+
+    def _flush_qualified_candidate_frames(self, turn_id: str) -> None:
+        if self._chunker is None or not self._candidate_asr_frames:
+            return
+        pending = tuple(self._candidate_asr_frames)
+        self._candidate_asr_frames.clear()
+        for frame in pending:
+            mapped_turn_id = self._speech_frame_turns.pop(frame.sequence, None)
+            if mapped_turn_id != turn_id:
+                raise RuntimeWiringError("qualified ASR pre-roll lost its TurnDetector turn_id")
             self._queue_ready_chunks(self._chunker.push(frame))
 
     @staticmethod
@@ -416,13 +753,35 @@ class CallRuntimeWiring:
             except Empty:
                 return
             self.stats.asr_hypotheses += 1
-            if self.speech.accept_hypothesis(hypothesis) is None:
+            update = self.speech.accept_hypothesis(hypothesis)
+            if not hypothesis.speech_supported:
+                self.stats.asr_rejected_hypotheses += 1
+            elif update is None:
                 self.stats.stale_hypotheses += 1
+                continue
             final_turn = self.speech.take_final_turn()
             if final_turn is not None:
-                self.stats.final_turns += 1
-                if not self.pipeline.submit_final_turn(final_turn):
-                    self._record_error(RuntimeWiringError("ConversationPipeline rejected FinalUserTurn"))
+                self._deliver_final_turn(final_turn)
+
+    def _deliver_final_turn(self, final_turn: Any) -> None:
+        """Deliver only a current-generation final turn to the pipeline.
+
+        ASR can finish a queued chunk after a protocol terminal event or a
+        completed transfer has already closed the call session.  Such a value
+        is stale by the existing lifecycle contract and must be discarded,
+        not reported as a pipeline error.
+        """
+
+        lease = SessionLease(final_turn.call_id, final_turn.generation)
+        if self.composition.fsm.is_terminal or not self.composition.session.accepts(lease):
+            return
+        self.stats.final_turns += 1
+        semantic_turn = self.semantic_parser.parse(
+            final_turn,
+            self.composition.fsm.current_expectation(),
+        )
+        if not self.pipeline.submit_semantic_turn(semantic_turn):
+            self._record_error(RuntimeWiringError("ConversationPipeline rejected current SemanticTurn"))
 
     def _on_command(self, command: DialogueCommand) -> None:
         if command.call_id != self.composition.session.call_id:
@@ -443,10 +802,29 @@ class CallRuntimeWiring:
         except BaseException as exc:
             self._record_error(exc)
 
+    def _on_sip_event(self, event: NormalizedSipEvent) -> None:
+        """Publish SIP control, then schedule readiness outside callbacks."""
+
+        # Registration lifecycle events use the adapter's reserved control
+        # identity and do not belong to the active call Dispatcher/FSM.  They
+        # must remain available to the runtime/registration owner, but
+        # feeding them into a call-scoped Dispatcher violates its session
+        # contract before the first CALL_STARTED event.
+        if event.call_id == self.composition.session.call_id:
+            if hasattr(self.composition.dispatcher, "publish"):
+                self.composition.dispatcher.publish(event)
+            else:
+                self.composition.submit_control(event)
+        if self.incoming_admission is not None:
+            try:
+                self.incoming_admission.observe(event)
+            except BaseException as exc:
+                self._record_error(exc)
+
     def _on_control_submitted(self, event: object, accepted: bool) -> None:
         if not accepted or not isinstance(event, DialoguePlaybackEvent):
             return
-        if event.status is PlaybackStatus.COMPLETED:
+        if event.status in {PlaybackStatus.PRODUCER_COMPLETED, PlaybackStatus.COMPLETED}:
             key = (event.channel_id, event.channel_generation or 0)
             with self._playback_lock:
                 output = self._outputs.get(key)
@@ -493,6 +871,21 @@ class CallRuntimeWiring:
 
     def _on_playback_event(self, event: Any) -> None:
         if event.kind is PlaybackEventKind.STARTED:
+            if self.latency_sink is not None:
+                try:
+                    self.latency_sink(
+                        TtsLatencyEvent(
+                            operation_id=f"playback-{event.channel_id}-{event.generation}",
+                            call_id=event.call_id,
+                            turn_id="",
+                            channel_id=event.channel_id,
+                            generation=event.generation,
+                            stage=TtsLatencyStage.PLAYBACK_FIRST_FRAME,
+                            timestamp_ns=event.timestamp_ns,
+                        )
+                    )
+                except Exception:
+                    pass
             self._set_egress_source_mode(EgressSourceMode.PLAYING)
             status = PlaybackStatus.STARTED
         elif event.kind is PlaybackEventKind.FAILED:
@@ -536,21 +929,29 @@ class CallRuntimeWiring:
                 self.stats.tts_frames_sent += 1
             with self._playback_lock:
                 output = self._outputs.get(key)
-                should_close = key in self._pending_physical_close and output is not None and output.pending_frames == 0
-            if should_close:
+                producer_complete = key in self._pending_physical_close
+                output_drained = output is not None and output.pending_frames == 0
+            if producer_complete and output_drained:
+                # The application output buffer has been handed to the SIP
+                # bridge. Keep the FSM in PLAYING until PJMEDIA has consumed
+                # the bridge's own egress buffer as well.
                 self._set_egress_source_mode(EgressSourceMode.DRAINING)
-                channel.close("completed")
-                self.composition.submit_control(
-                    DialoguePlaybackEvent(
-                        channel.call_id,
-                        PlaybackStatus.COMPLETED,
-                        channel_id=channel.channel_id,
-                        channel_generation=channel.generation,
-                        operation_id=self.composition.fsm.active_operation_id,
-                    )
+                if self._egress_pending_frames() > 0:
+                    continue
+            else:
+                continue
+            channel.close("completed")
+            self.composition.submit_control(
+                DialoguePlaybackEvent(
+                    channel.call_id,
+                    PlaybackStatus.COMPLETED,
+                    channel_id=channel.channel_id,
+                    channel_generation=channel.generation,
+                    operation_id=self.composition.fsm.active_operation_id,
                 )
-                with self._playback_lock:
-                    self._pending_physical_close.discard(key)
+            )
+            with self._playback_lock:
+                self._pending_physical_close.discard(key)
 
     def _cancel_playback(self, channel_id: str | None, generation: int | None, reason: str) -> None:
         if channel_id is None or generation is None:
@@ -587,6 +988,19 @@ class CallRuntimeWiring:
                 if getattr(self.sip_media, "active_call_id", None) is not None:
                     self._record_error(exc)
 
+    def _egress_pending_frames(self) -> int:
+        getter = getattr(self.sip_media, "egress_pending_frames", None)
+        if not callable(getter):
+            # Test doubles and non-PJMEDIA adapters without a physical queue
+            # are treated as already drained.
+            return 0
+        try:
+            return max(0, int(getter()))
+        except RuntimeError:
+            if getattr(self.sip_media, "active_call_id", None) is None:
+                return 0
+            raise
+
     def _record_error(self, error: BaseException) -> None:
         self.stats.errors += 1
         self.errors.append(f"{type(error).__name__}: {error}")
@@ -598,4 +1012,4 @@ def _speech_event_kind(kind: EndpointEventKind) -> SpeechEventKind:
     return SpeechEventKind(kind.value)
 
 
-__all__ = ["CallRuntimeWiring", "RuntimeWiringError", "RuntimeWiringStats"]
+__all__ = ["CallRuntimeWiring", "IncomingCallReadinessGate", "RuntimeWiringError", "RuntimeWiringStats"]

@@ -1,0 +1,21 @@
+<include>
+  <extension name="workshop_support_queue">
+    <condition field="destination_number" expression="^7000$">
+      <action application="answer"/>
+      <action application="callcenter" data="support@default"/>
+    </condition>
+  </extension>
+  <extension name="workshop_science_bot_queue">
+    <condition field="destination_number" expression="^7100$">
+      <!-- The demo corpus key is the browser's SIP From user, not auth user 1000. -->
+      <action application="set" data="effective_caller_id_number=${sip_from_user}"/>
+      <action application="answer"/>
+      <action application="set" data="RECORD_STEREO=true"/>
+      <action application="set" data="recording_follow_transfer=true"/>
+      <action application="set" data="workshop_recording=$${recordings_dir}/sip-bot/${strftime(%Y%m%d-%H%M%S)}-${uuid}.wav"/>
+      <action application="log" data="NOTICE SIP bot stereo recording: ${workshop_recording}"/>
+      <action application="record_session" data="${workshop_recording}"/>
+      <action application="callcenter" data="science-bot@default"/>
+    </condition>
+  </extension>
+</include>

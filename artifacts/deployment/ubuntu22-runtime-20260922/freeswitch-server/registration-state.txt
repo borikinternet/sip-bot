@@ -1,0 +1,10 @@
+Running as unit: run-u19.service
+
+Registrations:
+=================================================================================================
+Total items returned: 0
+=================================================================================================
+
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 5ms

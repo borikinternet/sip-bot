@@ -28,6 +28,7 @@ def test_speech_reexports_the_media_chunk_contract_without_duplication() -> None
         call_id="call-propagation",
         channel_id="call-propagation:asr",
         generation=1,
+        turn_id="call-propagation:turn-1",
         sequence=1,
         timestamp_ns=0,
         pcm_s16le=b"\x00\x00" * 160,
@@ -39,6 +40,7 @@ def test_speech_reexports_the_media_chunk_contract_without_duplication() -> None
     assert chunk.duration_ms == 20.0
     assert chunk.profile.sample_rate_hz == 8000
     assert chunk.flush_reason is FlushReason.TARGET
+    assert chunk.turn_id == "call-propagation:turn-1"
 
 
 def test_asr_adapter_accepts_the_chunk_emitted_by_media_chunker() -> None:
@@ -58,6 +60,7 @@ def test_asr_adapter_accepts_the_chunk_emitted_by_media_chunker() -> None:
         call_id="call-propagation",
         channel_id="call-propagation:asr",
         generation=1,
+        turn_id="call-propagation:turn-1",
         sequence=1,
         timestamp_ns=0,
         pcm_s16le=b"\x00\x00" * 160,
@@ -68,6 +71,7 @@ def test_asr_adapter_accepts_the_chunk_emitted_by_media_chunker() -> None:
 
     result = list(adapter.stream(operation, [chunk]))
     assert [item.text for item in result] == ["вопрос"]
+    assert result[0].turn_id == "call-propagation:turn-1"
 
 
 def test_final_user_turn_is_direct_payload_and_cannot_enter_control_bus() -> None:

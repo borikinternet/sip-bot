@@ -1,0 +1,15 @@
+<include>
+  <!-- Prefix 00 makes this route win over the vanilla enum extension. -->
+  <context name="default">
+    <extension name="sip-bot-registered-endpoint">
+      <condition field="destination_number" expression="^7000$">
+        <!-- Keep FreeSWITCH as the registrar/signaling hop.  The workshop
+             peer and the bot both run in WSL, so direct RTP avoids Docker's
+             container-to-WSL media-proxy route while preserving SIP bridge
+             behavior. -->
+        <action application="set" data="bypass_media=true"/>
+        <action application="bridge" data="user/tester@${domain_name}"/>
+      </condition>
+    </extension>
+  </context>
+</include>

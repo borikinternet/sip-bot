@@ -5,7 +5,7 @@
   "status": "pass",
   "command": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I -m pytest -q /mnt/c/devel/sip-bot/tests/integration/test_sip_media.py -k remote_bye",
   "working_directory": "/mnt/c/devel/sip-bot",
-  "started_at_utc": "2026-09-04T16:14:17.722796+00:00",
+  "started_at_utc": "2026-09-22T19:59:38.028283+00:00",
   "runtime": {
     "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
     "implementation": "cpython",
@@ -23,7 +23,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78589863682180,
+      "timestamp_ns": 65533257040734,
       "sequence": 1,
       "method": "RTP",
       "status_code": null,
@@ -36,7 +36,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78589863829731,
+      "timestamp_ns": 65533257233370,
       "sequence": 2,
       "method": "RTP",
       "status_code": null,
@@ -49,7 +49,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78589863850521,
+      "timestamp_ns": 65533257251485,
       "sequence": 3,
       "method": "RTP",
       "status_code": null,
@@ -62,7 +62,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78589863890114,
+      "timestamp_ns": 65533257395217,
       "sequence": 4,
       "method": "RTP",
       "status_code": null,
@@ -75,7 +75,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78589863905069,
+      "timestamp_ns": 65533257417567,
       "sequence": 5,
       "method": "RTP",
       "status_code": null,
@@ -88,7 +88,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78589863911138,
+      "timestamp_ns": 65533257424282,
       "sequence": 6,
       "method": "RTP",
       "status_code": null,
@@ -101,7 +101,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "call_started",
-      "timestamp_ns": 78589864106147,
+      "timestamp_ns": 65533257587968,
       "sequence": 7,
       "method": null,
       "status_code": null,
@@ -114,7 +114,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78589866591065,
+      "timestamp_ns": 65533260034574,
       "sequence": 8,
       "method": "RTP",
       "status_code": null,
@@ -127,7 +127,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78589866706665,
+      "timestamp_ns": 65533260141606,
       "sequence": 9,
       "method": "RTP",
       "status_code": null,
@@ -140,7 +140,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "media_started",
-      "timestamp_ns": 78589866953278,
+      "timestamp_ns": 65533260364389,
       "sequence": 10,
       "method": null,
       "status_code": null,
@@ -167,7 +167,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "call_answered",
-      "timestamp_ns": 78589867035663,
+      "timestamp_ns": 65533260435221,
       "sequence": 11,
       "method": null,
       "status_code": 200,
@@ -180,7 +180,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78590067928948,
+      "timestamp_ns": 65533460958765,
       "sequence": 12,
       "method": "RTP",
       "status_code": null,
@@ -193,7 +193,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "sip_transaction",
-      "timestamp_ns": 78590067957806,
+      "timestamp_ns": 65533460986430,
       "sequence": 13,
       "method": "RTP",
       "status_code": null,
@@ -206,7 +206,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "remote_hangup",
-      "timestamp_ns": 78590067996251,
+      "timestamp_ns": 65533461019614,
       "sequence": 14,
       "method": "BYE",
       "status_code": 200,
@@ -219,7 +219,7 @@
     {
       "call_id": "call-integration-bye",
       "kind": "media_stopped",
-      "timestamp_ns": 78590068102774,
+      "timestamp_ns": 65533461078011,
       "sequence": 15,
       "method": null,
       "status_code": null,
@@ -262,8 +262,8 @@
   "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-B/remote-bye.peer.log",
   "audio_recording": false,
   "external_pbx": false,
-  "finished_at_utc": "2026-09-04T16:14:17.722874+00:00",
-  "bye_sent_ns": 78590067365094,
+  "finished_at_utc": "2026-09-22T19:59:38.028353+00:00",
+  "bye_sent_ns": 65533460538022,
   "active_call_id_after_bye": null,
   "media_profile_blocked": false,
   "test_result": "pass"

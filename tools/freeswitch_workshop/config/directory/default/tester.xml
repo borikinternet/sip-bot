@@ -1,0 +1,14 @@
+<include>
+  <user id="tester">
+    <params>
+      <param name="password" value="PUBLIC-DEMO-SIP-PASSWORD"/>
+    </params>
+    <variables>
+      <variable name="toll_allow" value="local"/>
+      <variable name="accountcode" value="tester"/>
+      <variable name="user_context" value="default"/>
+      <variable name="effective_caller_id_name" value="SIP Bot"/>
+      <variable name="effective_caller_id_number" value="7000"/>
+    </variables>
+  </user>
+</include>

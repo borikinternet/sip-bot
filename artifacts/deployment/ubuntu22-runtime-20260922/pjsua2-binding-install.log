@@ -1,0 +1,11 @@
+Processing ./.
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: pjsua2
+  Building wheel for pjsua2 (pyproject.toml): started
+  Building wheel for pjsua2 (pyproject.toml): finished with status 'done'
+  Created wheel for pjsua2: filename=pjsua2-2.17-cp314-cp314t-linux_x86_64.whl size=12033968 sha256=2bbf20f15c20a708997dea598268adfed31b9b508152af965c7b6211a22c58a2
+  Stored in directory: /tmp/pip-ephem-wheel-cache-7ehckloa/wheels/9f/94/2f/ee051756d8fbf74323c2cc8c0c4a877fdbe7801e831838db7f
+Successfully built pjsua2
+Installing collected packages: pjsua2
+Successfully installed pjsua2-2.17

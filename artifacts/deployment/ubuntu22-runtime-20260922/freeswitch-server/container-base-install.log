@@ -1,0 +1,471 @@
+0% [Working]            Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+0% [1 InRelease 0 B/151 kB 0%]                              0% [Working]            Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+0% [2 InRelease 1398 B/55.4 kB 3%]                                  0% [Working]            Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+0% [3 InRelease 0 B/34.8 kB 0%]                               0% [Working]0% [Working]            Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+0% [4 Packages 1398 B/8790 kB 0%]0% [4 Packages 172 kB/8790 kB 2%]18% [4 Packages 345 kB/8790 kB 4%]37% [4 Packages 2574 kB/8790 kB 29%]50% [4 Packages 4091 kB/8790 kB 47%]68% [4 Packages 6214 kB/8790 kB 71%]84% [4 Packages 8072 kB/8790 kB 92%]                                    90% [Working]90% [4 Packages store 0 B] [Waiting for headers]                                                Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+90% [4 Packages store 0 B] [5 Packages 3487 B/6924 B 50%]                                                         90% [4 Packages store 0 B]                          Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [340 kB]
+90% [4 Packages store 0 B] [6 Packages 644 B/340 kB 0%]                                                       93% [4 Packages store 0 B]93% [4 Packages store 0 B]                          96% [Working]96% [5 Packages store 0 B]                          98% [Working]98% [6 Packages store 0 B]                          100% [Working]              Fetched 9379 kB in 4s (2494 kB/s)
+Reading package lists... 0%Reading package lists... 0%Reading package lists... 0%Reading package lists... 95%Reading package lists... 95%Reading package lists... 95%Reading package lists... 95%Reading package lists... 99%Reading package lists... 99%Reading package lists... Done
+Reading package lists... 0%Reading package lists... 0%Reading package lists... 0%Reading package lists... 95%Reading package lists... 95%Reading package lists... 95%Reading package lists... 95%Reading package lists... 99%Reading package lists... 99%Reading package lists... Done
+Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree... Done
+Reading state information... 0% Reading state information... 1%Reading state information... Done
+The following additional packages will be installed:
+  dbus-bin dbus-daemon dbus-session-bus-common dbus-system-bus-common
+  dbus-user-session dirmngr dmsetup gnupg-l10n gnupg-utils gpg gpg-agent
+  gpg-wks-client gpg-wks-server gpgconf gpgsm krb5-locales libapparmor1
+  libargon2-1 libassuan0 libatm1 libbpf1 libbrotli1 libbsd0 libcap2-bin
+  libcryptsetup12 libcurl4 libdbus-1-3 libdevmapper1.02.1 libelf1 libexpat1
+  libfdisk1 libgpm2 libgssapi-krb5-2 libip4tc2 libjson-c5 libk5crypto3
+  libkeyutils1 libkmod2 libkrb5-3 libkrb5support0 libksba8 libldap-2.5-0
+  libldap-common libmnl0 libncursesw6 libnghttp2-14 libnpth0 libnss-systemd
+  libpam-cap libpam-systemd libproc2-0 libpsl5 libreadline8 librtmp1
+  libsasl2-2 libsasl2-modules libsasl2-modules-db libsqlite3-0 libssh2-1
+  libssl3 libsystemd-shared libtirpc-common libtirpc3 libxtables12 openssl
+  pinentry-curses psmisc publicsuffix readline-common systemd
+  systemd-timesyncd
+Suggested packages:
+  pinentry-gnome3 tor parcimonie xloadimage scdaemon iproute2-doc python3:any
+  gpm krb5-doc krb5-user libsasl2-modules-gssapi-mit
+  | libsasl2-modules-gssapi-heimdal libsasl2-modules-ldap libsasl2-modules-otp
+  libsasl2-modules-sql pinentry-doc readline-doc systemd-container
+  systemd-homed systemd-userdbd systemd-boot systemd-resolved libfido2-1
+  libqrencode4 libtss2-esys-3.0.2-0 libtss2-mu0 libtss2-rc0 polkitd
+  | policykit-1
+The following NEW packages will be installed:
+  ca-certificates curl dbus dbus-bin dbus-daemon dbus-session-bus-common
+  dbus-system-bus-common dbus-user-session dirmngr dmsetup gnupg gnupg-l10n
+  gnupg-utils gpg gpg-agent gpg-wks-client gpg-wks-server gpgconf gpgsm
+  iproute2 krb5-locales libapparmor1 libargon2-1 libassuan0 libatm1 libbpf1
+  libbrotli1 libbsd0 libcap2-bin libcryptsetup12 libcurl4 libdbus-1-3
+  libdevmapper1.02.1 libelf1 libexpat1 libfdisk1 libgpm2 libgssapi-krb5-2
+  libip4tc2 libjson-c5 libk5crypto3 libkeyutils1 libkmod2 libkrb5-3
+  libkrb5support0 libksba8 libldap-2.5-0 libldap-common libmnl0 libncursesw6
+  libnghttp2-14 libnpth0 libnss-systemd libpam-cap libpam-systemd libproc2-0
+  libpsl5 libreadline8 librtmp1 libsasl2-2 libsasl2-modules
+  libsasl2-modules-db libsqlite3-0 libssh2-1 libssl3 libsystemd-shared
+  libtirpc-common libtirpc3 libxtables12 openssl pinentry-curses procps psmisc
+  publicsuffix readline-common systemd systemd-sysv systemd-timesyncd
+0 upgraded, 78 newly installed, 0 to remove and 0 not upgraded.
+Need to get 25.0 MB of archives.
+After this operation, 64.7 MB of additional disk space will be used.
+0% [Working]            Get:1 http://deb.debian.org/debian bookworm/main amd64 libssl3 amd64 3.0.20-1~deb12u2 [2036 kB]
+0% [1 libssl3 0 B/2036 kB 0%]6% [1 libssl3 1827 kB/2036 kB 90%]                                  7% [Working]            Get:2 http://deb.debian.org/debian bookworm/main amd64 libargon2-1 amd64 0~20171227-0.3+deb12u1 [19.4 kB]
+7% [2 libargon2-1 2796 B/19.4 kB 14%]                                     7% [Waiting for headers]                        Get:3 http://deb.debian.org/debian bookworm/main amd64 dmsetup amd64 2:1.02.185-2 [82.0 kB]
+7% [3 dmsetup 4194 B/82.0 kB 5%]                                8% [Waiting for headers]                        Get:4 http://deb.debian.org/debian bookworm/main amd64 libdevmapper1.02.1 amd64 2:1.02.185-2 [133 kB]
+8% [4 libdevmapper1.02.1 0 B/133 kB 0%]                                       8% [Waiting for headers]                        Get:5 http://deb.debian.org/debian bookworm/main amd64 libjson-c5 amd64 0.16-2 [44.1 kB]
+8% [5 libjson-c5 2740 B/44.1 kB 6%]                                   9% [Waiting for headers]                        Get:6 http://deb.debian.org/debian bookworm/main amd64 libcryptsetup12 amd64 2:2.6.1-4~deb12u2 [223 kB]
+9% [6 libcryptsetup12 4019 B/223 kB 2%]                                       10% [Waiting for headers]                         Get:7 http://deb.debian.org/debian bookworm/main amd64 libfdisk1 amd64 2.38.1-5+deb12u3 [194 kB]
+10% [7 libfdisk1 4096 B/194 kB 2%]                                  11% [Waiting for headers]                         Get:8 http://deb.debian.org/debian bookworm/main amd64 libkmod2 amd64 30+20221128-1 [57.9 kB]
+11% [8 libkmod2 10.6 kB/57.9 kB 18%]                                    11% [Waiting for headers]                         Get:9 http://deb.debian.org/debian bookworm/main amd64 libapparmor1 amd64 3.0.8-3 [41.2 kB]
+11% [9 libapparmor1 4096 B/41.2 kB 10%]                                       11% [Waiting for headers]                         Get:10 http://deb.debian.org/debian bookworm/main amd64 libip4tc2 amd64 1.8.9-2 [19.0 kB]
+11% [10 libip4tc2 17.6 kB/19.0 kB 93%]                                      12% [Working]             Get:11 http://deb.debian.org/debian bookworm/main amd64 libsystemd-shared amd64 252.39-1~deb12u2 [1696 kB]
+12% [11 libsystemd-shared 3376 B/1696 kB 0%]                                            17% [Waiting for headers]                         Get:12 http://deb.debian.org/debian bookworm/main amd64 systemd amd64 252.39-1~deb12u2 [3044 kB]
+17% [12 systemd 19.0 kB/3044 kB 1%]24% [12 systemd 1917 kB/3044 kB 63%]                                    27% [Waiting for headers]                         Get:13 http://deb.debian.org/debian bookworm/main amd64 systemd-sysv amd64 252.39-1~deb12u2 [42.9 kB]
+27% [13 systemd-sysv 13.5 kB/42.9 kB 32%]                                         28% [Waiting for headers]                         Get:14 http://deb.debian.org/debian bookworm/main amd64 libdbus-1-3 amd64 1.14.10-1~deb12u1 [201 kB]
+28% [14 libdbus-1-3 2071 B/201 kB 1%]                                     29% [Waiting for headers]                         Get:15 http://deb.debian.org/debian bookworm/main amd64 dbus-bin amd64 1.14.10-1~deb12u1 [105 kB]
+29% [15 dbus-bin 1385 B/105 kB 1%]                                  29% [Waiting for headers]                         Get:16 http://deb.debian.org/debian bookworm/main amd64 dbus-session-bus-common all 1.14.10-1~deb12u1 [78.2 kB]
+29% [16 dbus-session-bus-common 4315 B/78.2 kB 6%]                                                  30% [Waiting for headers]                         Get:17 http://deb.debian.org/debian-security bookworm-security/main amd64 libexpat1 amd64 2.5.0-1+deb12u3 [104 kB]
+30% [17 libexpat1 3562 B/104 kB 3%]                                   30% [Waiting for headers]                         Get:18 http://deb.debian.org/debian bookworm/main amd64 dbus-daemon amd64 1.14.10-1~deb12u1 [184 kB]
+30% [18 dbus-daemon 0 B/184 kB 0%]                                  31% [Waiting for headers]                         Get:19 http://deb.debian.org/debian bookworm/main amd64 dbus-system-bus-common all 1.14.10-1~deb12u1 [79.3 kB]
+31% [19 dbus-system-bus-common 1516 B/79.3 kB 2%]                                                 32% [Waiting for headers]                         Get:20 http://deb.debian.org/debian bookworm/main amd64 dbus amd64 1.14.10-1~deb12u1 [97.4 kB]
+32% [20 dbus 6690 B/97.4 kB 7%]                               32% [Waiting for headers]                         Get:21 http://deb.debian.org/debian bookworm/main amd64 libelf1 amd64 0.188-2.1 [174 kB]
+32% [21 libelf1 4859 B/174 kB 3%]                                 33% [Waiting for headers]                         Get:22 http://deb.debian.org/debian bookworm/main amd64 libbpf1 amd64 1:1.1.2-0+deb12u1 [145 kB]
+33% [22 libbpf1 1398 B/145 kB 1%]                                 34% [Waiting for headers]                         Get:23 http://deb.debian.org/debian bookworm/main amd64 libbsd0 amd64 0.11.7-2 [117 kB]
+34% [23 libbsd0 6611 B/117 kB 6%]                                 34% [Waiting for headers]                         Get:24 http://deb.debian.org/debian bookworm/main amd64 libmnl0 amd64 1.0.4-3 [12.5 kB]
+34% [24 libmnl0 3071 B/12.5 kB 25%]                                   35% [Waiting for headers]                         Get:25 http://deb.debian.org/debian bookworm/main amd64 libkrb5support0 amd64 1.20.1-2+deb12u5 [33.2 kB]
+35% [25 libkrb5support0 3816 B/33.2 kB 11%]                                           35% [Waiting for headers]                         Get:26 http://deb.debian.org/debian bookworm/main amd64 libk5crypto3 amd64 1.20.1-2+deb12u5 [79.7 kB]
+35% [26 libk5crypto3 600 B/79.7 kB 1%]                                      36% [Waiting for headers]                         Get:27 http://deb.debian.org/debian bookworm/main amd64 libkeyutils1 amd64 1.6.3-2 [8808 B]
+36% [27 libkeyutils1 1237 B/8808 B 14%]                                       36% [Waiting for headers]                         Get:28 http://deb.debian.org/debian bookworm/main amd64 libkrb5-3 amd64 1.20.1-2+deb12u5 [332 kB]
+36% [28 libkrb5-3 4194 B/332 kB 1%]                                   37% [Waiting for headers]                         Get:29 http://deb.debian.org/debian bookworm/main amd64 libgssapi-krb5-2 amd64 1.20.1-2+deb12u5 [135 kB]
+37% [29 libgssapi-krb5-2 1080 B/135 kB 1%]                                          38% [Waiting for headers]                         Get:30 http://deb.debian.org/debian bookworm/main amd64 libtirpc-common all 1.3.3+ds-1 [14.0 kB]
+38% [30 libtirpc-common 2180 B/14.0 kB 16%]                                           38% [Waiting for headers]                         Get:31 http://deb.debian.org/debian bookworm/main amd64 libtirpc3 amd64 1.3.3+ds-1 [85.2 kB]
+38% [31 libtirpc3 4175 B/85.2 kB 5%]                                    39% [Waiting for headers]                         Get:32 http://deb.debian.org/debian bookworm/main amd64 libxtables12 amd64 1.8.9-2 [30.8 kB]
+39% [32 libxtables12 6297 B/30.8 kB 20%]                                        39% [Waiting for headers]                         Get:33 http://deb.debian.org/debian bookworm/main amd64 libcap2-bin amd64 1:2.66-4+deb12u3+b1 [35.2 kB]
+39% [33 libcap2-bin 5544 B/35.2 kB 16%]                                       39% [Waiting for headers]                         Get:34 http://deb.debian.org/debian bookworm/main amd64 iproute2 amd64 6.1.0-3 [1046 kB]
+39% [34 iproute2 2796 B/1046 kB 0%]                                   43% [Waiting for headers]                         Get:35 http://deb.debian.org/debian bookworm/main amd64 libncursesw6 amd64 6.4-4 [134 kB]
+43% [35 libncursesw6 4729 B/134 kB 4%]                                      44% [Waiting for headers]                         Get:36 http://deb.debian.org/debian bookworm/main amd64 libproc2-0 amd64 2:4.0.2-3 [62.8 kB]
+44% [36 libproc2-0 4378 B/62.8 kB 7%]                                     44% [Waiting for headers]                         Get:37 http://deb.debian.org/debian bookworm/main amd64 procps amd64 2:4.0.2-3 [709 kB]
+44% [37 procps 952 B/709 kB 0%]                               47% [Waiting for headers]                         Get:38 http://deb.debian.org/debian bookworm/main amd64 readline-common all 8.2-1.3 [69.0 kB]
+47% [38 readline-common 3060 B/69.0 kB 4%]                                          47% [Waiting for headers]                         Get:39 http://deb.debian.org/debian bookworm/main amd64 openssl amd64 3.0.20-1~deb12u2 [1439 kB]
+47% [39 openssl 0 B/1439 kB 0%]                               52% [Waiting for headers]                         Get:40 http://deb.debian.org/debian-security bookworm-security/main amd64 ca-certificates all 20250419~deb12u1 [162 kB]
+52% [40 ca-certificates 4615 B/162 kB 3%]                                         53% [Waiting for headers]                         Get:41 http://deb.debian.org/debian bookworm/main amd64 krb5-locales all 1.20.1-2+deb12u5 [63.5 kB]
+53% [41 krb5-locales 1243 B/63.5 kB 2%]                                       53% [Waiting for headers]                         Get:42 http://deb.debian.org/debian bookworm/main amd64 libnss-systemd amd64 252.39-1~deb12u2 [164 kB]
+53% [42 libnss-systemd 0 B/164 kB 0%]                                     54% [Waiting for headers]                         Get:43 http://deb.debian.org/debian bookworm/main amd64 libpam-systemd amd64 252.39-1~deb12u2 [226 kB]
+54% [43 libpam-systemd 5570 B/226 kB 2%]                                        55% [Waiting for headers]                         Get:44 http://deb.debian.org/debian bookworm/main amd64 systemd-timesyncd amd64 252.39-1~deb12u2 [64.1 kB]
+55% [44 systemd-timesyncd 1572 B/64.1 kB 2%]                                            56% [Waiting for headers]                         Get:45 http://deb.debian.org/debian bookworm/main amd64 libbrotli1 amd64 1.0.9-2+b6 [275 kB]
+56% [45 libbrotli1 3880 B/275 kB 1%]                                    57% [Waiting for headers]                         Get:46 http://deb.debian.org/debian bookworm/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg-10 [20.3 kB]
+57% [46 libsasl2-modules-db 6099 B/20.3 kB 30%]                                               57% [Waiting for headers]                         Get:47 http://deb.debian.org/debian bookworm/main amd64 libsasl2-2 amd64 2.1.28+dfsg-10 [59.7 kB]
+57% [47 libsasl2-2 404 B/59.7 kB 1%]                                    57% [Waiting for headers]                         Get:48 http://deb.debian.org/debian bookworm/main amd64 libldap-2.5-0 amd64 2.5.13+dfsg-5 [183 kB]
+57% [48 libldap-2.5-0 2865 B/183 kB 2%]                                       58% [Waiting for headers]                         Get:49 http://deb.debian.org/debian bookworm/main amd64 libnghttp2-14 amd64 1.52.0-1+deb12u3 [72.4 kB]
+58% [49 libnghttp2-14 3394 B/72.4 kB 5%]                                        59% [Waiting for headers]                         Get:50 http://deb.debian.org/debian bookworm/main amd64 libpsl5 amd64 0.21.2-1 [58.7 kB]
+59% [50 libpsl5 129 B/58.7 kB 0%]                                 59% [Waiting for headers]                         Get:51 http://deb.debian.org/debian bookworm/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2+b2 [60.8 kB]
+59% [51 librtmp1 6390 B/60.8 kB 11%]                                    60% [Waiting for headers]                         Get:52 http://deb.debian.org/debian-security bookworm-security/main amd64 libssh2-1 amd64 1.10.0-3+deb12u1 [176 kB]
+60% [52 libssh2-1 677 B/176 kB 0%]                                  60% [Waiting for headers]                         Get:53 http://deb.debian.org/debian bookworm/main amd64 libcurl4 amd64 7.88.1-10+deb12u15 [392 kB]
+61% [53 libcurl4 5676 B/392 kB 1%]                                  62% [Waiting for headers]                         Get:54 http://deb.debian.org/debian bookworm/main amd64 curl amd64 7.88.1-10+deb12u15 [316 kB]
+62% [54 curl 2766 B/316 kB 1%]                              63% [Waiting for headers]                         Get:55 http://deb.debian.org/debian bookworm/main amd64 dbus-user-session amd64 1.14.10-1~deb12u1 [78.1 kB]
+63% [55 dbus-user-session 3586 B/78.1 kB 5%]                                            64% [Waiting for headers]                         Get:56 http://deb.debian.org/debian bookworm/main amd64 libassuan0 amd64 2.5.5-5 [48.5 kB]
+64% [56 libassuan0 4374 B/48.5 kB 9%]                                     64% [Waiting for headers]                         Get:57 http://deb.debian.org/debian bookworm/main amd64 libreadline8 amd64 8.2-1.3 [166 kB]
+64% [57 libreadline8 5506 B/166 kB 3%]                                      65% [Waiting for headers]                         Get:58 http://deb.debian.org/debian bookworm/main amd64 gpgconf amd64 2.2.40-1.1+deb12u2 [565 kB]
+65% [58 gpgconf 3947 B/565 kB 1%]                                 67% [Waiting for headers]                         Get:59 http://deb.debian.org/debian bookworm/main amd64 libksba8 amd64 1.6.3-2 [128 kB]
+67% [59 libksba8 7347 B/128 kB 6%]                                  68% [Waiting for headers]                         Get:60 http://deb.debian.org/debian bookworm/main amd64 libnpth0 amd64 1.6-3 [19.0 kB]
+68% [60 libnpth0 5415 B/19.0 kB 29%]                                    68% [Waiting for headers]                         Get:61 http://deb.debian.org/debian bookworm/main amd64 dirmngr amd64 2.2.40-1.1+deb12u2 [793 kB]
+68% [61 dirmngr 6645 B/793 kB 1%]                                 71% [Waiting for headers]                         Get:62 http://deb.debian.org/debian bookworm/main amd64 gnupg-l10n all 2.2.40-1.1+deb12u2 [1093 kB]
+71% [62 gnupg-l10n 925 B/1093 kB 0%]75% [Waiting for headers]                                          3002 kB/s 2s                                                                               Get:63 http://deb.debian.org/debian bookworm/main amd64 gnupg-utils amd64 2.2.40-1.1+deb12u2 [927 kB]
+75% [63 gnupg-utils 6348 B/927 kB 1%]                              3002 kB/s 2s78% [Waiting for headers]                                          3002 kB/s 1s                                                                               Get:64 http://deb.debian.org/debian bookworm/main amd64 libsqlite3-0 amd64 3.40.1-2+deb12u2 [839 kB]
+78% [64 libsqlite3-0 3831 B/839 kB 0%]                             3002 kB/s 1s81% [Waiting for headers]                                          3002 kB/s 1s                                                                               Get:65 http://deb.debian.org/debian bookworm/main amd64 gpg amd64 2.2.40-1.1+deb12u2 [950 kB]
+81% [65 gpg 5856 B/950 kB 1%]                                      3002 kB/s 1s84% [Waiting for headers]                                          3002 kB/s 1s                                                                               Get:66 http://deb.debian.org/debian bookworm/main amd64 pinentry-curses amd64 1.2.1-1 [77.4 kB]
+84% [66 pinentry-curses 3050 B/77.4 kB 4%]                         3002 kB/s 1s85% [Working]                                                      3002 kB/s 1s                                                                               Get:67 http://deb.debian.org/debian bookworm/main amd64 gpg-agent amd64 2.2.40-1.1+deb12u2 [695 kB]
+85% [67 gpg-agent 3128 B/695 kB 0%]                                3002 kB/s 1s87% [Waiting for headers]                                          3002 kB/s 1s                                                                               Get:68 http://deb.debian.org/debian bookworm/main amd64 gpg-wks-client amd64 2.2.40-1.1+deb12u2 [541 kB]
+87% [68 gpg-wks-client 5371 B/541 kB 1%]                           3002 kB/s 1s89% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:69 http://deb.debian.org/debian bookworm/main amd64 gpg-wks-server amd64 2.2.40-1.1+deb12u2 [531 kB]
+89% [69 gpg-wks-server 7372 B/531 kB 1%]                           3002 kB/s 0s91% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:70 http://deb.debian.org/debian bookworm/main amd64 gpgsm amd64 2.2.40-1.1+deb12u2 [671 kB]
+91% [70 gpgsm 2180 B/671 kB 0%]                                    3002 kB/s 0s93% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:71 http://deb.debian.org/debian bookworm/main amd64 gnupg all 2.2.40-1.1+deb12u2 [846 kB]
+93% [71 gnupg 2434 B/846 kB 0%]                                    3002 kB/s 0s96% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:72 http://deb.debian.org/debian bookworm/main amd64 libatm1 amd64 1:2.5.1-4+b2 [68.3 kB]
+96% [72 libatm1 6949 B/68.3 kB 10%]                                3002 kB/s 0s97% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:73 http://deb.debian.org/debian bookworm/main amd64 libgpm2 amd64 1.20.7-10+b1 [14.2 kB]
+97% [73 libgpm2 3608 B/14.2 kB 25%]                                3002 kB/s 0s97% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:74 http://deb.debian.org/debian bookworm/main amd64 libldap-common all 2.5.13+dfsg-5 [29.3 kB]
+97% [74 libldap-common 2610 B/29.3 kB 9%]                          3002 kB/s 0s97% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:75 http://deb.debian.org/debian bookworm/main amd64 libpam-cap amd64 1:2.66-4+deb12u3+b1 [15.1 kB]
+97% [75 libpam-cap 465 B/15.1 kB 3%]                               3002 kB/s 0s98% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:76 http://deb.debian.org/debian bookworm/main amd64 libsasl2-modules amd64 2.1.28+dfsg-10 [66.6 kB]
+98% [76 libsasl2-modules 1427 B/66.6 kB 2%]                        3002 kB/s 0s98% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:77 http://deb.debian.org/debian bookworm/main amd64 psmisc amd64 23.6-1 [259 kB]
+98% [77 psmisc 3998 B/259 kB 2%]                                   3002 kB/s 0s99% [Waiting for headers]                                          3002 kB/s 0s                                                                               Get:78 http://deb.debian.org/debian bookworm/main amd64 publicsuffix all 20230209.2326-1 [126 kB]
+99% [78 publicsuffix 4565 B/126 kB 4%]                             3002 kB/s 0s100% [Working]                                                     3002 kB/s 0s                                                                               Fetched 25.0 MB in 8s (3078 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libssl3:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6096 files and directories currently installed.)
+Preparing to unpack .../00-libssl3_3.0.20-1~deb12u2_amd64.deb ...
+Unpacking libssl3:amd64 (3.0.20-1~deb12u2) ...
+Selecting previously unselected package libargon2-1:amd64.
+Preparing to unpack .../01-libargon2-1_0~20171227-0.3+deb12u1_amd64.deb ...
+Unpacking libargon2-1:amd64 (0~20171227-0.3+deb12u1) ...
+Selecting previously unselected package dmsetup.
+Preparing to unpack .../02-dmsetup_2%3a1.02.185-2_amd64.deb ...
+Unpacking dmsetup (2:1.02.185-2) ...
+Selecting previously unselected package libdevmapper1.02.1:amd64.
+Preparing to unpack .../03-libdevmapper1.02.1_2%3a1.02.185-2_amd64.deb ...
+Unpacking libdevmapper1.02.1:amd64 (2:1.02.185-2) ...
+Selecting previously unselected package libjson-c5:amd64.
+Preparing to unpack .../04-libjson-c5_0.16-2_amd64.deb ...
+Unpacking libjson-c5:amd64 (0.16-2) ...
+Selecting previously unselected package libcryptsetup12:amd64.
+Preparing to unpack .../05-libcryptsetup12_2%3a2.6.1-4~deb12u2_amd64.deb ...
+Unpacking libcryptsetup12:amd64 (2:2.6.1-4~deb12u2) ...
+Selecting previously unselected package libfdisk1:amd64.
+Preparing to unpack .../06-libfdisk1_2.38.1-5+deb12u3_amd64.deb ...
+Unpacking libfdisk1:amd64 (2.38.1-5+deb12u3) ...
+Selecting previously unselected package libkmod2:amd64.
+Preparing to unpack .../07-libkmod2_30+20221128-1_amd64.deb ...
+Unpacking libkmod2:amd64 (30+20221128-1) ...
+Selecting previously unselected package libapparmor1:amd64.
+Preparing to unpack .../08-libapparmor1_3.0.8-3_amd64.deb ...
+Unpacking libapparmor1:amd64 (3.0.8-3) ...
+Selecting previously unselected package libip4tc2:amd64.
+Preparing to unpack .../09-libip4tc2_1.8.9-2_amd64.deb ...
+Unpacking libip4tc2:amd64 (1.8.9-2) ...
+Selecting previously unselected package libsystemd-shared:amd64.
+Preparing to unpack .../10-libsystemd-shared_252.39-1~deb12u2_amd64.deb ...
+Unpacking libsystemd-shared:amd64 (252.39-1~deb12u2) ...
+Setting up libssl3:amd64 (3.0.20-1~deb12u2) ...
+Selecting previously unselected package systemd.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6182 files and directories currently installed.)
+Preparing to unpack .../systemd_252.39-1~deb12u2_amd64.deb ...
+Unpacking systemd (252.39-1~deb12u2) ...
+Setting up libargon2-1:amd64 (0~20171227-0.3+deb12u1) ...
+Setting up libjson-c5:amd64 (0.16-2) ...
+Setting up libfdisk1:amd64 (2.38.1-5+deb12u3) ...
+Setting up libkmod2:amd64 (30+20221128-1) ...
+Setting up libapparmor1:amd64 (3.0.8-3) ...
+Setting up libip4tc2:amd64 (1.8.9-2) ...
+Setting up libsystemd-shared:amd64 (252.39-1~deb12u2) ...
+Setting up libdevmapper1.02.1:amd64 (2:1.02.185-2) ...
+Setting up libcryptsetup12:amd64 (2:2.6.1-4~deb12u2) ...
+Setting up systemd (252.39-1~deb12u2) ...
+Created symlink /etc/systemd/system/getty.target.wants/getty@tty1.service → /lib/systemd/system/getty@.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/remote-fs.target → /lib/systemd/system/remote-fs.target.
+Created symlink /etc/systemd/system/sysinit.target.wants/systemd-pstore.service → /lib/systemd/system/systemd-pstore.service.
+Initializing machine ID from container UUID.
+Creating group 'systemd-journal' with GID 999.
+Creating group 'systemd-network' with GID 998.
+Creating user 'systemd-network' (systemd Network Management) with UID 998 and GID 998.
+Setting up dmsetup (2:1.02.185-2) ...
+Selecting previously unselected package systemd-sysv.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 7031 files and directories currently installed.)
+Preparing to unpack .../00-systemd-sysv_252.39-1~deb12u2_amd64.deb ...
+Unpacking systemd-sysv (252.39-1~deb12u2) ...
+Selecting previously unselected package libdbus-1-3:amd64.
+Preparing to unpack .../01-libdbus-1-3_1.14.10-1~deb12u1_amd64.deb ...
+Unpacking libdbus-1-3:amd64 (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus-bin.
+Preparing to unpack .../02-dbus-bin_1.14.10-1~deb12u1_amd64.deb ...
+Unpacking dbus-bin (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus-session-bus-common.
+Preparing to unpack .../03-dbus-session-bus-common_1.14.10-1~deb12u1_all.deb ...
+Unpacking dbus-session-bus-common (1.14.10-1~deb12u1) ...
+Selecting previously unselected package libexpat1:amd64.
+Preparing to unpack .../04-libexpat1_2.5.0-1+deb12u3_amd64.deb ...
+Unpacking libexpat1:amd64 (2.5.0-1+deb12u3) ...
+Selecting previously unselected package dbus-daemon.
+Preparing to unpack .../05-dbus-daemon_1.14.10-1~deb12u1_amd64.deb ...
+Unpacking dbus-daemon (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus-system-bus-common.
+Preparing to unpack .../06-dbus-system-bus-common_1.14.10-1~deb12u1_all.deb ...
+Unpacking dbus-system-bus-common (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus.
+Preparing to unpack .../07-dbus_1.14.10-1~deb12u1_amd64.deb ...
+Unpacking dbus (1.14.10-1~deb12u1) ...
+Selecting previously unselected package libelf1:amd64.
+Preparing to unpack .../08-libelf1_0.188-2.1_amd64.deb ...
+Unpacking libelf1:amd64 (0.188-2.1) ...
+Selecting previously unselected package libbpf1:amd64.
+Preparing to unpack .../09-libbpf1_1%3a1.1.2-0+deb12u1_amd64.deb ...
+Unpacking libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+Selecting previously unselected package libbsd0:amd64.
+Preparing to unpack .../10-libbsd0_0.11.7-2_amd64.deb ...
+Unpacking libbsd0:amd64 (0.11.7-2) ...
+Selecting previously unselected package libmnl0:amd64.
+Preparing to unpack .../11-libmnl0_1.0.4-3_amd64.deb ...
+Unpacking libmnl0:amd64 (1.0.4-3) ...
+Selecting previously unselected package libkrb5support0:amd64.
+Preparing to unpack .../12-libkrb5support0_1.20.1-2+deb12u5_amd64.deb ...
+Unpacking libkrb5support0:amd64 (1.20.1-2+deb12u5) ...
+Selecting previously unselected package libk5crypto3:amd64.
+Preparing to unpack .../13-libk5crypto3_1.20.1-2+deb12u5_amd64.deb ...
+Unpacking libk5crypto3:amd64 (1.20.1-2+deb12u5) ...
+Selecting previously unselected package libkeyutils1:amd64.
+Preparing to unpack .../14-libkeyutils1_1.6.3-2_amd64.deb ...
+Unpacking libkeyutils1:amd64 (1.6.3-2) ...
+Selecting previously unselected package libkrb5-3:amd64.
+Preparing to unpack .../15-libkrb5-3_1.20.1-2+deb12u5_amd64.deb ...
+Unpacking libkrb5-3:amd64 (1.20.1-2+deb12u5) ...
+Selecting previously unselected package libgssapi-krb5-2:amd64.
+Preparing to unpack .../16-libgssapi-krb5-2_1.20.1-2+deb12u5_amd64.deb ...
+Unpacking libgssapi-krb5-2:amd64 (1.20.1-2+deb12u5) ...
+Selecting previously unselected package libtirpc-common.
+Preparing to unpack .../17-libtirpc-common_1.3.3+ds-1_all.deb ...
+Unpacking libtirpc-common (1.3.3+ds-1) ...
+Selecting previously unselected package libtirpc3:amd64.
+Preparing to unpack .../18-libtirpc3_1.3.3+ds-1_amd64.deb ...
+Unpacking libtirpc3:amd64 (1.3.3+ds-1) ...
+Selecting previously unselected package libxtables12:amd64.
+Preparing to unpack .../19-libxtables12_1.8.9-2_amd64.deb ...
+Unpacking libxtables12:amd64 (1.8.9-2) ...
+Selecting previously unselected package libcap2-bin.
+Preparing to unpack .../20-libcap2-bin_1%3a2.66-4+deb12u3+b1_amd64.deb ...
+Unpacking libcap2-bin (1:2.66-4+deb12u3+b1) ...
+Selecting previously unselected package iproute2.
+Preparing to unpack .../21-iproute2_6.1.0-3_amd64.deb ...
+Unpacking iproute2 (6.1.0-3) ...
+Selecting previously unselected package libncursesw6:amd64.
+Preparing to unpack .../22-libncursesw6_6.4-4_amd64.deb ...
+Unpacking libncursesw6:amd64 (6.4-4) ...
+Selecting previously unselected package libproc2-0:amd64.
+Preparing to unpack .../23-libproc2-0_2%3a4.0.2-3_amd64.deb ...
+Unpacking libproc2-0:amd64 (2:4.0.2-3) ...
+Selecting previously unselected package procps.
+Preparing to unpack .../24-procps_2%3a4.0.2-3_amd64.deb ...
+Unpacking procps (2:4.0.2-3) ...
+Selecting previously unselected package readline-common.
+Preparing to unpack .../25-readline-common_8.2-1.3_all.deb ...
+Unpacking readline-common (8.2-1.3) ...
+Selecting previously unselected package openssl.
+Preparing to unpack .../26-openssl_3.0.20-1~deb12u2_amd64.deb ...
+Unpacking openssl (3.0.20-1~deb12u2) ...
+Selecting previously unselected package ca-certificates.
+Preparing to unpack .../27-ca-certificates_20250419~deb12u1_all.deb ...
+Unpacking ca-certificates (20250419~deb12u1) ...
+Selecting previously unselected package krb5-locales.
+Preparing to unpack .../28-krb5-locales_1.20.1-2+deb12u5_all.deb ...
+Unpacking krb5-locales (1.20.1-2+deb12u5) ...
+Selecting previously unselected package libnss-systemd:amd64.
+Preparing to unpack .../29-libnss-systemd_252.39-1~deb12u2_amd64.deb ...
+Unpacking libnss-systemd:amd64 (252.39-1~deb12u2) ...
+Selecting previously unselected package libpam-systemd:amd64.
+Preparing to unpack .../30-libpam-systemd_252.39-1~deb12u2_amd64.deb ...
+Unpacking libpam-systemd:amd64 (252.39-1~deb12u2) ...
+Selecting previously unselected package systemd-timesyncd.
+Preparing to unpack .../31-systemd-timesyncd_252.39-1~deb12u2_amd64.deb ...
+Unpacking systemd-timesyncd (252.39-1~deb12u2) ...
+Selecting previously unselected package libbrotli1:amd64.
+Preparing to unpack .../32-libbrotli1_1.0.9-2+b6_amd64.deb ...
+Unpacking libbrotli1:amd64 (1.0.9-2+b6) ...
+Selecting previously unselected package libsasl2-modules-db:amd64.
+Preparing to unpack .../33-libsasl2-modules-db_2.1.28+dfsg-10_amd64.deb ...
+Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg-10) ...
+Selecting previously unselected package libsasl2-2:amd64.
+Preparing to unpack .../34-libsasl2-2_2.1.28+dfsg-10_amd64.deb ...
+Unpacking libsasl2-2:amd64 (2.1.28+dfsg-10) ...
+Selecting previously unselected package libldap-2.5-0:amd64.
+Preparing to unpack .../35-libldap-2.5-0_2.5.13+dfsg-5_amd64.deb ...
+Unpacking libldap-2.5-0:amd64 (2.5.13+dfsg-5) ...
+Selecting previously unselected package libnghttp2-14:amd64.
+Preparing to unpack .../36-libnghttp2-14_1.52.0-1+deb12u3_amd64.deb ...
+Unpacking libnghttp2-14:amd64 (1.52.0-1+deb12u3) ...
+Selecting previously unselected package libpsl5:amd64.
+Preparing to unpack .../37-libpsl5_0.21.2-1_amd64.deb ...
+Unpacking libpsl5:amd64 (0.21.2-1) ...
+Selecting previously unselected package librtmp1:amd64.
+Preparing to unpack .../38-librtmp1_2.4+20151223.gitfa8646d.1-2+b2_amd64.deb ...
+Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+Selecting previously unselected package libssh2-1:amd64.
+Preparing to unpack .../39-libssh2-1_1.10.0-3+deb12u1_amd64.deb ...
+Unpacking libssh2-1:amd64 (1.10.0-3+deb12u1) ...
+Selecting previously unselected package libcurl4:amd64.
+Preparing to unpack .../40-libcurl4_7.88.1-10+deb12u15_amd64.deb ...
+Unpacking libcurl4:amd64 (7.88.1-10+deb12u15) ...
+Selecting previously unselected package curl.
+Preparing to unpack .../41-curl_7.88.1-10+deb12u15_amd64.deb ...
+Unpacking curl (7.88.1-10+deb12u15) ...
+Selecting previously unselected package dbus-user-session.
+Preparing to unpack .../42-dbus-user-session_1.14.10-1~deb12u1_amd64.deb ...
+Unpacking dbus-user-session (1.14.10-1~deb12u1) ...
+Selecting previously unselected package libassuan0:amd64.
+Preparing to unpack .../43-libassuan0_2.5.5-5_amd64.deb ...
+Unpacking libassuan0:amd64 (2.5.5-5) ...
+Selecting previously unselected package libreadline8:amd64.
+Preparing to unpack .../44-libreadline8_8.2-1.3_amd64.deb ...
+Unpacking libreadline8:amd64 (8.2-1.3) ...
+Selecting previously unselected package gpgconf.
+Preparing to unpack .../45-gpgconf_2.2.40-1.1+deb12u2_amd64.deb ...
+Unpacking gpgconf (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package libksba8:amd64.
+Preparing to unpack .../46-libksba8_1.6.3-2_amd64.deb ...
+Unpacking libksba8:amd64 (1.6.3-2) ...
+Selecting previously unselected package libnpth0:amd64.
+Preparing to unpack .../47-libnpth0_1.6-3_amd64.deb ...
+Unpacking libnpth0:amd64 (1.6-3) ...
+Selecting previously unselected package dirmngr.
+Preparing to unpack .../48-dirmngr_2.2.40-1.1+deb12u2_amd64.deb ...
+Unpacking dirmngr (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package gnupg-l10n.
+Preparing to unpack .../49-gnupg-l10n_2.2.40-1.1+deb12u2_all.deb ...
+Unpacking gnupg-l10n (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package gnupg-utils.
+Preparing to unpack .../50-gnupg-utils_2.2.40-1.1+deb12u2_amd64.deb ...
+Unpacking gnupg-utils (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package libsqlite3-0:amd64.
+Preparing to unpack .../51-libsqlite3-0_3.40.1-2+deb12u2_amd64.deb ...
+Unpacking libsqlite3-0:amd64 (3.40.1-2+deb12u2) ...
+Selecting previously unselected package gpg.
+Preparing to unpack .../52-gpg_2.2.40-1.1+deb12u2_amd64.deb ...
+Unpacking gpg (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package pinentry-curses.
+Preparing to unpack .../53-pinentry-curses_1.2.1-1_amd64.deb ...
+Unpacking pinentry-curses (1.2.1-1) ...
+Selecting previously unselected package gpg-agent.
+Preparing to unpack .../54-gpg-agent_2.2.40-1.1+deb12u2_amd64.deb ...
+Unpacking gpg-agent (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package gpg-wks-client.
+Preparing to unpack .../55-gpg-wks-client_2.2.40-1.1+deb12u2_amd64.deb ...
+Unpacking gpg-wks-client (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package gpg-wks-server.
+Preparing to unpack .../56-gpg-wks-server_2.2.40-1.1+deb12u2_amd64.deb ...
+Unpacking gpg-wks-server (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package gpgsm.
+Preparing to unpack .../57-gpgsm_2.2.40-1.1+deb12u2_amd64.deb ...
+Unpacking gpgsm (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package gnupg.
+Preparing to unpack .../58-gnupg_2.2.40-1.1+deb12u2_all.deb ...
+Unpacking gnupg (2.2.40-1.1+deb12u2) ...
+Selecting previously unselected package libatm1:amd64.
+Preparing to unpack .../59-libatm1_1%3a2.5.1-4+b2_amd64.deb ...
+Unpacking libatm1:amd64 (1:2.5.1-4+b2) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../60-libgpm2_1.20.7-10+b1_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-10+b1) ...
+Selecting previously unselected package libldap-common.
+Preparing to unpack .../61-libldap-common_2.5.13+dfsg-5_all.deb ...
+Unpacking libldap-common (2.5.13+dfsg-5) ...
+Selecting previously unselected package libpam-cap:amd64.
+Preparing to unpack .../62-libpam-cap_1%3a2.66-4+deb12u3+b1_amd64.deb ...
+Unpacking libpam-cap:amd64 (1:2.66-4+deb12u3+b1) ...
+Selecting previously unselected package libsasl2-modules:amd64.
+Preparing to unpack .../63-libsasl2-modules_2.1.28+dfsg-10_amd64.deb ...
+Unpacking libsasl2-modules:amd64 (2.1.28+dfsg-10) ...
+Selecting previously unselected package psmisc.
+Preparing to unpack .../64-psmisc_23.6-1_amd64.deb ...
+Unpacking psmisc (23.6-1) ...
+Selecting previously unselected package publicsuffix.
+Preparing to unpack .../65-publicsuffix_20230209.2326-1_all.deb ...
+Unpacking publicsuffix (20230209.2326-1) ...
+Setting up libksba8:amd64 (1.6.3-2) ...
+Setting up libexpat1:amd64 (2.5.0-1+deb12u3) ...
+Setting up systemd-sysv (252.39-1~deb12u2) ...
+Setting up libkeyutils1:amd64 (1.6.3-2) ...
+Setting up libpsl5:amd64 (0.21.2-1) ...
+Setting up libgpm2:amd64 (1.20.7-10+b1) ...
+Setting up psmisc (23.6-1) ...
+Setting up libtirpc-common (1.3.3+ds-1) ...
+Setting up libbrotli1:amd64 (1.0.9-2+b6) ...
+Setting up libsqlite3-0:amd64 (3.40.1-2+deb12u2) ...
+Setting up libsasl2-modules:amd64 (2.1.28+dfsg-10) ...
+Setting up libnghttp2-14:amd64 (1.52.0-1+deb12u3) ...
+Setting up libnss-systemd:amd64 (252.39-1~deb12u2) ...
+Setting up libnpth0:amd64 (1.6-3) ...
+Setting up krb5-locales (1.20.1-2+deb12u5) ...
+Setting up libassuan0:amd64 (2.5.5-5) ...
+Setting up libatm1:amd64 (1:2.5.1-4+b2) ...
+Setting up libldap-common (2.5.13+dfsg-5) ...
+Setting up libkrb5support0:amd64 (1.20.1-2+deb12u5) ...
+Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg-10) ...
+Setting up libcap2-bin (1:2.66-4+deb12u3+b1) ...
+Setting up gnupg-l10n (2.2.40-1.1+deb12u2) ...
+Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+Setting up libdbus-1-3:amd64 (1.14.10-1~deb12u1) ...
+Setting up libproc2-0:amd64 (2:4.0.2-3) ...
+Setting up libmnl0:amd64 (1.0.4-3) ...
+Setting up systemd-timesyncd (252.39-1~deb12u2) ...
+Creating group 'systemd-timesync' with GID 997.
+Creating user 'systemd-timesync' (systemd Time Synchronization) with UID 997 and GID 997.
+Created symlink /etc/systemd/system/dbus-org.freedesktop.timesync1.service → /lib/systemd/system/systemd-timesyncd.service.
+Created symlink /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service → /lib/systemd/system/systemd-timesyncd.service.
+Setting up libncursesw6:amd64 (6.4-4) ...
+Setting up libk5crypto3:amd64 (1.20.1-2+deb12u5) ...
+Setting up libxtables12:amd64 (1.8.9-2) ...
+Setting up libsasl2-2:amd64 (2.1.28+dfsg-10) ...
+Setting up dbus-session-bus-common (1.14.10-1~deb12u1) ...
+Setting up procps (2:4.0.2-3) ...
+Setting up libssh2-1:amd64 (1.10.0-3+deb12u1) ...
+Setting up libkrb5-3:amd64 (1.20.1-2+deb12u5) ...
+Setting up dbus-system-bus-common (1.14.10-1~deb12u1) ...
+Setting up openssl (3.0.20-1~deb12u2) ...
+Setting up libbsd0:amd64 (0.11.7-2) ...
+Setting up libelf1:amd64 (0.188-2.1) ...
+Setting up libpam-cap:amd64 (1:2.66-4+deb12u3+b1) ...
+Setting up readline-common (8.2-1.3) ...
+Setting up publicsuffix (20230209.2326-1) ...
+Setting up dbus-bin (1.14.10-1~deb12u1) ...
+Setting up libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+Setting up pinentry-curses (1.2.1-1) ...
+Setting up libreadline8:amd64 (8.2-1.3) ...
+Setting up dbus-daemon (1.14.10-1~deb12u1) ...
+Setting up libldap-2.5-0:amd64 (2.5.13+dfsg-5) ...
+Setting up ca-certificates (20250419~deb12u1) ...
+Updating certificates in /etc/ssl/certs...
+150 added, 0 removed; done.
+Setting up dbus (1.14.10-1~deb12u1) ...
+invoke-rc.d: could not determine current runlevel
+invoke-rc.d: policy-rc.d denied execution of start.
+Setting up libgssapi-krb5-2:amd64 (1.20.1-2+deb12u5) ...
+Setting up gpgconf (2.2.40-1.1+deb12u2) ...
+Setting up libpam-systemd:amd64 (252.39-1~deb12u2) ...
+Setting up libcurl4:amd64 (7.88.1-10+deb12u15) ...
+Setting up curl (7.88.1-10+deb12u15) ...
+Setting up gpg (2.2.40-1.1+deb12u2) ...
+Setting up gnupg-utils (2.2.40-1.1+deb12u2) ...
+Setting up libtirpc3:amd64 (1.3.3+ds-1) ...
+Setting up gpg-agent (2.2.40-1.1+deb12u2) ...
+Created symlink /etc/systemd/user/sockets.target.wants/gpg-agent-browser.socket → /usr/lib/systemd/user/gpg-agent-browser.socket.
+Created symlink /etc/systemd/user/sockets.target.wants/gpg-agent-extra.socket → /usr/lib/systemd/user/gpg-agent-extra.socket.
+Created symlink /etc/systemd/user/sockets.target.wants/gpg-agent-ssh.socket → /usr/lib/systemd/user/gpg-agent-ssh.socket.
+Created symlink /etc/systemd/user/sockets.target.wants/gpg-agent.socket → /usr/lib/systemd/user/gpg-agent.socket.
+Setting up iproute2 (6.1.0-3) ...
+Setting up gpgsm (2.2.40-1.1+deb12u2) ...
+Setting up dirmngr (2.2.40-1.1+deb12u2) ...
+Created symlink /etc/systemd/user/sockets.target.wants/dirmngr.socket → /usr/lib/systemd/user/dirmngr.socket.
+Setting up dbus-user-session (1.14.10-1~deb12u1) ...
+Setting up gpg-wks-server (2.2.40-1.1+deb12u2) ...
+Setting up gpg-wks-client (2.2.40-1.1+deb12u2) ...
+Setting up gnupg (2.2.40-1.1+deb12u2) ...
+Processing triggers for libc-bin (2.36-9+deb12u14) ...
+Processing triggers for ca-certificates (20250419~deb12u1) ...
+Updating certificates in /etc/ssl/certs...
+0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.

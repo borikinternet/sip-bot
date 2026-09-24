@@ -1,0 +1,197 @@
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking target system type... x86_64-pc-linux-gnu
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking for g++... g++
+checking whether the compiler supports GNU C++... yes
+checking whether g++ accepts -g... yes
+checking for g++ option to enable C++11 features... none needed
+checking for ranlib... ranlib
+checking for ar... ar
+checking for pthread_create in -lpthread... yes
+checking for puts in -lwsock32... no
+checking for puts in -lws2_32... no
+checking for puts in -lole32... no
+checking for puts in -lwinmm... no
+checking for puts in -lsocket... no
+checking for puts in -lrt... yes
+checking for sin in -lm... yes
+checking for x86_64-linux-gnu-pkg-config... x86_64-linux-gnu-pkg-config
+checking for uuid_generate in -luuid... yes
+checking for uuid_generate in -luuid... (cached) yes
+checking for library containing gethostbyname... none required
+Setting PJ_M_NAME to x86_64
+checking memory alignment... 8 bytes
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking whether byte ordering is bigendian... no
+Checking if floating point is disabled... no
+checking for arpa/inet.h... yes
+checking for assert.h... yes
+checking for ctype.h... yes
+checking for errno.h... yes
+checking for fcntl.h... yes
+checking for linux/socket.h... yes
+checking for limits.h... yes
+checking for malloc.h... yes
+checking for netdb.h... yes
+checking for netinet/in_systm.h... yes
+checking for netinet/in.h... yes
+checking for netinet/ip.h... yes
+checking for netinet/tcp.h... yes
+checking for ifaddrs.h... yes
+checking for getifaddrs... yes
+checking for semaphore.h... yes
+checking for setjmp.h... yes
+checking for stdarg.h... yes
+checking for stddef.h... yes
+checking for stdio.h... (cached) yes
+checking for stdint.h... (cached) yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking for inttypes.h... (cached) yes
+checking for sys/ioctl.h... yes
+checking for sys/select.h... yes
+checking for sys/socket.h... yes
+checking for sys/time.h... yes
+checking for sys/timeb.h... yes
+checking for sys/types.h... (cached) yes
+checking for sys/filio.h... no
+checking for sys/sockio.h... no
+checking for sys/utsname.h... yes
+checking for time.h... yes
+checking for unistd.h... (cached) yes
+checking for execinfo.h... yes
+checking for winsock.h... no
+checking for winsock2.h... no
+checking for mswsock.h... no
+checking for ws2tcpip.h... no
+checking for uuid/uuid.h... yes
+checking for net/if.h... yes
+checking for localtime_r... yes
+Setting PJ_OS_NAME to x86_64-pc-linux-gnu
+Setting PJ_HAS_ERRNO_VAR to 1
+Setting PJ_HAS_HIGH_RES_TIMER to 1
+Setting PJ_HAS_MALLOC to 1
+Setting PJ_NATIVE_STRING_IS_UNICODE to 0
+Setting PJ_ATOMIC_VALUE_TYPE to long
+checking if inet_aton() is available... yes
+checking if inet_pton() is available... yes
+checking if inet_ntop() is available... yes
+checking if getaddrinfo() is available... yes
+checking if socketpair() is available... yes
+checking if sockaddr_in has sin_len member... no
+checking if socklen_t is available... yes
+checking if IPV6_V6ONLY is available... yes
+checking if SO_ERROR is available... yes
+checking if pthread_rwlock_t is available... yes
+checking if pthread_mutexattr_settype() is available... no
+checking if pthread_mutexattr_t has recursive member... no
+checking ioqueue backend... select()
+Building shared libraries... no
+Building pjsua2 library and application... yes
+checking UPnP usability... no
+checking for sys/soundcard.h... yes
+checking for linux/soundcard.h... yes
+checking for machine/soundcard.h... no
+checking for alsa/version.h... no
+Checking sound device backend... null sound
+Checking if small filter is disabled... no
+Checking if large filter is disabled... no
+Checking if Speex AEC is disabled...no
+Checking if G.711 codec is disabled...no
+Checking if L16 codec is disabled...no
+Checking if GSM codec is disabled...no
+Checking if G.722 codec is disabled...no
+Checking if G.722.1 codec is disabled...no
+Checking if Speex codec is disabled...no
+Checking if iLBC codec is disabled...no
+Checking if libsamplerate is enabled...no
+Building libresample as shared library... no
+Checking if Speex resample is enabled... no
+checking for sdl2-config... no
+checking for sdl-config... no
+checking SDL availability... not found
+checking ffmpeg packages... none detected (check the prefix)! **
+Must specify package names on the command line
+Must specify package names on the command line
+checking for enum AVPixelFormat... no
+checking for v4l2_open in -lv4l2... no
+checking OpenH264 usability... no
+checking VPX usability... no
+Skipping Intel IPP settings (not wanted)
+checking for OpenSSL installations..
+checking for openssl/ssl.h... yes
+checking for ERR_load_BIO_strings in -lcrypto... yes
+checking for SSL_CTX_new in -lssl... yes
+OpenSSL library found, SSL support enabled
+checking for EVP_aes_128_gcm in -lcrypto... yes
+OpenSSL has AES GCM support, SRTP will use OpenSSL
+checking for OpenCORE AMR installations..
+checking for opencore-amrnb/interf_enc.h... no
+checking for Encoder_Interface_init in -lopencore-amrnb... no
+checking for vo-amrwbenc/enc_if.h... no
+checking for opencore-amrwb/dec_if.h... no
+checking for D_IF_init in -lopencore-amrwb... no
+checking for E_IF_init in -lvo-amrwbenc... no
+checking for SILK installations..
+checking for SKP_Silk_SDK_API.h... no
+checking for SKP_Silk_SDK_get_version in -lSKP_SILK_SDK... no
+checking for OPUS installations..
+checking for opus/opus.h... no
+checking for opus_repacketizer_get_size in -lopus... no
+OPUS library not found, OPUS support disabled
+checking bcg729 usability... no
+checking lyra usability... no
+Checking if libsrtp is disabled...no
+Checking if libyuv is disabled...no
+Checking if libwebrtc is disabled...no
+Checking if libwebrtc-aec3 is enabled...no
+checking if select() needs correct nfds... no (default)
+** Decided that select() doesn't need correct nfds (please check)
+checking if pj_thread_create() should enforce stack size... no (default)
+checking if pj_thread_create() should allocate stack... no (default)
+** Setting non-blocking recv() retval to EAGAIN (please check)
+** Setting non-blocking connect() retval to EINPROGRESS (please check)
+checking for pthread_np.h... no
+checking for pthread_setname_np... yes
+checking for pthread_set_name_np... no
+aconfigure: creating ./config.status
+config.status: creating build.mak
+config.status: creating build/os-auto.mak
+config.status: creating build/cc-auto.mak
+config.status: creating pjlib/build/os-auto.mak
+config.status: creating pjlib-util/build/os-auto.mak
+config.status: creating pjmedia/build/os-auto.mak
+config.status: creating pjsip/build/os-auto.mak
+config.status: creating third_party/build/os-auto.mak
+config.status: creating pjlib/include/pj/compat/os_auto.h
+config.status: creating pjlib/include/pj/compat/m_auto.h
+config.status: creating pjmedia/include/pjmedia/config_auto.h
+config.status: creating pjmedia/include/pjmedia-codec/config_auto.h
+config.status: creating pjsip/include/pjsip/sip_autoconf.h
+
+
+Configurations for current target have been written to 'build.mak', and 'os-auto.mak' in various build directories, and pjlib/include/pj/compat/os_auto.h.
+
+Further customizations can be put in:
+  - 'user.mak'
+  - 'pjlib/include/pj/config_site.h'
+
+The next step now is to run 'make dep' and 'make'.
+

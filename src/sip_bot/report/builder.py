@@ -9,6 +9,7 @@ from sip_bot.context.store import ContextSnapshot
 from sip_bot.dialogue.events import TransferResult
 from sip_bot.dialogue.fsm import Transition
 from sip_bot.retrieval.contracts import KnowledgeContext
+from sip_bot.understanding import SemanticActTrace
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,6 +20,7 @@ class ReportInput:
     context: ContextSnapshot
     rag_contexts: tuple[KnowledgeContext, ...] = ()
     transitions: tuple[Transition, ...] = ()
+    semantic_traces: tuple[SemanticActTrace, ...] = ()
     transfer_result: TransferResult | None = None
 
     def __post_init__(self) -> None:
@@ -73,12 +75,38 @@ class ReportBuilder:
                 )
                 if context.failure:
                     lines.append(f"- Ошибка поиска: `{context.failure}`")
+                if context.sufficiency_diagnostics is not None:
+                    diagnostic = context.sufficiency_diagnostics
+                    lines.extend(
+                        [
+                            f"- Причина sufficiency: `{diagnostic.reason}`",
+                            f"- Фактический порог решения: `{diagnostic.effective_threshold}`",
+                            f"- Semantic score: `{diagnostic.top_semantic_score:.4f}`",
+                            f"- Lexical support: `{diagnostic.top_lexical_support}` / "
+                            f"`{diagnostic.required_top_lexical_support}`; query terms "
+                            f"`{diagnostic.eligible_query_terms}` / min `{diagnostic.minimum_query_terms}`",
+                            f"- Semantic-only / lexical floor: `{diagnostic.semantic_only_threshold}` / "
+                            f"`{diagnostic.lexical_semantic_floor}`",
+                        ]
+                    )
                 for hit in context.hits:
                     lines.append(
                         f"- Фрагмент `{hit.chunk_id}` из `{hit.source_id}`, score `{hit.score:.4f}`"
                     )
         else:
             lines.append("- RAG-контекст не передан.")
+
+        lines.extend(["", "## Семантические действия", ""])
+        if value.semantic_traces:
+            for trace in value.semantic_traces:
+                reason = f"; причина: {trace.reason}" if trace.reason else ""
+                lines.append(
+                    f"- `{trace.turn_id}` act #{trace.act_index}: `{trace.kind.value}` "
+                    f"span `{trace.span.start}:{trace.span.end}` — `{trace.outcome}`; "
+                    f"`{trace.state_before}` → `{trace.state_after}`{reason}"
+                )
+        else:
+            lines.append("- Семантические действия не переданы.")
 
         lines.extend(["", "## Переходы FSM", ""])
         if value.transitions:
@@ -125,4 +153,3 @@ class ReportFinalizer:
             return destination
         destination.write_text(rendered, encoding="utf-8")
         return destination
-

@@ -1,0 +1,27 @@
+{
+  "evidence_id": "E-008-C-SOURCE-AUDIT-20260913",
+  "status": "pass",
+  "files": {
+    "tools/live_i1_gate.py": {
+      "vad_construction": "VadProcessor(WebRtcVadCandidate(mode=constants.VAD_MODE))",
+      "endpoint_construction": "TurnDetector(EndpointingConfig(soft_endpoint_ms=constants.ENDPOINT_SOFT_MS, hard_endpoint_ms=constants.ENDPOINT_HARD_MS, min_speech_ms=constants.MIN_SPEECH_MS))",
+      "peer_setup": "accepted 001-S peer template copied into output-root/live-stand/peer-5080",
+      "live_amplitude_vad": false
+    },
+    "tools/j4_full_live_gate.py": {
+      "vad_construction": "VadProcessor(WebRtcVadCandidate(mode=constants.VAD_MODE))",
+      "endpoint_construction": "TurnDetector(EndpointingConfig(soft_endpoint_ms=constants.ENDPOINT_SOFT_MS, hard_endpoint_ms=constants.ENDPOINT_HARD_MS, min_speech_ms=constants.MIN_SPEECH_MS))",
+      "live_amplitude_vad": false
+    },
+    "config/constants.py": {
+      "VAD_MODE": 2,
+      "ENDPOINT_SOFT_MS": 300,
+      "ENDPOINT_HARD_MS": 520,
+      "MIN_SPEECH_MS": 80
+    }
+  },
+  "typed_path": "PcmFrame -> VadProcessor.process(frame) -> VadDecision -> TurnDetector.consume(decision)",
+  "dispatcher_carries_pcm": false,
+  "new_production_component": false,
+  "asr_is_vad_oracle": false
+}

@@ -1,0 +1,41 @@
+{
+  "status": "fail",
+  "gate": "I1-8",
+  "call_id": "i1-8-live-call",
+  "started_at_utc": "2026-09-13T13:23:56.731608+00:00",
+  "elapsed_ms": 34.521,
+  "elapsed_from_call_start_ms": null,
+  "warmup": null,
+  "fixture": {},
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  },
+  "sip": {
+    "peer_established": false,
+    "rtp_ingress_established": false,
+    "pcmu_8000_mono": false,
+    "peer_reported_packets": false,
+    "peer_rtp_packets": null,
+    "adapter_profile": null,
+    "adapter_media_stats": {},
+    "adapter_events": []
+  },
+  "wiring": {},
+  "context": [],
+  "report": null,
+  "rag": {
+    "contexts": 0,
+    "sufficient": false,
+    "source_ids": []
+  },
+  "fsm": {
+    "state": null,
+    "trace": []
+  },
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/007-webrtc-vad/007-C/i1-live-20260913-r1/baresip-peer.log",
+  "errors": [
+    "RuntimeWarmupError: warmup stage 'rag-embedding-index' failed: <urlopen error [Errno 111] Connection refused>"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "corpus_id": "vad-turn-calibration-ru-xtts-single-voice-v1",
+  "revision": 1,
+  "status": "immutable-after-build",
+  "source": {
+    "fixture_path": "C:\\devel\\sip-bot\\artifacts\\implementation\\007-webrtc-vad\\007-C\\j4-full-live-20260913-r3\\live-stand\\input-scenario.wav",
+    "fixture_manifest_path": "C:\\devel\\sip-bot\\artifacts\\implementation\\007-webrtc-vad\\007-C\\j4-full-live-20260913-r3\\j4-full-live.json",
+    "fixture_pcm_sha256": "e69cadf8b0c6a604032b6aa3ef82614d408e4d4df4e35bc15d26cd33b8a71a2d",
+    "voice": "XTTS-v2 reference voice from model samples/en_sample.wav",
+    "generation": "reused accepted Map-007 J4 XTTS fixture; no model inference in builder"
+  },
+  "audio": {
+    "path": "artifacts\\implementation\\008-vad-turn-calibration\\008-A\\corpus\\calibration-corpus.wav",
+    "codec": "PCM S16LE",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "duration_s": 14.58,
+    "sha256": "a031570e9954d249851997f33252ccc783dc27f0511cee3bb427a1d32579f5c8"
+  },
+  "phone_conditioning": {
+    "rtp_codec": "PCMU/G.711 mu-law",
+    "transport_sample_rate_hz": 8000,
+    "frame_duration_ms": 20,
+    "frame_size_samples": 160,
+    "conditioning_performed_by": "tools/vad_calibration_probe.py"
+  },
+  "pause_policy": {
+    "soft_endpoint_ms": 300,
+    "hard_endpoint_ms": 500,
+    "cases": {
+      "below_soft_ms": 240,
+      "above_hard_ms": 620,
+      "between_soft_and_hard_ms": 480,
+      "above_hard_ms_second": 700
+    }
+  },
+  "segments": [
+    {
+      "segment_id": "phrase-01",
+      "source_turn_id": "turn-1",
+      "text": "Почему небо днём кажется голубым?",
+      "expected_turn_id": "cal-turn-1",
+      "pause_before_s": 0.7,
+      "speech_started_s": 0.7,
+      "speech_duration_s": 1.899,
+      "speech_sha256": "e95ae7df5795628a9cbda7bbcf0c965dcf21a1cd78c43948111fa00b67c1b963"
+    },
+    {
+      "segment_id": "phrase-02",
+      "source_turn_id": "turn-2",
+      "text": "А почему на закате оно становится красным?",
+      "expected_turn_id": "cal-turn-1",
+      "pause_before_s": 0.24,
+      "speech_started_s": 2.839,
+      "speech_duration_s": 2.464,
+      "speech_sha256": "11c396df71f3abba45ade7b9c8a26e704150ff6a2f14c0e61e78c99d8a66896c"
+    },
+    {
+      "segment_id": "phrase-03",
+      "source_turn_id": "turn-3",
+      "text": "Стоп, небо голубое?",
+      "expected_turn_id": "cal-turn-2",
+      "pause_before_s": 0.62,
+      "speech_started_s": 5.923,
+      "speech_duration_s": 1.76,
+      "speech_sha256": "d766faeedaec50b37caafbb524f0ec3372b552d8fa51f114bee50b99fa2eb9d6"
+    },
+    {
+      "segment_id": "phrase-04",
+      "source_turn_id": "turn-4",
+      "text": "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+      "expected_turn_id": "cal-turn-2",
+      "pause_before_s": 0.48,
+      "speech_started_s": 8.163,
+      "speech_duration_s": 4.32,
+      "speech_sha256": "a94edbbd0df041a1f70504091858c6a471f92bb0bd2400d7d635de0fd9e79152"
+    },
+    {
+      "segment_id": "phrase-05",
+      "source_turn_id": "turn-5",
+      "text": "Да",
+      "expected_turn_id": "cal-turn-3",
+      "pause_before_s": 0.7,
+      "speech_started_s": 13.183,
+      "speech_duration_s": 0.597,
+      "speech_sha256": "1fcaa2ff7a2a0b71608bd8ed297af70d8139e31a76fb975e7f1929a1b71fb2aa"
+    }
+  ],
+  "trailing_silence_s": 0.8
+}

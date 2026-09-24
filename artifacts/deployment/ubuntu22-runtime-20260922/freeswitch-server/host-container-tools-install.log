@@ -1,0 +1,42 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libnss-mymachines
+Suggested packages:
+  squid-deb-proxy-client debian-archive-keyring arch-test
+The following NEW packages will be installed:
+  debootstrap libnss-mymachines systemd-container
+0 upgraded, 3 newly installed, 0 to remove and 65 not upgraded.
+Need to get 576 kB of archives.
+After this operation, 2,252 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 systemd-container amd64 249.11-0ubuntu3.22 [389 kB]
+Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 debootstrap all 1.0.126+nmu1ubuntu0.9 [40.8 kB]
+Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libnss-mymachines amd64 249.11-0ubuntu3.22 [146 kB]
+Fetched 576 kB in 1s (1,073 kB/s)
+Selecting previously unselected package systemd-container.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 139769 files and directories currently installed.)
+Preparing to unpack .../systemd-container_249.11-0ubuntu3.22_amd64.deb ...
+Unpacking systemd-container (249.11-0ubuntu3.22) ...
+Selecting previously unselected package debootstrap.
+Preparing to unpack .../debootstrap_1.0.126+nmu1ubuntu0.9_all.deb ...
+Unpacking debootstrap (1.0.126+nmu1ubuntu0.9) ...
+Selecting previously unselected package libnss-mymachines:amd64.
+Preparing to unpack .../libnss-mymachines_249.11-0ubuntu3.22_amd64.deb ...
+Unpacking libnss-mymachines:amd64 (249.11-0ubuntu3.22) ...
+Setting up debootstrap (1.0.126+nmu1ubuntu0.9) ...
+Setting up systemd-container (249.11-0ubuntu3.22) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/machines.target → /lib/systemd/system/machines.target.
+Setting up libnss-mymachines:amd64 (249.11-0ubuntu3.22) ...
+First installation detected...
+Checking NSS setup...
+Processing triggers for libc-bin (2.35-0ubuntu3.15) ...
+Processing triggers for man-db (2.10.2-1) ...
+Processing triggers for dbus (1.12.20-2ubuntu4.1) ...
+NEEDRESTART-VER: 3.5
+NEEDRESTART-KCUR: 5.15.0-191-generic
+NEEDRESTART-KEXP: 5.15.0-191-generic
+NEEDRESTART-KSTA: 1
+NEEDRESTART-UCSTA: 1
+NEEDRESTART-UCCUR: 0x5003901
+NEEDRESTART-UCEXP: 0x5003901

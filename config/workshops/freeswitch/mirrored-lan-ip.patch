@@ -1,0 +1,42 @@
+--- /etc/freeswitch/vars.xml
++++ /etc/freeswitch/vars.xml
+@@ -60,7 +60,7 @@
+       affect the sip authentication.  Please review conf/directory/default.xml for more
+       information on this topic.
+   -->
+-  <X-PRE-PROCESS cmd="set" data="domain=$${local_ip_v4}"/>
++  <X-PRE-PROCESS cmd="set" data="domain=192.168.1.74"/>
+   <X-PRE-PROCESS cmd="set" data="domain_name=$${domain}"/>
+   <X-PRE-PROCESS cmd="set" data="hold_music=local_stream://moh"/>
+   <X-PRE-PROCESS cmd="set" data="use_profile=external"/>
+@@ -287,7 +287,7 @@
+       Used by: sofia.conf.xml dingaling.conf.xml
+   -->
+   <!-- <X-PRE-PROCESS cmd="stun-set" data="external_rtp_ip=stun:stun.freeswitch.org"/> -->
+-  <X-PRE-PROCESS cmd="set" data="external_rtp_ip=$${local_ip_v4}"/>
++  <X-PRE-PROCESS cmd="set" data="external_rtp_ip=192.168.1.74"/>
+ 
+   <!-- external_sip_ip
+       Used as the public IP address for SDP.
+@@ -301,7 +301,7 @@
+       Used by: sofia.conf.xml dingaling.conf.xml
+   -->
+   <!-- <X-PRE-PROCESS cmd="stun-set" data="external_sip_ip=stun:stun.freeswitch.org"/> -->
+-  <X-PRE-PROCESS cmd="set" data="external_sip_ip=$${local_ip_v4}"/>
++  <X-PRE-PROCESS cmd="set" data="external_sip_ip=192.168.1.74"/>
+ 
+   <!-- unroll-loops
+        Used to turn on sip loopback unrolling.
+--- /etc/freeswitch/sip_profiles/internal.xml
++++ /etc/freeswitch/sip_profiles/internal.xml
+@@ -97,9 +97,9 @@
+     <param name="outbound-codec-prefs" value="$${global_codec_prefs}"/>
+     <param name="rtp-timer-name" value="soft"/>
+     <!-- ip address to use for rtp, DO NOT USE HOSTNAMES ONLY IP ADDRESSES -->
+-    <param name="rtp-ip" value="$${local_ip_v4}"/>
++    <param name="rtp-ip" value="192.168.1.74"/>
+     <!-- ip address to bind to, DO NOT USE HOSTNAMES ONLY IP ADDRESSES -->
+-    <param name="sip-ip" value="$${local_ip_v4}"/>
++    <param name="sip-ip" value="192.168.1.74"/>
+     <param name="hold-music" value="$${hold_music}"/>
+     <param name="apply-nat-acl" value="nat.auto"/>

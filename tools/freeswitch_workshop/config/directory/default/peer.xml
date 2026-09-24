@@ -1,0 +1,14 @@
+<include>
+  <user id="peer">
+    <params>
+      <param name="password" value="PUBLIC-DEMO-SIP-PASSWORD"/>
+    </params>
+    <variables>
+      <variable name="toll_allow" value="local"/>
+      <variable name="accountcode" value="peer"/>
+      <variable name="user_context" value="default"/>
+      <variable name="effective_caller_id_name" value="Workshop Peer"/>
+      <variable name="effective_caller_id_number" value="9000"/>
+    </variables>
+  </user>
+</include>

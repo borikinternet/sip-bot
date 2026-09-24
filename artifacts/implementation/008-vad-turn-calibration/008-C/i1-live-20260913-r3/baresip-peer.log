@@ -1,0 +1,21 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eth0|172.22.89.126 
+stdio: could not setup terminal: Inappropriate ioctl for device
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: alsa
+auplay: alsa
+medianat: stun
+medianat: turn
+medianat: ice
+Populated 0 accounts
+account: No SIP accounts found
+ -- check your config or add an account using 'uanew' command
+Populated 3 contacts
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+terminated by signal 15
+ua: stop all (forced=0)

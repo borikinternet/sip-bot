@@ -1,0 +1,832 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/ofy9wn61",
+    "id": "ofy9wn61",
+    "slide": 3,
+    "layoutId": "/ppt/slideLayouts/slideLayout3.xml",
+    "layoutName": "Заголовок раздела",
+    "layoutType": "secHead",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "Стандартная",
+    "colors": {
+      "accent1": "#4472C4",
+      "accent2": "#ED7D31",
+      "accent3": "#A5A5A5",
+      "accent4": "#FFC000",
+      "accent5": "#5B9BD5",
+      "accent6": "#70AD47",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#44546A",
+      "lt2": "#E7E6E6",
+      "hlink": "#0563C1",
+      "folHlink": "#954F72"
+    },
+    "fontScheme": {
+      "name": "Стандартная",
+      "majorFont": {
+        "latinTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Montserrat"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout3.xml",
+      "name": "Заголовок раздела",
+      "type": "secHead",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout3.xml/2",
+          "id": "2",
+          "name": "Заголовок 1",
+          "bbox": [
+            87.33,
+            179.5,
+            1104,
+            299.5
+          ],
+          "text": "Образец заголовка",
+          "textPreview": "Образец заголовка",
+          "resolvedTextStyle": {
+            "anchor": 3,
+            "verticalAlignment": "bottom"
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Образец заголовка",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Образец заголовка"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout3.xml/3",
+          "id": "3",
+          "name": "Текст 2",
+          "bbox": [
+            87.33,
+            481.83,
+            1104,
+            157.5
+          ],
+          "text": "Образец текста",
+          "textPreview": "Образец текста",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Образец текста",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Образец текста"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout3.xml/4",
+          "id": "4",
+          "name": "Дата 3",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "text": "07.08.2026",
+          "textPreview": "07.08.2026",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "07.08.2026",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "07.08.2026"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout3.xml/5",
+          "id": "5",
+          "name": "Нижний колонтитул 4",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "order": 5,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout3.xml/6",
+          "id": "6",
+          "name": "Номер слайда 5",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "text": "‹#›",
+          "textPreview": "‹#›",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "‹#›",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "‹#›"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 6,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout3.xml/9",
+          "id": "9",
+          "name": "Прямоугольник 8",
+          "bbox": [
+            0,
+            0,
+            3.78,
+            720
+          ],
+          "rotation": 0,
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle"
+          },
+          "fillColor": "#F94C3C",
+          "lineWidth": 0
+        },
+        {
+          "order": 7,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout3.xml/10",
+          "id": "10",
+          "name": "Прямоугольник 9",
+          "bbox": [
+            0,
+            716.22,
+            1280,
+            3.78
+          ],
+          "rotation": 0,
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle"
+          },
+          "lineWidth": 0
+        },
+        {
+          "order": 8,
+          "kind": "image",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout3.xml/11",
+          "id": "11",
+          "name": "Рисунок 12",
+          "bbox": [
+            1140.9,
+            663.66,
+            105.79,
+            36.44
+          ],
+          "contentType": "image/svg+xml",
+          "imageCrop": {
+            "left": 0,
+            "top": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "asset": {
+            "assetId": "/ppt/media/image4.svg",
+            "contentType": "image/svg+xml",
+            "byteLength": 5718
+          },
+          "fillImage": {
+            "assetId": "/ppt/media/image4.svg",
+            "contentType": "image/svg+xml",
+            "byteLength": 5718
+          }
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "backgroundImage": {
+        "assetId": "/ppt/media/image1.png",
+        "contentType": "image/png",
+        "byteLength": 1464583
+      },
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/2",
+          "id": "2",
+          "name": "Заголовок 1",
+          "bbox": [
+            88,
+            38.33,
+            1104,
+            139.17
+          ],
+          "geometry": "rect",
+          "text": "Образец заголовка",
+          "textPreview": "Образец заголовка",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "vertical": 1,
+            "verticalAlignment": "middle",
+            "autoFit": "shrinkText",
+            "insets": {
+              "top": 4.8,
+              "right": 9.6,
+              "bottom": 4.8,
+              "left": 9.6
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Образец заголовка",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Образец заголовка"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/3",
+          "id": "3",
+          "name": "Текст 2",
+          "bbox": [
+            88,
+            191.67,
+            1104,
+            456.83
+          ],
+          "geometry": "rect",
+          "text": "Образец текста\nВторой уровень\nТретий уровень\nЧетвертый уровень\nПятый уровень",
+          "textPreview": "Образец текста | Второй уровень | Третий уровень | Четвертый уровень | Пятый уровень",
+          "resolvedTextStyle": {
+            "vertical": 1,
+            "autoFit": "shrinkText",
+            "insets": {
+              "top": 4.8,
+              "right": 9.6,
+              "bottom": 4.8,
+              "left": 9.6
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Образец текста",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Образец текста"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Второй уровень",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Второй уровень"
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "text": "Третий уровень",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Третий уровень"
+                }
+              ]
+            },
+            {
+              "index": 4,
+              "text": "Четвертый уровень",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Четвертый уровень"
+                }
+              ]
+            },
+            {
+              "index": 5,
+              "text": "Пятый уровень",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Пятый уровень"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/4",
+          "id": "4",
+          "name": "Дата 3",
+          "bbox": [
+            88,
+            667.33,
+            288,
+            38.33
+          ],
+          "geometry": "rect",
+          "text": "07.08.2026",
+          "textPreview": "07.08.2026",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "vertical": 1,
+            "verticalAlignment": "middle",
+            "insets": {
+              "top": 4.8,
+              "right": 9.6,
+              "bottom": 4.8,
+              "left": 9.6
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "07.08.2026",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "07.08.2026"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/5",
+          "id": "5",
+          "name": "Нижний колонтитул 4",
+          "bbox": [
+            424,
+            667.33,
+            432,
+            38.33
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "vertical": 1,
+            "verticalAlignment": "middle",
+            "insets": {
+              "top": 4.8,
+              "right": 9.6,
+              "bottom": 4.8,
+              "left": 9.6
+            }
+          }
+        },
+        {
+          "order": 5,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/6",
+          "id": "6",
+          "name": "Номер слайда 5",
+          "bbox": [
+            904,
+            667.33,
+            288,
+            38.33
+          ],
+          "geometry": "rect",
+          "text": "‹#›",
+          "textPreview": "‹#›",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "vertical": 1,
+            "verticalAlignment": "middle",
+            "insets": {
+              "top": 4.8,
+              "right": 9.6,
+              "bottom": 4.8,
+              "left": 9.6
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "‹#›",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "‹#›"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cza94vmx",
+      "id": "2",
+      "name": "TextBox 1",
+      "bbox": [
+        35.21,
+        57.79,
+        1209.58,
+        67.86
+      ],
+      "geometry": "rect",
+      "text": "Asterisk 15 - крупные изменения",
+      "textPreview": "Asterisk 15 - крупные изменения",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "wrap": "square",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Asterisk 15 - крупные изменения"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Asterisk 15 - крупные изменения",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Asterisk 15 - ",
+              "fontSize": 48,
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 2,
+              "text": "крупные изменения",
+              "fontSize": 48,
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/d0jax03i",
+      "id": "3",
+      "name": "TextBox 2",
+      "bbox": [
+        110.81,
+        276.84,
+        1058.39,
+        252.04
+      ],
+      "geometry": "rect",
+      "text": "BUNDLE - RTP мультиплексирование\nUnified Plan - SDP схема для поддержки многопоточного медиа\nУлучшения уровня RTP - сохранение нумерации RTP фреймов \nЯдро Asterisk - улучшения для передачи медиа в несколько потоков\nAsterisk app_confbridge - поддержка SFU",
+      "textPreview": "BUNDLE - RTP мультиплексирование | Unified Plan - SDP схема для поддержки многопоточного медиа | Улучшения уровня RTP - сохранение нумера...",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "wrap": "square",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 5,
+        "lines": [
+          {
+            "index": 1,
+            "text": "•BUNDLE - RTP мультиплексирование"
+          },
+          {
+            "index": 2,
+            "text": "•Unified Plan - SDP схема для поддержки многопоточного медиа"
+          },
+          {
+            "index": 3,
+            "text": "•Улучшения уровня RTP - сохранение нумерации RTP фреймов"
+          },
+          {
+            "index": 4,
+            "text": "•Ядро Asterisk - улучшения для передачи медиа в несколько потоков"
+          },
+          {
+            "index": 5,
+            "text": "•Asterisk app_confbridge - поддержка SFU"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "BUNDLE - RTP мультиплексирование",
+          "runs": [
+            {
+              "index": 1,
+              "text": "BUNDLE",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 2,
+              "text": " - RTP ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            },
+            {
+              "index": 3,
+              "text": "мультиплексирование",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Unified Plan - SDP схема для поддержки многопоточного медиа",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Unified Plan ",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 2,
+              "text": "- SDP ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            },
+            {
+              "index": 3,
+              "text": "схема для поддержки многопоточного медиа",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "Улучшения уровня RTP - сохранение нумерации RTP фреймов ",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Улучшения уровня ",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 2,
+              "text": "RTP ",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 3,
+              "text": "- ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            },
+            {
+              "index": 4,
+              "text": "сохранение нумерации ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            },
+            {
+              "index": 5,
+              "text": "RTP ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            },
+            {
+              "index": 6,
+              "text": "фреймов ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 4,
+          "text": "Ядро Asterisk - улучшения для передачи медиа в несколько потоков",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Ядро ",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 2,
+              "text": "Asterisk ",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 3,
+              "text": "- ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            },
+            {
+              "index": 4,
+              "text": "улучшения для передачи медиа в несколько потоков",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 5,
+          "text": "Asterisk app_confbridge - поддержка SFU",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Asterisk ",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 2,
+              "text": "app_confbridge",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 3,
+              "text": " ",
+              "typeface": "Montserrat",
+              "color": "bg1",
+              "bold": true
+            },
+            {
+              "index": 4,
+              "text": "- ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            },
+            {
+              "index": 5,
+              "text": "поддержка ",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            },
+            {
+              "index": 6,
+              "text": "SFU",
+              "typeface": "Montserrat",
+              "color": "bg1"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/7ut4nih0",
+      "id": "4",
+      "name": "Рисунок 4",
+      "bbox": [
+        44.41,
+        133.02,
+        142,
+        15.3
+      ],
+      "contentType": "image/svg+xml",
+      "asset": {
+        "assetId": "/ppt/media/image8.svg",
+        "contentType": "image/svg+xml",
+        "byteLength": 4599
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image8.svg",
+        "contentType": "image/svg+xml",
+        "byteLength": 4599
+      }
+    }
+  ],
+  "composeRuns": []
+}

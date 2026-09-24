@@ -73,6 +73,8 @@ class CommandKind(StrEnum):
     CANCEL = "cancel"
     START_INFERENCE = "start_inference"
     APPROVE_ANSWER = "approve_answer"
+    PLAY_GREETING = "play_greeting"
+    PLAY_TRANSFER_CONFIRMATION = "play_transfer_confirmation"
     REPORT = "report"
 
 

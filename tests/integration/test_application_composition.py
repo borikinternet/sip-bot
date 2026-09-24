@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 
+from sip_bot.config import RuntimeConfig
 from sip_bot.context import ContextStore
 from sip_bot.dialogue import DialogueAction, DialogueState
 from sip_bot.dialogue.events import PlaybackEvent, PlaybackStatus, StructuredDecision
@@ -13,6 +15,7 @@ from sip_bot.runtime import ApplicationRuntime, RuntimeProbe, RuntimeWarmupError
 from sip_bot.runtime_composition import CallOwners
 from sip_bot.sip_media.protocol_events import NormalizedSipEvent, SipEventKind
 from sip_bot.speech import EndpointEventKind, FinalUserTurn
+from sip_bot.understanding import SemanticTurnParser
 
 
 def test_application_runtime_composes_existing_dispatcher_fsm_and_report(tmp_path: Path, monkeypatch) -> None:
@@ -20,7 +23,7 @@ def test_application_runtime_composes_existing_dispatcher_fsm_and_report(tmp_pat
         "sip_bot.runtime.probe_runtime",
         lambda: RuntimeProbe("python3.14t", "cpython", (3, 14, 7), 1, False),
     )
-    runtime = ApplicationRuntime.from_constants()
+    runtime = ApplicationRuntime(replace(RuntimeConfig.from_constants(), call_greeting_text=""))
     runtime.start()
 
     call_id = "composition-call"
@@ -67,7 +70,8 @@ def test_application_runtime_composes_existing_dispatcher_fsm_and_report(tmp_pat
         embedding_model="test-embedding",
     )
     composition.record_rag_context(rag)
-    assert composition.accept_final_turn(turn)
+    semantic = SemanticTurnParser().parse(turn, composition.fsm.current_expectation())
+    assert composition.accept_semantic_turn(semantic)
     assert composition.fsm.state is DialogueState.THINKING
     assert composition.commands[-1].kind.value == "start_inference"
 

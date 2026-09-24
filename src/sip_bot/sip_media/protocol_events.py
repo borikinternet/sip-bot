@@ -12,6 +12,7 @@ from enum import StrEnum
 from typing import Mapping, Protocol
 
 from .models import NegotiatedMediaProfile
+from .registration import RegistrationStatus
 
 
 class SipMethod(StrEnum):
@@ -39,6 +40,7 @@ class SipEventKind(StrEnum):
     MEDIA_FAILED = "media_failed"
     SIP_TRANSACTION = "sip_transaction"
     PROTOCOL_REPLY = "protocol_reply"
+    REGISTRATION_STATE = "registration_state"
 
 
 @dataclass(frozen=True, slots=True)
@@ -90,6 +92,9 @@ class NormalizedSipEvent:
     details: Details = ()
     media_profile: NegotiatedMediaProfile | None = None
     local_reply: LocalProtocolReply | None = None
+    registration_status: RegistrationStatus | None = None
+    # SIP URI user-part used by the conference demo as the RAG routing key.
+    caller_id: str | None = None
 
     def __post_init__(self) -> None:
         if not self.call_id:
@@ -100,6 +105,12 @@ class NormalizedSipEvent:
             raise ValueError("protocol_reply event must include local_reply")
         if self.kind is not SipEventKind.PROTOCOL_REPLY and self.local_reply is not None:
             raise ValueError("local_reply is only valid for protocol_reply events")
+        if self.kind is SipEventKind.REGISTRATION_STATE and self.registration_status is None:
+            raise ValueError("registration_state event must include registration_status")
+        if self.kind is not SipEventKind.REGISTRATION_STATE and self.registration_status is not None:
+            raise ValueError("registration_status is only valid for registration_state events")
+        if self.caller_id is not None and not self.caller_id.strip():
+            raise ValueError("caller_id must be non-empty when supplied")
 
     def details_dict(self) -> dict[str, str | int | float | bool | None]:
         return dict(self.details)
@@ -125,6 +136,10 @@ class NormalizedSipEvent:
                 "action": self.local_reply.action,
                 "automatic": self.local_reply.automatic,
             }
+        if self.registration_status is not None:
+            result["registration_status"] = self.registration_status.as_dict()
+        if self.caller_id is not None:
+            result["caller_id"] = self.caller_id
         return result
 
 

@@ -1,0 +1,57 @@
+{
+  "path": "/mnt/c/devel/sip-bot/artifacts/workshops/rag-corpus-onboarding/012-F/input-scenario.wav",
+  "bytes": 1364842,
+  "sha256": "894b014c2d68d9c0102ee731b0607e678baabd591f7c86ba3ac35fdb5d972307",
+  "sample_rate_hz": 8000,
+  "channels": 1,
+  "duration_s": 85.303,
+  "segments": [
+    {
+      "turn_id": "turn-1",
+      "text": "Сколько стоит диагностический выезд мастера?",
+      "speech_started_s": 1.5,
+      "speech_duration_s": 2.88,
+      "leading_s": 1.5,
+      "trailing_s": 14.5
+    },
+    {
+      "turn_id": "turn-2",
+      "text": "А ночью сколько будет стоить?",
+      "speech_started_s": 18.88,
+      "speech_duration_s": 1.952,
+      "leading_s": 0.0,
+      "trailing_s": 1.0
+    },
+    {
+      "turn_id": "turn-3",
+      "text": "Стоп, а какие данные нужны для заявки?",
+      "speech_started_s": 27.332,
+      "speech_duration_s": 2.368,
+      "leading_s": 5.5,
+      "trailing_s": 11.0
+    },
+    {
+      "turn_id": "turn-4",
+      "text": "Почему небо днём голубое?",
+      "speech_started_s": 51.7,
+      "speech_duration_s": 1.856,
+      "leading_s": 11.0,
+      "trailing_s": 10.5
+    },
+    {
+      "turn_id": "turn-5",
+      "text": "Да",
+      "speech_started_s": 74.556,
+      "speech_duration_s": 0.747,
+      "leading_s": 10.5,
+      "trailing_s": 10.0
+    }
+  ],
+  "source": "local XTTS-generated multi-turn fixture; not a call recording",
+  "timing_profile": "compact-demo-v1",
+  "scenario": "rag-workshop-v1",
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+  "py_gil_disabled": 1,
+  "gil_after": false
+}

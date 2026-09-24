@@ -1,0 +1,14 @@
+{
+  "artifact_sha256": "9a2e0937cf2bcf3a2533b4762410490c0e40420f64a29483cf2e487b56d2b579",
+  "chunking_policy": "markdown-semantic-v1",
+  "corpus_id": "small-service-company-demo",
+  "corpus_sha256": "9f6c1fb70792d6a44e3c098f920bf5895b1fa03503aac13d14897ea833e707ff",
+  "corpus_version": "small-service-company-demo-v1",
+  "dimension": 768,
+  "elapsed_ms": 2361.041,
+  "embedding_model": "embeddinggemma",
+  "index_version": "small-service-company-embeddinggemma-v1",
+  "item_count": 12,
+  "output_path": "artifacts/workshops/rag-corpus-onboarding/012-F/clean-repeat/small-service-company-v1.json",
+  "status": "pass"
+}

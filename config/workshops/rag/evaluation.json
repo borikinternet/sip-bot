@@ -1,0 +1,110 @@
+{
+  "schema_version": "rag-evaluation-v1",
+  "evaluation_version": "small-service-company-eval-v1",
+  "corpus_version": "small-service-company-demo-v1",
+  "index_version": "small-service-company-embeddinggemma-v1",
+  "embedding_model": "embeddinggemma",
+  "top_k": 3,
+  "threshold": 0.35,
+  "cases": [
+    {
+      "case_id": "positive-services",
+      "kind": "positive",
+      "question": "Вы ремонтируете посудомоечные машины?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-services"]
+    },
+    {
+      "case_id": "positive-price",
+      "kind": "positive",
+      "question": "Сколько стоит диагностический выезд мастера?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-pricing-and-terms"]
+    },
+    {
+      "case_id": "positive-schedule",
+      "kind": "positive",
+      "question": "В какое время принимаются обычные заявки?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-schedule"]
+    },
+    {
+      "case_id": "positive-procedure",
+      "kind": "positive",
+      "question": "Какие данные нужны, чтобы оформить заявку?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-request-procedure"]
+    },
+    {
+      "case_id": "positive-exception",
+      "kind": "positive",
+      "question": "Можете отремонтировать газовое оборудование?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-exceptions"]
+    },
+    {
+      "case_id": "positive-escalation",
+      "kind": "positive",
+      "question": "У меня ночью прорвало трубу с горячей водой, это срочно?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-escalation", "company-schedule"]
+    },
+    {
+      "case_id": "paraphrase-price",
+      "kind": "paraphrase",
+      "question": "Во сколько обойдётся приезд специалиста для определения неисправности?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-pricing-and-terms"]
+    },
+    {
+      "case_id": "paraphrase-services",
+      "kind": "paraphrase",
+      "question": "Берётесь ли вы за неисправную машинку для мытья посуды?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-services"]
+    },
+    {
+      "case_id": "contextual-night",
+      "kind": "contextual",
+      "question": "А ночью?",
+      "context": [
+        {"turn_id": "previous-1", "text": "У меня активный прорыв горячей воды."}
+      ],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-escalation", "company-schedule"]
+    },
+    {
+      "case_id": "conflict-emergency-priority",
+      "kind": "conflict",
+      "question": "Кому немедленно передают сообщение об активном прорыве горячей воды ночью?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["company-escalation"],
+      "expected_top_source_id": "company-escalation"
+    },
+    {
+      "case_id": "negative-science",
+      "kind": "negative",
+      "question": "Почему небо днём голубое?",
+      "context": [],
+      "expected_sufficient": false,
+      "expected_any_source_ids": []
+    },
+    {
+      "case_id": "negative-exchange-rate",
+      "kind": "negative",
+      "question": "Какой сегодня курс доллара?",
+      "context": [],
+      "expected_sufficient": false,
+      "expected_any_source_ids": []
+    }
+  ]
+}

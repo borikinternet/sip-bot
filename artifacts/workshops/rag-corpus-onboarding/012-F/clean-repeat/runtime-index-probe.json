@@ -1,0 +1,55 @@
+{
+  "status": "pass",
+  "operation": "load-prebuilt-index-and-warm-query",
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "py_gil_disabled": 1,
+  "gil_before": false,
+  "gil_after": false,
+  "index_path": "data/knowledge/index/small-service-company-v1.json",
+  "artifact_sha256": "9a2e0937cf2bcf3a2533b4762410490c0e40420f64a29483cf2e487b56d2b579",
+  "metadata": {
+    "schema_version": "rag-index-v1",
+    "index_version": "small-service-company-embeddinggemma-v1",
+    "corpus_version": "small-service-company-demo-v1",
+    "chunking_policy": "markdown-semantic-v1",
+    "corpus_sha256": "9f6c1fb70792d6a44e3c098f920bf5895b1fa03503aac13d14897ea833e707ff",
+    "embedding_model": "embeddinggemma",
+    "dimension": 768,
+    "item_count": 12
+  },
+  "requests": {
+    "corpus_embedding": 0,
+    "warm_query_embedding": 1
+  },
+  "query": "Сколько стоит диагностический выезд мастера?",
+  "retrieval": {
+    "sufficient": true,
+    "source_ids": [
+      "company-pricing-and-terms",
+      "company-schedule"
+    ],
+    "hits": [
+      {
+        "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+        "source_id": "company-pricing-and-terms",
+        "score": 0.7091231681932829
+      },
+      {
+        "chunk_id": "company-schedule-001-5e5b15bd64c2",
+        "source_id": "company-schedule",
+        "score": 0.39952623819824773
+      },
+      {
+        "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+        "source_id": "company-pricing-and-terms",
+        "score": 0.47390433030456935
+      }
+    ]
+  },
+  "timing_ms": {
+    "load": 6.431359,
+    "warm_query": 126.033034,
+    "total": 132.464393
+  }
+}

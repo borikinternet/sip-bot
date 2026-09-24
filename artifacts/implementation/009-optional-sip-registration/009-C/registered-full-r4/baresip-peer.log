@@ -1,0 +1,17 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eth0|172.22.89.126 
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: aufile
+stdio: could not setup terminal: Inappropriate ioctl for device
+uuid: generated new UUID in /mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C/registered-full-r4/live-stand/peer-5080/uuid
+Populated 1 account
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+peer@127.0.0.1: {0/UDP/v4} 200 OK () [1 binding]
+[32mAll 1 useragent registered successfully! (3 ms)[;m
+terminated by signal 15
+ua: stop all (forced=0)

@@ -1,0 +1,56 @@
+{
+  "status": "pass",
+  "operation": "load-prebuilt-index-and-warm-query",
+  "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "py_gil_disabled": 1,
+  "gil_before": false,
+  "gil_after": false,
+  "index_path": "data/knowledge/index/small-service-company-v1.json",
+  "artifact_sha256": "9a2e0937cf2bcf3a2533b4762410490c0e40420f64a29483cf2e487b56d2b579",
+  "metadata": {
+    "schema_version": "rag-index-v1",
+    "index_version": "small-service-company-embeddinggemma-v1",
+    "corpus_version": "small-service-company-demo-v1",
+    "chunking_policy": "markdown-semantic-v1",
+    "corpus_sha256": "9f6c1fb70792d6a44e3c098f920bf5895b1fa03503aac13d14897ea833e707ff",
+    "embedding_model": "embeddinggemma",
+    "dimension": 768,
+    "item_count": 12
+  },
+  "requests": {
+    "corpus_embedding": 0,
+    "warm_query_embedding": 1
+  },
+  "query": "Голубое",
+  "retrieval": {
+    "sufficient": false,
+    "source_ids": [
+      "company-request-procedure",
+      "company-pricing-and-terms",
+      "company-schedule"
+    ],
+    "hits": [
+      {
+        "chunk_id": "company-request-procedure-001-002ba7a76c98",
+        "source_id": "company-request-procedure",
+        "score": 0.21033432352754977
+      },
+      {
+        "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+        "source_id": "company-pricing-and-terms",
+        "score": 0.17032711310531426
+      },
+      {
+        "chunk_id": "company-schedule-001-5e5b15bd64c2",
+        "source_id": "company-schedule",
+        "score": 0.16963083313836527
+      }
+    ]
+  },
+  "timing_ms": {
+    "load": 6.257159,
+    "warm_query": 99.513526,
+    "total": 105.770685
+  }
+}

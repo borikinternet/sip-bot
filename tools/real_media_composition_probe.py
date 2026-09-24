@@ -9,6 +9,7 @@ recording is created; the fixture is an external test artifact.
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import hashlib
 import json
 import sys
@@ -28,14 +29,15 @@ sys.path.insert(0, str(PROJECT_ROOT / "tools"))
 from config import constants  # noqa: E402
 from real_composition_probe import _RealXttsEngine, _profile  # noqa: E402
 from sip_bot.context import ContextStore  # noqa: E402
+from sip_bot.config import RuntimeConfig  # noqa: E402
 from sip_bot.conversation_pipeline import ConversationPipeline  # noqa: E402
 from sip_bot.dialogue import DialogueState  # noqa: E402
 from sip_bot.dialogue.events import PlaybackStatus  # noqa: E402
 from sip_bot.llm import LlmFacade, OllamaHttpClient  # noqa: E402
 from sip_bot.media import AsrChunker  # noqa: E402
-from sip_bot.prompt import GenerationProfile, PromptSpec, SkillPromptManager, SkillSpec  # noqa: E402
+from sip_bot.prompt import SkillPromptManager, build_default_prompt_manager  # noqa: E402
 from sip_bot.report import ReportFinalizer  # noqa: E402
-from sip_bot.retrieval import KnowledgeQueryBuilder, LocalKnowledgeIndex, load_corpus  # noqa: E402
+from sip_bot.retrieval import KnowledgeQueryBuilder, LocalKnowledgeIndex  # noqa: E402
 from sip_bot.runtime import ApplicationRuntime  # noqa: E402
 from sip_bot.runtime_composition import CallOwners  # noqa: E402
 from sip_bot.sip_media.models import NegotiatedMediaProfile, PcmFrame  # noqa: E402
@@ -54,6 +56,7 @@ from sip_bot.speech import (  # noqa: E402
 )
 from sip_bot.tts import EngineAudioChunk, XttsV2Adapter  # noqa: E402
 from sip_bot.transfer import FakeOperator, TransferOrchestrator  # noqa: E402
+from sip_bot.understanding import SemanticTurnParser  # noqa: E402
 
 
 C2_SITE = "/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages"
@@ -105,24 +108,7 @@ def _wait_pipeline(pipeline: ConversationPipeline, timeout_s: float) -> None:
 
 
 def _prompt() -> SkillPromptManager:
-    return SkillPromptManager(
-        skill=SkillSpec(constants.DEFAULT_SKILL_ID, "1", "Отвечай кратко и только на основании найденных источников."),
-        prompt=PromptSpec(
-            constants.PROMPT_TEMPLATE_ID,
-            constants.PROMPT_TEMPLATE_VERSION,
-            "Отвечай только валидным JSON без Markdown и рассуждений. "
-            "Допустимые action: answer, clarify, offer_transfer.\n"
-            "{instruction}\nКонтекст:\n{context}\nЗнания:\n{knowledge}\n"
-            "Вопрос пользователя:\n{user_text}",
-        ),
-        profile=GenerationProfile(
-            constants.GENERATION_PROFILE_ID,
-            constants.GENERATION_PROFILE_VERSION,
-            constants.LLM_MAX_GENERATION_TOKENS,
-            constants.LLM_TEMPERATURE,
-        ),
-        output_schema_id=constants.OUTPUT_SCHEMA_ID,
-    )
+    return build_default_prompt_manager()
 
 
 def main() -> int:
@@ -166,6 +152,7 @@ def main() -> int:
         chunk_ms=constants.ASR_CHUNK_MS,
         flush_ms=constants.ASR_CHUNK_FLUSH_MS,
     )
+    chunker.begin_turn(f"{call_id}:turn-1")
     hypotheses: list[AsrHypothesis] = []
     final_turn: FinalUserTurn | None = None
     pcm = _read_pcm(args.fixture)
@@ -182,7 +169,7 @@ def main() -> int:
         chunker.push(frame)
         while (chunk := chunker.next_chunk()) is not None:
             _process_chunk(asr, operation, chunk, ingress, hypotheses)
-    chunker.hard_endpoint()
+    chunker.hard_endpoint(f"{call_id}:turn-1")
     while (chunk := chunker.next_chunk()) is not None:
         _process_chunk(asr, operation, chunk, ingress, hypotheses)
     for silence_number in range(30):
@@ -198,18 +185,22 @@ def main() -> int:
         raise RuntimeError("real ASR/VAD/endpointing path did not produce an authoritative final turn")
     asr.close()
 
-    _, corpus_chunks = load_corpus(PROJECT_ROOT / constants.KNOWLEDGE_CORPUS_PATH)
-    index = LocalKnowledgeIndex.build(
-        corpus_chunks,
-        llm,
-        index_version=constants.RAG_INDEX_VERSION,
-        embedding_model=constants.RAG_EMBEDDING_MODEL,
+    index = LocalKnowledgeIndex.load(
+        PROJECT_ROOT / constants.KNOWLEDGE_INDEX_PATH,
+        expected_index_version=constants.RAG_INDEX_VERSION,
+        expected_corpus_version=constants.RAG_CORPUS_VERSION,
+        expected_embedding_model=constants.RAG_EMBEDDING_MODEL,
+        expected_dimension=constants.RAG_INDEX_DIMENSION,
+        expected_chunking_policy=constants.RAG_CHUNKING_POLICY_VERSION,
+        expected_corpus_sha256=constants.RAG_CORPUS_SHA256,
     )
     prompt = _prompt()
     tts = XttsV2Adapter(_RealXttsEngine(args.model_root, voice), operation_id_factory=lambda: "xtts-media-composition-op")
     operator = FakeOperator(constants.OPERATOR_TARGET)
     transfer = TransferOrchestrator(operator)
-    runtime = ApplicationRuntime.from_constants()
+    # This component probe begins from a prepared user turn; greeting playback
+    # is covered by the live call path and is deliberately disabled here.
+    runtime = ApplicationRuntime(replace(RuntimeConfig.from_constants(), call_greeting_text=""))
     runtime.start()
     owners = CallOwners(
         context=ContextStore(args.output_root / "context", call_id),
@@ -237,7 +228,8 @@ def main() -> int:
     )
     composition.submit_control(NormalizedSipEvent(call_id, SipEventKind.CALL_ANSWERED, 1, 1))
     composition.drain_control()
-    if not pipeline.submit_final_turn(final_turn):
+    semantic_turn = SemanticTurnParser().parse(final_turn, composition.fsm.current_expectation())
+    if not pipeline.submit_semantic_turn(semantic_turn):
         raise RuntimeError("composition rejected the real ASR final turn")
     _wait_pipeline(pipeline, 240.0)
     composition.drain_control()
@@ -249,7 +241,11 @@ def main() -> int:
             call_id, channel_id, 1, f"{call_id}:transfer-confirm", "Да", final_turn.revision + 1,
             time.monotonic_ns(), EndpointEventKind.HARD_ENDPOINT,
         )
-        if not pipeline.submit_final_turn(confirmation):
+        semantic_confirmation = SemanticTurnParser().parse(
+            confirmation,
+            composition.fsm.current_expectation(),
+        )
+        if not pipeline.submit_semantic_turn(semantic_confirmation):
             raise RuntimeError("composition rejected transfer confirmation")
         _wait_pipeline(pipeline, 30.0)
         composition.drain_control()

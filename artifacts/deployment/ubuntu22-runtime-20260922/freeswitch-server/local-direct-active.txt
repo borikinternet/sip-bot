@@ -1,0 +1,6 @@
+uuid,direction,created,created_epoch,name,state,cid_name,cid_num,ip_addr,dest,application,application_data,dialplan,context,read_codec,read_rate,read_bit_rate,write_codec,write_rate,write_bit_rate,secure,hostname,presence_id,presence_data,accountcode,callstate,callee_name,callee_num,callee_direction,call_uuid,sent_callee_name,sent_callee_num,initial_cid_name,initial_cid_num,initial_ip_addr,initial_dest,initial_dialplan,initial_context
+c57abf29-b652-4a66-87f2-d466c5c794aa,inbound,2026-09-22 12:33:33,1790080413,sofia/internal/1000@10.0.0.45,CS_EXECUTE,1000,1000,10.0.0.45,1001,bridge,user/1001@10.0.0.45,XML,default,PCMU,8000,64000,PCMU,8000,64000,,freeswitch-bookworm,1000@10.0.0.45,,1000,ACTIVE,,,,c57abf29-b652-4a66-87f2-d466c5c794aa,,,1000,1000,10.0.0.45,1001,XML,default
+4ffe00da-80c8-4e7c-87c3-04d7b3b85db5,outbound,2026-09-22 12:33:33,1790080413,sofia/internal/1001@10.0.0.45:5094,CS_EXCHANGE_MEDIA,Extension 1000,1000,10.0.0.45,1001,,,XML,default,PCMU,8000,64000,PCMU,8000,64000,,freeswitch-bookworm,1001@10.0.0.45,,,ACTIVE,Outbound Call,1001,,c57abf29-b652-4a66-87f2-d466c5c794aa,,,Extension 1000,1000,10.0.0.45,1001,XML,default
+
+2 total.
+

@@ -12,7 +12,8 @@ from threading import Event
 from sip_bot.config import RuntimeConfig
 from sip_bot.context import ContextStore
 from sip_bot.conversation_pipeline import ConversationPipeline
-from sip_bot.dialogue.events import PlaybackStatus, SpeechEvent, SpeechEventKind
+from sip_bot.dialogue import DialogueState
+from sip_bot.dialogue.events import PlaybackEvent, PlaybackStatus, SpeechEvent, SpeechEventKind, StructuredDecision
 from sip_bot.llm import LlmFacade, OllamaHttpClient
 from sip_bot.media import AsrChunker
 from sip_bot.prompt import GenerationProfile, PromptSpec, SkillPromptManager, SkillSpec
@@ -29,18 +30,22 @@ from sip_bot.runtime_composition import CallOwners
 from sip_bot.runtime_wiring import CallRuntimeWiring
 from sip_bot.sip_media.models import NegotiatedMediaProfile, PcmFrame
 from sip_bot.sip_media.protocol_events import NormalizedSipEvent, SipEventKind
+from sip_bot.sip_media.registration import RegistrationEventKind, RegistrationState, RegistrationStatus
 from sip_bot.speech import (
     AsrHypothesis,
+    EndpointEvent,
     EndpointingConfig,
     EndpointEventKind,
+    FinalUserTurn,
     SpeechIngress,
     StreamingAsrAdapter,
     TranscriptAssembler,
     TurnDetector,
     VadProcessor,
+    VadDecision,
     WebRtcVadCandidate,
 )
-from sip_bot.tts import TtsPcmChunk
+from sip_bot.tts import TtsLatencyStage, TtsPcmChunk
 
 
 class _ByteVad:
@@ -82,6 +87,31 @@ class _BlockingAsrBackend:
         return [{"text": "запоздалый результат", "is_final": False}]
 
 
+class _BackloggedTurnAsrBackend:
+    """Hold the first operation so several authoritative turns queue up."""
+
+    def __init__(self) -> None:
+        self.started = Event()
+        self.release = Event()
+        self.observed_turn_ids: list[str] = []
+
+    def transcribe_chunk(self, chunk):
+        self.observed_turn_ids.append(chunk.turn_id)
+        if not self.started.is_set():
+            self.started.set()
+            self.release.wait(timeout=2.0)
+        return [{"text": f"текст {chunk.turn_id}", "is_final": False}]
+
+
+class _RecordingChunkAsrBackend:
+    def __init__(self) -> None:
+        self.chunks = []
+
+    def transcribe_chunk(self, chunk):
+        self.chunks.append(chunk)
+        return [{"text": f"текст {chunk.turn_id}", "is_final": False}]
+
+
 class _Tts:
     def stream_approved_text(self, chunks, *, channel_id, profile, cancel=None):
         for item in chunks:
@@ -109,6 +139,7 @@ class _Sip:
         self.hung_up = 0
         self.transfers: list[str] = []
         self.egress: list[PcmFrame] = []
+        self.pending_egress_frames = 0
         self.polls = 0
         self.active_call_id = "call-wiring"
 
@@ -133,6 +164,9 @@ class _Sip:
     def enqueue_egress_frame(self, frame: PcmFrame) -> bool:
         self.egress.append(frame)
         return True
+
+    def egress_pending_frames(self) -> int:
+        return self.pending_egress_frames
 
     def media_profile(self):
         return self.profile
@@ -160,8 +194,8 @@ class _Pipeline:
     def active_workers(self) -> int:
         return 0
 
-    def submit_final_turn(self, turn) -> bool:
-        self.turns.append(turn)
+    def submit_semantic_turn(self, turn) -> bool:
+        self.turns.append(turn.source)
         return True
 
     def drain_control(self) -> int:
@@ -202,7 +236,7 @@ def _speech() -> SpeechIngress:
 
 
 def _runtime(tmp_path):
-    runtime = ApplicationRuntime.from_constants()
+    runtime = ApplicationRuntime(replace(RuntimeConfig.from_constants(), call_greeting_text=""))
     runtime.start = lambda: RuntimeProbe("python3.14t", "cpython", (3, 14, 7), 1, False)
     runtime.started = True
     owners = CallOwners(
@@ -249,6 +283,51 @@ def test_asyncio_wiring_delivers_pcm_to_asr_and_keeps_control_on_main_loop(tmp_p
         assert pipeline.turns[0].text == "почему небо голубое"
         assert wiring.stats.asr_chunks_queued >= 1
         assert wiring.stats.asr_hypotheses >= 1
+        wiring.stop()
+        runtime.shutdown()
+
+    asyncio.run(scenario())
+
+
+def test_registration_status_does_not_enter_call_scoped_dispatcher(tmp_path) -> None:
+    async def scenario() -> None:
+        runtime, composition, _sip, _pipeline, wiring = _runtime(tmp_path)
+        _sip.events.put(
+            NormalizedSipEvent(
+                "__registration__",
+                SipEventKind.REGISTRATION_STATE,
+                1,
+                1,
+                reason="registering",
+                registration_status=RegistrationStatus(
+                    RegistrationState.REGISTERING,
+                    RegistrationEventKind.STARTED,
+                    True,
+                    "sip:127.0.0.1:5060",
+                    None,
+                    "registering",
+                    300,
+                    1,
+                    None,
+                    False,
+                ),
+            )
+        )
+        await wiring.step()
+        assert wiring.errors == []
+        assert composition.fsm.state.value == "call_open"
+        wiring.stop()
+        runtime.shutdown()
+
+    asyncio.run(scenario())
+
+
+def test_incoming_poll_does_not_request_media_before_call_context_exists(tmp_path) -> None:
+    async def scenario() -> None:
+        runtime, _composition, sip, _pipeline, wiring = _runtime(tmp_path)
+        sip.active_call_id = None
+        await wiring.step()
+        assert wiring.errors == []
         wiring.stop()
         runtime.shutdown()
 
@@ -311,6 +390,68 @@ def test_tts_sink_materializes_buffer_pacer_and_direct_sip_egress(tmp_path) -> N
         assert sip.egress[0].profile == _profile()
         assert wiring.stats.tts_chunks == 1
         assert wiring.stats.tts_frames_sent == 1
+        wiring.stop()
+        runtime.shutdown()
+
+    asyncio.run(scenario())
+
+
+def test_producer_completion_waits_for_physical_egress_before_fsm_finishes(tmp_path) -> None:
+    async def scenario() -> None:
+        runtime, composition, sip, pipeline, wiring = _runtime(tmp_path)
+        wiring.start()
+        sip.events.put(NormalizedSipEvent("call-wiring", SipEventKind.CALL_ANSWERED, 1, 1))
+        await wiring.step()
+
+        turn = FinalUserTurn(
+            "call-wiring", "speech_ingress", 1, "call-wiring:turn-1",
+            "Почему небо голубое?", 1, 500_000_000, EndpointEventKind.HARD_ENDPOINT,
+        )
+        from sip_bot.understanding import SemanticTurnParser
+
+        semantic = SemanticTurnParser().parse(turn, composition.fsm.current_expectation())
+        assert composition.accept_semantic_turn(semantic)
+        operation = composition.fsm.active_operation_id
+        assert composition.submit_control(
+            StructuredDecision("answer", "Потому что свет рассеивается.", "call-wiring", operation)
+        )
+        composition.drain_control()
+        assert composition.fsm.state is DialogueState.PLAYING
+        generation = composition.fsm._playback_generation
+
+        chunk = TtsPcmChunk(
+            "tts-op",
+            "call-wiring",
+            "playback",
+            generation or 1,
+            1,
+            b"\x01\x00" * 160,
+            _profile(),
+            is_final=True,
+        )
+        pipeline.audio_sink(chunk)
+        assert composition.submit_control(
+            PlaybackEvent(
+                "call-wiring",
+                PlaybackStatus.PRODUCER_COMPLETED,
+                channel_id="playback",
+                channel_generation=generation,
+                operation_id=operation,
+            )
+        )
+        composition.drain_control()
+        assert composition.fsm.state is DialogueState.PLAYING
+
+        sip.pending_egress_frames = 1
+        await wiring.step(now_ns=10**18)
+        assert composition.fsm.state is DialogueState.PLAYING
+
+        sip.pending_egress_frames = 0
+        await wiring.step(now_ns=10**18 + 1)
+        assert composition.fsm.state is DialogueState.PLAYING
+        await wiring.step(now_ns=10**18 + 2)
+        assert composition.fsm.state is DialogueState.LISTENING
+
         wiring.stop()
         runtime.shutdown()
 
@@ -389,6 +530,7 @@ def test_runtime_wiring_drives_existing_rag_llm_tts_pipeline(tmp_path) -> None:
             output_schema_id="structured-dialogue-decision-v1",
         )
         sip = _Sip(profile)
+        latency_events = []
         pipeline = ConversationPipeline(
             composition,
             query_builder=KnowledgeQueryBuilder(),
@@ -397,6 +539,7 @@ def test_runtime_wiring_drives_existing_rag_llm_tts_pipeline(tmp_path) -> None:
             llm=llm,
             tts=_Tts(),
             media_profile=profile,
+            latency_sink=latency_events.append,
         )
         wiring = CallRuntimeWiring(
             composition,
@@ -404,6 +547,7 @@ def test_runtime_wiring_drives_existing_rag_llm_tts_pipeline(tmp_path) -> None:
             speech=_speech(),
             asr=StreamingAsrAdapter(_AsrBackend()),
             pipeline=pipeline,
+            latency_sink=latency_events.append,
             config=replace(
                 RuntimeConfig.from_constants(),
                 asr_chunk_ms=40,
@@ -435,6 +579,15 @@ def test_runtime_wiring_drives_existing_rag_llm_tts_pipeline(tmp_path) -> None:
         assert sip.egress and sip.egress[0].profile == profile
         assert wiring.stats.final_turns == 1
         assert wiring.stats.tts_frames_sent == 1
+        answer_events = [event for event in latency_events if event.turn_id.endswith(":turn-1")]
+        assert [event.stage for event in answer_events] == [
+            TtsLatencyStage.LLM_FINAL_RESULT,
+            TtsLatencyStage.TTS_COMMAND_ACCEPTED,
+            TtsLatencyStage.TTS_WORKER_STARTED,
+        ]
+        playback = [event for event in latency_events if event.stage is TtsLatencyStage.PLAYBACK_FIRST_FRAME]
+        assert len(playback) == 1
+        assert answer_events[-1].timestamp_ns <= playback[0].timestamp_ns
         assert not pipeline.errors
         composition.submit_control(
             NormalizedSipEvent("call-wiring", SipEventKind.REMOTE_HANGUP, 2, 2, reason="BYE")
@@ -483,3 +636,220 @@ def test_protocol_terminal_event_does_not_wait_for_asr_worker(tmp_path) -> None:
         runtime.shutdown()
 
     asyncio.run(scenario())
+
+
+def test_backlogged_asr_keeps_three_user_turns_in_their_typed_scopes(tmp_path) -> None:
+    async def scenario() -> None:
+        runtime, composition, sip, pipeline, _unused = _runtime(tmp_path)
+        backend = _BackloggedTurnAsrBackend()
+        wiring = CallRuntimeWiring(
+            composition,
+            sip_media=sip,
+            speech=_speech(),
+            asr=StreamingAsrAdapter(backend),
+            pipeline=pipeline,
+            config=replace(
+                RuntimeConfig.from_constants(),
+                asr_chunk_ms=40,
+                asr_chunk_flush_ms=40,
+                audio_input_buffer_capacity_frames=16,
+                audio_output_buffer_capacity_frames=8,
+            ),
+        )
+        sip.events.put(NormalizedSipEvent("call-wiring", SipEventKind.CALL_ANSWERED, 1, 1))
+        sequence = 1
+        for _turn in range(3):
+            for _ in range(2):
+                sip.frames.put(_frame(sequence, True))
+                sequence += 1
+            for _ in range(3):
+                sip.frames.put(_frame(sequence, False))
+                sequence += 1
+
+        await wiring.step()
+        assert backend.started.wait(timeout=1.0)
+        backend.release.set()
+        for _ in range(200):
+            await wiring.step()
+            await asyncio.sleep(0.001)
+            if len(pipeline.turns) == 3:
+                break
+
+        assert [turn.turn_id for turn in pipeline.turns] == [
+            "call-wiring:turn-1",
+            "call-wiring:turn-2",
+            "call-wiring:turn-3",
+        ]
+        assert [turn.text for turn in pipeline.turns] == [
+            "текст call-wiring:turn-1",
+            "текст call-wiring:turn-2",
+            "текст call-wiring:turn-3",
+        ]
+        assert set(backend.observed_turn_ids) == {
+            "call-wiring:turn-1",
+            "call-wiring:turn-2",
+            "call-wiring:turn-3",
+        }
+        assert wiring.errors == []
+        wiring.stop()
+        runtime.shutdown()
+
+    asyncio.run(scenario())
+
+
+def test_subminimum_speech_burst_does_not_contaminate_next_asr_turn(tmp_path) -> None:
+    async def scenario() -> None:
+        runtime, composition, sip, pipeline, _unused = _runtime(tmp_path)
+        backend = _RecordingChunkAsrBackend()
+
+        def assembler(turn_id: str) -> TranscriptAssembler:
+            return TranscriptAssembler("call-wiring", "call-wiring:media", 1, turn_id, stable_prefix_min_chars=0)
+
+        speech = SpeechIngress(
+            vad=VadProcessor(WebRtcVadCandidate(backend=_ByteVad())),
+            turn_detector=TurnDetector(
+                EndpointingConfig(soft_endpoint_ms=40, hard_endpoint_ms=60, min_speech_ms=40)
+            ),
+            assembler=assembler("call-wiring:turn-1"),
+            assembler_factory=assembler,
+            defer_endpoint_finalization=True,
+        )
+        wiring = CallRuntimeWiring(
+            composition,
+            sip_media=sip,
+            speech=speech,
+            asr=StreamingAsrAdapter(backend),
+            pipeline=pipeline,
+            config=replace(
+                RuntimeConfig.from_constants(),
+                asr_chunk_ms=40,
+                asr_chunk_flush_ms=40,
+                audio_input_buffer_capacity_frames=16,
+                audio_output_buffer_capacity_frames=8,
+            ),
+        )
+        sip.events.put(NormalizedSipEvent("call-wiring", SipEventKind.CALL_ANSWERED, 1, 1))
+        # One 20-ms positive frame is below min_speech_ms and must disappear.
+        sip.frames.put(_frame(1, True))
+        for sequence in range(2, 6):
+            sip.frames.put(_frame(sequence, False))
+        # The next two frames qualify as the first real user turn.  The
+        # TurnDetector id is turn-2 because the discarded candidate consumed
+        # turn-1 internally; downstream must use that actual id verbatim.
+        sip.frames.put(_frame(6, True))
+        sip.frames.put(_frame(7, True))
+        for sequence in range(8, 13):
+            sip.frames.put(_frame(sequence, False))
+
+        for _ in range(100):
+            await wiring.step()
+            await asyncio.sleep(0.001)
+            if pipeline.turns:
+                break
+
+        assert [turn.turn_id for turn in pipeline.turns] == ["call-wiring:turn-2"]
+        assert {chunk.turn_id for chunk in backend.chunks} == {"call-wiring:turn-2"}
+        assert sum(len(chunk.pcm_s16le) for chunk in backend.chunks) == 2 * _profile().frame_bytes
+        assert wiring.errors == []
+        wiring.stop()
+        runtime.shutdown()
+
+    asyncio.run(scenario())
+
+
+def test_late_final_turn_after_terminal_is_discarded_as_stale(tmp_path) -> None:
+    async def scenario() -> None:
+        runtime, composition, _sip, pipeline, wiring = _runtime(tmp_path)
+        composition.submit_control(
+            NormalizedSipEvent("call-wiring", SipEventKind.CALL_ANSWERED, 1, 1)
+        )
+        await wiring.step()
+        composition.submit_control(
+            NormalizedSipEvent("call-wiring", SipEventKind.REMOTE_HANGUP, 2, 2, reason="BYE")
+        )
+        await wiring.step()
+        assert composition.fsm.is_terminal
+
+        wiring._deliver_final_turn(  # type: ignore[attr-defined]
+            FinalUserTurn(
+                "call-wiring",
+                "call-wiring:media",
+                1,
+                "call-wiring:turn-1",
+                "запоздалый результат",
+                1,
+                1,
+                EndpointEventKind.HARD_ENDPOINT,
+            )
+        )
+
+        assert pipeline.turns == []
+        assert wiring.errors == []
+        wiring.stop()
+        runtime.shutdown()
+
+    asyncio.run(scenario())
+
+
+def test_runtime_qualifies_barge_in_against_typed_vad_threshold(tmp_path) -> None:
+    runtime, composition, _sip, _pipeline, wiring = _runtime(tmp_path)
+    composition.submit_control(NormalizedSipEvent("call-wiring", SipEventKind.CALL_ANSWERED, 1, 1))
+    composition.drain_control()
+    turn = FinalUserTurn(
+        "call-wiring",
+        "call-wiring:media",
+        1,
+        "call-wiring:turn-1",
+        "Почему небо голубое?",
+        1,
+        1,
+        EndpointEventKind.HARD_ENDPOINT,
+    )
+    from sip_bot.understanding import SemanticTurnParser
+
+    assert composition.accept_semantic_turn(
+        SemanticTurnParser().parse(turn, composition.fsm.current_expectation())
+    )
+    assert composition.submit_control(
+        StructuredDecision("answer", "Из-за рассеяния света.", "call-wiring", composition.fsm.active_operation_id)
+    )
+    composition.drain_control()
+    assert composition.fsm.state is DialogueState.PLAYING
+
+    low = VadDecision(
+        "call-wiring",
+        "call-wiring:media",
+        1,
+        2,
+        2,
+        20,
+        True,
+        raw_is_speech=True,
+        rms_dbfs=-35.0,
+        noise_floor_dbfs=-60.0,
+        speech_threshold_dbfs=-42.0,
+        speech_level_dbfs=-18.0,
+        barge_in_threshold_dbfs=-26.0,
+        barge_in_qualified=False,
+    )
+    low_events = wiring.speech.turn_detector.consume(low)
+    assert [event.kind for event in low_events] == [EndpointEventKind.SPEECH_STARTED]
+    wiring._publish_speech_events(low_events, low)  # type: ignore[attr-defined]
+    composition.drain_control()
+    assert composition.fsm.state is DialogueState.PLAYING
+
+    high = replace(
+        low,
+        sequence=3,
+        timestamp_ns=3,
+        rms_dbfs=-20.0,
+        barge_in_qualified=True,
+    )
+    high_events = wiring.speech.turn_detector.consume(high)
+    assert high_events == ()
+    wiring._publish_speech_events(high_events, high)  # type: ignore[attr-defined]
+    composition.drain_control()
+    assert composition.fsm.state is DialogueState.LISTENING
+
+    wiring.stop()
+    runtime.shutdown()

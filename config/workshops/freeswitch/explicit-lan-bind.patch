@@ -1,0 +1,13 @@
+--- /etc/freeswitch/sip_profiles/internal.xml
++++ /etc/freeswitch/sip_profiles/internal.xml
+@@ -94,9 +94,9 @@
+     <param name="outbound-codec-prefs" value="$${global_codec_prefs}"/>
+     <param name="rtp-timer-name" value="soft"/>
+     <!-- ip address to use for rtp, DO NOT USE HOSTNAMES ONLY IP ADDRESSES -->
+-    <param name="rtp-ip" value="0.0.0.0"/>
++    <param name="rtp-ip" value="192.168.1.74"/>
+     <!-- ip address to bind to, DO NOT USE HOSTNAMES ONLY IP ADDRESSES -->
+-    <param name="sip-ip" value="0.0.0.0"/>
++    <param name="sip-ip" value="192.168.1.74"/>
+     <param name="hold-music" value="$${hold_music}"/>
+     <param name="apply-nat-acl" value="nat.auto"/>

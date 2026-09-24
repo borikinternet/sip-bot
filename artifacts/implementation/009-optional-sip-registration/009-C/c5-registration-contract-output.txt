@@ -1,0 +1,11 @@
+Command:
+wsl -d Ubuntu-24.04 -- bash -lc 'cd /mnt/c/devel/sip-bot && PYTHONPATH=/mnt/c/devel/sip-bot:/mnt/c/devel/sip-bot/src /home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -m pytest -q tests/contract/test_registration_contract.py'
+
+Exit code: 0
+Output:
+.....                                                                    [100%]
+5 passed in 0.39s
+
+Covered negative/contract checks include enabled registration failure without
+direct-URI fallback and registration callback lifecycle. No credential is
+printed or persisted by this test run.

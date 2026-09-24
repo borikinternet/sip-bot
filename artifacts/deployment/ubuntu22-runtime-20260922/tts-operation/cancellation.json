@@ -1,0 +1,25 @@
+{
+  "schema": "sip-bot.feasibility.c4.cancellation.v1",
+  "plan": "001-C4",
+  "slice": "C4-S4",
+  "status": "pass",
+  "executed": true,
+  "candidate_id": "xtts-v2",
+  "first_pcm_observed": true,
+  "cancellation": {
+    "cancel_requested": true,
+    "cancel_requested_at_ns": 5560421943497,
+    "mechanism": "close XTTS inference_stream generator after first chunk",
+    "candidate_native_cancel_token": false,
+    "stream_close_observed": true,
+    "post_close_items_observed": 0,
+    "stale_result_accepted": false,
+    "limitation": "XTTS-v2 inference_stream exposes generator close, not an independent native cancellation token"
+  },
+  "gil_after_model_load": false,
+  "gil_after_cancellation": false,
+  "command": "/home/inrack/sip-bot/tools/feasibility/tts_primary_probe.py --manifest /home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/tts-operation/manifest.json --stage cancellation --allow-tts-operation",
+  "stdout": "artifacts/feasibility/001-C4-tts-primary/cancellation.stdout.json",
+  "stderr": "artifacts/feasibility/001-C4-tts-primary/cancellation.stderr.txt",
+  "exit_code": 0
+}

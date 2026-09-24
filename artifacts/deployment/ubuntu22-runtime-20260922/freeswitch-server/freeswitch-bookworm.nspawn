@@ -1,0 +1,10 @@
+[Exec]
+Boot=yes
+PrivateUsers=no
+Hostname=freeswitch-bookworm
+
+[Files]
+BindReadOnly=/home/inrack/sip-bot:/srv/sip-bot
+
+[Network]
+VirtualEthernet=no

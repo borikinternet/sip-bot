@@ -1,30 +1,55 @@
 {
+  "schema_version": "rag-corpus-v1",
+  "corpus_id": "ru-natural-science-demo",
   "corpus_version": "ru-natural-science-demo-v1",
+  "title": "Демонстрационный корпус по естественным наукам",
+  "language": "ru",
   "license": "CC BY-SA 4.0",
   "sources": [
     {
-      "source_id": "wiki-physics-rayleigh",
-      "title": "Рассеяние Рэлея",
-      "url": "https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D1%81%D1%81%D0%B5%D1%8F%D0%BD%D0%B8%D0%B5_%D0%A0%D1%8D%D0%BB%D0%B5%D1%8F",
-      "license": "CC BY-SA 4.0",
-      "attribution": "Википедия, статья «Рассеяние Рэлея», доступ 2026-09-03",
-      "file": "physics-rayleigh.md"
-    },
-    {
       "source_id": "wiki-astronomy-mars",
+      "file": "astronomy-mars.md",
       "title": "Марс",
       "url": "https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D1%81",
+      "origin": "Русская Википедия",
       "license": "CC BY-SA 4.0",
       "attribution": "Википедия, статья «Марс», доступ 2026-09-03",
-      "file": "astronomy-mars.md"
+      "owner": "Участники русской Википедии",
+      "version": "snapshot-2026-09-03",
+      "effective_date": "2026-09-03",
+      "priority": 100,
+      "topics": ["астрономия", "планеты"],
+      "audiences": ["общая аудитория"]
     },
     {
       "source_id": "wiki-chemistry-water",
+      "file": "chemistry-water.md",
       "title": "Вода",
       "url": "https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%B4%D0%B0",
+      "origin": "Русская Википедия",
       "license": "CC BY-SA 4.0",
       "attribution": "Википедия, статья «Вода», доступ 2026-09-03",
-      "file": "chemistry-water.md"
+      "owner": "Участники русской Википедии",
+      "version": "snapshot-2026-09-03",
+      "effective_date": "2026-09-03",
+      "priority": 100,
+      "topics": ["вода", "химия"],
+      "audiences": ["общая аудитория"]
+    },
+    {
+      "source_id": "wiki-physics-rayleigh",
+      "file": "physics-rayleigh.md",
+      "title": "Рассеяние Рэлея",
+      "url": "https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D1%81%D1%81%D0%B5%D1%8F%D0%BD%D0%B8%D0%B5_%D0%A0%D1%8D%D0%BB%D0%B5%D1%8F",
+      "origin": "Русская Википедия",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Википедия, статья «Рассеяние Рэлея», доступ 2026-09-03",
+      "owner": "Участники русской Википедии",
+      "version": "snapshot-2026-09-03",
+      "effective_date": "2026-09-03",
+      "priority": 100,
+      "topics": ["оптика", "физика"],
+      "audiences": ["общая аудитория"]
     }
   ]
 }

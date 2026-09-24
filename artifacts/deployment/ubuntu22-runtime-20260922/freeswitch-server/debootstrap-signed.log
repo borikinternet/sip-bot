@@ -1,0 +1,5 @@
+I: Retrieving InRelease 
+I: Checking Release signature
+E: Release signed by unknown key (key id F8D2585B8783D481)
+   The specified keyring /usr/share/keyrings/debian-archive-keyring.gpg may be incorrect or out of date.
+   You can find the latest Debian release key at https://ftp-master.debian.org/keys.html

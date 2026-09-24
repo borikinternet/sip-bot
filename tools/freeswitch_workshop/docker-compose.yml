@@ -1,0 +1,21 @@
+name: sip-bot-freeswitch-workshop
+
+services:
+  freeswitch:
+    image: safarov/freeswitch@sha256:b31c743f4c911a19687c61e3214968f2a24f93f9d3d667cc26284192e158ffc6
+    container_name: sip-bot-freeswitch-workshop
+    init: true
+    ports:
+      - "5060:5060/udp"
+      - "16384-16484:16384-16484/udp"
+    volumes:
+      - ./config:/workshop-overlay:ro
+      - ./scripts:/workshop-scripts:ro
+    entrypoint: ["sh", "/workshop-scripts/entrypoint.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/bin/fs_cli -x 'status' | grep -q '^UP'"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    stop_grace_period: 15s
