@@ -1,0 +1,62 @@
+# Хэндофф проекта — 24.09.2026
+
+Этот файл фиксирует рабочее состояние локального конференционного демо на момент передачи. Он не заменяет APG-карты и их closeout/evidence: точные архитектурные границы — в `docs/architecture.md`, решения — в `docs/decisions/`, статус задач — в `docs/task-backlog.md`, Map-021 — в `docs/plans/plan-021-web-rag-conference-demo.md`.
+
+## Что работает
+
+- Односессионный русскоязычный SIP-бот на free-threaded Python: PJSUA2/PCMU, ASR, Qwen через локальную Ollama, RAG на embeddinggemma, XTTS, перебивание, текстовый отчёт. FreeSWITCH `mod_callcenter` владеет очередью; бот берёт только один вызов за раз.
+- `demo-web/`: HTTPS-страница с логотипом партнёра, фото автора, временным IP QR, описанием корпуса, примерами вопросов, загрузкой `.md`/`.txt`/текстового `.pdf` до 640 КиБ и встроенным JsSIP-клиентом.
+- При открытии страницы создаются `session_id` и caller ID; WebSocket heartbeat поддерживает сессию. Подготовка загруженного корпуса создаёт metadata и embedding-index, публикует `rag_ready`; при звонке bot-leg извлекает SIP user-part caller ID, загружает соответствующий индекс в readiness-паузе между `180` и `200`, после окончания разговора артефакт удаляется. При отсутствии живого mapping используется базовый корпус.
+- Последнее исправление генератора: базовые примеры больше не захардкожены. И базовые, и пользовательские вопросы генерируются по тексту и публикуются только если проходят тот же `LocalKnowledgeIndex.query` gate, что бот. Базовая metadata кэшируется по содержимому источников и индекса. При отсутствии прошедших проверку вопросов UI честно это сообщает.
+
+## Текущая локальная топология
+
+| Узел | Что запущено | Адрес/примечание |
+|---|---|---|
+| WSL `Ubuntu-24.04` | bot, web backend, WSS forwarder, Ollama | web `:8080`/`:8443`, Ollama только `127.0.0.1:11434`, bot SIP `172.16.15.72:15062` |
+| WSL `Debian-Bookworm-FS` | FreeSWITCH, `mod_callcenter` | browser WSS `192.168.1.74:7443`, bot-vpn SIP `172.16.15.72:15062` |
+| Windows-хост | браузер/разработка | `https://172.16.15.72:8443/` |
+| Телефон в LAN | браузер/QR | `https://192.168.1.74:8443/` (принять временный сертификат) |
+
+Два IP ведут к одному web backend, не к разным экземплярам. Обращение Windows к своему LAN-IP `192.168.1.74:8443` в текущем WSL mirrored режиме тайм-аутится; используйте `172.16.15.72`. Страница на HTTP не получает безопасный browser media context, звонить через HTTPS. Финальный домен, сертификат, QR и демонстрационные SIP credentials пока не заменены. Схему маршрутизации и команды см. в `demo-web/README.md`.
+
+На момент хэндоффа сервисы были запущены. Проверка без рестарта WSL:
+
+```powershell
+wsl -d Ubuntu-24.04 -- bash -lc 'ps -eo pid,user,args | grep -E "backend.server|backend.wss_forward|run_live_bot|ollama serve" | grep -v grep'
+wsl -d Debian-Bookworm-FS -u root -- bash -lc 'fs_cli -x status | head -5'
+curl.exe --noproxy '*' -ksS --connect-timeout 3 https://172.16.15.72:8443/api/session
+```
+
+Web backend стартует из корня репозитория с `PYTHONPATH=src:demo-web`, Python `/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python`, `DEMO_WEB_TLS_CERT=.../demo-web/runtime/tls/demo.crt`, `DEMO_WEB_TLS_KEY=.../demo-web/runtime/tls/demo.key` и `-m backend.server`. Не делать `wsl --shutdown` ради перезапуска одного сервиса. FreeSWITCH конфигурация демо зафиксирована в `config/workshops/`, browser-настройка — в `demo-web/frontend/demo-config.js`. Внутри этого файла demo SIP password открыт намеренно; это не production-конфигурация.
+
+## Последние проверки
+
+- `PYTHONPATH=src;demo-web` и `.venv/Scripts/python.exe -m pytest demo-web/tests -q`: `11 passed`.
+- Реальная Ollama в WSL создала baseline metadata с вопросами про газы атмосферы Марса, атомы молекулы воды и интенсивность рассеяния Рэлея. Все три по отдельности получили `sufficient=true` на текущем индексе.
+- Подготовка пользовательского `astronomy-mars.md` через реальную Ollama/embeddinggemma создала индекс и три конкретных вопроса. Web backend после обновления отдал новую metadata через API с Windows по `172.16.15.72`.
+- Последний звонок 24.09 около 11:37–11:38 (отчёт `data/dialogues/live-service/reports/call-in-2-ff197e7991af4f998dcc7194f49825af/report.md`): SIP и выбор пользовательского корпуса работали, ASR записал три вопроса, оба аудиоканала в записи ненулевые, завершение штатное. Все три ответа были `offer_transfer` из-за `sufficient=false`, не из-за транспортной ошибки.
+
+## Открытые проблемы — следующий инженерный приоритет
+
+1. Вопрос «О чём я могу тебя спросить?» обрабатывается как запрос к документу. Нужен отдельный intent/ответ по metadata корпуса (тема и проверенные примеры), а не обычный RAG lookup.
+2. «Какая у разработчика экспертиза?» получила `insufficient_lexical_support` при semantic score `0.4395`: в работающем WSL `KnowledgeQueryBuilder.capabilities` показывает `pymorphy3=false`, `razdel=false`. Проверить русский лексический gate/словоформы и семантические синонимы; не снижать порог вслепую.
+3. Короткое продолжение «Сколько лет?» втянуло в retrieval весь прежний диалог вместе с отказами бота (`query terms=22`, lexical `5/9`, `sufficient=false`). В `src/sip_bot/conversation_pipeline.py` сейчас передаётся `snapshot.turns[:-1]`; требуется узкий контекст последнего содержательного вопроса пользователя и проверка co-reference.
+4. Исходный загруженный корпус последнего звонка был удалён штатной cleanup-логикой, поэтому по сохранённому отчёту нельзя утверждать, содержал ли он сведения об экспертизе или стаже. Для точного replay нужен повторный upload того же файла.
+5. В предыдущем базовом звонке встречался и обратный дефект: бот ответил про воду на Марсе, хотя такой факт не содержится в коротком базовом корпусе. Контроль ответов по фактическим цитатам требует отдельной проверки; один лишь более мягкий sufficiency gate может усилить выдуманные ответы.
+6. Map-021 и Map-020 target-server gate остаются незакрытыми: локальные звонки подтверждены, но финальный hostname/cert/QR и целевой сервер — отдельное решение. Не объявлять demo production-ready или полный APG closeout.
+
+## Код и данные
+
+- `src/sip_bot/` — SIP/media, speech pipeline, retrieval, dialogue/FSM, TTS, report.
+- `config/constants.py`, `config/workshops/` — текущие runtime/FreeSWITCH параметры.
+- `demo-web/backend/` — session registry, RAG preparation/metadata, caller mapping, HTTP/WebSocket.
+- `demo-web/frontend/` — страница, assets, SIP клиент/конфигурация.
+- `tests/`, `demo-web/tests/`, `tools/` — проверки и воспроизводимые probes.
+- `docs/plans/`, `docs/decisions/`, `artifacts/implementation/` — APG планы и closeout/evidence.
+
+`demo-web/runtime/` и `data/dialogues/live-service/` — локальное runtime-состояние; private TLS key, записи и живые диалоги не нужно добавлять в новый коммит. В существующем начальном коммите уже есть старые audio/report artifacts; история сохраняется по решению владельца. При будущем push в приватный GitHub это следует помнить: `.gitignore` не удаляет данные из старых коммитов.
+
+## Git
+
+Целевой `origin`: `git@github.com:borikinternet/sip-bot.git`. Работа фиксируется локальным коммитом; автоматический push не выполняется. Перед публикацией проверить `git status`, `git remote -v`, доступность SSH и актуальность приведённых здесь временных IP.

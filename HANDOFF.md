@@ -1,62 +1,60 @@
-# Хэндофф проекта — 24.09.2026
+# Хэндофф проекта — 25.09.2026
 
-Этот файл фиксирует рабочее состояние локального конференционного демо на момент передачи. Он не заменяет APG-карты и их closeout/evidence: точные архитектурные границы — в `docs/architecture.md`, решения — в `docs/decisions/`, статус задач — в `docs/task-backlog.md`, Map-021 — в `docs/plans/plan-021-web-rag-conference-demo.md`.
+Это текущее состояние публичного демо Василисы. Предыдущий срез от 24.09 сохранён в docs/handoffs/HANDOFF-2026-09-24.md. Архитектура и план Map-021 — в docs/architecture.md и docs/plans/plan-021-web-rag-conference-demo.md.
 
-## Что работает
+## Состояние на момент передачи
 
-- Односессионный русскоязычный SIP-бот на free-threaded Python: PJSUA2/PCMU, ASR, Qwen через локальную Ollama, RAG на embeddinggemma, XTTS, перебивание, текстовый отчёт. FreeSWITCH `mod_callcenter` владеет очередью; бот берёт только один вызов за раз.
-- `demo-web/`: HTTPS-страница с логотипом партнёра, фото автора, временным IP QR, описанием корпуса, примерами вопросов, загрузкой `.md`/`.txt`/текстового `.pdf` до 640 КиБ и встроенным JsSIP-клиентом.
-- При открытии страницы создаются `session_id` и caller ID; WebSocket heartbeat поддерживает сессию. Подготовка загруженного корпуса создаёт metadata и embedding-index, публикует `rag_ready`; при звонке bot-leg извлекает SIP user-part caller ID, загружает соответствующий индекс в readiness-паузе между `180` и `200`, после окончания разговора артефакт удаляется. При отсутствии живого mapping используется базовый корпус.
-- Последнее исправление генератора: базовые примеры больше не захардкожены. И базовые, и пользовательские вопросы генерируются по тексту и публикуются только если проходят тот же `LocalKnowledgeIndex.query` gate, что бот. Базовая metadata кэшируется по содержимому источников и индекса. При отсутствии прошедших проверку вопросов UI честно это сообщает.
+- Публичная страница: https://demo.libnas.ru/. Статика теперь находится на первом хопе Apache; внутренний web backend получает только API и WebSocket сессии. SIP WebSocket идёт через отдельный порт 7443.
+- Сертификат Let's Encrypt для demo.libnas.ru установлен на первом хопе, действителен до 23.12.2026 20:21 UTC. Автоматическое продление настроено и проверено пробным запуском.
+- HTML, JS, CSS, JsSIP, фото и новый QR отдаются с первого хопа. В живом JS текст рядом с QR: «Сканируйте, чтобы открыть Василису: https://demo.libnas.ru/».
+- Внешний API и оба WebSocket успешно ответили на сетевые проверки. Полный звонок из браузера через публичный маршрут, включая RTP/аудио, после этого переключения ещё не проверялся. Не считать его подтверждённым.
 
-## Текущая локальная топология
+## Публичная топология
 
-| Узел | Что запущено | Адрес/примечание |
-|---|---|---|
-| WSL `Ubuntu-24.04` | bot, web backend, WSS forwarder, Ollama | web `:8080`/`:8443`, Ollama только `127.0.0.1:11434`, bot SIP `172.16.15.72:15062` |
-| WSL `Debian-Bookworm-FS` | FreeSWITCH, `mod_callcenter` | browser WSS `192.168.1.74:7443`, bot-vpn SIP `172.16.15.72:15062` |
-| Windows-хост | браузер/разработка | `https://172.16.15.72:8443/` |
-| Телефон в LAN | браузер/QR | `https://192.168.1.74:8443/` (принять временный сертификат) |
+| Участок | Адрес и назначение |
+|---|---|
+| DNS | demo.libnas.ru CNAME → libnas.ru; libnas.ru A → 195.133.38.235 |
+| Первый хоп | Apache на 195.133.38.235, HTTPS 443, HTTP 80, SIP WSS 7443 |
+| Туннель | SSH TUN: первый хоп 10.255.0.1 ↔ старый nginx 10.255.0.2 |
+| Старый хоп | nginx stream на 142.132.210.94; пересылает 443 и 7443 к публичному шлюзу |
+| Шлюз и backend | 82.138.23.215 пробрасывает нужные TCP-порты на внутренний сервер с web backend и FreeSWITCH |
 
-Два IP ведут к одному web backend, не к разным экземплярам. Обращение Windows к своему LAN-IP `192.168.1.74:8443` в текущем WSL mirrored режиме тайм-аутится; используйте `172.16.15.72`. Страница на HTTP не получает безопасный browser media context, звонить через HTTPS. Финальный домен, сертификат, QR и демонстрационные SIP credentials пока не заменены. Схему маршрутизации и команды см. в `demo-web/README.md`.
+Авторитетный DNS master расположен на первом хопе, secondary — на старом хопе. Оба отвечают demo.libnas.ru CNAME libnas.ru; текущий serial зоны — 2026092501. У новой CNAME TTL 300 секунд, но кэши старой записи могли сохранить прежний TTL 604800 секунд (до семи дней).
 
-На момент хэндоффа сервисы были запущены. Проверка без рестарта WSL:
+## Развёртывание на первом хопе
 
-```powershell
-wsl -d Ubuntu-24.04 -- bash -lc 'ps -eo pid,user,args | grep -E "backend.server|backend.wss_forward|run_live_bot|ollama serve" | grep -v grep'
-wsl -d Debian-Bookworm-FS -u root -- bash -lc 'fs_cli -x status | head -5'
-curl.exe --noproxy '*' -ksS --connect-timeout 3 https://172.16.15.72:8443/api/session
-```
+- Apache: /etc/apache2/sites-available/demo-http.conf и /etc/apache2/sites-available/demo-ssl.conf.
+- Порт 80 перенаправляет на HTTPS, кроме /.well-known/acme-challenge/ для Certbot. Challenge webroot: /var/www/html.
+- Порт 443: DocumentRoot /srv/demo-front/current. Из него локально отдаются /, /static/* и /assets/*. Только /api/ проксируется на https://10.255.0.2:443/api/, а /ws/ — на wss://10.255.0.2:443/ws/.
+- Порт 7443: SIP WebSocket проксируется на wss://10.255.0.2:7443/.
+- Текущий каталог статики: /srv/demo-front/current → /srv/demo-front/releases/20260925-faf4380b-cache1. Он собран из demo-web/frontend/: index.html в корне, app.js, demo-config.js и styles.css в static/, изображения и JsSIP в assets/.
+- В развёрнутом index.html ссылки на app.js и demo-config.js имеют параметр версии v=20260925a. Для HTML и /static/ Apache выставляет Cache-Control: no-cache, must-revalidate. Версионированный HTML отличается этими ссылками от файла в рабочей копии; остальные проверенные файлы совпали по SHA-256.
+- Сертификат: /etc/letsencrypt/live/demo.libnas.ru/fullchain.pem и privkey.pem. Certbot использует webroot, certbot.timer включён, deploy hook /etc/letsencrypt/renewal-hooks/deploy/reload-apache.sh перезагружает конфигурацию Apache после обновления.
+- Для TLS к старому хопу в Apache пока заданы SSLProxyVerify none и SSLProxyCheckPeerName Off из-за сертификата внутреннего backend. Этот участок проходит внутри SSH-туннеля.
 
-Web backend стартует из корня репозитория с `PYTHONPATH=src:demo-web`, Python `/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python`, `DEMO_WEB_TLS_CERT=.../demo-web/runtime/tls/demo.crt`, `DEMO_WEB_TLS_KEY=.../demo-web/runtime/tls/demo.key` и `-m backend.server`. Не делать `wsl --shutdown` ради перезапуска одного сервиса. FreeSWITCH конфигурация демо зафиксирована в `config/workshops/`, browser-настройка — в `demo-web/frontend/demo-config.js`. Внутри этого файла demo SIP password открыт намеренно; это не production-конфигурация.
+Подключение к первому хопу: сохранённая PuTTY-сессия libnas.ru, пользователь dborisov, ключ в Pageant; sudo работает без пароля. Секреты в handoff не копировать.
 
-## Последние проверки
+## Исходники и рабочая копия
 
-- `PYTHONPATH=src;demo-web` и `.venv/Scripts/python.exe -m pytest demo-web/tests -q`: `11 passed`.
-- Реальная Ollama в WSL создала baseline metadata с вопросами про газы атмосферы Марса, атомы молекулы воды и интенсивность рассеяния Рэлея. Все три по отдельности получили `sufficient=true` на текущем индексе.
-- Подготовка пользовательского `astronomy-mars.md` через реальную Ollama/embeddinggemma создала индекс и три конкретных вопроса. Web backend после обновления отдал новую metadata через API с Windows по `172.16.15.72`.
-- Последний звонок 24.09 около 11:37–11:38 (отчёт `data/dialogues/live-service/reports/call-in-2-ff197e7991af4f998dcc7194f49825af/report.md`): SIP и выбор пользовательского корпуса работали, ASR записал три вопроса, оба аудиоканала в записи ненулевые, завершение штатное. Все три ответа были `offer_transfer` из-за `sufficient=false`, не из-за транспортной ошибки.
+Фронтенд — demo-web/frontend/. Коллега обновил публичные адреса в demo-config.js, формирование API и WebSocket URL и текст рядом с QR в app.js, а также QR-файл assets/qr-demo-domain.png. Browser SIP WSS использует wss://demo.libnas.ru:7443. Файл с SIP demo credentials публичен по замыслу демо; пароль в документацию не переносить.
 
-## Открытые проблемы — следующий инженерный приоритет
+Базовый коммит до текущих изменений: 3e1d796 от 24.09.2026. Подготовлены изменения demo-web/README.md, frontend/app.js, frontend/demo-config.js, frontend/index.html, замена QR в frontend/assets/, tools/workshops/demo_web_browser_probe.mjs и новый demo-web/tests/test_frontend_public_urls.py. Эти изменения не сбрасывать и не перезаписывать. Код и собственная документация проекта лицензированы по MIT (корневой LICENSE); лицензии сторонних материалов рассматриваются отдельно в docs/licensing-policy.md.
 
-1. Вопрос «О чём я могу тебя спросить?» обрабатывается как запрос к документу. Нужен отдельный intent/ответ по metadata корпуса (тема и проверенные примеры), а не обычный RAG lookup.
-2. «Какая у разработчика экспертиза?» получила `insufficient_lexical_support` при semantic score `0.4395`: в работающем WSL `KnowledgeQueryBuilder.capabilities` показывает `pymorphy3=false`, `razdel=false`. Проверить русский лексический gate/словоформы и семантические синонимы; не снижать порог вслепую.
-3. Короткое продолжение «Сколько лет?» втянуло в retrieval весь прежний диалог вместе с отказами бота (`query terms=22`, lexical `5/9`, `sufficient=false`). В `src/sip_bot/conversation_pipeline.py` сейчас передаётся `snapshot.turns[:-1]`; требуется узкий контекст последнего содержательного вопроса пользователя и проверка co-reference.
-4. Исходный загруженный корпус последнего звонка был удалён штатной cleanup-логикой, поэтому по сохранённому отчёту нельзя утверждать, содержал ли он сведения об экспертизе или стаже. Для точного replay нужен повторный upload того же файла.
-5. В предыдущем базовом звонке встречался и обратный дефект: бот ответил про воду на Марсе, хотя такой факт не содержится в коротком базовом корпусе. Контроль ответов по фактическим цитатам требует отдельной проверки; один лишь более мягкий sufficiency gate может усилить выдуманные ответы.
-6. Map-021 и Map-020 target-server gate остаются незакрытыми: локальные звонки подтверждены, но финальный hostname/cert/QR и целевой сервер — отдельное решение. Не объявлять demo production-ready или полный APG closeout.
+Backend, SIP-бот, Ollama и локальная WSL/FreeSWITCH-схема описаны в архивном handoff от 24.09. Тот файл отражает прошлый локальный срез и содержит уже устаревшие утверждения о публичном домене, сертификате и QR; для публичного маршрута ориентироваться на этот документ.
 
-## Код и данные
+## Проверки 25.09.2026
 
-- `src/sip_bot/` — SIP/media, speech pipeline, retrieval, dialogue/FSM, TTS, report.
-- `config/constants.py`, `config/workshops/` — текущие runtime/FreeSWITCH параметры.
-- `demo-web/backend/` — session registry, RAG preparation/metadata, caller mapping, HTTP/WebSocket.
-- `demo-web/frontend/` — страница, assets, SIP клиент/конфигурация.
-- `tests/`, `demo-web/tests/`, `tools/` — проверки и воспроизводимые probes.
-- `docs/plans/`, `docs/decisions/`, `artifacts/implementation/` — APG планы и closeout/evidence.
+- Apache configtest: Syntax OK. Apache и BIND активны, SSH TUN поднят.
+- Оба авторитетных DNS-сервера отвечают новым CNAME. С обычным разрешением имени внешний curl попадает на 195.133.38.235 и подтверждает сертификат.
+- /, /static/app.js, /static/demo-config.js, /static/styles.css, /assets/jssip-3.10.0.min.js, /assets/project-author.png и /assets/qr-demo-domain.png вернули HTTP 200; до добавления параметра версии их SHA-256 совпали с подготовленным набором файлов. Размеры проблемных ранее ресурсов: JsSIP 279285 байт, фото 1443244 байта.
+- /api/session вернул состояние baseline. WebSocket сессии /ws/{session_id} и SIP WebSocket на :7443 оба приняли Upgrade с HTTP 101 Switching Protocols.
+- Пробное продление Certbot для demo.libnas.ru прошло успешно после настройки HTTP-перенаправления.
+- Живой app.js содержит исправленный QR-текст; живой demo-config.js содержит https://demo.libnas.ru/, новый QR и wss://demo.libnas.ru:7443. HTML ссылается на версионированные JS-файлы.
 
-`demo-web/runtime/` и `data/dialogues/live-service/` — локальное runtime-состояние; private TLS key, записи и живые диалоги не нужно добавлять в новый коммит. В существующем начальном коммите уже есть старые audio/report artifacts; история сохраняется по решению владельца. При будущем push в приватный GitHub это следует помнить: `.gitignore` не удаляет данные из старых коммитов.
+## Следующие проверки и ограничения
 
-## Git
-
-Целевой `origin`: `git@github.com:borikinternet/sip-bot.git`. Работа фиксируется локальным коммитом; автоматический push не выполняется. Перед публикацией проверить `git status`, `git remote -v`, доступность SSH и актуальность приведённых здесь временных IP.
+1. Выполнить настоящий звонок из внешнего браузера без VPN: микрофон, SIP-сигнализация, RTP в обе стороны, голос Василисы и корректное завершение. HTTP 101 подтверждает только WebSocket-рукопожатие.
+2. Проверить загрузку корпуса и выбор соответствующего индекса через публичный /api/ на реальном звонке. Сетевой тест /api/session этого не доказывает.
+3. Если отдельный клиент всё ещё попадает на старый IP, проверить его DNS-кэш: старый TTL CNAME был семь дней.
+4. При следующем изменении фронтенда создать новый каталог в /srv/demo-front/releases/, переключить symlink current и обновить версию ссылок в index.html. Не менять напрямую исходники коллеги в рабочей копии без синхронизации.
+5. Старые задачи по RAG и качеству ответов из handoff от 24.09 остаются без повторной проверки; публичный транспорт их не закрывает.
