@@ -1,0 +1,1604 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260922T224326Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "pass",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-22T22:43:26.164014+00:00",
+  "elapsed_ms": 162015.354,
+  "elapsed_from_call_start_ms": 160412.268,
+  "warmup": {
+    "started_at_ns": 75222212527644,
+    "completed_at_ns": 75252975597754,
+    "elapsed_ms": 30763.07011,
+    "stages": [
+      {
+        "name": "rag-embedding-index",
+        "elapsed_ms": 5.296527,
+        "details": {
+          "operation": "load-prebuilt-index",
+          "chunks": 6,
+          "dimension": 768,
+          "embedding_model": "embeddinggemma",
+          "corpus_embedding_requests": 0
+        }
+      },
+      {
+        "name": "llm-chat",
+        "elapsed_ms": 1005.470832,
+        "details": {
+          "sources": [
+            "wiki-chemistry-water",
+            "wiki-astronomy-mars",
+            "wiki-physics-rayleigh"
+          ],
+          "trace": {
+            "final_user_turn_ns": 75222490634931,
+            "request_started_ns": 75222490677281,
+            "first_stream_event_ns": 75222595864145,
+            "first_usable_output_ns": 75222595864145,
+            "final_result_ns": 75223223135691,
+            "cancel_requested_ns": null,
+            "completed_ns": 75223223135691,
+            "final_to_first_usable_ms": 105.229214,
+            "final_to_final_result_ms": 732.50076,
+            "request_to_first_usable_ms": 105.186864,
+            "request_to_final_result_ms": 732.45841
+          }
+        }
+      },
+      {
+        "name": "asr",
+        "elapsed_ms": 14147.890143,
+        "details": {
+          "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+          "model_sample_rate_hz": 16000,
+          "input_sample_rate_hz": 8000,
+          "input_duration_ms": 1000,
+          "model_loaded_by_warmup": true
+        }
+      },
+      {
+        "name": "tts-initialize",
+        "elapsed_ms": 15361.808292,
+        "details": {
+          "initialized": true,
+          "stream_chunk_size": 5,
+          "overlap_wav_len": 1024
+        }
+      },
+      {
+        "name": "tts-stream",
+        "elapsed_ms": 242.491459,
+        "details": {
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "first_chunk_bytes": 2902
+        }
+      }
+    ]
+  },
+  "fixture": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r2/live-stand/input-scenario.wav",
+    "bytes": 2608582,
+    "source": "prepared XTTS-generated multi-turn fixture copied for readiness replay",
+    "source_path": "/tmp/sip-bot-010-c-recording-bn1clqv_/input-scenario-with-continuity-tail.wav",
+    "leading_silence_s": 45.0,
+    "trailing_silence_s": 30.0,
+    "fixture_generation": "prepared scenario with configurable barge-in shift and continuity tail",
+    "barge_in_shift_s": 4.0,
+    "continuity_tail_purpose": "keep Baresip aufile transmitting until the bot finishes its final response"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "readiness": {
+      "runtime_id": "application",
+      "state": "ready",
+      "sequence": 2,
+      "started_at_ns": 75222211342914,
+      "completed_at_ns": 75252976390979,
+      "error_type": null,
+      "error_message": null
+    }
+  },
+  "sip": {
+    "peer_established": true,
+    "rtp_ingress_established": true,
+    "pcmu_8000_mono": true,
+    "peer_rtp_packets": {
+      "transmit": 6454,
+      "receive": 6348
+    },
+    "adapter_profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "pjmedia.stream_info"
+    },
+    "adapter_media_stats": {
+      "ingress_frames": 6166,
+      "ingress_bytes": 1973120,
+      "egress_frames": 6166,
+      "egress_bytes": 1973120,
+      "ingress_dropped_closed": 0,
+      "ingress_dropped_overflow": 0,
+      "egress_dropped_closed": 0,
+      "egress_dropped_overflow": 0,
+      "egress_underruns": 0,
+      "tts_startup_wait": 1,
+      "intentional_silence_frames": 4631,
+      "source_mode_transitions": 23,
+      "callback_errors": 0
+    },
+    "adapter_events": [
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 75222210793905,
+        "sequence": 1,
+        "method": null,
+        "status_code": null,
+        "reason": "registration requested by account.create",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:172.22.89.126:5060",
+          "status_code": null,
+          "reason": "registration requested by account.create",
+          "expires_seconds": 300,
+          "observed_at_ns": 75222210769135,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 75222211259583,
+        "sequence": 2,
+        "method": null,
+        "status_code": null,
+        "reason": "PJSUA2 registration transaction started",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:172.22.89.126:5060",
+          "status_code": null,
+          "reason": "PJSUA2 registration transaction started",
+          "expires_seconds": 300,
+          "observed_at_ns": 75222211231432,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 75222221619623,
+        "sequence": 3,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "registered",
+          "registration_event": "registration_succeeded",
+          "readiness": true
+        },
+        "registration_status": {
+          "state": "registered",
+          "event": "registration_succeeded",
+          "enabled": true,
+          "registrar_uri": "sip:172.22.89.126:5060",
+          "status_code": 200,
+          "reason": "OK",
+          "expires_seconds": 300,
+          "observed_at_ns": 75222221589702,
+          "expires_at_ns": 75522221564842,
+          "readiness": true
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "protocol_reply",
+        "timestamp_ns": 75253208357179,
+        "sequence": 4,
+        "method": "INVITE",
+        "status_code": 180,
+        "reason": "Ringing",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 180,
+          "reason": "Ringing",
+          "action": "ring_before_readiness",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "call_started",
+        "timestamp_ns": 75253208400905,
+        "sequence": 5,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": "incoming",
+          "peer_uri": "\"Extension 1003\" <sip:1003@172.22.89.126>",
+          "provisional_status": 180,
+          "answer_pending": true
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "sip_transaction",
+        "timestamp_ns": 75253208990126,
+        "sequence": 6,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "sip_transaction",
+        "timestamp_ns": 75253215306586,
+        "sequence": 7,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 4
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "media_started",
+        "timestamp_ns": 75253219342116,
+        "sequence": 8,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": 3,
+          "media_index": 0
+        },
+        "media_profile": {
+          "codec": "PCMU",
+          "payload_type": 0,
+          "rx_payload_type": 0,
+          "tx_payload_type": 0,
+          "ptime_ms": 20.0,
+          "frame_time_usec": 20000,
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "frame_size_samples": 160,
+          "frame_bytes": 320,
+          "pcm_bits_per_sample": 16,
+          "source": "pjmedia.stream_info"
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "protocol_reply",
+        "timestamp_ns": 75253219505791,
+        "sequence": 9,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "action": "accept_incoming_call",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "call_answered",
+        "timestamp_ns": 75253221345154,
+        "sequence": 10,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "CONFIRMED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "sip_transaction",
+        "timestamp_ns": 75376522801374,
+        "sequence": 11,
+        "method": "INVITE",
+        "status_code": 100,
+        "reason": "Accepted",
+        "details": {
+          "operation": "transfer",
+          "final_notify": false
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "sip_transaction",
+        "timestamp_ns": 75376524745242,
+        "sequence": 12,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "operation": "transfer",
+          "final_notify": true
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "sip_transaction",
+        "timestamp_ns": 75376548237370,
+        "sequence": 13,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "sip_transaction",
+        "timestamp_ns": 75376548756189,
+        "sequence": 14,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 0
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "remote_hangup",
+        "timestamp_ns": 75376549349819,
+        "sequence": 15,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "media_stopped",
+        "timestamp_ns": 75376549966907,
+        "sequence": 16,
+        "method": null,
+        "status_code": null,
+        "reason": "Normal call clearing",
+        "details": {
+          "idempotent": false
+        }
+      }
+    ]
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r2/baresip-operator.log",
+    "transfer_result": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "available": true,
+      "accepted": [
+        {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "target": "sip:operator@127.0.0.1:5090",
+          "reason": "user_confirmed",
+          "operation_id": 4
+        }
+      ]
+    }
+  },
+  "conversation": {
+    "context": [
+      {
+        "store_revision": 1,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": null,
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [],
+          "text": "Алло.",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:greeting"
+        }
+      },
+      {
+        "store_revision": 2,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": null,
+          "revision": 4,
+          "role": "user",
+          "source_ids": [],
+          "text": "Почему небо днем кажется голубым?",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2"
+        }
+      },
+      {
+        "store_revision": 3,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": "knowledge-context-call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "text": "Небо днем кажется голубым из-за рассеяния Рэлея, когда молекулы атмосферы сильнее рассеивают коротковолновый свет. Это явление делает видимой часть спектра голубой.",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2:answer"
+        }
+      },
+      {
+        "store_revision": 4,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": null,
+          "revision": 7,
+          "role": "user",
+          "source_ids": [],
+          "text": "А почему на закате оно становится красным?",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3"
+        }
+      },
+      {
+        "store_revision": 5,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": "knowledge-context-call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "text": "На закате свет проходит более длинный путь в атмосфере, поэтому рассеивается больше синего света, а прямой свет выглядит красноватым.",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3:answer"
+        }
+      },
+      {
+        "store_revision": 6,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": null,
+          "revision": 10,
+          "role": "user",
+          "source_ids": [],
+          "text": "Стоп, небо голубое?",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4"
+        }
+      },
+      {
+        "store_revision": 7,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": "knowledge-context-call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "text": "Да, небо днем голубое из-за рассеяния Рэлея, когда атмосфера сильнее рассеивает коротковолновый синий свет. На закате оно становится красным, так как свет проходит более длинный путь и теряет синий оттенок.",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4:answer"
+        }
+      },
+      {
+        "store_revision": 8,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": null,
+          "revision": 16,
+          "role": "user",
+          "source_ids": [],
+          "text": "Таков точный состав атмосферы на экзопланете Кеплер-786.",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6"
+        }
+      },
+      {
+        "store_revision": 9,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": "knowledge-context-call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+          "revision": 1,
+          "role": "assistant",
+          "source_ids": [
+            "wiki-astronomy-mars",
+            "wiki-chemistry-water",
+            "wiki-physics-rayleigh"
+          ],
+          "text": "Я не могу надёжно ответить на этот вопрос по доступной базе знаний. Подключить оператора?",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6:answer"
+        }
+      },
+      {
+        "store_revision": 10,
+        "turn": {
+          "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+          "knowledge_context_id": null,
+          "revision": 17,
+          "role": "user",
+          "source_ids": [],
+          "text": "Да.",
+          "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-7"
+        }
+      }
+    ],
+    "user_turn_count": 5,
+    "assistant_turn_count": 5,
+    "rag_context_count": 4,
+    "rag_source_ids": [
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      [
+        "wiki-astronomy-mars",
+        "wiki-chemistry-water",
+        "wiki-physics-rayleigh"
+      ]
+    ],
+    "rag_contexts": [
+      {
+        "query_text": "Почему небо днем кажется голубым?",
+        "sufficient": true,
+        "sufficiency_diagnostics": {
+          "reason": "strong_semantic",
+          "configured_threshold": 0.35,
+          "effective_threshold": 0.53,
+          "semantic_only_threshold": 0.53,
+          "lexical_semantic_floor": 0.2,
+          "top_semantic_score": 0.6116148529020068,
+          "top_lexical_support": 3,
+          "required_top_lexical_support": 2,
+          "eligible_query_terms": 5,
+          "minimum_query_terms": 2
+        },
+        "source_ids": [
+          "wiki-physics-rayleigh",
+          "wiki-astronomy-mars"
+        ],
+        "hits": [
+          {
+            "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+            "source_id": "wiki-physics-rayleigh",
+            "score": 0.6116148529020068
+          },
+          {
+            "chunk_id": "wiki-astronomy-mars-002-26536a0fefbe",
+            "source_id": "wiki-astronomy-mars",
+            "score": 0.26991353769456705
+          },
+          {
+            "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+            "source_id": "wiki-astronomy-mars",
+            "score": 0.22394331572558193
+          }
+        ]
+      },
+      {
+        "query_text": "А почему на закате оно становится красным?",
+        "sufficient": true,
+        "sufficiency_diagnostics": {
+          "reason": "strong_semantic",
+          "configured_threshold": 0.35,
+          "effective_threshold": 0.53,
+          "semantic_only_threshold": 0.53,
+          "lexical_semantic_floor": 0.2,
+          "top_semantic_score": 0.8509392582037331,
+          "top_lexical_support": 16,
+          "required_top_lexical_support": 10,
+          "eligible_query_terms": 25,
+          "minimum_query_terms": 2
+        },
+        "source_ids": [
+          "wiki-physics-rayleigh",
+          "wiki-astronomy-mars"
+        ],
+        "hits": [
+          {
+            "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+            "source_id": "wiki-physics-rayleigh",
+            "score": 0.8509392582037331
+          },
+          {
+            "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+            "source_id": "wiki-physics-rayleigh",
+            "score": 0.4068401569043625
+          },
+          {
+            "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+            "source_id": "wiki-astronomy-mars",
+            "score": 0.32067940433150366
+          }
+        ]
+      },
+      {
+        "query_text": "Стоп, небо голубое?",
+        "sufficient": true,
+        "sufficiency_diagnostics": {
+          "reason": "configured_semantic_with_lexical_support",
+          "configured_threshold": 0.35,
+          "effective_threshold": 0.35,
+          "semantic_only_threshold": 0.53,
+          "lexical_semantic_floor": 0.2,
+          "top_semantic_score": 0.39077441188194534,
+          "top_lexical_support": 2,
+          "required_top_lexical_support": 2,
+          "eligible_query_terms": 3,
+          "minimum_query_terms": 2
+        },
+        "source_ids": [
+          "wiki-physics-rayleigh",
+          "wiki-astronomy-mars"
+        ],
+        "hits": [
+          {
+            "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+            "source_id": "wiki-physics-rayleigh",
+            "score": 0.39077441188194534
+          },
+          {
+            "chunk_id": "wiki-astronomy-mars-002-26536a0fefbe",
+            "source_id": "wiki-astronomy-mars",
+            "score": 0.15404647718989853
+          },
+          {
+            "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+            "source_id": "wiki-physics-rayleigh",
+            "score": 0.14410993238085273
+          }
+        ]
+      },
+      {
+        "query_text": "Таков точный состав атмосферы на экзопланете Кеплер-786.",
+        "sufficient": false,
+        "sufficiency_diagnostics": {
+          "reason": "insufficient_lexical_support",
+          "configured_threshold": 0.35,
+          "effective_threshold": 0.35,
+          "semantic_only_threshold": 0.53,
+          "lexical_semantic_floor": 0.2,
+          "top_semantic_score": 0.4140343702334276,
+          "top_lexical_support": 1,
+          "required_top_lexical_support": 3,
+          "eligible_query_terms": 6,
+          "minimum_query_terms": 2
+        },
+        "source_ids": [
+          "wiki-astronomy-mars",
+          "wiki-chemistry-water",
+          "wiki-physics-rayleigh"
+        ],
+        "hits": [
+          {
+            "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+            "source_id": "wiki-astronomy-mars",
+            "score": 0.4140343702334276
+          },
+          {
+            "chunk_id": "wiki-chemistry-water-001-8989c512424b",
+            "source_id": "wiki-chemistry-water",
+            "score": 0.21415405762044384
+          },
+          {
+            "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+            "source_id": "wiki-physics-rayleigh",
+            "score": 0.21531369859638846
+          }
+        ]
+      }
+    ],
+    "semantic_acts": [
+      {
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+        "act_index": 1,
+        "kind": "knowledge_request",
+        "span": {
+          "start": 0,
+          "end": 33
+        },
+        "outcome": "applied",
+        "state_before": "listening",
+        "state_after": "thinking",
+        "reason": null
+      },
+      {
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+        "act_index": 1,
+        "kind": "knowledge_request",
+        "span": {
+          "start": 0,
+          "end": 42
+        },
+        "outcome": "applied",
+        "state_before": "listening",
+        "state_after": "thinking",
+        "reason": null
+      },
+      {
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+        "act_index": 1,
+        "kind": "knowledge_request",
+        "span": {
+          "start": 0,
+          "end": 19
+        },
+        "outcome": "applied",
+        "state_before": "listening",
+        "state_after": "thinking",
+        "reason": null
+      },
+      {
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+        "act_index": 1,
+        "kind": "knowledge_request",
+        "span": {
+          "start": 0,
+          "end": 56
+        },
+        "outcome": "applied",
+        "state_before": "listening",
+        "state_after": "thinking",
+        "reason": null
+      },
+      {
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-7",
+        "act_index": 1,
+        "kind": "confirm_pending",
+        "span": {
+          "start": 0,
+          "end": 3
+        },
+        "outcome": "applied",
+        "state_before": "awaiting_transfer_confirmation",
+        "state_after": "transferring",
+        "reason": null
+      }
+    ]
+  },
+  "asr_hypotheses": [
+    "чему небо днем.",
+    "Почему небо днем кажется голубым?",
+    "Почему небо днем кажется голубым?",
+    "А почему на закате?",
+    "А почему на закате оно становится красным?",
+    "А почему на закате оно становится красным?",
+    "Стоп, небо голубое.",
+    "Стоп, небо голубое?",
+    "Стоп, небо голубое?",
+    "в точный состав.",
+    "Таков точный состав атмосферы на экзопланете.",
+    "Таков точный состав атмосферы на экзопланете Кеплер.",
+    "Таков точный состав атмосферы на экзопланете Кеплер-780.",
+    "Таков точный состав атмосферы на экзопланете Кеплер-786.",
+    "Таков точный состав атмосферы на экзопланете Кеплер-786.",
+    "Да."
+  ],
+  "fsm": {
+    "state": "terminal",
+    "trace_events": [
+      "call_open",
+      "call_greeting",
+      "playback_finished",
+      "knowledge_request",
+      "answer_approved",
+      "playback_finished",
+      "knowledge_request",
+      "answer_approved",
+      "barge_in",
+      "knowledge_request",
+      "answer_approved",
+      "playback_finished",
+      "knowledge_request",
+      "answer_approved",
+      "offer_played",
+      "user_confirmed",
+      "transfer_result"
+    ],
+    "trace_states": [
+      "call_open",
+      "playing",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "playing",
+      "listening",
+      "thinking",
+      "offering_transfer",
+      "awaiting_transfer_confirmation",
+      "transferring",
+      "terminal"
+    ],
+    "barge_in_observed": true
+  },
+  "wiring": {
+    "sip_polls": 12406,
+    "control_dispatches": 62,
+    "ingress_frames": 6166,
+    "fanout_frames": 12332,
+    "asr_chunks_queued": 16,
+    "asr_chunks_dropped": 0,
+    "asr_hypotheses": 16,
+    "asr_rejected_hypotheses": 0,
+    "final_turns": 5,
+    "tts_chunks": 136,
+    "tts_frames_sent": 1534,
+    "stale_hypotheses": 0,
+    "errors": 0
+  },
+  "speech": {
+    "candidate": "WebRtcVadCandidate",
+    "mode": 2,
+    "decision_count": 6166,
+    "speech_decision_count": 586,
+    "silence_decision_count": 5580,
+    "sample_rates_hz": [
+      8000
+    ],
+    "frame_durations_ms": [
+      20
+    ],
+    "first_speech_sequence": 2321,
+    "last_speech_sequence": 6135,
+    "max_frame_abs": 28109,
+    "nonzero_frame_count": 611,
+    "endpoint_events": [
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+        "timestamp_ns": 75299791861599,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+        "timestamp_ns": 75301851398157,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+        "timestamp_ns": 75302131801902,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+        "timestamp_ns": 75302210745166,
+        "silence_ms": 379,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+        "timestamp_ns": 75316451833313,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+        "timestamp_ns": 75318931478075,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+        "timestamp_ns": 75319211635756,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+        "timestamp_ns": 75319292067810,
+        "silence_ms": 380,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+        "timestamp_ns": 75325551846091,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+        "timestamp_ns": 75327191099988,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+        "timestamp_ns": 75327471437839,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+        "timestamp_ns": 75327533874124,
+        "silence_ms": 362,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+        "timestamp_ns": 75349351264006,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+        "timestamp_ns": 75354031061431,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+        "timestamp_ns": 75354311931735,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+        "timestamp_ns": 75354372275252,
+        "silence_ms": 361,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      },
+      {
+        "kind": "speech_started",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-7",
+        "timestamp_ns": 75375512198990,
+        "silence_ms": 0,
+        "reason": "minimum_speech_duration_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "pause_candidate",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-7",
+        "timestamp_ns": 75375952030609,
+        "silence_ms": 0,
+        "reason": "silence_started",
+        "authoritative": false
+      },
+      {
+        "kind": "soft_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-7",
+        "timestamp_ns": 75376232359294,
+        "silence_ms": 300,
+        "reason": "soft_silence_threshold_reached",
+        "authoritative": false
+      },
+      {
+        "kind": "hard_endpoint",
+        "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-7",
+        "timestamp_ns": 75376292554682,
+        "silence_ms": 360,
+        "reason": "hard_silence_threshold_reached",
+        "authoritative": true
+      }
+    ]
+  },
+  "tts_output": {
+    "accepted_chunks": 136,
+    "accepted_bytes": 491626,
+    "emitted_frames": 1534,
+    "emitted_bytes": 490880,
+    "flushed_tail_frames": 4,
+    "dropped_tail_bytes": 1622,
+    "dropped_stale_chunks": 0,
+    "dropped_closed_chunks": 0,
+    "dropped_cancelled_chunks": 0,
+    "dropped_overflow_bytes": 0,
+    "buffered_bytes": 0,
+    "pending_frames": 0
+  },
+  "tts_latency_events": [
+    {
+      "operation_id": "call-greeting",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:greeting",
+      "channel_id": "playback",
+      "generation": 1,
+      "stage": "tts_worker_started",
+      "timestamp_ns": 75253234763073,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:greeting",
+      "channel_id": "playback",
+      "generation": 1,
+      "stage": "tts_adapter_started",
+      "timestamp_ns": 75253234808197,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:greeting",
+      "channel_id": "playback",
+      "generation": 1,
+      "stage": "tts_engine_first_chunk",
+      "timestamp_ns": 75253318176075,
+      "payload_bytes": 8704
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:greeting",
+      "channel_id": "playback",
+      "generation": 1,
+      "stage": "tts_pcm_first_chunk",
+      "timestamp_ns": 75253319562767,
+      "payload_bytes": 2902
+    },
+    {
+      "operation_id": "playback-playback-1",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "",
+      "channel_id": "playback",
+      "generation": 1,
+      "stage": "playback_first_frame",
+      "timestamp_ns": 75253328165423,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-1",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+      "channel_id": "playback",
+      "generation": 2,
+      "stage": "llm_final_result",
+      "timestamp_ns": 75304698507701,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-1",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+      "channel_id": "playback",
+      "generation": 2,
+      "stage": "tts_command_accepted",
+      "timestamp_ns": 75304705123972,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-1",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+      "channel_id": "playback",
+      "generation": 2,
+      "stage": "tts_worker_started",
+      "timestamp_ns": 75304705345713,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+      "channel_id": "playback",
+      "generation": 2,
+      "stage": "tts_adapter_started",
+      "timestamp_ns": 75304706740474,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+      "channel_id": "playback",
+      "generation": 2,
+      "stage": "tts_engine_first_chunk",
+      "timestamp_ns": 75304845103916,
+      "payload_bytes": 8704
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+      "channel_id": "playback",
+      "generation": 2,
+      "stage": "tts_pcm_first_chunk",
+      "timestamp_ns": 75304847232207,
+      "payload_bytes": 2902
+    },
+    {
+      "operation_id": "playback-playback-2",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "",
+      "channel_id": "playback",
+      "generation": 2,
+      "stage": "playback_first_frame",
+      "timestamp_ns": 75304853622161,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-2",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+      "channel_id": "playback",
+      "generation": 3,
+      "stage": "llm_final_result",
+      "timestamp_ns": 75325497251824,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-2",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+      "channel_id": "playback",
+      "generation": 3,
+      "stage": "tts_command_accepted",
+      "timestamp_ns": 75325511766786,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-2",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+      "channel_id": "playback",
+      "generation": 3,
+      "stage": "tts_worker_started",
+      "timestamp_ns": 75325512757868,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+      "channel_id": "playback",
+      "generation": 3,
+      "stage": "tts_adapter_started",
+      "timestamp_ns": 75325512906450,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+      "channel_id": "playback",
+      "generation": 3,
+      "stage": "tts_engine_first_chunk",
+      "timestamp_ns": 75325606753448,
+      "payload_bytes": 8704
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+      "channel_id": "playback",
+      "generation": 3,
+      "stage": "tts_pcm_first_chunk",
+      "timestamp_ns": 75325608757826,
+      "payload_bytes": 2902
+    },
+    {
+      "operation_id": "playback-playback-3",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "",
+      "channel_id": "playback",
+      "generation": 3,
+      "stage": "playback_first_frame",
+      "timestamp_ns": 75325611766481,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-3",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+      "channel_id": "playback",
+      "generation": 4,
+      "stage": "llm_final_result",
+      "timestamp_ns": 75329688777432,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-3",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+      "channel_id": "playback",
+      "generation": 4,
+      "stage": "tts_command_accepted",
+      "timestamp_ns": 75329697338691,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-3",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+      "channel_id": "playback",
+      "generation": 4,
+      "stage": "tts_worker_started",
+      "timestamp_ns": 75329697628703,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+      "channel_id": "playback",
+      "generation": 4,
+      "stage": "tts_adapter_started",
+      "timestamp_ns": 75329700141549,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+      "channel_id": "playback",
+      "generation": 4,
+      "stage": "tts_engine_first_chunk",
+      "timestamp_ns": 75329824365802,
+      "payload_bytes": 8704
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+      "channel_id": "playback",
+      "generation": 4,
+      "stage": "tts_pcm_first_chunk",
+      "timestamp_ns": 75329825433013,
+      "payload_bytes": 2902
+    },
+    {
+      "operation_id": "playback-playback-4",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "",
+      "channel_id": "playback",
+      "generation": 4,
+      "stage": "playback_first_frame",
+      "timestamp_ns": 75329832503113,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-4",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+      "channel_id": "playback",
+      "generation": 5,
+      "stage": "llm_final_result",
+      "timestamp_ns": 75357205974957,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-4",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+      "channel_id": "playback",
+      "generation": 5,
+      "stage": "tts_command_accepted",
+      "timestamp_ns": 75357212624213,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "llm-4",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+      "channel_id": "playback",
+      "generation": 5,
+      "stage": "tts_worker_started",
+      "timestamp_ns": 75357212837401,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+      "channel_id": "playback",
+      "generation": 5,
+      "stage": "tts_adapter_started",
+      "timestamp_ns": 75357213225369,
+      "payload_bytes": 0
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+      "channel_id": "playback",
+      "generation": 5,
+      "stage": "tts_engine_first_chunk",
+      "timestamp_ns": 75357328437219,
+      "payload_bytes": 8704
+    },
+    {
+      "operation_id": "j4-full-live-tts",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+      "channel_id": "playback",
+      "generation": 5,
+      "stage": "tts_pcm_first_chunk",
+      "timestamp_ns": 75357331546861,
+      "payload_bytes": 2902
+    },
+    {
+      "operation_id": "playback-playback-5",
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "",
+      "channel_id": "playback",
+      "generation": 5,
+      "stage": "playback_first_frame",
+      "timestamp_ns": 75357337909635,
+      "payload_bytes": 0
+    }
+  ],
+  "scenario_checks": {
+    "follow_up_turn_present": true,
+    "barge_in_transition_present": true,
+    "unknown_answer_offer_present": true,
+    "transfer_transition_present": true,
+    "operator_transfer_result": true,
+    "report_present": true,
+    "rtp_continuity_present": true,
+    "stereo_recording_present": true
+  },
+  "report": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r2/reports/call-in-0-8af3a4b498fa459ebad454b0d40447bb/report.md",
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r2/baresip-peer.log",
+  "errors": [],
+  "audio_recording": true,
+  "external_pbx": true,
+  "notes": [
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario.",
+    "Baresip test peer sndfile raw enc/dec tracks are retained under recordings/raw.",
+    "conversation-stereo.wav maps left=user_to_bot and right=bot_to_user; its target duration is the answered-call event window and alignment is explicit in recording-manifest.json.",
+    "The registered input fixture includes an explicit 30 s trailing continuity tail for the Baresip aufile source.",
+    "RTP continuity acceptance uses the answered-call event window and negotiated ptime; enc/dec WAV duration is diagnostic only."
+  ],
+  "acceptance_checks": {
+    "follow_up_turn_present": true,
+    "barge_in_transition_present": true,
+    "unknown_answer_offer_present": true,
+    "transfer_transition_present": true,
+    "operator_transfer_result": true,
+    "report_present": true,
+    "rtp_continuity_present": true
+  },
+  "diagnostic_checks": {
+    "stereo_recording_present": true,
+    "stereo_recording_required_for_rtp_continuity": false
+  },
+  "rtp_continuity": {
+    "schema": "sip-bot.map010-c-rtp-continuity.v2",
+    "status": "pass",
+    "acceptance_scope": "answered-call media continuity; recording timeline is diagnostic only",
+    "window": {
+      "start_event": {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "protocol_reply",
+        "timestamp_ns": 75253219505791,
+        "sequence": 9,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "action": "accept_incoming_call",
+          "automatic": true
+        }
+      },
+      "start_semantics": "200 OK to INVITE / call answer",
+      "stop_event": {
+        "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+        "kind": "remote_hangup",
+        "timestamp_ns": 75376549349819,
+        "sequence": 15,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      },
+      "stop_semantics": "BYE received (or media_stopped fallback); 200 OK to BYE is transaction confirmation",
+      "elapsed_ms": 123329.844
+    },
+    "negotiated": {
+      "ptime_ms": 20.0,
+      "codec": "PCMU",
+      "sample_rate_hz": 8000
+    },
+    "expected_frames": 6166,
+    "egress_frames": 6166,
+    "peer_receive_packets": 6348,
+    "peer_receive_lost_packets": -1,
+    "external_pbx": true,
+    "frame_tolerance": 1,
+    "checks": {
+      "answered_call_window_present": true,
+      "ptime_is_negotiated": true,
+      "egress_count_matches_call_window": true,
+      "egress_underruns_zero": true,
+      "callback_errors_zero": true,
+      "egress_drops_zero": true,
+      "peer_received_rtp": true
+    },
+    "peer_diagnostics": {
+      "counter_scope_comparable_to_bot_answered_window": false,
+      "peer_counter_matches_bot_window": false,
+      "peer_reported_no_receive_loss": null
+    },
+    "recording_duration_is_not_used_for_acceptance": true
+  },
+  "recording": {
+    "schema": "sip-bot.map010-b-stereo-recording.v2",
+    "status": "pass",
+    "mapping": {
+      "left": "user_to_bot",
+      "right": "bot_to_user"
+    },
+    "alignment": {
+      "policy": "answered_call_event_window",
+      "target_frames": 986639,
+      "target_duration_s": 123.329875,
+      "call_window_ms": 123329.844,
+      "call_window_is_authoritative": true,
+      "call_window_start_ns": 1790116877178581740,
+      "timeline_origin_ns": 1790116877178581740,
+      "timeline_origin_policy": "answered_call_event_window_start",
+      "user_to_bot_start_offset_frames": -1429,
+      "bot_to_user_start_offset_frames": -1429,
+      "user_to_bot_padded_frames": 0,
+      "bot_to_user_padded_frames": 0,
+      "user_to_bot_leading_padding_frames": 0,
+      "user_to_bot_trailing_padding_frames": 0,
+      "bot_to_user_leading_padding_frames": 0,
+      "bot_to_user_trailing_padding_frames": 0,
+      "user_to_bot_trimmed_frames": 46001,
+      "bot_to_user_trimmed_frames": 26961,
+      "max_trailing_padding_ms": 500.0,
+      "max_trailing_padding_frames": 4000,
+      "max_trailing_padding_applies": false,
+      "padding_mode": "materialize_answered_call_window",
+      "actual_padding_ms": 0.0,
+      "expected_ptime_ms": 20.0,
+      "padding_is_explicit_in_manifest": true
+    },
+    "raw_tracks": {
+      "enc": {
+        "path": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r2/recordings/raw/dump-2026-09-23-01-41-17-enc.wav",
+        "role": "user_to_bot",
+        "bytes": 2065324,
+        "sha256": "7170070a2ec3dafcc0ee9e07ae84908cd75b8d5cd6310ca8b6bc387e7da9d874",
+        "channels": 1,
+        "sample_width": 2,
+        "sample_rate_hz": 8000,
+        "frames": 1032640,
+        "duration_s": 129.08,
+        "recording_start_ns": 1790116877000000000
+      },
+      "dec": {
+        "path": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r2/recordings/raw/dump-2026-09-23-01-41-17-dec.wav",
+        "role": "bot_to_user",
+        "bytes": 2027244,
+        "sha256": "a500eaad7a2fa96512a22f6475101134aae524c41c3be9975bd7dd3a6a79020b",
+        "channels": 1,
+        "sample_width": 2,
+        "sample_rate_hz": 8000,
+        "frames": 1013600,
+        "duration_s": 126.7,
+        "recording_start_ns": 1790116877000000000
+      }
+    },
+    "stereo": {
+      "path": "/mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r2/recordings/conversation-stereo.wav",
+      "bytes": 3946600,
+      "sha256": "457b75c878ff7c431641dc1d010bebe014d0427b7d39121eb9de58cd9f676f6a",
+      "channels": 2,
+      "sample_width": 2,
+      "sample_rate_hz": 8000,
+      "frames": 986639,
+      "duration_s": 123.329875
+    }
+  },
+  "registration_mode": "enabled",
+  "registered_peer": {
+    "registrar_address": "172.22.89.126:5060",
+    "user": "1003",
+    "target_extension": "7100"
+  },
+  "incoming_admission": {
+    "gate": "IncomingCallReadinessGate",
+    "incoming_call_requested": true,
+    "runtime_ready_at_replay_end": true,
+    "readiness_state_at_replay_end": "ready",
+    "prewarm_triggered": true,
+    "policy": "registered peer calls 7100; prewarm mode waits for aggregate readiness before dial"
+  },
+  "wrapper_debug": {
+    "popen_commands": [
+      "baresip -f /mnt/c/devel/sip-bot/artifacts/feasibility/001-S-voip-test-stand/config/operator-5090 -t 450.0",
+      "baresip -f /mnt/c/devel/sip-bot/artifacts/implementation/018-tts-first-audio-latency/wsl-rtx5060ti-registered-live-r2/live-stand/peer-5080 -t 450.0"
+    ],
+    "peer_captured": true
+  }
+}

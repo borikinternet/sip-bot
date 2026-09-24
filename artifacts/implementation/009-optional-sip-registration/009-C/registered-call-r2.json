@@ -1,0 +1,46 @@
+{
+  "schema": "sip-bot.009-C.registered-workshop.v1",
+  "status": "blocked",
+  "attempt": "r2",
+  "date": "2026-09-13",
+  "scope": "registered incoming SIP call through the existing SipMediaAdapter",
+  "fixture": {
+    "container": "sip-bot-freeswitch-workshop",
+    "healthcheck": "healthy",
+    "fs_cli_status_exit_code": 0,
+    "fs_cli_status_prefix": "UP ... FreeSWITCH 1.10.12 ... is ready",
+    "route": "7000 -> bridge(user/tester@${domain_name})"
+  },
+  "registration": {
+    "bot_and_peer_registered": true,
+    "evidence": "registered-call-r1.json",
+    "password_in_persisted_output": false
+  },
+  "call": {
+    "route_selected": true,
+    "freeswitch_observation": [
+      "Processing peer <peer>->7000 in context default",
+      "parsing [default->sip-bot-registered-endpoint]",
+      "EXECUTE bridge(user/tester@172.18.0.2)",
+      "sending INVITE to the registered tester contact"
+    ],
+    "answer": "not reached: target Python process aborted in the existing inbound-answer path",
+    "pcmu_8000_mono": false,
+    "rtp_media_started": false,
+    "persisted_probe_exit_code": 134
+  },
+  "raw_command": "wsl -d Ubuntu-24.04 -- bash -lc 'cd /mnt/c/devel/sip-bot && /home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I tools/freeswitch_workshop/registered_call_probe.py --output artifacts/implementation/009-optional-sip-registration/009-C/registered-call-r2.json --timeout-seconds 30'",
+  "raw_stderr_sanitized": "python3.14t: ../src/pjsip/sip_dialog.c:1603: pjsip_dlg_modify_response: Assertion `st_code >= 100 && st_code <= 699` failed.",
+  "blocker": {
+    "id": "B-009-C-004",
+    "category": "existing-application-defect-outside-child-write-set",
+    "cause": "SipMediaAdapter._on_incoming_call uses CallOpParam(True); direct inspection of that constructed object reports statusCode=0. The native PJSIP answer path aborts on the invalid response status instead of sending 200.",
+    "required_fix": "Correct the existing PJSUA2 inbound answer lifecycle to materialize an explicit successful SIP response, then rerun this registered-call probe.",
+    "scope_boundary": "009-C explicitly forbids changing PJSUA2 lifecycle; no source workaround or fake pass was introduced."
+  },
+  "security": {
+    "password_in_persisted_output": false,
+    "raw_logs_persisted": false,
+    "redaction": "credentials and authorization material are excluded from this evidence"
+  }
+}

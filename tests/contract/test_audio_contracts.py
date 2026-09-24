@@ -87,6 +87,7 @@ def test_asr_chunk_contract_carries_generation_profile_and_flush_semantics() -> 
         chunk_ms=1000,
         flush_ms=1000,
     )
+    chunker.begin_turn("call-contract:turn-1")
     for sequence in range(1, 6):
         chunker.push(make_frame(sequence))
     assert chunker.flush(FlushReason.MANUAL, is_final=True) == 1
@@ -97,6 +98,7 @@ def test_asr_chunk_contract_carries_generation_profile_and_flush_semantics() -> 
     assert chunk.call_id == "call-contract"
     assert chunk.channel_id == "call-contract:media"
     assert chunk.generation == 4
+    assert chunk.turn_id == "call-contract:turn-1"
     assert chunk.profile is profile
     assert chunk.flush_reason is FlushReason.MANUAL
     assert chunk.is_final is True
@@ -109,6 +111,7 @@ def test_asr_contract_does_not_route_payload_through_control_objects() -> None:
         call_id="call-contract",
         channel_id="call-contract:media",
         generation=4,
+        turn_id="call-contract:turn-1",
         sequence=1,
         timestamp_ns=0,
         pcm_s16le=b"\x00\x00" * 160,

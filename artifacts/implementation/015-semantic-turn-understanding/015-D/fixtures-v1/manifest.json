@@ -1,0 +1,175 @@
+{
+  "schema": "sip-bot.map015-semantic-fixtures.v1",
+  "profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "001-S negotiated test profile"
+  },
+  "scenarios": {
+    "compound-negative-and-explicit-transfer": {
+      "path": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/fixtures-v1/compound-negative-and-explicit-transfer.wav",
+      "bytes": 1158064,
+      "sha256": "6a1dbfa1dadee4440760ba9e1f4e31427de7050bee314133b52f94658de64980",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_s": 72.379,
+      "segments": [
+        {
+          "turn_id": "known-wrapper",
+          "text": "Скажите, пожалуйста, почему небо днём голубое?",
+          "speech_started_s": 2.0,
+          "speech_duration_s": 2.88,
+          "leading_s": 2.0,
+          "trailing_s": 12.0
+        },
+        {
+          "turn_id": "unknown-offer",
+          "text": "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+          "speech_started_s": 16.88,
+          "speech_duration_s": 4.971,
+          "leading_s": 0.0,
+          "trailing_s": 9.0
+        },
+        {
+          "turn_id": "compound-negative",
+          "text": "Нет, не надо. Почему небо днём голубое?",
+          "speech_started_s": 30.851,
+          "speech_duration_s": 2.784,
+          "leading_s": 0.0,
+          "trailing_s": 12.0
+        },
+        {
+          "turn_id": "unknown-before-pure-no",
+          "text": "Как оформить отпуск на Марсе?",
+          "speech_started_s": 45.635,
+          "speech_duration_s": 1.995,
+          "leading_s": 0.0,
+          "trailing_s": 8.0
+        },
+        {
+          "turn_id": "pure-no",
+          "text": "Нет.",
+          "speech_started_s": 55.63,
+          "speech_duration_s": 2.827,
+          "leading_s": 0.0,
+          "trailing_s": 5.0
+        },
+        {
+          "turn_id": "explicit-transfer",
+          "text": "Переведите меня на оператора.",
+          "speech_started_s": 63.456,
+          "speech_duration_s": 2.923,
+          "leading_s": 0.0,
+          "trailing_s": 6.0
+        }
+      ],
+      "source": "local XTTS-generated multi-turn fixture; not a call recording",
+      "timing_profile": "map015-compound-negative-and-explicit-transfer-v1"
+    },
+    "compound-positive-barge-and-confirm": {
+      "path": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/fixtures-v1/compound-positive-barge-and-confirm.wav",
+      "bytes": 724782,
+      "sha256": "36c41dc25cc1ffcfa775537f10fb030874ed61a83415784aba97bd71c375add5",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_s": 45.299,
+      "segments": [
+        {
+          "turn_id": "unknown-offer",
+          "text": "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+          "speech_started_s": 2.0,
+          "speech_duration_s": 4.459,
+          "leading_s": 2.0,
+          "trailing_s": 9.0
+        },
+        {
+          "turn_id": "compound-positive",
+          "text": "Да, соедините, но сначала ответьте, почему небо голубое?",
+          "speech_started_s": 15.459,
+          "speech_duration_s": 3.435,
+          "leading_s": 0.0,
+          "trailing_s": 3.0
+        },
+        {
+          "turn_id": "barge-content",
+          "text": "Стоп, а почему на закате небо красное?",
+          "speech_started_s": 21.893,
+          "speech_duration_s": 2.688,
+          "leading_s": 0.0,
+          "trailing_s": 13.0
+        },
+        {
+          "turn_id": "pure-confirm",
+          "text": "Да.",
+          "speech_started_s": 37.581,
+          "speech_duration_s": 1.717,
+          "leading_s": 0.0,
+          "trailing_s": 6.0
+        }
+      ],
+      "source": "local XTTS-generated multi-turn fixture; not a call recording",
+      "timing_profile": "map015-compound-positive-barge-and-confirm-v1"
+    },
+    "compound-positive-unknown-single-offer": {
+      "path": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/fixtures-v1/compound-positive-unknown-single-offer.wav",
+      "bytes": 869590,
+      "sha256": "12a19abb2c893c6a2bbed0b21302347d9dca80b93a822d512806533edb3bdd5e",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_s": 54.349,
+      "segments": [
+        {
+          "turn_id": "unknown-offer",
+          "text": "Как оформить отпуск на Марсе?",
+          "speech_started_s": 2.0,
+          "speech_duration_s": 2.176,
+          "leading_s": 2.0,
+          "trailing_s": 8.0
+        },
+        {
+          "turn_id": "compound-positive-unknown",
+          "text": "Да, но сначала ответьте, каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+          "speech_started_s": 12.176,
+          "speech_duration_s": 6.869,
+          "leading_s": 0.0,
+          "trailing_s": 10.0
+        },
+        {
+          "turn_id": "pure-no",
+          "text": "Нет.",
+          "speech_started_s": 29.045,
+          "speech_duration_s": 2.176,
+          "leading_s": 0.0,
+          "trailing_s": 5.0
+        },
+        {
+          "turn_id": "unknown-again",
+          "text": "Как оформить отпуск на Венере?",
+          "speech_started_s": 36.221,
+          "speech_duration_s": 1.952,
+          "leading_s": 0.0,
+          "trailing_s": 8.0
+        },
+        {
+          "turn_id": "explicit-transfer",
+          "text": "Переведите меня на оператора.",
+          "speech_started_s": 46.173,
+          "speech_duration_s": 2.176,
+          "leading_s": 0.0,
+          "trailing_s": 6.0
+        }
+      ],
+      "source": "local XTTS-generated multi-turn fixture; not a call recording",
+      "timing_profile": "map015-compound-positive-unknown-single-offer-v1"
+    }
+  }
+}

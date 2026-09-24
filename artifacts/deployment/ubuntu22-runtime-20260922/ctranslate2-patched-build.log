@@ -1,0 +1,9 @@
+Processing ./.
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: ctranslate2
+  Building wheel for ctranslate2 (pyproject.toml): started
+  Building wheel for ctranslate2 (pyproject.toml): finished with status 'done'
+  Created wheel for ctranslate2: filename=ctranslate2-4.8.1-cp314-cp314t-linux_x86_64.whl size=17777551 sha256=d90f48046cfd3ef37615465eaa8f5793c5c8d647a6819a56f7d545ea604ec678
+  Stored in directory: /tmp/pip-ephem-wheel-cache-wrb0soow/wheels/71/4c/26/ac3d18d18d104f239034abb697a4845b2f04fad0dae71438f7
+Successfully built ctranslate2

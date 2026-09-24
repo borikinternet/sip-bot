@@ -13,11 +13,11 @@ def test_compact_profile_keeps_all_required_turns() -> None:
         "turn-4",
         "turn-5",
     ]
-    assert total_silence_seconds() == pytest.approx(71.5)
+    assert total_silence_seconds() == pytest.approx(75.5)
 
 
 def test_barge_in_window_is_preserved() -> None:
-    assert inter_turn_silence_seconds(1) == pytest.approx(2.5)
+    assert inter_turn_silence_seconds(1) == pytest.approx(6.5)
 
 
 def test_non_barge_windows_are_compact() -> None:

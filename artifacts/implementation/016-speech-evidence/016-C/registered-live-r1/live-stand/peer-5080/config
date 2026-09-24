@@ -1,0 +1,22 @@
+# Headless registered workshop peer.  The password is an explicitly public
+# demo credential and is never copied to evidence logs.
+poll_method       epoll
+sip_listen        127.0.0.1:5080
+call_local_timeout 10
+call_max_calls    2
+rtp_ports         10040-10060
+rtcp_mux          no
+rtp_stats         yes
+module_path       /usr/lib/baresip/modules
+module            g711.so
+module            aufile.so
+module            stdio.so
+module_tmp        uuid.so
+module_tmp        account.so
+module_app        menu.so
+module_app        echo.so
+audio_source      aufile,/tmp/sip-bot-j4-input-scenario.wav
+ausrc_srate       8000
+ausrc_channels    1
+module            sndfile.so
+snd_path          /tmp/sip-bot-010-c-recording-4kvemq80

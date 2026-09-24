@@ -9,7 +9,13 @@ from sip_bot.control.lifecycle import CancelToken
 
 from sip_bot.media.asr_chunker import FlushReason
 
-from .contracts import AsrAudioChunk, AsrHypothesis, coerce_backend_hypothesis
+from .contracts import (
+    AsrAudioChunk,
+    AsrHypothesis,
+    AsrSpeechDecision,
+    AsrSpeechEvidence,
+    coerce_backend_hypothesis,
+)
 
 
 class AsrAdapterError(RuntimeError):
@@ -102,6 +108,7 @@ class StreamingAsrAdapter:
                         call_id=operation.call_id,
                         channel_id=operation.channel_id,
                         generation=operation.generation,
+                        turn_id=chunk.turn_id,
                         revision=self._revision,
                         timestamp_ns=chunk.timestamp_ns,
                     )
@@ -141,6 +148,8 @@ class FasterWhisperC2Backend:
         language: str = "ru",
         device: str = "cuda",
         compute_type: str = "float16",
+        no_speech_threshold: float = 0.60,
+        segment_end_tolerance_ms: float = 500.0,
         model_factory: Any | None = None,
     ) -> None:
         if not model_path:
@@ -149,9 +158,15 @@ class FasterWhisperC2Backend:
         self.language = language
         self.device = device
         self.compute_type = compute_type
+        if not 0.0 <= no_speech_threshold <= 1.0:
+            raise ValueError("no_speech_threshold must be between 0 and 1")
+        if segment_end_tolerance_ms < 0:
+            raise ValueError("segment_end_tolerance_ms must be non-negative")
+        self.no_speech_threshold = no_speech_threshold
+        self.segment_end_tolerance_ms = segment_end_tolerance_ms
         self._model_factory = model_factory
         self._model: Any | None = None
-        self._turn_scope: tuple[str, str, int] | None = None
+        self._turn_scope: tuple[str, str, int, str] | None = None
         self._turn_pcm = bytearray()
         self._last_chunk_sequence = 0
 
@@ -189,7 +204,7 @@ class FasterWhisperC2Backend:
             raise AsrAdapterError("numpy is required by the faster-whisper operation boundary") from exc
         if chunk.profile.channels != 1:
             raise AsrAdapterError("faster-whisper input must be mono")
-        scope = (chunk.call_id, chunk.channel_id, chunk.generation)
+        scope = (chunk.call_id, chunk.channel_id, chunk.generation, chunk.turn_id)
         if self._turn_scope != scope:
             self.reset()
             self._turn_scope = scope
@@ -199,7 +214,7 @@ class FasterWhisperC2Backend:
         self._turn_pcm.extend(chunk.pcm_s16le)
         samples = np.frombuffer(bytes(self._turn_pcm), dtype=np.int16).astype(np.float32) / 32768.0
         samples = self._resample_to_model_rate(samples, chunk.profile.sample_rate_hz, np)
-        segments, _info = self._load_model().transcribe(
+        segment_iterator, _info = self._load_model().transcribe(
             samples,
             language=self.language,
             vad_filter=False,
@@ -209,11 +224,70 @@ class FasterWhisperC2Backend:
             # duplicate/retain text outside the authoritative assembler.
             condition_on_previous_text=False,
         )
+        segments = tuple(segment_iterator)
         text = " ".join(str(getattr(segment, "text", "")).strip() for segment in segments).strip()
+        probabilities = tuple(
+            float(value)
+            for segment in segments
+            if (value := getattr(segment, "no_speech_prob", None)) is not None
+        )
+        log_probabilities = tuple(
+            float(value)
+            for segment in segments
+            if (value := getattr(segment, "avg_logprob", None)) is not None
+        )
+        compression_ratios = tuple(
+            float(value)
+            for segment in segments
+            if (value := getattr(segment, "compression_ratio", None)) is not None
+        )
+        segment_ends_ms = tuple(
+            float(value) * 1000.0
+            for segment in segments
+            if (value := getattr(segment, "end", None)) is not None
+        )
+        no_speech_probability = min(probabilities) if probabilities else None
+        input_duration_ms = len(samples) / self.MODEL_SAMPLE_RATE_HZ * 1000.0
+        max_segment_end_ms = max(segment_ends_ms) if segment_ends_ms else None
+        if not segments:
+            decision = AsrSpeechDecision.NO_SPEECH
+            reason = "no_segments"
+        elif (
+            no_speech_probability is not None
+            and no_speech_probability >= self.no_speech_threshold
+        ):
+            decision = AsrSpeechDecision.NO_SPEECH
+            reason = "no_speech_probability"
+        elif not text:
+            decision = AsrSpeechDecision.NO_SPEECH
+            reason = "empty_text"
+        else:
+            decision = AsrSpeechDecision.SPEECH
+            reason = "speech_supported"
+        evidence = AsrSpeechEvidence(
+            decision=decision,
+            no_speech_probability=no_speech_probability,
+            average_log_probability=(
+                sum(log_probabilities) / len(log_probabilities) if log_probabilities else None
+            ),
+            compression_ratio=max(compression_ratios) if compression_ratios else None,
+            input_duration_ms=input_duration_ms,
+            max_segment_end_ms=max_segment_end_ms,
+            reason=reason,
+            segment_timeline_valid=(
+                max_segment_end_ms is None
+                or max_segment_end_ms <= input_duration_ms + self.segment_end_tolerance_ms
+            ),
+        )
         reset_after_result = chunk.is_final or chunk.flush_reason is FlushReason.HARD_ENDPOINT
         if reset_after_result:
             self.reset()
-        yield {"text": text, "is_final": False, "source": "faster-whisper-c2"}
+        yield {
+            "text": text,
+            "is_final": False,
+            "source": "faster-whisper-c2",
+            "evidence": evidence,
+        }
 
     def reset(self) -> None:
         """Discard the current audio prefix without unloading the model."""

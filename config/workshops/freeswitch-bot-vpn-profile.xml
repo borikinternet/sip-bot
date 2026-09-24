@@ -1,0 +1,23 @@
+<!-- Dedicated SIP/RTP path between the two mirrored WSL distributions. -->
+<profile name="bot-vpn">
+  <domains>
+    <domain name="all" alias="false" parse="false"/>
+  </domains>
+  <settings>
+    <param name="context" value="public"/>
+    <param name="dialplan" value="XML"/>
+    <param name="sip-port" value="15062"/>
+    <param name="sip-ip" value="172.16.15.72"/>
+    <param name="rtp-ip" value="172.16.15.72"/>
+    <param name="ext-sip-ip" value="172.16.15.72"/>
+    <param name="ext-rtp-ip" value="172.16.15.72"/>
+    <param name="inbound-codec-prefs" value="PCMU"/>
+    <param name="outbound-codec-prefs" value="PCMU"/>
+    <param name="auth-calls" value="true"/>
+    <param name="inbound-reg-force-matching-username" value="true"/>
+    <param name="challenge-realm" value="auto_from"/>
+    <param name="force-register-domain" value="192.168.1.74"/>
+    <param name="local-network-acl" value="localnet.auto"/>
+    <param name="apply-nat-acl" value="nat.auto"/>
+  </settings>
+</profile>

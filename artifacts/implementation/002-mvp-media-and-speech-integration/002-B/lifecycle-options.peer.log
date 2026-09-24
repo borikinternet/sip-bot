@@ -27,7 +27,7 @@ sip:tester@127.0.0.1: session closed: Connection reset by peer
 
 audio           Transmit:     Receive:
 packets:              1            0
-avg. bitrate:     256.0          0.0  (kbit/s)
+avg. bitrate:    1280.0          0.0  (kbit/s)
 errors:               0            0
 terminated by signal 15
 ua: stop all (forced=0)

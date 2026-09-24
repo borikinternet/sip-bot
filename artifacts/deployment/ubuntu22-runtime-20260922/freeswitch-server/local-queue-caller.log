@@ -1,0 +1,31 @@
+EVENT {"call_id": "__registration__", "kind": "registration_state", "timestamp_ns": 9724607477010, "sequence": 1, "method": null, "status_code": null, "reason": "registration requested by account.create", "details": {"state": "registering", "registration_event": "registration_started", "readiness": false}, "registration_status": {"state": "registering", "event": "registration_started", "enabled": true, "registrar_uri": "sip:10.0.0.45:5060", "status_code": null, "reason": "registration requested by account.create", "expires_seconds": 120, "observed_at_ns": 9724607452751, "expires_at_ns": null, "readiness": false}}
+EVENT {"call_id": "__registration__", "kind": "registration_state", "timestamp_ns": 9724607693103, "sequence": 2, "method": null, "status_code": null, "reason": "PJSUA2 registration transaction started", "details": {"state": "registering", "registration_event": "registration_started", "readiness": false}, "registration_status": {"state": "registering", "event": "registration_started", "enabled": true, "registrar_uri": "sip:10.0.0.45:5060", "status_code": null, "reason": "PJSUA2 registration transaction started", "expires_seconds": 120, "observed_at_ns": 9724607676046, "expires_at_ns": null, "readiness": false}}
+EVENT {"call_id": "__registration__", "kind": "registration_state", "timestamp_ns": 9724612403899, "sequence": 3, "method": null, "status_code": 200, "reason": "OK", "details": {"state": "registered", "registration_event": "registration_succeeded", "readiness": true}, "registration_status": {"state": "registered", "event": "registration_succeeded", "enabled": true, "registrar_uri": "sip:10.0.0.45:5060", "status_code": 200, "reason": "OK", "expires_seconds": 120, "observed_at_ns": 9724612346520, "expires_at_ns": 9844612297730, "readiness": true}}
+READY caller
+PHASE queue_started
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9724612933248, "sequence": 4, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 1}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9724613595587, "sequence": 5, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 2}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9724613664369, "sequence": 6, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 1}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9724614163209, "sequence": 7, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 2}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9724614248579, "sequence": 8, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 3}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9724614292673, "sequence": 9, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 3}}
+EVENT {"call_id": "probe-queue", "kind": "call_started", "timestamp_ns": 9724614820536, "sequence": 10, "method": null, "status_code": null, "reason": null, "details": {"direction": "outgoing", "peer_uri": "sip:7000@10.0.0.45:5060"}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9724652589143, "sequence": 11, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 4}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9724654696119, "sequence": 12, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 4}}
+EVENT {"call_id": "probe-queue", "kind": "media_started", "timestamp_ns": 9724657283075, "sequence": 13, "method": null, "status_code": null, "reason": null, "details": {"direction": 3, "media_index": 0}, "media_profile": {"codec": "PCMU", "payload_type": 0, "rx_payload_type": 0, "tx_payload_type": 0, "ptime_ms": 20.0, "frame_time_usec": 20000, "sample_rate_hz": 8000, "channels": 1, "frame_size_samples": 160, "frame_bytes": 320, "pcm_bits_per_sample": 16, "source": "pjmedia.stream_info"}}
+EVENT {"call_id": "probe-queue", "kind": "call_answered", "timestamp_ns": 9724658367029, "sequence": 14, "method": null, "status_code": 200, "reason": "OK", "details": {"state": "CONFIRMED", "pjsua_call_id": 0}}
+PHASE queue_answered
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9756756445034, "sequence": 15, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 2}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9756758809294, "sequence": 16, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 0}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9756760337479, "sequence": 17, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 2}}
+EVENT {"call_id": "probe-queue", "kind": "sip_transaction", "timestamp_ns": 9756762088228, "sequence": 18, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 0}}
+EVENT {"call_id": "probe-queue", "kind": "remote_hangup", "timestamp_ns": 9756763796493, "sequence": 19, "method": "BYE", "status_code": 200, "reason": "Normal call clearing", "details": {"state": "DISCONNECTED", "pjsua_call_id": 0}}
+EVENT {"call_id": "probe-queue", "kind": "media_stopped", "timestamp_ns": 9756764658346, "sequence": 20, "method": null, "status_code": null, "reason": "Normal call clearing", "details": {"idempotent": false}}
+PHASE queue_ended
+COMPLETE caller
+12:34:10.138         os_core_unix.c !pjlib 2.17 for POSIX initialized
+12:34:10.138         sip_endpoint.c  .Creating endpoint instance...
+12:34:10.138                  pjlib  .select() I/O Queue created (0x55f15ad76818)
+12:34:10.138         sip_endpoint.c  .Module "mod-msg-print" registered
+12:34:10.138        sip_transport.c  .Transport manager created.
+12:34:10.138           pjsua_core.c  .PJSUA state changed: NULL --> CREATED

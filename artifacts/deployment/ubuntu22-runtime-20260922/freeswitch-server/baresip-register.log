@@ -1,0 +1,16 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eno1|10.0.0.45 
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+[31mmain: epoll_ctl: EPOLL_CTL_ADD: fd=0 (Operation not permitted)
+[;m[31mmain: fd_listen: fd=0 flags=0x01 (Operation not permitted)
+[;m[31mmodule stdio.so: Operation not permitted
+[;mPopulated 1 account
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+[31mreg: sip:1000@10.0.0.45:5060: 400 Bad Contact Header ()
+[;mterminated by signal 15
+ua: stop all (forced=0)

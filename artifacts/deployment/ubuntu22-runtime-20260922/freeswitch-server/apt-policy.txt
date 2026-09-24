@@ -1,0 +1,48 @@
+freeswitch:
+  Installed: (none)
+  Candidate: 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+  Version table:
+     1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.2-release-31326320293-3f13ad1b1d~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.1-release-26476433763-c2c59645f6~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.0-release-25517743255-79e3f643ae~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+freeswitch-meta-vanilla:
+  Installed: (none)
+  Candidate: 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+  Version table:
+     1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.2-release-31326320293-3f13ad1b1d~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.1-release-26476433763-c2c59645f6~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.0-release-25517743255-79e3f643ae~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+freeswitch-mod-callcenter:
+  Installed: (none)
+  Candidate: 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+  Version table:
+     1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.2-release-31326320293-3f13ad1b1d~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.1-release-26476433763-c2c59645f6~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.0-release-25517743255-79e3f643ae~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+freeswitch-systemd:
+  Installed: (none)
+  Candidate: 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+  Version table:
+     1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.2-release-31326320293-3f13ad1b1d~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.1-release-26476433763-c2c59645f6~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.0-release-25517743255-79e3f643ae~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages

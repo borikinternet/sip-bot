@@ -1,0 +1,37 @@
+2026-09-22T14:57:49+0000 a100-test python[100513]: 2026-09-22T14:57:49+0000 INFO sip_bot.live_service incoming call admitted call_id=call-in-0-7dbbb397dc594123a71558c6189e0cb1
+2026-09-22T14:57:49+0000 a100-test python[100513]: 2026-09-22T14:57:49+0000 INFO sip-bot application runtime started version=0.1.0
+2026-09-22T14:57:49+0000 a100-test python[100513]: 2026-09-22T14:57:49+0000 INFO sip-bot call opened call_id=call-in-0-7dbbb397dc594123a71558c6189e0cb1
+2026-09-22T14:57:51+0000 a100-test python[100513]: 2026-09-22T14:57:51+0000 INFO faster_whisper Processing audio with duration 00:00.900
+2026-09-22T14:57:52+0000 a100-test python[100513]: 2026-09-22T14:57:52+0000 INFO faster_whisper Processing audio with duration 00:01.900
+2026-09-22T14:57:53+0000 a100-test python[100513]: 2026-09-22T14:57:53+0000 INFO faster_whisper Processing audio with duration 00:02.460
+2026-09-22T14:57:53+0000 a100-test python[100513]: 2026-09-22T14:57:53+0000 INFO faster_whisper Processing audio with duration 00:02.460
+2026-09-22T14:57:54+0000 a100-test python[100513]: 2026-09-22T14:57:54+0000 WARNING TTS.tts.layers.xtts.tokenizer The text length exceeds the character limit of 182 for language 'ru', this might cause truncated audio: небо кажется голубым из-за рассеяния коротковолнов...
+2026-09-22T14:58:00+0000 a100-test python[100513]: 2026-09-22T14:58:00+0000 INFO faster_whisper Processing audio with duration 00:00.240
+2026-09-22T14:58:10+0000 a100-test python[100513]: 2026-09-22T14:58:10+0000 INFO faster_whisper Processing audio with duration 00:00.740
+2026-09-22T14:58:10+0000 a100-test python[100513]: 2026-09-22T14:58:10+0000 INFO faster_whisper Processing audio with duration 00:00.740
+2026-09-22T14:58:15+0000 a100-test python[100513]: 2026-09-22T14:58:15+0000 INFO faster_whisper Processing audio with duration 00:01.000
+2026-09-22T14:58:16+0000 a100-test python[100513]: 2026-09-22T14:58:16+0000 INFO faster_whisper Processing audio with duration 00:01.940
+2026-09-22T14:58:16+0000 a100-test python[100513]: 2026-09-22T14:58:16+0000 INFO faster_whisper Processing audio with duration 00:02.020
+2026-09-22T14:58:19+0000 a100-test python[100513]: 2026-09-22T14:58:19+0000 INFO faster_whisper Processing audio with duration 00:00.040
+2026-09-22T14:58:33+0000 a100-test python[100513]: 2026-09-22T14:58:33+0000 INFO faster_whisper Processing audio with duration 00:00.940
+2026-09-22T14:58:34+0000 a100-test python[100513]: 2026-09-22T14:58:34+0000 INFO faster_whisper Processing audio with duration 00:01.940
+2026-09-22T14:58:35+0000 a100-test python[100513]: 2026-09-22T14:58:35+0000 INFO faster_whisper Processing audio with duration 00:01.960
+2026-09-22T14:58:35+0000 a100-test python[100513]: 2026-09-22T14:58:35+0000 ERROR sip_bot.live_service call failed call_id=call-in-0-7dbbb397dc594123a71558c6189e0cb1
+2026-09-22T14:58:35+0000 a100-test python[100513]: Traceback (most recent call last):
+2026-09-22T14:58:35+0000 a100-test python[100513]:   File "/home/inrack/sip-bot/tools/run_live_bot.py", line 304, in _run
+2026-09-22T14:58:35+0000 a100-test python[100513]:     await wiring.step()
+2026-09-22T14:58:35+0000 a100-test python[100513]:   File "/home/inrack/sip-bot/src/sip_bot/runtime_wiring.py", line 339, in step
+2026-09-22T14:58:35+0000 a100-test python[100513]:     self._drain_asr_results()
+2026-09-22T14:58:35+0000 a100-test python[100513]:     ~~~~~~~~~~~~~~~~~~~~~~~^^
+2026-09-22T14:58:35+0000 a100-test python[100513]:   File "/home/inrack/sip-bot/src/sip_bot/runtime_wiring.py", line 556, in _drain_asr_results
+2026-09-22T14:58:35+0000 a100-test python[100513]:     if self.speech.accept_hypothesis(hypothesis) is None:
+2026-09-22T14:58:35+0000 a100-test python[100513]:        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+2026-09-22T14:58:35+0000 a100-test python[100513]:   File "/home/inrack/sip-bot/src/sip_bot/speech/ingress.py", line 86, in accept_hypothesis
+2026-09-22T14:58:35+0000 a100-test python[100513]:     self._try_finalize_pending()
+2026-09-22T14:58:35+0000 a100-test python[100513]:     ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+2026-09-22T14:58:35+0000 a100-test python[100513]:   File "/home/inrack/sip-bot/src/sip_bot/speech/ingress.py", line 106, in _try_finalize_pending
+2026-09-22T14:58:35+0000 a100-test python[100513]:     finalized = self.assembler.finalize(boundary)
+2026-09-22T14:58:35+0000 a100-test python[100513]:   File "/home/inrack/sip-bot/src/sip_bot/speech/transcript_assembler.py", line 132, in finalize
+2026-09-22T14:58:35+0000 a100-test python[100513]:     raise TranscriptContractError("endpoint belongs to another transcript scope")
+2026-09-22T14:58:35+0000 a100-test python[100513]: sip_bot.speech.transcript_assembler.TranscriptContractError: endpoint belongs to another transcript scope
+2026-09-22T14:58:35+0000 a100-test python[100513]: 2026-09-22T14:58:35+0000 INFO sip_bot.live_service VAD analytics call_id=call-in-0-7dbbb397dc594123a71558c6189e0cb1 total=2304 raw_speech=973 accepted_speech=371 rejected_low_energy=602 noise_floor_dbfs=-90.1 threshold_dbfs=-42.0 speech_level_dbfs=-21.4

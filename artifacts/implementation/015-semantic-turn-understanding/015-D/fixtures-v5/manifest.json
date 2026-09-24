@@ -1,0 +1,187 @@
+{
+  "schema": "sip-bot.map015-semantic-fixtures.v3",
+  "profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "001-S negotiated test profile"
+  },
+  "scenarios": {
+    "compound-negative-and-explicit-transfer": {
+      "path": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/fixtures-v2/compound-negative-and-explicit-transfer.wav",
+      "bytes": 1140998,
+      "sha256": "1f542c4f40fabe965550380a0c29ca45bd44f1959f81563b20ae231eda1b294f",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_s": 71.312,
+      "segments": [
+        {
+          "turn_id": "known-wrapper",
+          "text": "Скажите, пожалуйста, почему небо днём голубое?",
+          "speech_started_s": 2.0,
+          "speech_duration_s": 2.827,
+          "leading_s": 2.0,
+          "trailing_s": 12.0
+        },
+        {
+          "turn_id": "unknown-offer",
+          "text": "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+          "speech_started_s": 16.827,
+          "speech_duration_s": 4.736,
+          "leading_s": 0.0,
+          "trailing_s": 9.0
+        },
+        {
+          "turn_id": "compound-negative",
+          "text": "Нет, не надо. Почему небо днём голубое?",
+          "speech_started_s": 30.563,
+          "speech_duration_s": 3.339,
+          "leading_s": 0.0,
+          "trailing_s": 12.0
+        },
+        {
+          "turn_id": "unknown-before-pure-no",
+          "text": "Как оформить отпуск на Марсе?",
+          "speech_started_s": 45.901,
+          "speech_duration_s": 2.229,
+          "leading_s": 0.0,
+          "trailing_s": 8.0
+        },
+        {
+          "turn_id": "pure-no",
+          "text": "Нет, спасибо, не надо.",
+          "speech_started_s": 56.131,
+          "speech_duration_s": 2.603,
+          "leading_s": 0.0,
+          "trailing_s": 5.0
+        },
+        {
+          "turn_id": "explicit-transfer",
+          "text": "Переведите меня на оператора.",
+          "speech_started_s": 63.734,
+          "speech_duration_s": 1.579,
+          "leading_s": 0.0,
+          "trailing_s": 6.0
+        }
+      ],
+      "source": "local XTTS-generated multi-turn fixture; not a call recording",
+      "timing_profile": "map015-compound-negative-and-explicit-transfer-v1"
+    },
+    "compound-positive-barge-and-confirm": {
+      "path": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/fixtures-v2/compound-positive-barge-and-confirm.wav",
+      "bytes": 868780,
+      "sha256": "18dc129289f0ed81798896c3dc06d16f35e5c88f74f7b7b97c73471063d64521",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_s": 54.299,
+      "segments": [
+        {
+          "turn_id": "unknown-offer",
+          "text": "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+          "speech_started_s": 2.0,
+          "speech_duration_s": 4.64,
+          "leading_s": 2.0,
+          "trailing_s": 9.0
+        },
+        {
+          "turn_id": "compound-positive",
+          "text": "Да, соедините, но сначала ответьте, почему небо голубое?",
+          "speech_started_s": 15.64,
+          "speech_duration_s": 3.253,
+          "leading_s": 0.0,
+          "trailing_s": 3.0
+        },
+        {
+          "turn_id": "barge-content",
+          "text": "Стоп, а почему на закате небо красное?",
+          "speech_started_s": 21.893,
+          "speech_duration_s": 2.549,
+          "leading_s": 0.0,
+          "trailing_s": 22.0
+        },
+        {
+          "turn_id": "pure-confirm",
+          "text": "Да.",
+          "speech_started_s": 46.443,
+          "speech_duration_s": 1.856,
+          "leading_s": 0.0,
+          "trailing_s": 6.0
+        }
+      ],
+      "source": "local XTTS-generated multi-turn fixture; not a call recording",
+      "timing_profile": "map015-compound-positive-barge-and-confirm-v1-silence-adjusted-v1",
+      "derived_from": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/fixtures-v2/compound-positive-barge-and-confirm.wav",
+      "adjustment": {
+        "after_turn": "barge-content",
+        "at_s": 24.442,
+        "insert_silence_s": 9.0
+      }
+    },
+    "compound-positive-unknown-single-offer": {
+      "path": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/fixtures-v2/compound-positive-unknown-single-offer.wav",
+      "bytes": 842972,
+      "sha256": "76a27187458ad783e913269ee5fe48f46a42c594ddab4f33c631c2db8f8f4a9b",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_s": 52.686,
+      "segments": [
+        {
+          "turn_id": "unknown-offer",
+          "text": "Как оформить отпуск на Марсе?",
+          "speech_started_s": 2.0,
+          "speech_duration_s": 1.995,
+          "leading_s": 2.0,
+          "trailing_s": 8.0
+        },
+        {
+          "turn_id": "compound-positive-unknown",
+          "text": "Да, но сначала ответьте, каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?",
+          "speech_started_s": 11.995,
+          "speech_duration_s": 6.219,
+          "leading_s": 0.0,
+          "trailing_s": 10.0
+        },
+        {
+          "turn_id": "pure-no",
+          "text": "Нет, спасибо, не надо.",
+          "speech_started_s": 28.213,
+          "speech_duration_s": 1.899,
+          "leading_s": 0.0,
+          "trailing_s": 5.0
+        },
+        {
+          "turn_id": "unknown-again",
+          "text": "Как оформить отпуск на Венере?",
+          "speech_started_s": 35.112,
+          "speech_duration_s": 1.995,
+          "leading_s": 0.0,
+          "trailing_s": 8.0
+        },
+        {
+          "turn_id": "explicit-transfer",
+          "text": "Переведите меня на оператора.",
+          "speech_started_s": 45.107,
+          "speech_duration_s": 1.579,
+          "leading_s": 0.0,
+          "trailing_s": 6.0
+        }
+      ],
+      "source": "local XTTS-generated multi-turn fixture; not a call recording",
+      "timing_profile": "map015-compound-positive-unknown-single-offer-v1-spliced-v1",
+      "splice": {
+        "target_turn": "explicit-transfer",
+        "donor_scenario": "compound-negative-and-explicit-transfer",
+        "donor_turn": "explicit-transfer",
+        "donor_pcm_sha256": "22008b0c3fcd453be3eb1151b0f3d634961d33838084cbff31058aa61b8661fd"
+      }
+    }
+  }
+}

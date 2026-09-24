@@ -1,0 +1,1 @@
+<sip:peer@127.0.0.1:5060>;auth_user=peer;auth_pass=PUBLIC-DEMO-SIP-PASSWORD;regint=300;answermode=auto;audio_codecs=PCMU/8000/1

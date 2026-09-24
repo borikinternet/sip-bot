@@ -19,6 +19,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 sys.path.insert(0, str(PROJECT_ROOT / "tools"))
 
 from map005_stereo_recording import build_stereo  # noqa: E402
+from map010_rtp_continuity import audit_registered_result  # noqa: E402
 
 
 def utc_now() -> str:
@@ -101,11 +102,13 @@ async def run(args: argparse.Namespace) -> tuple[dict[str, object], int]:
         }
     else:
         try:
+            continuity = audit_registered_result(j4_result)
             recording_result = build_stereo(
                 enc,
                 dec,
                 output_root / "recordings" / "conversation-stereo.wav",
                 output_root / "recordings" / "recording-manifest.json",
+                call_window_ms=continuity.get("window", {}).get("elapsed_ms"),
             )
         except Exception as exc:
             recording_result = {"status": "fail", "error": f"{type(exc).__name__}: {exc}"}

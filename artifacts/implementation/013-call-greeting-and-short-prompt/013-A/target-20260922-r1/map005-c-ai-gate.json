@@ -1,0 +1,66 @@
+{
+  "schema": "sip-bot.map005-c-ai-gate.v1",
+  "status": "fail",
+  "started_at": "2026-09-22T08:37:15.141+00:00",
+  "target_runtime": {
+    "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "platform": "linux"
+  },
+  "candidate": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "quantization": "Q4_K_M / 4-bit",
+    "ollama_model": "c3-qwen35-9b-q4km:latest",
+    "ollama_version": "0.33.1",
+    "artifact": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "fallback_run": false
+  },
+  "gpu": {
+    "before": {
+      "label": "before",
+      "captured_at": "2026-09-22T08:37:15.141+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 2522,
+      "memory_free_mib": 13529,
+      "utilization_gpu_percent": 6
+    },
+    "after_error": {
+      "label": "after-error",
+      "captured_at": "2026-09-22T08:37:54.363+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 3457,
+      "memory_free_mib": 12594,
+      "utilization_gpu_percent": 3
+    }
+  },
+  "profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "001-S negotiated test profile"
+  },
+  "warmup": {},
+  "rag": {},
+  "llm": {},
+  "tts": {},
+  "source_mode": {
+    "implementation": "PcmAudioBridge EgressSourceMode; IDLE/PREROLL/PLAYING/CANCELLED/CLOSED",
+    "underrun_policy": "only empty TTS buffer while PLAYING increments egress_underruns"
+  },
+  "errors": [
+    "OllamaError: LLM warmup did not complete: timeout"
+  ],
+  "finished_at": "2026-09-22T08:37:54.513+00:00"
+}

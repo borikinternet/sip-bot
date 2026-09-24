@@ -1,0 +1,48 @@
+{
+  "corpus_id": "small-service-company-demo",
+  "corpus_version": "small-service-company-demo-v1",
+  "documents": [
+    {
+      "file": "escalation.md",
+      "sha256": "7cd890e706923d96a05ebaa8fb9ddd273dfbd54da502d35383965dd28a0b37d1",
+      "source_id": "company-escalation"
+    },
+    {
+      "file": "exceptions.md",
+      "sha256": "d5deadbb96d1efcbf4f398c63147c21d27e4c3aae6afcaffc4f3ffc572a936f4",
+      "source_id": "company-exceptions"
+    },
+    {
+      "file": "pricing-and-terms.md",
+      "sha256": "aa94c0affa4e437d8bd0939cef19d77021b1215e99c67271dfcba9ab43a8aaf4",
+      "source_id": "company-pricing-and-terms"
+    },
+    {
+      "file": "request-procedure.md",
+      "sha256": "85e81941419f887fccdbe5adf025a02cc4cf7f289bb684d97ba3502bdb51a10a",
+      "source_id": "company-request-procedure"
+    },
+    {
+      "file": "schedule.md",
+      "sha256": "88510a2ce1eecab7cae2e2194c523db35543d26dbfc50fa00ab38609637bae81",
+      "source_id": "company-schedule"
+    },
+    {
+      "file": "services.md",
+      "sha256": "3ce676ee24794702b80955a80074925d8b0bf93364a265a2fd9d8b377d6ed07a",
+      "source_id": "company-services"
+    }
+  ],
+  "errors": [],
+  "root": "/mnt/c/devel/sip-bot/config/workshops/rag/corpus",
+  "schema_version": "rag-corpus-v1",
+  "source_ids": [
+    "company-escalation",
+    "company-exceptions",
+    "company-pricing-and-terms",
+    "company-request-procedure",
+    "company-schedule",
+    "company-services"
+  ],
+  "valid": true
+}

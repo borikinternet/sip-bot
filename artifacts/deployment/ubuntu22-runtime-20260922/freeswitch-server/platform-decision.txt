@@ -1,0 +1,3 @@
+Direct installation of the Bookworm FreeSWITCH packages on Ubuntu 22.04 was rejected after apt simulation.
+The package baseline is isolated in a Debian 12 systemd-nspawn machine with shared host networking.
+No Docker or FreeSWITCH source build is used.

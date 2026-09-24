@@ -1,0 +1,278 @@
+{
+  "schema": "sip-bot.map005-c-ai-gate.v1",
+  "status": "pass",
+  "started_at": "2026-09-22T08:40:52.269+00:00",
+  "target_runtime": {
+    "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "platform": "linux"
+  },
+  "candidate": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "quantization": "Q4_K_M / 4-bit",
+    "ollama_model": "c3-qwen35-9b-q4km:latest",
+    "ollama_version": "0.33.1",
+    "artifact": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "fallback_run": false
+  },
+  "gpu": {
+    "before": {
+      "label": "before",
+      "captured_at": "2026-09-22T08:40:52.269+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 8644,
+      "memory_free_mib": 7407,
+      "utilization_gpu_percent": 3
+    },
+    "after": {
+      "label": "after",
+      "captured_at": "2026-09-22T08:41:12.666+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 11360,
+      "memory_free_mib": 4691,
+      "utilization_gpu_percent": 84
+    }
+  },
+  "profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "001-S negotiated test profile"
+  },
+  "warmup": {
+    "embedding_index_ms": 7.128,
+    "index_operation": "load-prebuilt-index",
+    "corpus_embedding_requests": 0,
+    "llm_trace": {
+      "final_user_turn_ns": 24798278858752,
+      "request_started_ns": 24798278890629,
+      "first_stream_event_ns": 24798534543838,
+      "first_usable_output_ns": 24798534543838,
+      "final_result_ns": 24799375316335,
+      "cancel_requested_ns": null,
+      "completed_ns": 24799375316335,
+      "final_to_first_usable_ms": 255.685086,
+      "final_to_final_result_ms": 1096.457583,
+      "request_to_first_usable_ms": 255.653209,
+      "request_to_final_result_ms": 1096.425706
+    },
+    "llm_wall_ms": 1096.653,
+    "tts_first_chunk": {
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "first_chunk_bytes": 14166
+    },
+    "tts_wall_ms": 372.067,
+    "excluded_from_live_turn_latency": true
+  },
+  "rag": {
+    "corpus_version": "small-service-company-demo-v1",
+    "index_version": "small-service-company-embeddinggemma-v1",
+    "embedding_model": "embeddinggemma",
+    "corpus_chunks": 12,
+    "query_builder": {
+      "policy_version": "ru-natural-science-v1",
+      "capabilities": {
+        "razdel": false,
+        "pymorphy3": false,
+        "policy_version": "ru-natural-science-v1"
+      },
+      "positive_normalized": "сколько стоит диагностический выезд мастера",
+      "positive_lexical_terms": [
+        "сколько",
+        "стоит",
+        "диагностический",
+        "выезд",
+        "мастера"
+      ],
+      "positive_phrases": [
+        "сколько стоит",
+        "стоит диагностический",
+        "диагностический выезд",
+        "выезд мастера",
+        "сколько стоит диагностический",
+        "стоит диагностический выезд",
+        "диагностический выезд мастера",
+        "сколько стоит диагностический выезд",
+        "стоит диагностический выезд мастера"
+      ]
+    },
+    "positive": {
+      "query": "Сколько стоит диагностический выезд мастера?",
+      "sufficient": true,
+      "threshold": 0.35,
+      "source_ids": [
+        "company-pricing-and-terms",
+        "company-schedule"
+      ],
+      "hits": [
+        {
+          "source_id": "company-pricing-and-terms",
+          "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+          "score": 0.7359583878714788
+        },
+        {
+          "source_id": "company-schedule",
+          "chunk_id": "company-schedule-001-5e5b15bd64c2",
+          "score": 0.4421690344668094
+        },
+        {
+          "source_id": "company-pricing-and-terms",
+          "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+          "score": 0.485398201262616
+        }
+      ]
+    },
+    "negative": {
+      "query": "Почему небо днём голубое?",
+      "sufficient": false,
+      "allowed_action": [
+        "offer_transfer"
+      ],
+      "source_ids": [
+        "company-schedule",
+        "company-request-procedure"
+      ],
+      "top_scores": [
+        0.23621418010573483,
+        0.18546585791249626,
+        0.17482366112714892
+      ]
+    }
+  },
+  "llm": {
+    "final_phrase": "Сколько стоит диагностический выезд мастера?",
+    "request_started_ns": 24814620438478,
+    "trace": {
+      "final_user_turn_ns": 24814591192209,
+      "request_started_ns": 24814620530155,
+      "first_stream_event_ns": 24814796745172,
+      "first_usable_output_ns": 24814796745172,
+      "final_result_ns": 24815504783688,
+      "cancel_requested_ns": null,
+      "completed_ns": 24815504783688,
+      "final_to_first_usable_ms": 205.552963,
+      "final_to_final_result_ms": 913.591479,
+      "request_to_first_usable_ms": 176.215017,
+      "request_to_final_result_ms": 884.253533
+    },
+    "stream_event_kinds": [
+      "started",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "delta",
+      "decision",
+      "completed"
+    ],
+    "status": "completed",
+    "decision": {
+      "action": "answer",
+      "text": "Диагностический выезд мастера стоит 1500 рублей. Эта сумма засчитывается в стоимость работ, если клиент заказывает ремонт по результатам диагностики."
+    },
+    "request": {
+      "answer_mode": "rag_answer",
+      "allowed_actions": [
+        "answer",
+        "clarify"
+      ],
+      "skill_id": "answer-ru",
+      "skill_version": "2",
+      "prompt_template_id": "mvp-answer-ru",
+      "prompt_template_version": "3",
+      "generation_profile_id": "mvp-short-answer",
+      "generation_profile_version": "3",
+      "output_schema_id": "structured-dialogue-decision-v1",
+      "source_ids": [
+        "company-pricing-and-terms",
+        "company-schedule"
+      ],
+      "knowledge_context_id": "knowledge-context-map005-c-ai-gate:turn-1"
+    }
+  },
+  "tts": {
+    "status": "completed",
+    "text": "Диагностический выезд мастера стоит 1500 рублей. Эта сумма засчитывается в стоимость работ, если клиент заказывает ремонт по результатам диагностики.",
+    "chunks": 12,
+    "pcm_bytes": 165718,
+    "wav": "artifacts/implementation/013-call-greeting-and-short-prompt/013-A/target-20260922-r4/tts-answer-sample.wav",
+    "wav_sha256": "ca9718e5884de49d3d3b47ac11b545913be91477eaeada461120883cd70381d1",
+    "first_pcm_ms_from_llm_final": 1193.308,
+    "first_pcm_ms_from_tts_start": 279.529,
+    "completion_ms_from_tts_start": 3019.45,
+    "profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "001-S negotiated test profile"
+    },
+    "cancellation_evidence": "reused accepted 002-H cancellation.json; generator close, no independent native token"
+  },
+  "source_mode": {
+    "implementation": "PcmAudioBridge EgressSourceMode; IDLE/PREROLL/PLAYING/CANCELLED/CLOSED",
+    "underrun_policy": "only empty TTS buffer while PLAYING increments egress_underruns"
+  },
+  "errors": [],
+  "finished_at": "2026-09-22T08:41:12.692+00:00"
+}

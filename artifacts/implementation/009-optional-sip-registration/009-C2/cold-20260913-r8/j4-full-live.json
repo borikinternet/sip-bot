@@ -1,0 +1,408 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260913T201249Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "fail",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-13T20:12:49.885735+00:00",
+  "elapsed_ms": 120295.064,
+  "elapsed_from_call_start_ms": 118685.105,
+  "warmup": null,
+  "fixture": {
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C2/cold-20260913-r8/live-stand/input-scenario.wav",
+    "bytes": 1344582,
+    "source": "prepared XTTS-generated multi-turn fixture copied for readiness replay",
+    "source_path": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-C/j4-full-live-20260913-r1/live-stand/input-scenario.wav"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "readiness": {
+      "runtime_id": "application",
+      "state": "ready",
+      "sequence": 2,
+      "started_at_ns": 26442617273411,
+      "completed_at_ns": 26466812259127,
+      "error_type": null,
+      "error_message": null
+    }
+  },
+  "sip": {
+    "peer_established": true,
+    "rtp_ingress_established": false,
+    "pcmu_8000_mono": true,
+    "peer_rtp_packets": {
+      "transmit": 4205,
+      "receive": 0
+    },
+    "adapter_profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "pjmedia.stream_info"
+    },
+    "adapter_media_stats": {
+      "ingress_frames": 4415,
+      "ingress_bytes": 1412800,
+      "egress_frames": 4415,
+      "egress_bytes": 1412800,
+      "ingress_dropped_closed": 0,
+      "ingress_dropped_overflow": 0,
+      "egress_dropped_closed": 0,
+      "egress_dropped_overflow": 0,
+      "egress_underruns": 0,
+      "tts_startup_wait": 0,
+      "intentional_silence_frames": 4415,
+      "source_mode_transitions": 0,
+      "callback_errors": 0
+    },
+    "adapter_events": [
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 26442482194467,
+        "sequence": 1,
+        "method": null,
+        "status_code": null,
+        "reason": "registration requested by account.create",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "registration requested by account.create",
+          "expires_seconds": 300,
+          "observed_at_ns": 26442482167299,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 26442482416980,
+        "sequence": 2,
+        "method": null,
+        "status_code": null,
+        "reason": "PJSUA2 registration transaction started",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "PJSUA2 registration transaction started",
+          "expires_seconds": 300,
+          "observed_at_ns": 26442482401061,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 26442492054080,
+        "sequence": 3,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "registered",
+          "registration_event": "registration_succeeded",
+          "readiness": true
+        },
+        "registration_status": {
+          "state": "registered",
+          "event": "registration_succeeded",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": 200,
+          "reason": "OK",
+          "expires_seconds": 300,
+          "observed_at_ns": 26442491982893,
+          "expires_at_ns": 26742491953522,
+          "readiness": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 26442607895444,
+        "sequence": 4,
+        "method": "INVITE",
+        "status_code": 180,
+        "reason": "Ringing",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 180,
+          "reason": "Ringing",
+          "action": "ring_before_readiness",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "call_started",
+        "timestamp_ns": 26442607926515,
+        "sequence": 5,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": "incoming",
+          "peer_uri": "\"Workshop Peer\" <sip:9000@172.18.0.2>",
+          "provisional_status": 180,
+          "answer_pending": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 26442608242798,
+        "sequence": 6,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 26466812953659,
+        "sequence": 7,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 4
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "media_started",
+        "timestamp_ns": 26466816636218,
+        "sequence": 8,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": 3,
+          "media_index": 0
+        },
+        "media_profile": {
+          "codec": "PCMU",
+          "payload_type": 0,
+          "rx_payload_type": 0,
+          "tx_payload_type": 0,
+          "ptime_ms": 20.0,
+          "frame_time_usec": 20000,
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "frame_size_samples": 160,
+          "frame_bytes": 320,
+          "pcm_bits_per_sample": 16,
+          "source": "pjmedia.stream_info"
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 26466816815242,
+        "sequence": 9,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "action": "accept_incoming_call",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "call_answered",
+        "timestamp_ns": 26466819422111,
+        "sequence": 10,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "CONFIRMED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 26555111283473,
+        "sequence": 11,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 26555111855722,
+        "sequence": 12,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "remote_hangup",
+        "timestamp_ns": 26555112209290,
+        "sequence": 13,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "media_stopped",
+        "timestamp_ns": 26555114753655,
+        "sequence": 14,
+        "method": null,
+        "status_code": null,
+        "reason": "Normal call clearing",
+        "details": {
+          "idempotent": false
+        }
+      }
+    ]
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C2/cold-20260913-r8/baresip-operator.log",
+    "transfer_result": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "available": true,
+      "accepted": []
+    }
+  },
+  "conversation": {
+    "context": [],
+    "user_turn_count": 0,
+    "assistant_turn_count": 0,
+    "rag_context_count": 0,
+    "rag_source_ids": []
+  },
+  "asr_hypotheses": [],
+  "fsm": {
+    "state": "terminal",
+    "trace_events": [
+      "call_open",
+      "call_answered",
+      "remote_hangup"
+    ],
+    "trace_states": [
+      "call_open",
+      "listening",
+      "terminal"
+    ]
+  },
+  "wiring": {
+    "sip_polls": 11103,
+    "control_dispatches": 19,
+    "ingress_frames": 4415,
+    "fanout_frames": 8830,
+    "asr_chunks_queued": 0,
+    "asr_chunks_dropped": 0,
+    "asr_hypotheses": 0,
+    "final_turns": 0,
+    "tts_chunks": 0,
+    "tts_frames_sent": 0,
+    "stale_hypotheses": 0,
+    "errors": 0
+  },
+  "speech": {
+    "candidate": "WebRtcVadCandidate",
+    "mode": 2,
+    "decision_count": 4415,
+    "speech_decision_count": 0,
+    "silence_decision_count": 4415,
+    "sample_rates_hz": [
+      8000
+    ],
+    "frame_durations_ms": [
+      20
+    ],
+    "first_speech_sequence": null,
+    "last_speech_sequence": null,
+    "endpoint_events": []
+  },
+  "tts_output": {
+    "accepted_chunks": 0,
+    "accepted_bytes": 0,
+    "emitted_frames": 0,
+    "emitted_bytes": 0,
+    "flushed_tail_frames": 0,
+    "dropped_tail_bytes": 0,
+    "dropped_stale_chunks": 0,
+    "dropped_closed_chunks": 0,
+    "dropped_cancelled_chunks": 0,
+    "dropped_overflow_bytes": 0,
+    "buffered_bytes": 0,
+    "pending_frames": 0
+  },
+  "scenario_checks": {
+    "follow_up_turn_present": false,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": true
+  },
+  "report": "/mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C2/cold-20260913-r8/reports/call-in-0/report.md",
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C2/cold-20260913-r8/baresip-peer.log",
+  "errors": [],
+  "audio_recording": false,
+  "external_pbx": false,
+  "notes": [
+    "The fixture is generated before call admission and is not a conversation recording.",
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario."
+  ]
+}

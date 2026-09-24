@@ -39,6 +39,22 @@ def test_stereo_builder_explicitly_pads_mismatched_recordings(tmp_path) -> None:
     result = build_stereo(enc, dec, tmp_path / "out.wav", tmp_path / "manifest.json")
 
     assert result["status"] == "pass"
-    assert result["alignment"]["policy"] == "pad_trailing_silence_to_longest_raw_track"
+    assert result["alignment"]["policy"] == "strict_shared_timeline_trailing_cleanup_only"
     assert result["alignment"]["user_to_bot_padded_frames"] == 0
     assert result["alignment"]["bot_to_user_padded_frames"] == 1
+    assert result["alignment"]["max_trailing_padding_ms"] == 500.0
+    assert result["alignment"]["actual_padding_ms"] == 0.125
+
+
+def test_stereo_builder_rejects_missing_timeline_larger_than_cleanup_tail(tmp_path) -> None:
+    enc = tmp_path / "enc.wav"
+    dec = tmp_path / "dec.wav"
+    _wave(enc, b"\x01\x00" * 4002)
+    _wave(dec, b"\x0a\x00")
+
+    try:
+        build_stereo(enc, dec, tmp_path / "out.wav", tmp_path / "manifest.json")
+    except ValueError as exc:
+        assert "exceeds the allowed cleanup tail" in str(exc)
+    else:
+        raise AssertionError("large raw-track gap must be rejected")

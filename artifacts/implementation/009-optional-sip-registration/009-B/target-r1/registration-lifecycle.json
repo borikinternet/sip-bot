@@ -1,0 +1,166 @@
+{
+  "probe": "009-B-pjsua2-registration-lifecycle",
+  "status": "pass",
+  "error": null,
+  "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+  "python_version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+  "py_gil_disabled": 1,
+  "gil_enabled_at_finish": false,
+  "elapsed_seconds": 2.385,
+  "registrar": {
+    "address": "127.0.0.1:48661",
+    "request_count": 6,
+    "requests": [
+      {
+        "method": "REGISTER",
+        "cseq": 48542,
+        "expires": 2,
+        "has_authorization": false,
+        "has_digest_response": false
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 48543,
+        "expires": 2,
+        "has_authorization": true,
+        "has_digest_response": true
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 48544,
+        "expires": 2,
+        "has_authorization": false,
+        "has_digest_response": false
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 48545,
+        "expires": 2,
+        "has_authorization": true,
+        "has_digest_response": true
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 48546,
+        "expires": 0,
+        "has_authorization": false,
+        "has_digest_response": false
+      },
+      {
+        "method": "REGISTER",
+        "cseq": 48547,
+        "expires": 0,
+        "has_authorization": true,
+        "has_digest_response": true
+      }
+    ]
+  },
+  "registration_events": [
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15231078964345,
+      "sequence": 1,
+      "method": null,
+      "status_code": null,
+      "reason": "registration requested by account.create",
+      "details": {
+        "state": "registering",
+        "registration_event": "registration_started",
+        "readiness": false
+      },
+      "registration_status": {
+        "state": "registering",
+        "event": "registration_started",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48661",
+        "status_code": null,
+        "reason": "registration requested by account.create",
+        "expires_seconds": 2,
+        "observed_at_ns": 15231078932393,
+        "expires_at_ns": null,
+        "readiness": false
+      }
+    },
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15231079599472,
+      "sequence": 2,
+      "method": null,
+      "status_code": null,
+      "reason": "PJSUA2 registration transaction started",
+      "details": {
+        "state": "registering",
+        "registration_event": "registration_started",
+        "readiness": false
+      },
+      "registration_status": {
+        "state": "registering",
+        "event": "registration_started",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48661",
+        "status_code": null,
+        "reason": "PJSUA2 registration transaction started",
+        "expires_seconds": 2,
+        "observed_at_ns": 15231079584864,
+        "expires_at_ns": null,
+        "readiness": false
+      }
+    },
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15231080458112,
+      "sequence": 3,
+      "method": null,
+      "status_code": 200,
+      "reason": "OK",
+      "details": {
+        "state": "registered",
+        "registration_event": "registration_succeeded",
+        "readiness": true
+      },
+      "registration_status": {
+        "state": "registered",
+        "event": "registration_succeeded",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48661",
+        "status_code": 200,
+        "reason": "OK",
+        "expires_seconds": 2,
+        "observed_at_ns": 15231080446699,
+        "expires_at_ns": 15233080435861,
+        "readiness": true
+      }
+    },
+    {
+      "call_id": "__registration__",
+      "kind": "registration_state",
+      "timestamp_ns": 15232081677930,
+      "sequence": 4,
+      "method": null,
+      "status_code": 200,
+      "reason": "OK",
+      "details": {
+        "state": "registered",
+        "registration_event": "registration_refreshed",
+        "readiness": true
+      },
+      "registration_status": {
+        "state": "registered",
+        "event": "registration_refreshed",
+        "enabled": true,
+        "registrar_uri": "sip:127.0.0.1:48661",
+        "status_code": 200,
+        "reason": "OK",
+        "expires_seconds": 2,
+        "observed_at_ns": 15232081630357,
+        "expires_at_ns": 15234081590124,
+        "readiness": true
+      }
+    }
+  ],
+  "password_in_output": false,
+  "gpu_inference": false
+}

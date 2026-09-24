@@ -1,0 +1,22 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  debian-archive-keyring
+0 upgraded, 1 newly installed, 0 to remove and 65 not upgraded.
+Need to get 90.6 kB of archives.
+After this operation, 178 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu jammy/universe amd64 debian-archive-keyring all 2021.1.1ubuntu2 [90.6 kB]
+Fetched 90.6 kB in 0s (224 kB/s)
+Selecting previously unselected package debian-archive-keyring.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 139926 files and directories currently installed.)
+Preparing to unpack .../debian-archive-keyring_2021.1.1ubuntu2_all.deb ...
+Unpacking debian-archive-keyring (2021.1.1ubuntu2) ...
+Setting up debian-archive-keyring (2021.1.1ubuntu2) ...
+NEEDRESTART-VER: 3.5
+NEEDRESTART-KCUR: 5.15.0-191-generic
+NEEDRESTART-KEXP: 5.15.0-191-generic
+NEEDRESTART-KSTA: 1
+NEEDRESTART-UCSTA: 1
+NEEDRESTART-UCCUR: 0x5003901
+NEEDRESTART-UCEXP: 0x5003901

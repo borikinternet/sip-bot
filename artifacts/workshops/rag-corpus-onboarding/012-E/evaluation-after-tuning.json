@@ -1,0 +1,473 @@
+{
+  "status": "pass",
+  "evaluation_version": "small-service-company-eval-v1",
+  "evaluation_sha256": "35f5bc63156bf99a7e1ff0fe948c4fba9b3dacba694df55a87faec6464ac3738",
+  "corpus_version": "small-service-company-demo-v1",
+  "index_version": "small-service-company-embeddinggemma-v1",
+  "embedding_model": "embeddinggemma",
+  "top_k": 3,
+  "threshold": 0.35,
+  "passed_cases": 12,
+  "total_cases": 12,
+  "latency_ms": 266.347705,
+  "cases": [
+    {
+      "case_id": "positive-services",
+      "kind": "positive",
+      "question": "Вы ремонтируете посудомоечные машины?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-services"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-services",
+        "company-exceptions",
+        "company-pricing-and-terms"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-services-001-34f4932b881b",
+          "source_id": "company-services",
+          "score": 0.42051880078667175
+        },
+        {
+          "chunk_id": "company-exceptions-001-44ff629bba5c",
+          "source_id": "company-exceptions",
+          "score": 0.4210566621962313
+        },
+        {
+          "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.39020830640888476
+        }
+      ],
+      "latency_ms": 31.826462,
+      "failures": []
+    },
+    {
+      "case_id": "positive-price",
+      "kind": "positive",
+      "question": "Сколько стоит диагностический выезд мастера?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-pricing-and-terms"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-pricing-and-terms",
+        "company-schedule"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.7091231681932829
+        },
+        {
+          "chunk_id": "company-schedule-001-5e5b15bd64c2",
+          "source_id": "company-schedule",
+          "score": 0.39952623819824773
+        },
+        {
+          "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.47390433030456935
+        }
+      ],
+      "latency_ms": 20.389678,
+      "failures": []
+    },
+    {
+      "case_id": "positive-schedule",
+      "kind": "positive",
+      "question": "В какое время принимаются обычные заявки?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-schedule"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-schedule",
+        "company-request-procedure",
+        "company-escalation"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-schedule-001-5e5b15bd64c2",
+          "source_id": "company-schedule",
+          "score": 0.672385621120128
+        },
+        {
+          "chunk_id": "company-request-procedure-001-002ba7a76c98",
+          "source_id": "company-request-procedure",
+          "score": 0.4639765838354217
+        },
+        {
+          "chunk_id": "company-escalation-002-31b66c003098",
+          "source_id": "company-escalation",
+          "score": 0.3816155636348422
+        }
+      ],
+      "latency_ms": 20.363519,
+      "failures": []
+    },
+    {
+      "case_id": "positive-procedure",
+      "kind": "positive",
+      "question": "Какие данные нужны, чтобы оформить заявку?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-request-procedure"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-request-procedure",
+        "company-schedule"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-request-procedure-001-002ba7a76c98",
+          "source_id": "company-request-procedure",
+          "score": 0.6229984598274423
+        },
+        {
+          "chunk_id": "company-request-procedure-002-679e27ff67be",
+          "source_id": "company-request-procedure",
+          "score": 0.5243729538258202
+        },
+        {
+          "chunk_id": "company-schedule-001-5e5b15bd64c2",
+          "source_id": "company-schedule",
+          "score": 0.41020583452037995
+        }
+      ],
+      "latency_ms": 20.262128,
+      "failures": []
+    },
+    {
+      "case_id": "positive-exception",
+      "kind": "positive",
+      "question": "Можете отремонтировать газовое оборудование?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-exceptions"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-exceptions",
+        "company-pricing-and-terms"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-exceptions-001-44ff629bba5c",
+          "source_id": "company-exceptions",
+          "score": 0.5629019837584298
+        },
+        {
+          "chunk_id": "company-exceptions-002-d567ab67edc2",
+          "source_id": "company-exceptions",
+          "score": 0.38269787761201035
+        },
+        {
+          "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.37936682493650437
+        }
+      ],
+      "latency_ms": 20.763965,
+      "failures": []
+    },
+    {
+      "case_id": "positive-escalation",
+      "kind": "positive",
+      "question": "У меня ночью прорвало трубу с горячей водой, это срочно?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-escalation",
+        "company-schedule"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-escalation",
+        "company-schedule",
+        "company-exceptions"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-escalation-001-cd3977d7bad1",
+          "source_id": "company-escalation",
+          "score": 0.549083560609934
+        },
+        {
+          "chunk_id": "company-schedule-002-037877069b79",
+          "source_id": "company-schedule",
+          "score": 0.5113772332037755
+        },
+        {
+          "chunk_id": "company-exceptions-002-d567ab67edc2",
+          "source_id": "company-exceptions",
+          "score": 0.40837804691540913
+        }
+      ],
+      "latency_ms": 21.750443,
+      "failures": []
+    },
+    {
+      "case_id": "paraphrase-price",
+      "kind": "paraphrase",
+      "question": "Во сколько обойдётся приезд специалиста для определения неисправности?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-pricing-and-terms"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-pricing-and-terms",
+        "company-schedule",
+        "company-exceptions"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.558701859906122
+        },
+        {
+          "chunk_id": "company-schedule-001-5e5b15bd64c2",
+          "source_id": "company-schedule",
+          "score": 0.47262707290343614
+        },
+        {
+          "chunk_id": "company-exceptions-002-d567ab67edc2",
+          "source_id": "company-exceptions",
+          "score": 0.4631228439103127
+        }
+      ],
+      "latency_ms": 20.493624,
+      "failures": []
+    },
+    {
+      "case_id": "paraphrase-services",
+      "kind": "paraphrase",
+      "question": "Берётесь ли вы за неисправную машинку для мытья посуды?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-services"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-services",
+        "company-exceptions",
+        "company-pricing-and-terms"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-services-001-34f4932b881b",
+          "source_id": "company-services",
+          "score": 0.25012204851684566
+        },
+        {
+          "chunk_id": "company-exceptions-002-d567ab67edc2",
+          "source_id": "company-exceptions",
+          "score": 0.2704099188654748
+        },
+        {
+          "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.264849158288434
+        }
+      ],
+      "latency_ms": 23.166886,
+      "failures": []
+    },
+    {
+      "case_id": "contextual-night",
+      "kind": "contextual",
+      "question": "А ночью?",
+      "context": [
+        {
+          "turn_id": "previous-1",
+          "text": "У меня активный прорыв горячей воды."
+        }
+      ],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-escalation",
+        "company-schedule"
+      ],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-schedule",
+        "company-escalation",
+        "company-exceptions"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-schedule-002-037877069b79",
+          "source_id": "company-schedule",
+          "score": 0.5160785609753286
+        },
+        {
+          "chunk_id": "company-escalation-001-cd3977d7bad1",
+          "source_id": "company-escalation",
+          "score": 0.4820501245561005
+        },
+        {
+          "chunk_id": "company-exceptions-002-d567ab67edc2",
+          "source_id": "company-exceptions",
+          "score": 0.3879552362554786
+        }
+      ],
+      "latency_ms": 22.79333,
+      "failures": []
+    },
+    {
+      "case_id": "conflict-emergency-priority",
+      "kind": "conflict",
+      "question": "Кому немедленно передают сообщение об активном прорыве горячей воды ночью?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "company-escalation"
+      ],
+      "expected_top_source_id": "company-escalation",
+      "source_ids": [
+        "company-escalation",
+        "company-schedule",
+        "company-exceptions"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-escalation-001-cd3977d7bad1",
+          "source_id": "company-escalation",
+          "score": 0.5712965776436524
+        },
+        {
+          "chunk_id": "company-schedule-002-037877069b79",
+          "source_id": "company-schedule",
+          "score": 0.524698271735695
+        },
+        {
+          "chunk_id": "company-exceptions-002-d567ab67edc2",
+          "source_id": "company-exceptions",
+          "score": 0.42068741519755415
+        }
+      ],
+      "latency_ms": 24.594539,
+      "failures": []
+    },
+    {
+      "case_id": "negative-science",
+      "kind": "negative",
+      "question": "Почему небо днём голубое?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": false,
+      "actual_sufficient": false,
+      "expected_any_source_ids": [],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-schedule",
+        "company-exceptions",
+        "company-pricing-and-terms"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-schedule-001-5e5b15bd64c2",
+          "source_id": "company-schedule",
+          "score": 0.2434761223756905
+        },
+        {
+          "chunk_id": "company-exceptions-001-44ff629bba5c",
+          "source_id": "company-exceptions",
+          "score": 0.18557897094092174
+        },
+        {
+          "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.1828481635264836
+        }
+      ],
+      "latency_ms": 19.811673,
+      "failures": []
+    },
+    {
+      "case_id": "negative-exchange-rate",
+      "kind": "negative",
+      "question": "Какой сегодня курс доллара?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": false,
+      "actual_sufficient": false,
+      "expected_any_source_ids": [],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "company-schedule",
+        "company-pricing-and-terms"
+      ],
+      "hits": [
+        {
+          "chunk_id": "company-schedule-001-5e5b15bd64c2",
+          "source_id": "company-schedule",
+          "score": 0.246573306639177
+        },
+        {
+          "chunk_id": "company-pricing-and-terms-002-bb261b015aad",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.2299569101791564
+        },
+        {
+          "chunk_id": "company-pricing-and-terms-001-76d77ad7a0a8",
+          "source_id": "company-pricing-and-terms",
+          "score": 0.21196206083274155
+        }
+      ],
+      "latency_ms": 20.006402,
+      "failures": []
+    }
+  ],
+  "runtime": {
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "py_gil_disabled": 1,
+    "gil_after": false
+  },
+  "index_artifact": {
+    "path": "/mnt/c/devel/sip-bot/data/knowledge/index/small-service-company-v1.json",
+    "sha256": "9a2e0937cf2bcf3a2533b4762410490c0e40420f64a29483cf2e487b56d2b579",
+    "schema_version": "rag-index-v1",
+    "corpus_sha256": "9f6c1fb70792d6a44e3c098f920bf5895b1fa03503aac13d14897ea833e707ff",
+    "chunking_policy": "markdown-semantic-v1",
+    "dimension": 768,
+    "item_count": 12
+  }
+}

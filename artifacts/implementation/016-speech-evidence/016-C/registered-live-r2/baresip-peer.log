@@ -1,0 +1,24 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eno1|10.0.0.45 
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: aufile
+stdio: could not setup terminal: Inappropriate ioctl for device
+aufilt: sndfile
+sndfile: saving files in /tmp/sip-bot-010-c-recording-ws3nf7yf
+uuid: generated new UUID in /home/inrack/sip-bot/artifacts/implementation/016-speech-evidence/016-C/registered-live-r2/live-stand/peer-5080/uuid
+Populated 1 account
+Populated 2 audio codecs
+Populated 1 audio filter
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+[31mreg: sip:1000@10.0.0.45:5060: 403 Forbidden ()
+[;m>                                 >                                 >                                s>                               si>                              sip>                             sip:>                            sip:7>                           sip:71>                          sip:710>                         sip:7100>                        sip:7100@>                       sip:7100@1>                      sip:7100@10>                     sip:7100@10.>                    sip:7100@10.0>                   sip:7100@10.0.>                  sip:7100@10.0.0>                 sip:7100@10.0.0.>                sip:7100@10.0.0.4>               sip:7100@10.0.0.45>              sip:7100@10.0.0.45:>             sip:7100@10.0.0.45:5>            sip:7100@10.0.0.45:50>           sip:7100@10.0.0.45:506>          sip:7100@10.0.0.45:5060
+ua: using best effort AF: af=AF_INET
+call: connecting to 'sip:7100@10.0.0.45:5060'..
+sip:7100@10.0.0.45:5060: session closed: 403 Forbidden
+[31mreg: sip:1000@10.0.0.45:5060: 403 Forbidden ()
+[;m[31mreg: sip:1000@10.0.0.45:5060: 403 Forbidden ()
+[;mterminated by signal 15
+ua: stop all (forced=0)

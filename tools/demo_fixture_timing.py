@@ -5,12 +5,14 @@ from __future__ import annotations
 from typing import Final
 
 
-# The profile keeps the 2.5 s turn-2 -> turn-3 window that makes turn 3 a
-# barge-in, while removing excess safety tails from the other transitions.
+# The profile keeps a 6.5 s turn-2 -> turn-3 window.  The extra margin lets
+# the current live path start audible TTS before turn 3, while turn 3 still
+# overlaps the answer and is classified as barge-in.  This is a deterministic
+# test-fixture delay, not a production endpointing policy.
 J4_SCENARIO_SPECS: Final[tuple[tuple[str, str, float, float], ...]] = (
     ("turn-1", "Почему небо днём кажется голубым?", 1.5, 14.5),
     ("turn-2", "А почему на закате оно становится красным?", 0.0, 1.0),
-    ("turn-3", "Стоп, небо голубое?", 1.5, 11.0),
+    ("turn-3", "Стоп, небо голубое?", 5.5, 11.0),
     ("turn-4", "Каков точный состав атмосферы на экзопланете Кеплер семьсот восемьдесят шесть?", 11.0, 10.5),
     ("turn-5", "Да", 10.5, 10.0),
 )

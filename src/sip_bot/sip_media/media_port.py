@@ -9,6 +9,7 @@ from threading import RLock
 import time
 from typing import Any, Callable
 
+from .comfort_noise import ComfortNoiseSource
 from .models import NegotiatedMediaProfile, PcmFrame
 
 
@@ -167,6 +168,7 @@ class PcmAudioBridge:
         profile: NegotiatedMediaProfile,
         capacity_frames: int,
         output_capacity_frames: int | None = None,
+        comfort_noise_level_dbov_magnitude: int = 50,
         clock_ns: Callable[[], int] = time.monotonic_ns,
         failure_callback: Callable[[str], None] | None = None,
     ) -> None:
@@ -179,6 +181,7 @@ class PcmAudioBridge:
         self.failure_callback = failure_callback
         self.ingress = PcmFrameQueue(capacity_frames)
         self.egress = PcmOutputBuffer(profile, capacity_frames if output_capacity_frames is None else output_capacity_frames)
+        self._comfort_noise = ComfortNoiseSource(profile, comfort_noise_level_dbov_magnitude)
         self.stats = MediaPortStats()
         self._ingress_sequence = 0
         self._closed = False
@@ -195,6 +198,16 @@ class PcmAudioBridge:
     def egress_source_mode(self) -> EgressSourceMode:
         with self._lock:
             return self._source_mode
+
+    @property
+    def egress_pending_frames(self) -> int:
+        """Return frames still queued for the PJMEDIA output callback."""
+
+        pending_bytes = self.egress.qsize_bytes()
+        if pending_bytes <= 0:
+            return 0
+        frame_bytes = self.profile.frame_bytes
+        return (pending_bytes + frame_bytes - 1) // frame_bytes
 
     def set_egress_source_mode(self, mode: EgressSourceMode | str) -> bool:
         """Select the non-blocking source used by the PJMEDIA callback."""
@@ -237,6 +250,9 @@ class PcmAudioBridge:
                 self.stats.ingress_dropped_closed += 1
                 return
         try:
+            frame_type = int(getattr(frame, "type", self.pjsua2.PJMEDIA_FRAME_TYPE_AUDIO))
+            if frame_type != self.pjsua2.PJMEDIA_FRAME_TYPE_AUDIO:
+                return
             size = int(frame.buf.size())
             payload = bytearray(size)
             frame.buf.copy_to_bytearray(payload)
@@ -284,13 +300,13 @@ class PcmAudioBridge:
                 if payload is None:
                     with self._lock:
                         self.stats.egress_underruns += 1
-                    payload = bytes(capacity)
+                    payload = self._comfort_noise.next_frame(capacity)
             elif mode is EgressSourceMode.PREROLL:
                 payload = self.egress.read_nowait(capacity)
                 if payload is None:
                     with self._lock:
                         self.stats.tts_startup_wait += 1
-                    payload = bytes(capacity)
+                    payload = self._comfort_noise.next_frame(capacity)
             elif mode is EgressSourceMode.DRAINING:
                 payload = self.egress.read_nowait(capacity)
                 if payload is None:
@@ -304,11 +320,11 @@ class PcmAudioBridge:
                             self._source_mode = EgressSourceMode.IDLE
                             self.stats.source_mode_transitions += 1
                         self.stats.intentional_silence_frames += 1
-                    payload = bytes(capacity)
+                    payload = self._comfort_noise.next_frame(capacity)
             else:
                 with self._lock:
                     self.stats.intentional_silence_frames += 1
-                payload = bytes(capacity)
+                payload = self._comfort_noise.next_frame(capacity)
             if len(payload) < capacity:
                 payload = payload + bytes(capacity - len(payload))
             frame.type = self.pjsua2.PJMEDIA_FRAME_TYPE_AUDIO

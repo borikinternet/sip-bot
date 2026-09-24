@@ -1,0 +1,76 @@
+{
+  "audio_duration_seconds": 4.368,
+  "audio_samples": 69888,
+  "candidate_id": "ASR-PRIMARY-001-faster-whisper",
+  "candidate_package": "faster-whisper",
+  "candidate_version_expected": "1.2.1",
+  "chunk_seconds": 1.0,
+  "command": "/home/inrack/sip-bot/tools/asr_primary_probe.py --stage streaming --evidence-root /home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/asr-streaming --fixture /home/inrack/sip-bot/artifacts/feasibility/001-C2/fixture.mp3 --model-id /home/inrack/.local/models/faster-whisper-large-v3-edaa852e --device cuda --compute-type int8_float16 --language ru --chunk-seconds 1.0 --allow-model-load",
+  "compute_type": "int8_float16",
+  "conversion": {
+    "internal_pcm": "PCM S16LE, 8000 Hz, mono",
+    "media_boundary": "PCMU/G.711 mu-law, 8000 Hz, mono",
+    "model_input": "float32, 16000 Hz, mono",
+    "operation_probe_conversion": "PyAV fixture decode/resample to float32 16000 Hz mono"
+  },
+  "device": "cuda",
+  "evidence_root": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/asr-streaming",
+  "executable": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+  "final": {
+    "authoritative": true,
+    "elapsed_seconds": 0.2251873016357422,
+    "emitted_at_epoch": 1790076138.915566,
+    "kind": "final",
+    "text": "Мы считаем, что это следующий логический шаг"
+  },
+  "finished_at_epoch": 1790076138.9155874,
+  "fixture": "/home/inrack/sip-bot/artifacts/feasibility/001-C2/fixture.mp3",
+  "gil_after_model_load": false,
+  "gil_after_operation": false,
+  "gil_before_import": false,
+  "language": "ru",
+  "machine": "x86_64-linux-gnu",
+  "model_id": "/home/inrack/.local/models/faster-whisper-large-v3-edaa852e",
+  "model_load_seconds": 4.802651354999398,
+  "partial_results": [
+    {
+      "elapsed_seconds": 0.35585904121398926,
+      "emitted_at_epoch": 1790076138.0824044,
+      "kind": "partial",
+      "prefix_end_seconds": 1.0,
+      "text": "мужчина"
+    },
+    {
+      "elapsed_seconds": 0.15758633613586426,
+      "emitted_at_epoch": 1790076138.2400029,
+      "kind": "partial",
+      "prefix_end_seconds": 2.0,
+      "text": "Мы считаем, что это"
+    },
+    {
+      "elapsed_seconds": 0.22492313385009766,
+      "emitted_at_epoch": 1790076138.464949,
+      "kind": "partial",
+      "prefix_end_seconds": 3.0,
+      "text": "Мы считаем, что это следующий логический момент."
+    },
+    {
+      "elapsed_seconds": 0.22541260719299316,
+      "emitted_at_epoch": 1790076138.6903694,
+      "kind": "partial",
+      "prefix_end_seconds": 4.0,
+      "text": "Мы считаем, что это следующий логический шаг"
+    }
+  ],
+  "pid": 48253,
+  "platform": "linux",
+  "probe": "001-C2-asr-primary",
+  "py_gil_disabled": 1,
+  "python": "3.14.7 free-threading build (main, Sep 22 2026, 10:09:00) [GCC 11.4.0]",
+  "soabi": "cpython-314t-x86_64-linux-gnu",
+  "stage": "streaming",
+  "started_at_epoch": 1790076130.6043406,
+  "status": "pass",
+  "warnings": [],
+  "working_directory": "/home/inrack"
+}

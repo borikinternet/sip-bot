@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import deque
 from collections.abc import Callable
 from dataclasses import dataclass
 
@@ -10,6 +11,7 @@ from sip_bot.sip_media.models import PcmFrame
 from .contracts import (
     AsrHypothesis,
     EndpointEvent,
+    EndpointEventKind,
     FinalUserTurn,
     TranscriptUpdate,
     VadDecision,
@@ -47,8 +49,10 @@ class SpeechIngress:
         self.assembler_factory = assembler_factory
         self.defer_endpoint_finalization = defer_endpoint_finalization
         self._closed = False
-        self._pending_endpoint: EndpointEvent | None = None
-        self._ready_final_turn: FinalUserTurn | None = None
+        self._assemblers: dict[str, TranscriptAssembler] = {assembler.turn_id: assembler}
+        self._pending_endpoints: dict[str, EndpointEvent] = {}
+        self._ready_final_turns: deque[FinalUserTurn] = deque()
+        self.rejected_turns = 0
 
     @property
     def closed(self) -> bool:
@@ -62,12 +66,14 @@ class SpeechIngress:
         update: TranscriptUpdate | None = None
         final_turn: FinalUserTurn | None = None
         for event in events:
+            if event.kind is EndpointEventKind.SPEECH_STARTED:
+                self._assembler_for(event.turn_id)
             if event.authoritative:
-                self._pending_endpoint = event
+                self._pending_endpoints[event.turn_id] = event
                 finalized = (
                     None
                     if self.defer_endpoint_finalization
-                    else self._try_finalize_pending()
+                    else self._try_finalize_pending(event.turn_id)
                 )
                 if finalized is not None:
                     update, final_turn = finalized
@@ -81,56 +87,80 @@ class SpeechIngress:
     def accept_hypothesis(self, hypothesis: AsrHypothesis) -> TranscriptUpdate | None:
         if self._closed:
             return None
-        update = self.assembler.accept(hypothesis)
+        if not hypothesis.speech_supported:
+            if hypothesis.is_final:
+                self._discard_turn(hypothesis.turn_id)
+                self.rejected_turns += 1
+            return None
+        assembler = self._assembler_for(hypothesis.turn_id)
+        update = assembler.accept(hypothesis)
         finalized = (
-            self._try_finalize_pending()
+            self._try_finalize_pending(hypothesis.turn_id)
             if not self.defer_endpoint_finalization or hypothesis.is_final
             else None
         )
         if finalized is not None:
-            _final_update, self._ready_final_turn = finalized
+            _final_update, final_turn = finalized
+            self._ready_final_turns.append(final_turn)
         return update
+
+    def _discard_turn(self, turn_id: str) -> None:
+        assembler = self._assemblers.pop(turn_id, None)
+        if assembler is not None:
+            assembler.cancel()
+        self._pending_endpoints.pop(turn_id, None)
+        self._ready_final_turns = deque(
+            turn for turn in self._ready_final_turns if turn.turn_id != turn_id
+        )
 
     def take_final_turn(self) -> FinalUserTurn | None:
         """Return a turn finalized after a delayed ASR hypothesis arrived."""
 
-        final_turn = self._ready_final_turn
-        self._ready_final_turn = None
-        return final_turn
+        if not self._ready_final_turns:
+            return None
+        return self._ready_final_turns.popleft()
 
-    def _try_finalize_pending(self) -> tuple[TranscriptUpdate, FinalUserTurn] | None:
-        boundary = self._pending_endpoint
+    def _assembler_for(self, turn_id: str) -> TranscriptAssembler:
+        assembler = self._assemblers.get(turn_id)
+        if assembler is not None:
+            self.assembler = assembler
+            return assembler
+        if self.assembler_factory is None:
+            raise TranscriptContractError(
+                f"no TranscriptAssembler factory for turn {turn_id!r}"
+            )
+        assembler = self.assembler_factory(turn_id)
+        if assembler.turn_id != turn_id:
+            raise TranscriptContractError("assembler factory returned another transcript scope")
+        self._assemblers[turn_id] = assembler
+        self.assembler = assembler
+        return assembler
+
+    def _try_finalize_pending(self, turn_id: str) -> tuple[TranscriptUpdate, FinalUserTurn] | None:
+        boundary = self._pending_endpoints.get(turn_id)
         if boundary is None:
             return None
+        assembler = self._assemblers.get(turn_id)
+        if assembler is None:
+            return None
         try:
-            finalized = self.assembler.finalize(boundary)
+            finalized = assembler.finalize(boundary)
         except TranscriptContractError as exc:
             if str(exc) == "cannot finalize an empty transcript":
                 return None
             raise
-        self._pending_endpoint = None
-        if self.assembler_factory is not None:
-            next_turn_number = _next_turn_number(boundary.turn_id)
-            self.assembler = self.assembler_factory(
-                f"{boundary.call_id}:turn-{next_turn_number}"
-            )
+        self._pending_endpoints.pop(turn_id, None)
+        self._assemblers.pop(turn_id, None)
         return finalized
 
     def cancel(self) -> None:
         self.turn_detector.cancel()
-        self.assembler.cancel()
-        self._pending_endpoint = None
-        self._ready_final_turn = None
+        for assembler in tuple(self._assemblers.values()):
+            assembler.cancel()
+        self._assemblers.clear()
+        self._pending_endpoints.clear()
+        self._ready_final_turns.clear()
         self._closed = True
 
     def close(self) -> None:
         self.cancel()
-
-
-def _next_turn_number(turn_id: str) -> int:
-    """Return the next numeric turn id without adding a second turn owner."""
-
-    try:
-        return int(turn_id.rsplit("-", 1)[1]) + 1
-    except (IndexError, ValueError) as exc:
-        raise ValueError(f"turn_id must end in a numeric suffix: {turn_id!r}") from exc

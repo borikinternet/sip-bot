@@ -10,6 +10,7 @@ conversation audio recording is introduced into the application.
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import hashlib
 import json
 import sys
@@ -25,19 +26,21 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from config import constants  # noqa: E402
 from sip_bot.context import ContextStore  # noqa: E402
+from sip_bot.config import RuntimeConfig  # noqa: E402
 from sip_bot.conversation_pipeline import ConversationPipeline  # noqa: E402
 from sip_bot.dialogue import DialogueState  # noqa: E402
 from sip_bot.dialogue.events import PlaybackStatus  # noqa: E402
 from sip_bot.llm import LlmFacade, OllamaHttpClient  # noqa: E402
-from sip_bot.prompt import GenerationProfile, PromptSpec, SkillPromptManager, SkillSpec  # noqa: E402
+from sip_bot.prompt import build_default_prompt_manager  # noqa: E402
 from sip_bot.report import ReportFinalizer  # noqa: E402
-from sip_bot.retrieval import LocalKnowledgeIndex, KnowledgeQueryBuilder, load_corpus  # noqa: E402
+from sip_bot.retrieval import LocalKnowledgeIndex, KnowledgeQueryBuilder  # noqa: E402
 from sip_bot.runtime import ApplicationRuntime  # noqa: E402
 from sip_bot.runtime_composition import CallOwners  # noqa: E402
 from sip_bot.sip_media.models import NegotiatedMediaProfile  # noqa: E402
 from sip_bot.sip_media.protocol_events import NormalizedSipEvent, SipEventKind  # noqa: E402
 from sip_bot.speech import EndpointEventKind, FinalUserTurn  # noqa: E402
 from sip_bot.tts import EngineAudioChunk, XttsV2Adapter  # noqa: E402
+from sip_bot.understanding import SemanticTurnParser  # noqa: E402
 
 
 def _profile() -> NegotiatedMediaProfile:
@@ -55,7 +58,18 @@ def _profile() -> NegotiatedMediaProfile:
 
 
 class _RealXttsEngine:
-    def __init__(self, model_root: Path, voice_path: Path) -> None:
+    def __init__(
+        self,
+        model_root: Path,
+        voice_path: Path,
+        *,
+        stream_chunk_size: int = constants.TTS_STREAM_CHUNK_SIZE,
+        overlap_wav_len: int = constants.TTS_STREAM_OVERLAP_WAV_LEN,
+    ) -> None:
+        if stream_chunk_size < 1:
+            raise ValueError("XTTS stream_chunk_size must be positive")
+        if overlap_wav_len < 0:
+            raise ValueError("XTTS overlap_wav_len must not be negative")
         import numpy as np
         import soundfile as sf
         import torch
@@ -82,6 +96,23 @@ class _RealXttsEngine:
         )
         model = self._tts.synthesizer.tts_model
         self._latents = model.get_conditioning_latents(audio_path=str(voice_path), load_sr=22050)
+        self._stream_chunk_size = int(stream_chunk_size)
+        self._overlap_wav_len = int(overlap_wav_len)
+
+    @property
+    def stream_chunk_size(self) -> int:
+        return self._stream_chunk_size
+
+    @property
+    def overlap_wav_len(self) -> int:
+        return self._overlap_wav_len
+
+    def configure_streaming(self, *, stream_chunk_size: int) -> None:
+        """Select the next sequential probe/runtime stream policy."""
+
+        if stream_chunk_size < 1:
+            raise ValueError("XTTS stream_chunk_size must be positive")
+        self._stream_chunk_size = int(stream_chunk_size)
 
     def stream(self, text: str, cancel: Event):
         model = self._tts.synthesizer.tts_model
@@ -91,8 +122,8 @@ class _RealXttsEngine:
             language="ru",
             gpt_cond_latent=latent,
             speaker_embedding=speaker,
-            stream_chunk_size=20,
-            overlap_wav_len=1024,
+            stream_chunk_size=self._stream_chunk_size,
+            overlap_wav_len=self._overlap_wav_len,
         )
         try:
             for chunk in stream:
@@ -128,33 +159,20 @@ def main() -> int:
     voice = args.voice or args.model_root / "samples" / "en_sample.wav"
 
     llm = LlmFacade(OllamaHttpClient(endpoint=constants.LLM_HTTP_ENDPOINT))
-    _, chunks = load_corpus(PROJECT_ROOT / constants.KNOWLEDGE_CORPUS_PATH)
-    index = LocalKnowledgeIndex.build(
-        chunks,
-        llm,
-        index_version=constants.RAG_INDEX_VERSION,
-        embedding_model=constants.RAG_EMBEDDING_MODEL,
+    index = LocalKnowledgeIndex.load(
+        PROJECT_ROOT / constants.KNOWLEDGE_INDEX_PATH,
+        expected_index_version=constants.RAG_INDEX_VERSION,
+        expected_corpus_version=constants.RAG_CORPUS_VERSION,
+        expected_embedding_model=constants.RAG_EMBEDDING_MODEL,
+        expected_dimension=constants.RAG_INDEX_DIMENSION,
+        expected_chunking_policy=constants.RAG_CHUNKING_POLICY_VERSION,
+        expected_corpus_sha256=constants.RAG_CORPUS_SHA256,
     )
-    prompt = SkillPromptManager(
-        skill=SkillSpec(constants.DEFAULT_SKILL_ID, "1", "Отвечай кратко и только на основании найденных источников."),
-        prompt=PromptSpec(
-            constants.PROMPT_TEMPLATE_ID,
-            constants.PROMPT_TEMPLATE_VERSION,
-            "Отвечай только валидным JSON без Markdown и рассуждений. "
-            "Допустимые action: answer, clarify, offer_transfer.\n"
-            "{instruction}\nКонтекст:\n{context}\nЗнания:\n{knowledge}\n"
-            "Вопрос пользователя:\n{user_text}",
-        ),
-        profile=GenerationProfile(
-            constants.GENERATION_PROFILE_ID,
-            constants.GENERATION_PROFILE_VERSION,
-            constants.LLM_MAX_GENERATION_TOKENS,
-            constants.LLM_TEMPERATURE,
-        ),
-        output_schema_id=constants.OUTPUT_SCHEMA_ID,
-    )
+    prompt = build_default_prompt_manager()
     tts = XttsV2Adapter(_RealXttsEngine(args.model_root, voice), operation_id_factory=lambda: "xtts-composition-op")
-    runtime = ApplicationRuntime.from_constants()
+    # This component probe measures a user-turn answer only; the live runners
+    # own the separate call greeting scenario.
+    runtime = ApplicationRuntime(replace(RuntimeConfig.from_constants(), call_greeting_text=""))
     runtime.start()
     call_id = "real-composition-call"
     owners = CallOwners(
@@ -192,7 +210,8 @@ def main() -> int:
         EndpointEventKind.HARD_ENDPOINT,
     )
     started = time.monotonic_ns()
-    if not pipeline.submit_final_turn(turn):
+    semantic_turn = SemanticTurnParser().parse(turn, composition.fsm.current_expectation())
+    if not pipeline.submit_semantic_turn(semantic_turn):
         raise RuntimeError("composition rejected final turn")
     _wait_pipeline(pipeline, 180.0)
     composition.drain_control()

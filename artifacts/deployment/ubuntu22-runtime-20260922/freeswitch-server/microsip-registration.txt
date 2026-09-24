@@ -1,0 +1,24 @@
+Running as unit: run-u24.service
+
+Registrations:
+=================================================================================================
+Call-ID:    	66eb254514184759aada1633fa056484
+User:       	1000@10.0.0.45
+Contact:    	"Workshop caller 1000" <sip:1000@172.18.0.1:5062;ob>
+Agent:      	MicroSIP/3.22.16
+Status:     	Registered(UDP)(unknown) EXP(2026-09-22 12:23:38) EXPSECS(359)
+Ping-Status:	Reachable
+Ping-Time:	0.00
+Host:       	freeswitch-bookworm
+IP:         	10.0.0.1
+Port:       	5062
+Auth-User:  	1000
+Auth-Realm: 	10.0.0.45
+MWI-Account:	1000@10.0.0.45
+
+Total items returned: 1
+=================================================================================================
+
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 5ms

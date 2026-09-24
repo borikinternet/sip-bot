@@ -1,0 +1,4 @@
+queue|instance_id|uuid|session_uuid|cid_number|cid_name|system_epoch|joined_epoch|rejoined_epoch|bridge_epoch|abandoned_epoch|base_score|skill_score|serving_agent|serving_system|state|score
+support@default|single_box|2aea78a4-9ca1-433a-bd9f-4032842f54d9|f42da0f3-8b99-4072-bdfe-42128f5bb597|1000|1000|1790080450|1790080450|0|0|0|0|0|1001@default|single_box|Trying|0
++OK
+

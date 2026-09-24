@@ -1,0 +1,124 @@
+{
+  "status": "fail",
+  "gate": "I1-8",
+  "call_id": "i1-8-live-call",
+  "started_at_utc": "2026-09-13T15:11:40.997410+00:00",
+  "elapsed_ms": 27633.272,
+  "elapsed_from_call_start_ms": null,
+  "warmup": {
+    "started_at_ns": 7681281398810,
+    "completed_at_ns": 7707671533736,
+    "elapsed_ms": 26390.134926,
+    "stages": [
+      {
+        "name": "rag-embedding-index",
+        "elapsed_ms": 256.848329,
+        "details": {
+          "chunks": 6,
+          "embedding_model": "embeddinggemma"
+        }
+      },
+      {
+        "name": "llm-chat",
+        "elapsed_ms": 741.604622,
+        "details": {
+          "sources": [
+            "wiki-physics-rayleigh",
+            "wiki-astronomy-mars"
+          ],
+          "trace": {
+            "final_user_turn_ns": 7681560228119,
+            "request_started_ns": 7681560253670,
+            "first_stream_event_ns": 7681632981877,
+            "first_usable_output_ns": 7681632981877,
+            "final_result_ns": 7682279756279,
+            "cancel_requested_ns": null,
+            "completed_ns": 7682279756279,
+            "final_to_first_usable_ms": 72.753758,
+            "final_to_final_result_ms": 719.52816,
+            "request_to_first_usable_ms": 72.728207,
+            "request_to_final_result_ms": 719.502609
+          }
+        }
+      },
+      {
+        "name": "asr",
+        "elapsed_ms": 11455.747118,
+        "details": {
+          "model_path": "/home/sipbot/.local/models/faster-whisper-large-v3-edaa852e",
+          "model_sample_rate_hz": 16000,
+          "input_sample_rate_hz": 8000,
+          "input_duration_ms": 1000,
+          "model_loaded_by_warmup": true
+        }
+      },
+      {
+        "name": "tts-initialize",
+        "elapsed_ms": 13027.887387,
+        "details": {
+          "initialized": true
+        }
+      },
+      {
+        "name": "tts-stream",
+        "elapsed_ms": 419.24999,
+        "details": {
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "first_chunk_bytes": 14166
+        }
+      },
+      {
+        "name": "fixture",
+        "elapsed_ms": 488.651897,
+        "details": {
+          "path": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-C/live-stand/input-question.wav",
+          "bytes": 514816
+        }
+      }
+    ]
+  },
+  "fixture": {
+    "text": "Почему небо днём кажется голубым?",
+    "path": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-C/live-stand/input-question.wav",
+    "bytes": 514816,
+    "sha256": "287bc32f13b1f2d3772c532c243592ee855cd05a42e862c285a9d2f16d13f123",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "speech_bytes": 34816,
+    "silence_tail_s": 30,
+    "source": "local XTTS-generated test fixture; not a call recording"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false
+  },
+  "sip": {
+    "peer_established": false,
+    "rtp_ingress_established": false,
+    "pcmu_8000_mono": false,
+    "peer_reported_packets": false,
+    "peer_rtp_packets": null,
+    "adapter_profile": null,
+    "adapter_media_stats": {},
+    "adapter_events": []
+  },
+  "wiring": {},
+  "speech": {},
+  "context": [],
+  "report": null,
+  "rag": {
+    "contexts": 0,
+    "sufficient": false,
+    "source_ids": []
+  },
+  "fsm": {
+    "state": null,
+    "trace": []
+  },
+  "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-C/i1-live-20260913-r2/baresip-peer.log",
+  "errors": [
+    "ModuleNotFoundError: No module named 'pjsua2'"
+  ]
+}

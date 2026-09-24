@@ -1,0 +1,179 @@
+{
+  "evidence_id": "E-002-J4-FULL-LIVE-20260922T194839Z",
+  "plan": "002-J",
+  "stage": "J4",
+  "status": "fail",
+  "acceptance": "one clean-start SIP/RTP call covers follow-up, barge-in, unknown-answer/transfer and report",
+  "started_at_utc": "2026-09-22T19:48:39.367503+00:00",
+  "elapsed_ms": 3401.566,
+  "elapsed_from_call_start_ms": 1848.561,
+  "warmup": null,
+  "fixture": {
+    "path": "/home/inrack/sip-bot/artifacts/implementation/016-speech-evidence/016-C/registered-live-r1/live-stand/input-scenario.wav",
+    "bytes": 1316824,
+    "source": "prepared XTTS-generated multi-turn fixture copied for readiness replay",
+    "source_path": "/tmp/sip-bot-010-c-recording-4kvemq80/input-scenario-with-continuity-tail.wav",
+    "leading_silence_s": 8.0,
+    "trailing_silence_s": 20.0,
+    "fixture_generation": "prepared scenario with configurable barge-in shift and continuity tail",
+    "barge_in_shift_s": 0.0,
+    "continuity_tail_purpose": "keep Baresip aufile transmitting until the bot finishes its final response"
+  },
+  "runtime": {
+    "python": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "version": "3.14.7 free-threading build (main, Sep 22 2026, 10:09:00) [GCC 11.4.0]",
+    "gil_enabled": false,
+    "readiness": {
+      "runtime_id": "application",
+      "state": "failed",
+      "sequence": 2,
+      "started_at_ns": 35791983017200,
+      "completed_at_ns": 35792804761199,
+      "error_type": "RuntimeWarmupError",
+      "error_message": "warmup stage 'asr' failed: faster-whisper/CTranslate2 is not installed in the selected runtime"
+    }
+  },
+  "sip": {
+    "peer_established": false,
+    "rtp_ingress_established": false,
+    "pcmu_8000_mono": false,
+    "peer_rtp_packets": null,
+    "adapter_profile": null,
+    "adapter_media_stats": {},
+    "adapter_events": []
+  },
+  "operator": {
+    "target": "sip:operator@127.0.0.1:5090",
+    "peer_established": false,
+    "log": "/home/inrack/sip-bot/artifacts/implementation/016-speech-evidence/016-C/registered-live-r1/baresip-operator.log",
+    "transfer_result": {
+      "target": "sip:operator@127.0.0.1:5090",
+      "available": true,
+      "accepted": []
+    }
+  },
+  "conversation": {
+    "context": [],
+    "user_turn_count": 0,
+    "assistant_turn_count": 0,
+    "rag_context_count": 0,
+    "rag_source_ids": [],
+    "rag_contexts": [],
+    "semantic_acts": []
+  },
+  "asr_hypotheses": [],
+  "fsm": {
+    "state": null,
+    "trace_events": [],
+    "trace_states": [],
+    "barge_in_observed": false
+  },
+  "wiring": {},
+  "speech": {},
+  "tts_output": {},
+  "scenario_checks": {
+    "follow_up_turn_present": false,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": false,
+    "rtp_continuity_present": false,
+    "stereo_recording_present": false
+  },
+  "report": null,
+  "peer_log": "/home/inrack/sip-bot/artifacts/implementation/016-speech-evidence/016-C/registered-live-r1/baresip-peer.log",
+  "errors": [
+    "RuntimeWarmupError: runtime warmup failed: warmup stage 'asr' failed: faster-whisper/CTranslate2 is not installed in the selected runtime"
+  ],
+  "audio_recording": false,
+  "external_pbx": true,
+  "notes": [
+    "PCM/RTP payload stays on direct data-plane edges; only compact control events enter Dispatcher.",
+    "A separate operator Baresip peer is used for the approved local transfer scenario.",
+    "Baresip test peer sndfile raw enc/dec tracks are retained under recordings/raw.",
+    "conversation-stereo.wav maps left=user_to_bot and right=bot_to_user; its target duration is the answered-call event window and alignment is explicit in recording-manifest.json.",
+    "The registered input fixture includes an explicit 30 s trailing continuity tail for the Baresip aufile source.",
+    "RTP continuity acceptance uses the answered-call event window and negotiated ptime; enc/dec WAV duration is diagnostic only."
+  ],
+  "acceptance_checks": {
+    "follow_up_turn_present": false,
+    "barge_in_transition_present": false,
+    "unknown_answer_offer_present": false,
+    "transfer_transition_present": false,
+    "operator_transfer_result": false,
+    "report_present": false,
+    "rtp_continuity_present": false
+  },
+  "diagnostic_checks": {
+    "stereo_recording_present": false,
+    "stereo_recording_required_for_rtp_continuity": false
+  },
+  "rtp_continuity": {
+    "schema": "sip-bot.map010-c-rtp-continuity.v2",
+    "status": "fail",
+    "acceptance_scope": "answered-call media continuity; recording timeline is diagnostic only",
+    "window": {
+      "start_event": null,
+      "start_semantics": "200 OK to INVITE / call answer",
+      "stop_event": null,
+      "stop_semantics": "BYE received (or media_stopped fallback); 200 OK to BYE is transaction confirmation",
+      "elapsed_ms": null
+    },
+    "negotiated": {
+      "ptime_ms": null,
+      "codec": null,
+      "sample_rate_hz": null
+    },
+    "expected_frames": null,
+    "egress_frames": -1,
+    "peer_receive_packets": -1,
+    "peer_receive_lost_packets": -1,
+    "external_pbx": true,
+    "frame_tolerance": 1,
+    "checks": {
+      "answered_call_window_present": false,
+      "ptime_is_negotiated": false,
+      "egress_count_matches_call_window": false,
+      "egress_underruns_zero": false,
+      "callback_errors_zero": false,
+      "egress_drops_zero": false,
+      "peer_received_rtp": false
+    },
+    "peer_diagnostics": {
+      "counter_scope_comparable_to_bot_answered_window": false,
+      "peer_counter_matches_bot_window": false,
+      "peer_reported_no_receive_loss": null
+    },
+    "recording_duration_is_not_used_for_acceptance": true
+  },
+  "recording": {
+    "status": "fail",
+    "error": "Baresip sndfile did not produce both *-enc.wav and *-dec.wav",
+    "files": [
+      "/home/inrack/sip-bot/artifacts/implementation/016-speech-evidence/016-C/registered-live-r1/recordings/raw/input-scenario-with-barge-in-shift.wav",
+      "/home/inrack/sip-bot/artifacts/implementation/016-speech-evidence/016-C/registered-live-r1/recordings/raw/input-scenario-with-continuity-tail.wav"
+    ]
+  },
+  "registration_mode": "enabled",
+  "registered_peer": {
+    "registrar_address": "10.0.0.45:5060",
+    "user": "1000",
+    "target_extension": "7100"
+  },
+  "incoming_admission": {
+    "gate": "IncomingCallReadinessGate",
+    "incoming_call_requested": false,
+    "runtime_ready_at_replay_end": false,
+    "readiness_state_at_replay_end": null,
+    "prewarm_triggered": true,
+    "policy": "registered peer calls 7100; prewarm mode waits for aggregate readiness before dial"
+  },
+  "wrapper_debug": {
+    "popen_commands": [
+      "baresip -f /home/inrack/sip-bot/artifacts/feasibility/001-S-voip-test-stand/config/operator-5090 -t 420.0",
+      "baresip -f /home/inrack/sip-bot/artifacts/implementation/016-speech-evidence/016-C/registered-live-r1/live-stand/peer-5080 -t 420.0"
+    ],
+    "peer_captured": true
+  }
+}

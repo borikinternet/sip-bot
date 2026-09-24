@@ -155,6 +155,7 @@ def main() -> int:
         chunk_ms=1000,
         flush_ms=1000,
     )
+    chunker.begin_turn(turn_id)
     hypotheses: list[AsrHypothesis] = []
     endpoint_events = []
     final_turn: FinalUserTurn | None = None
@@ -205,7 +206,7 @@ def main() -> int:
         if final_turn is not None:
             break
 
-    chunker.hard_endpoint()
+    chunker.hard_endpoint(turn_id)
     process_chunks()
     adapter.close()
     elapsed = time.perf_counter() - started

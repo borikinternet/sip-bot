@@ -31,9 +31,13 @@ lifecycle, а `ContextStore` — за bounded text context и, при необх
 `report.md`, который финализирует report owner; live FSM state не дублируется в
 ContextStore.
 
-Финализированный пользовательский ход является data-plane payload: `FinalUserTurn` передаётся напрямую в владельцев
-текста (Skill & Prompt Manager и прямой вход FSM), а в Event Bus публикуется только небольшое speech lifecycle-событие.
-Event Bus обязан отклонять data-plane payload даже если его текст формально ограничен по размеру.
+Финализированный пользовательский ход является data-plane payload. `FinalUserTurn` передаётся напрямую в
+`SemanticTurnParser`, который читает immutable `DialogueExpectation` текущей FSM и выдаёт `SemanticTurn` с
+упорядоченными typed dialogue acts. `CallComposition` сохраняет исходный текст в `ContextStore` ровно один раз и
+последовательно вызывает методы FSM для acts; содержательный `KnowledgeRequestAct` напрямую материализуется во вход
+`ConversationPipeline`. В Event Bus/Dispatcher попадают только компактные lifecycle events, decisions и commands.
+Event Bus обязан отклонять `FinalUserTurn`, `SemanticTurn` и другие data-plane payload даже если текст формально
+ограничен по размеру.
 
 ## 2. Компоненты и потоки
 
@@ -56,8 +60,13 @@ RTP/PCMU ──> SIP/media ──> format/framer ──> PCM fan-out ──┬�
                                                                        ASR
                                                                         │
                                                                Transcript Assembler
-                                                                        │ final turn
+                                                                        │ FinalUserTurn
                                                                         ▼
+                                                               SemanticTurnParser
+                                                          DialogueExpectation │ SemanticTurn
+                                                        Dialogue FSM ◄────────┘
+                                                              │ knowledge request
+                                                              ▼
                                                              Skill & Prompt Manager
                                                                          │ LlmRequest
                                                                          ▼
@@ -87,10 +96,37 @@ RTP/PCMU ──> SIP/media ──> format/framer ──> PCM fan-out ──┬�
   заменяет семантические adapters на границах.
 - `ASR input accumulator` собирает кадры media `ptime` в настраиваемые ASR chunks (начальный кандидат — около 1 s),
   использует bounded storage и timer-driven flush, а не простую безграничную очередь.
-- `VAD` получает аудио напрямую из data plane и выдаёт покадровые признаки наличия речи.
+- `VAD` получает аудио напрямую из data plane и выдаёт покадровые признаки наличия речи. Рабочим application/live
+  candidate является `WebRtcVadCandidate` на patched `webrtcvad-wheels 2.0.14`, с mode из `VAD_MODE`; amplitude
+  backend остаётся только deterministic test double. Поскольку Python binding WebRTC VAD публикует только boolean,
+  `VadProcessor` дополнительно применяет inspectable per-call energy gate: измеряет RMS dBFS, устойчиво оценивает noise
+  floor по скользящему низкому квантилю, ограничивает скорость его роста, ведёт сглаженный speech level и подтверждает
+  raw positive настраиваемым порогом. Короткий энергетический onset и спектральный hangover обрабатываются отдельно,
+  чтобы фильтрация фона не удлиняла внутривыходовую паузу. Это внутренняя политика VAD owner, а не новый data-plane edge.
+- Near-end reference строится не по единичному пику, а по устойчивому квантилю подтверждённых достаточно энергичных
+  кадров текущего звонка. Обычное принятие речи и barge-in имеют разные пороги: слабый акустический возврат может быть
+  отклонён без изменения playback state, а подтверждённая ближняя речь в уже открытом ходе материализует существующий
+  `BARGE_IN` control event. Отдельная media-reference/AEC edge для этого baseline не вводится.
 - `Turn Detector / Endpointing` агрегирует VAD-признаки и определяет начало, продолжение, кандидатный и окончательный конец пользовательского хода.
-- `Streaming ASR` получает аудио напрямую из data plane и выдаёт изменяющиеся текстовые гипотезы.
+- `Streaming ASR` получает аудио напрямую из data plane и выдаёт изменяющиеся текстовые гипотезы вместе с typed
+  model evidence. Production faster-whisper сохраняет `no_speech_prob`, средний `avg_logprob`, compression ratio и
+  диагностику временной границы сегмента. Финальная гипотеза, квалифицированная как no-speech, атомарно освобождает
+  matching assembler/pending endpoint и не создаёт `FinalUserTurn`; текст модели не фильтруется по содержимому.
+- `TurnDetector` является единственным владельцем `turn_id`. Только после достижения `min_speech_ms` его фактический
+  идентификатор хода прикрепляется к квалифицированным PCM frames и затем без переименования проходит через
+  `AsrAudioChunk` и `AsrHypothesis` к `Transcript Assembler`. Короткие положительные bursts, не ставшие пользовательским
+  ходом, в ASR accumulator не попадают. Pending endpoint и assembler хранятся по `turn_id`, поэтому несколько
+  последовательных ходов безопасны при отстающем ASR worker и не перезаписывают transcript scope друг друга.
 - `Transcript Assembler` собирает единую текущую гипотезу из partial-результатов ASR, отделяя явно подтверждённый backend-ом стабильный префикс от изменяемого хвоста и выдавая финальный текст после endpointing. Общий префикс двух последовательных гипотез сам по себе стабильностью не считается: ранняя ошибка ASR может повториться и затем исчезнуть.
+- `SemanticTurnParser` является stateless owner детерминированной интерпретации финального текста с учётом read-only
+  ожидания FSM. Он выделяет явное подтверждение/отказ, прямую просьбу об операторе и содержательный residual как
+  ordered typed acts, но не меняет call state, не вызывает SIP/RAG/LLM и не создаёт отдельный delivery channel.
+- `DialogueExpectation` уточняет смысл коротких контекстных ответов, но не перекрывает самодостаточное намерение:
+  явная просьба перевести на оператора остаётся `TransferRequestAct` и при ожидаемом подтверждении перевода.
+- `Dialogue FSM` остаётся единственным владельцем semantic state и transfer policy. Составной отказ сначала снимает
+  pending transfer, после чего residual запускает обычный knowledge path. Составное подтверждение не переводит
+  немедленно: после ответа на residual FSM повторно спрашивает подтверждение, и только новый pure confirm разрешает
+  transfer. Raw turn хранится один раз, а applied/ignored acts попадают в диагностический trace отчёта.
 - Реализация faster-whisper строит каждую partial-гипотезу на растущем PCM-префиксе текущего user turn; negotiated
   8 kHz mono PCM явно ресемплируется на требуемые моделью 16 kHz. После hard endpoint префикс сбрасывается, чтобы
   следующий turn не наследовал предыдущий текст.
@@ -103,16 +139,34 @@ RTP/PCMU ──> SIP/media ──> format/framer ──> PCM fan-out ──┬�
   преобразует внешний stream/JSON в внутренние типы и отвечает за cancellation/status. Ни один другой компонент не
   обращается к Ollama напрямую.
 - `TTS` получает одобренный текстовый поток и выдаёт произвольные PCM chunks.
+- Статическое greeting после `CALL_ANSWERED` не проходит через LLM/RAG: `Dialogue FSM` выдаёт компактный
+  `PLAY_GREETING`, а `ConversationPipeline` передаёт конфигурационный текст существующему TTS path. Speech ingress уже
+  открыт, поэтому тот же playback generation/cancellation contract обеспечивает barge-in; PCM не проходит через
+  Dispatcher.
+- Статическое повторное подтверждение перевода использует тот же принцип: FSM выдаёт компактный
+  `PLAY_TRANSFER_CONFIRMATION`, а pipeline подставляет `TRANSFER_CONFIRMATION_TEXT` и запускает существующий TTS path.
+  Вопрос не проходит через answer LLM/RAG и остаётся interruptible.
 - `TTS output buffer/framer/pacer` накапливает и переформатирует поток TTS в media-кадры с `ptime`, выдавая их по
   media clock и корректно закрываясь/отменяясь при barge-in.
 - Накопление TTS является receiver-owned dynamic accumulation: текущая длина буфера изменяется при добавлении и
   чтении chunks, но storage остаётся bounded и имеет явный high-water/backpressure или error policy. Это не означает
   фиксированный буфер размера одного chunk/ответа и не разрешает truly unbounded memory. PJMEDIA callback извлекает
   ровно один negotiated `PcmFrame` за такт; он не ждёт producer и не получает тишину из того же TTS-буфера.
+- Пока вызов отвечен и media clock активен, callback выдаёт один PCMU-кадр на каждый negotiated tick: из TTS-буфера
+  в режиме playback и из выбранного comfort-noise источника в idle/preroll/draining. Пустой TTS-буфер в режиме
+  `PLAYING` считается underrun и не маскируется как штатная тишина. В live acceptance непрерывность проверяется по
+  окну `200 OK` на `INVITE` → `BYE`/`media_stopped`, `ptime`, adapter egress и peer RTP receive/loss counters;
+  длительность Baresip WAV остаётся отдельным recording diagnostic.
 - `Dialogue/LLM path` связывает `Dialogue FSM`, `Skill & Prompt Manager` и `LLM Facade`: FSM разрешает действие и
   generation policy, менеджер промптов собирает запрос, фасад выполняет inference. В текущем C3-baseline inference
   выполняется локальным native-сервисом в отдельном процессе.
 - `Main Dispatcher / Dialogue FSM` проверяет действия, изменяет состояние, управляет каналами, отменяет активные операции и отправляет команды SIP-адаптеру.
+- `RuntimeReadinessCoordinator` владеет только runtime-scoped состоянием и single-flight aggregate warmup. Он может быть
+  запущен явным background-trigger-ом; `ApplicationRuntime.start()` не выполняет тяжёлую подготовку синхронно.
+- `IncomingCallReadinessGate` является узким runtime-компонентом с самостоятельным pending-call lifecycle: он связывает
+  событие incoming `call_started` после локального `180` с общим coordinator result и вызывает только typed
+  `answer()`/`reject()` SIP-адаптера. При `RUNNING` gate ожидает уже идущий warmup, при `NOT_STARTED` запрашивает его
+  запуск как fallback. Gate не владеет LLM, медиа, Dispatcher или доставкой payload.
 
 LLM не передаёт SIP-команды напрямую. Содержательный текст ответа может идти в TTS по data plane, но действия `transfer`, `hangup` и другие изменения состояния проходят через Dispatcher.
 
@@ -141,6 +195,14 @@ PJSUA2 поддерживает несколько одновременных о
 К первому уровню относятся, например, ответы на `BYE`, `CANCEL`, `OPTIONS`, `re-INVITE`/`UPDATE`, подтверждение
 изменения media-направления при hold/resume, а также локальная реакция на RTP timeout или transport error. BYE — лишь
 один из проверяемых сценариев, а не специальное архитектурное исключение.
+
+Для входящего `INVITE` жизненный цикл разделён на два шага. SIP adapter немедленно отправляет явный `180 Ringing`,
+не ожидая Dispatcher или AI, и публикует событие `call_started` с признаком pending answer. Затем основной `asyncio`
+loop передаёт событие общему readiness coordinator: если runtime уже `READY`, adapter получает команду явного `200 OK`;
+если warmup `RUNNING`, звонок ждёт тот же результат; если warmup `NOT_STARTED`, coordinator запускает его один раз вне
+native callback и не блокируя SIP polling, после успешного завершения отправляется `200 OK`. При ошибке прогрева отправляется явный `503`
+без direct/CPU/model fallback. Remote `CANCEL`, `BYE`, media/transport failure во время ожидания закрывает pending
+admission; поздний результат прогрева не может ответить или открыть media у закрытого звонка.
 
 Ко второму уровню относятся события вроде `call_ended`, `remote_hold_started`, `remote_resumed`, `media_reconfigured`,
 `rtp_timeout` и `media_failed`. Dispatcher может изменить FSM или закрыть каналы, но его недоступность не должна
@@ -176,6 +238,10 @@ generation profile и формирует единый typed `LlmRequest` для 
 В MVP их определения являются именованными константами `config/constants.py`; динамическая настройка через отдельную
 административную подсистему не требуется.
 
+Default package материализуется единственной factory `src/sip_bot/prompt/defaults.py`. Текст skill instruction и полный
+template не принадлежат live/probe runner'ам: они редактируются как `DEFAULT_SKILL_INSTRUCTION` и
+`PROMPT_TEMPLATE_TEXT`, а `SkillPromptManager` выполняет только проверяемую подстановку typed context/RAG/user data.
+
 ### 3.3. Локальный RAG-контур
 
 RAG является обязательной частью демонстрационного answer path. `Context/KB Manager` владеет подготовленным корпусом,
@@ -192,14 +258,31 @@ RAG является обязательной частью демонстрац�
 передача ограниченного числа фрагментов в prompt. Ответ модели без найденного и зафиксированного локального контекста
 не считается RAG-evidence; при недостаточной релевантности применяется обычное правило unknown-answer/offer-transfer.
 
+Offline и online lifecycle разделены typed artifact boundary. Offline path валидирует versioned corpus package,
+детерминированно нормализует/chunk-ит Markdown, получает embeddings через `LLM Facade`, проверяет candidate index и
+атомарно публикует immutable `rag-index-v1`. Online path только загружает и проверяет готовый artifact, выполняет query
+embedding и локальный retrieval; повторная векторизация корпуса в startup/call path запрещена. Один звонок использует
+один knowledge snapshot, hot reload во время разговора не выполняется.
+
+История передаётся retrieval не безусловно: она нужна для явной анафоры и коротких эллиптических follow-up, но не
+должна заражать новый самостоятельный вопрос старой темой. При `sufficient=false` низкорелевантные hits сохраняются в
+диагностике/report, но `Skill & Prompt Manager` не вставляет их как знания в prompt и разрешает только
+`offer_transfer` с явным сообщением об ограничении и вопросом о подключении оператора.
+
+Решение sufficiency является наблюдаемым typed результатом: вместе с final boolean сохраняются reason code,
+configured/effective threshold, semantic-only threshold, lexical-semantic floor, top semantic score, фактическая и
+требуемая lexical support и число содержательных query terms. Разговорная рамка запроса не увеличивает denominator
+lexical gate; самостоятельный новый вопрос не наследует retrieval context старой темы.
+
 ### 3.4. Pre-call readiness и прогрев
 
 Тяжёлые AI-провайдеры являются ленивыми: импорт, создание объекта или наличие файла модели не доказывают готовность к
-первому inference. Поэтому application runtime перед допуском SIP-вызова последовательно выполняет readiness stages:
+первому inference. Поэтому application runtime перед финальным допуском звонка последовательно выполняет readiness stages:
 строит/загружает RAG embedding index, выполняет короткий structured chat через `LlmFacade`, запускает ASR на
 беззвучном входе через тот же 8 kHz → 16 kHz boundary и получает первый реальный PCM chunk от TTS. Каждый stage
-фиксирует elapsed time и результат; ошибка или незавершённый результат оставляет runtime неготовым, а вызов не
-принимается.
+фиксирует elapsed time и результат; ошибка или незавершённый результат оставляет runtime неготовым, не отправляет
+`200 OK` и не открывает media. В live incoming режиме до завершения этих stages допускается только локальный
+provisional `180 Ringing`; это не считается установленным разговором.
 
 Stages выполняются последовательно, поскольку MVP использует одну GPU. Их дисковая активность переносится на bootstrap,
 до звонка: пользовательская задержка разговора не должна включать загрузку весов, построение CUDA-кэшей или первый
@@ -304,7 +387,9 @@ Dispatcher отвечает за операции:
 1. После начала тишины создаётся `pause_candidate`.
 2. Через настраиваемый soft endpoint, ориентировочно 250–300 ms, стабильный префикс можно передать в speculative pipeline.
 3. Если речь возобновилась, текущий ход продолжается, а speculative-канал закрывается.
-4. После настраиваемого hard endpoint, ориентировочно 500 ms непрерывной тишины, текущий ход финализируется.
+4. После настраиваемого hard endpoint текущий ход финализируется. Для принятого WebRTC VAD phone baseline Map-008
+   выбрала `520 ms` как минимальное значение, не дробящее контролируемую 480-ms внутривыходовую паузу на 20-ms frame
+   clock; это остаётся конфигурационным ориентиром около 500 ms, а не отдельным SLA.
 
 Сигнал LLM или другого компонента о том, что текст выглядит законченным, может использоваться как advisory `completion_hint`. Он не заменяет VAD и endpointing и не может самостоятельно менять состояние звонка.
 

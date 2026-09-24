@@ -1,0 +1,8 @@
+command: python -m pytest tests/contract/test_registration_contract.py tests/unit/test_sip_media.py -q
+exit_code: 0
+output: ...............                                                          [100%]
+output: 15 passed in 0.06s
+
+command: python -m pytest tests/unit tests/contract tests/integration -q
+exit_code: 0
+output: 177 passed, 5 skipped in 0.58s

@@ -13,6 +13,7 @@ from sip_bot.tts import (
     MediaPacer,
     TtsOutputBuffer,
     TtsOutputError,
+    TtsLatencyStage,
     TtsPcmChunk,
     XttsV2Adapter,
 )
@@ -175,6 +176,40 @@ def test_xtts_adapter_normalizes_injected_engine_chunks_to_call_profile() -> Non
     assert chunks[0].operation_id == "tts-op-1"
     assert chunks[0].sample_count == 8
     assert chunks[0].profile.sample_rate_hz == 8000
+
+
+def test_xtts_adapter_emits_exact_first_chunk_latency_stages() -> None:
+    class FakeEngine:
+        def stream(self, _text: str, _cancel: Event):
+            yield EngineAudioChunk(b"\x01\x00" * 24, sample_rate_hz=24000)
+
+    ticks = iter((100, 200, 300))
+    events = []
+    adapter = XttsV2Adapter(
+        FakeEngine(),
+        operation_id_factory=lambda: "tts-latency-op",
+        latency_sink=events.append,
+        clock_ns=lambda: next(ticks),
+    )
+
+    assert list(
+        adapter.stream(
+            "Привет",
+            call_id="call-1",
+            channel_id="call-1:tts",
+            turn_id="turn-1",
+            generation=2,
+            profile=profile(),
+        )
+    )
+    assert [event.stage for event in events] == [
+        TtsLatencyStage.ADAPTER_STARTED,
+        TtsLatencyStage.ENGINE_FIRST_CHUNK,
+        TtsLatencyStage.PCM_FIRST_CHUNK,
+    ]
+    assert [event.timestamp_ns for event in events] == [100, 200, 300]
+    assert events[1].payload_bytes == 48
+    assert events[2].payload_bytes == 16
 
 
 def test_xtts_adapter_accepts_only_approved_text_chunks_and_honors_cancel() -> None:

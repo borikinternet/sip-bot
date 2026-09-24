@@ -1,0 +1,162 @@
+{
+  "candidate_id": "ASR-PRIMARY-001-faster-whisper",
+  "candidate_package": "faster-whisper",
+  "candidate_version_expected": "1.2.1",
+  "command": "/home/inrack/sip-bot/tools/asr_primary_probe.py --stage import --evidence-root /home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/asr-import",
+  "evidence_root": "/home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/asr-import",
+  "executable": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+  "finished_at_epoch": 1790075367.1817946,
+  "gil_after_import": false,
+  "gil_before_import": false,
+  "import_errors": [],
+  "imports": [
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"numpy\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "numpy",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"yaml\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "yaml",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"ctranslate2\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "ctranslate2",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"onnxruntime\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "onnxruntime",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": false, \"gil_before\": false, \"module\": \"av\", \"status\": \"pass\", \"warnings\": []}\n",
+      "gil_after": false,
+      "gil_before": false,
+      "module": "av",
+      "status": "pass",
+      "warnings": []
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": true, \"gil_before\": false, \"module\": \"tokenizers\", \"status\": \"pass\", \"warnings\": [{\"category\": \"RuntimeWarning\", \"message\": \"The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0.\"}]}\n",
+      "gil_after": true,
+      "gil_before": false,
+      "module": "tokenizers",
+      "status": "pass",
+      "warnings": [
+        {
+          "category": "RuntimeWarning",
+          "message": "The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+        }
+      ]
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": true, \"gil_before\": false, \"module\": \"faster_whisper\", \"status\": \"pass\", \"warnings\": [{\"category\": \"RuntimeWarning\", \"message\": \"The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0.\"}]}\n",
+      "gil_after": true,
+      "gil_before": false,
+      "module": "faster_whisper",
+      "status": "pass",
+      "warnings": [
+        {
+          "category": "RuntimeWarning",
+          "message": "The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+        }
+      ]
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": true, \"gil_before\": false, \"module\": \"faster_whisper.transcribe\", \"status\": \"pass\", \"warnings\": [{\"category\": \"RuntimeWarning\", \"message\": \"The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0.\"}]}\n",
+      "gil_after": true,
+      "gil_before": false,
+      "module": "faster_whisper.transcribe",
+      "status": "pass",
+      "warnings": [
+        {
+          "category": "RuntimeWarning",
+          "message": "The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+        }
+      ]
+    },
+    {
+      "child_exit_code": 0,
+      "child_stderr": "",
+      "child_stdout": "{\"gil_after\": true, \"gil_before\": false, \"module\": \"faster_whisper.vad\", \"status\": \"pass\", \"warnings\": [{\"category\": \"RuntimeWarning\", \"message\": \"The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0.\"}]}\n",
+      "gil_after": true,
+      "gil_before": false,
+      "module": "faster_whisper.vad",
+      "status": "pass",
+      "warnings": [
+        {
+          "category": "RuntimeWarning",
+          "message": "The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+        }
+      ]
+    }
+  ],
+  "machine": "x86_64-linux-gnu",
+  "package_versions": {
+    "PyYAML": "6.0.3",
+    "av": "18.1.0",
+    "ctranslate2": "4.8.1",
+    "faster-whisper": "1.2.1",
+    "numpy": "2.5.3",
+    "onnxruntime": "1.30.0",
+    "tokenizers": "0.22.2"
+  },
+  "pid": 41201,
+  "platform": "linux",
+  "probe": "001-C2-asr-primary",
+  "py_gil_disabled": 1,
+  "python": "3.14.7 free-threading build (main, Sep 22 2026, 10:09:00) [GCC 11.4.0]",
+  "soabi": "cpython-314t-x86_64-linux-gnu",
+  "stage": "import",
+  "started_at_epoch": 1790075355.083907,
+  "status": "fail",
+  "warnings": [
+    {
+      "category": "RuntimeWarning",
+      "message": "The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+    },
+    {
+      "category": "RuntimeWarning",
+      "message": "The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+    },
+    {
+      "category": "RuntimeWarning",
+      "message": "The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+    },
+    {
+      "category": "RuntimeWarning",
+      "message": "The global interpreter lock (GIL) has been enabled to load module 'tokenizers.tokenizers', which has not declared that it can run safely without the GIL. To override this behavior and keep the GIL disabled (at your own risk), run with PYTHON_GIL=0 or -Xgil=0."
+    }
+  ],
+  "working_directory": "/home/inrack"
+}

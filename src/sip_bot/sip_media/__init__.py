@@ -1,6 +1,6 @@
 """Application SIP/media boundary over the accepted PJSUA2/PJMEDIA baseline."""
 
-from .adapter import AdapterState, SipMediaAdapter, SipMediaConfig
+from .adapter import AdapterState, SipMediaAdapter, SipMediaConfig, caller_id_from_sip_uri
 from .media_port import EgressSourceMode, MediaPortStats, PcmAudioBridge, PcmFrameQueue, PcmOutputBuffer
 from .models import MediaNegotiationError, NegotiatedMediaProfile, PcmFrame
 from .protocol_events import (
@@ -28,6 +28,7 @@ __all__ = [
     "SipEventSink",
     "SipMediaAdapter",
     "SipMediaConfig",
+    "caller_id_from_sip_uri",
     "SipMethod",
     "protocol_reply_for",
 ]

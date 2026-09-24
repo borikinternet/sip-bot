@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Василиса — конференционный SIP-бот</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Конференционный demo</p>
+          <h1>Позвоните Василисе</h1>
+          <p class="lead">Загрузите свой небольшой корпус знаний или задайте вопрос по демонстрационной базе.</p>
+        </div>
+        <div class="credits" aria-label="Команда проекта">
+          <div class="credit-tile credit-logo"><img src="/assets/partner-logo.svg" alt="Логотип компании-партнёра" /></div>
+          <div class="credit-tile credit-photo"><img src="/assets/project-author.png" alt="Автор проекта" /></div>
+        </div>
+      </header>
+
+      <section class="status-card" aria-live="polite">
+        <div class="status-line">
+          <span id="status-dot" class="status-dot"></span>
+          <span id="status-text">Подключаем сессию…</span>
+        </div>
+        <div class="identity-line">
+          <span>Ваш caller ID:</span>
+          <code id="caller-id">—</code>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="card corpus-card">
+          <div class="card-heading">
+            <div>
+              <p class="eyebrow">Текущий корпус</p>
+              <h2 id="corpus-title">Загрузка описания…</h2>
+            </div>
+            <span id="corpus-state" class="pill">—</span>
+          </div>
+          <p id="corpus-description" class="muted">—</p>
+          <p class="topic-label">О чём можно спрашивать</p>
+          <p id="corpus-topic" class="topic">—</p>
+          <p class="topic-label">Примеры вопросов</p>
+          <ul id="question-list" class="question-list"><li>—</li></ul>
+        </article>
+
+        <article class="card upload-card">
+          <p class="eyebrow">Свой корпус</p>
+          <h2>Загрузить файл</h2>
+          <p class="muted">Поддерживаются UTF-8 `.md`, `.txt` и текстовые `.pdf`, размером до 640 КиБ.</p>
+          <form id="upload-form">
+            <label class="file-picker">
+              <span id="file-label">Выбрать файл</span>
+              <input id="file-input" type="file" accept=".md,.txt,.pdf,application/pdf,text/markdown,text/plain" />
+            </label>
+            <button id="upload-button" class="button secondary" type="submit">Подготовить корпус</button>
+          </form>
+          <p id="upload-message" class="form-message" aria-live="polite"></p>
+        </article>
+      </section>
+
+      <section class="call-card card">
+        <div>
+          <p class="eyebrow">SIP over WebRTC</p>
+          <h2>Готовы поговорить?</h2>
+          <p id="call-help" class="muted">Для базового корпуса можно звонить сразу. После загрузки дождитесь готовности.</p>
+        </div>
+        <button id="call-button" class="button primary" type="button" disabled>Позвонить</button>
+        <p id="call-message" class="form-message" role="status" aria-live="polite"></p>
+        <p id="audio-message" class="form-message" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="qr-card card">
+        <div class="qr-placeholder" id="qr-placeholder">QR</div>
+        <div>
+          <p class="eyebrow">Поделитесь demo</p>
+          <h2>Откройте эту страницу на телефоне</h2>
+          <p id="qr-message" class="muted">QR-код появится после передачи финального URL конференционной страницы.</p>
+        </div>
+      </section>
+
+      <footer>Автор проекта · локальная демонстрация · Василиса</footer>
+    </main>
+    <audio id="remote-audio" autoplay></audio>
+    <script src="/assets/jssip-3.10.0.min.js"></script>
+    <script src="/static/demo-config.js"></script>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

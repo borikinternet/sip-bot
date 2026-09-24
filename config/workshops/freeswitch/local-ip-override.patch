@@ -1,0 +1,10 @@
+--- /etc/freeswitch/vars.xml
++++ /etc/freeswitch/vars.xml
+@@ -58,6 +58,7 @@
+       affect the sip authentication.  Please review conf/directory/default.xml for more
+       information on this topic.
+   -->
++  <X-PRE-PROCESS cmd="set" data="local_ip_v4=192.168.1.74"/>
+   <X-PRE-PROCESS cmd="set" data="domain=192.168.1.74"/>
+   <X-PRE-PROCESS cmd="set" data="domain_name=$${domain}"/>
+   <X-PRE-PROCESS cmd="set" data="hold_music=local_stream://moh"/>

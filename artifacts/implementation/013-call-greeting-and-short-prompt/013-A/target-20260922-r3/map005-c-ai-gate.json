@@ -1,0 +1,166 @@
+{
+  "schema": "sip-bot.map005-c-ai-gate.v1",
+  "status": "fail",
+  "started_at": "2026-09-22T08:39:51.668+00:00",
+  "target_runtime": {
+    "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "gil_enabled": false,
+    "platform": "linux"
+  },
+  "candidate": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "quantization": "Q4_K_M / 4-bit",
+    "ollama_model": "c3-qwen35-9b-q4km:latest",
+    "ollama_version": "0.33.1",
+    "artifact": "/home/sipbot/models/c3-qwen35-9b-gguf/Qwen3.5-9B-Q4_K_M.gguf",
+    "artifact_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "fallback_run": false
+  },
+  "gpu": {
+    "before": {
+      "label": "before",
+      "captured_at": "2026-09-22T08:39:51.668+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 8719,
+      "memory_free_mib": 7332,
+      "utilization_gpu_percent": 6
+    },
+    "after_error": {
+      "label": "after-error",
+      "captured_at": "2026-09-22T08:40:11.821+00:00",
+      "name": "NVIDIA GeForce RTX 5060 Ti",
+      "memory_total_mib": 16311,
+      "memory_used_mib": 10710,
+      "memory_free_mib": 5341,
+      "utilization_gpu_percent": 93
+    }
+  },
+  "profile": {
+    "codec": "PCMU",
+    "payload_type": 0,
+    "rx_payload_type": 0,
+    "tx_payload_type": 0,
+    "ptime_ms": 20.0,
+    "frame_time_usec": 20000,
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "frame_size_samples": 160,
+    "frame_bytes": 320,
+    "pcm_bits_per_sample": 16,
+    "source": "001-S negotiated test profile"
+  },
+  "warmup": {
+    "embedding_index_ms": 6.3,
+    "index_operation": "load-prebuilt-index",
+    "corpus_embedding_requests": 0,
+    "llm_trace": {
+      "final_user_turn_ns": 24737646434046,
+      "request_started_ns": 24737646464867,
+      "first_stream_event_ns": 24737707750120,
+      "first_usable_output_ns": 24737707750120,
+      "final_result_ns": 24738322249373,
+      "cancel_requested_ns": null,
+      "completed_ns": 24738322249373,
+      "final_to_first_usable_ms": 61.316074,
+      "final_to_final_result_ms": 675.815327,
+      "request_to_first_usable_ms": 61.285253,
+      "request_to_final_result_ms": 675.784506
+    },
+    "llm_wall_ms": 676.017,
+    "tts_first_chunk": {
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "first_chunk_bytes": 14166
+    },
+    "tts_wall_ms": 376.854,
+    "excluded_from_live_turn_latency": true
+  },
+  "rag": {
+    "corpus_version": "small-service-company-demo-v1",
+    "index_version": "small-service-company-embeddinggemma-v1",
+    "embedding_model": "embeddinggemma",
+    "corpus_chunks": 12,
+    "query_builder": {
+      "policy_version": "ru-natural-science-v1",
+      "capabilities": {
+        "razdel": false,
+        "pymorphy3": false,
+        "policy_version": "ru-natural-science-v1"
+      },
+      "positive_normalized": "почему небо днём кажется голубым",
+      "positive_lexical_terms": [
+        "почему",
+        "небо",
+        "днём",
+        "кажется",
+        "голубым"
+      ],
+      "positive_phrases": [
+        "почему небо",
+        "небо днём",
+        "днём кажется",
+        "кажется голубым",
+        "почему небо днём",
+        "небо днём кажется",
+        "днём кажется голубым",
+        "почему небо днём кажется",
+        "небо днём кажется голубым"
+      ]
+    },
+    "positive": {
+      "query": "Почему небо днём кажется голубым?",
+      "sufficient": false,
+      "threshold": 0.35,
+      "source_ids": [
+        "company-schedule",
+        "company-request-procedure"
+      ],
+      "hits": [
+        {
+          "source_id": "company-schedule",
+          "chunk_id": "company-schedule-001-5e5b15bd64c2",
+          "score": 0.20416647350080305
+        },
+        {
+          "source_id": "company-request-procedure",
+          "chunk_id": "company-request-procedure-001-002ba7a76c98",
+          "score": 0.155480200072352
+        },
+        {
+          "source_id": "company-schedule",
+          "chunk_id": "company-schedule-002-037877069b79",
+          "score": 0.14929845479610632
+        }
+      ]
+    },
+    "negative": {
+      "query": "Как устроен телескоп?",
+      "sufficient": false,
+      "allowed_action": [
+        "offer_transfer"
+      ],
+      "source_ids": [
+        "company-request-procedure",
+        "company-pricing-and-terms",
+        "company-schedule"
+      ],
+      "top_scores": [
+        0.2516118096166075,
+        0.23359076597534728,
+        0.21963055571578194
+      ]
+    }
+  },
+  "llm": {},
+  "tts": {},
+  "source_mode": {
+    "implementation": "PcmAudioBridge EgressSourceMode; IDLE/PREROLL/PLAYING/CANCELLED/CLOSED",
+    "underrun_policy": "only empty TTS buffer while PLAYING increments egress_underruns"
+  },
+  "errors": [
+    "RuntimeError: real source-aware LLM operation did not return answer decision"
+  ],
+  "finished_at": "2026-09-22T08:40:11.876+00:00"
+}

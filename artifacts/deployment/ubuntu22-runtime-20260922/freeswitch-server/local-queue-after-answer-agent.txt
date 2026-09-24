@@ -1,0 +1,4 @@
+name|instance_id|uuid|type|contact|status|state|max_no_answer|wrap_up_time|reject_delay_time|busy_delay_time|no_answer_delay_time|last_bridge_start|last_bridge_end|last_offered_call|last_status_change|no_answer_count|calls_answered|talk_time|ready_time|external_calls_count
+1001@default|single_box|9b889982-26e4-4d46-91c6-de78282d9e87|callback|[leg_timeout=15]user/1001@10.0.0.45|Available|In a queue call|3|5|5|10|0|1790080453|1790080150|1790080450|1790078919|0|2|1|1790080146|0
++OK
+

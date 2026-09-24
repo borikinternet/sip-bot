@@ -1,0 +1,129 @@
+{
+  "status": "pass",
+  "python_executable": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+  "python_version": "3.14.7 free-threading build (main, Sep 22 2026, 10:09:00) [GCC 11.4.0]",
+  "implementation": "cpython",
+  "soabi": "cpython-314t-x86_64-linux-gnu",
+  "py_gil_disabled": 1,
+  "gil_before_import": false,
+  "gil_after_import": false,
+  "gil_after_construct": false,
+  "gil_after_operation": false,
+  "gil_after_concurrency": false,
+  "distribution": "webrtcvad-wheels",
+  "distribution_version": "2.0.14",
+  "distribution_license": "MIT",
+  "python_module": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/lib/python3.14t/site-packages/webrtcvad.py",
+  "native_module": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/lib/python3.14t/site-packages/_webrtcvad.cpython-314t-x86_64-linux-gnu.so",
+  "native_module_sha256": "ac8228fed3fe4d6975dd07fa76ffb4e4a7df614313a10c23831ea1620b9793a7",
+  "valid_operations": [
+    {
+      "sample_rate_hz": 8000,
+      "duration_ms": 10,
+      "bytes": 160,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 8000,
+      "duration_ms": 20,
+      "bytes": 320,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 8000,
+      "duration_ms": 30,
+      "bytes": 480,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 16000,
+      "duration_ms": 10,
+      "bytes": 320,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 16000,
+      "duration_ms": 20,
+      "bytes": 640,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 16000,
+      "duration_ms": 30,
+      "bytes": 960,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 32000,
+      "duration_ms": 10,
+      "bytes": 640,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 32000,
+      "duration_ms": 20,
+      "bytes": 1280,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 32000,
+      "duration_ms": 30,
+      "bytes": 1920,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 48000,
+      "duration_ms": 10,
+      "bytes": 960,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 48000,
+      "duration_ms": 20,
+      "bytes": 1920,
+      "is_speech": true
+    },
+    {
+      "sample_rate_hz": 48000,
+      "duration_ms": 30,
+      "bytes": 2880,
+      "is_speech": true
+    }
+  ],
+  "concurrency_results": [
+    6,
+    5,
+    4,
+    4,
+    6,
+    5,
+    4,
+    4
+  ],
+  "invalid_operations": [
+    {
+      "sample_rate_hz": 8000,
+      "duration_ms": 9,
+      "error_type": "Error",
+      "error": "Error while processing frame"
+    },
+    {
+      "sample_rate_hz": 8000,
+      "duration_ms": 40,
+      "error_type": "Error",
+      "error": "Error while processing frame"
+    },
+    {
+      "sample_rate_hz": 11025,
+      "duration_ms": 20,
+      "error_type": "Error",
+      "error": "Error while processing frame"
+    }
+  ],
+  "claims": {
+    "target_frame_contract": "8/16/32/48 kHz mono PCM16, 10/20/30 ms",
+    "application_baseline": "8 kHz mono PCM16, 20 ms",
+    "gpu_required": false,
+    "live_sip_evidence": false
+  }
+}

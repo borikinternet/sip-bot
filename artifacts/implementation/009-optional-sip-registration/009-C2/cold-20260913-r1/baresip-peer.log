@@ -1,0 +1,22 @@
+baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.
+Local network address:  IPv4=eth0|172.22.89.126 
+aucodec: PCMU/8000/1
+aucodec: PCMA/8000/1
+ausrc: aufile
+stdio: could not setup terminal: Inappropriate ioctl for device
+uuid: generated new UUID in /mnt/c/devel/sip-bot/artifacts/implementation/009-optional-sip-registration/009-C2/cold-20260913-r1/live-stand/peer-5080/uuid
+Populated 1 account
+Populated 2 audio codecs
+Populated 0 audio filters
+Populated 0 video codecs
+Populated 0 video filters
+baresip is ready.
+peer@127.0.0.1: {0/UDP/v4} 200 OK () [1 binding]
+[32mAll 1 useragent registered successfully! (18 ms)[;m
+>                                 >                                 >                                s>                               si>                              sip>                             sip:>                            sip:7>                           sip:70>                          sip:700>                         sip:7000>                        sip:7000@>                       sip:7000@1>                      sip:7000@12>                     sip:7000@127>                    sip:7000@127.>                   sip:7000@127.0>                  sip:7000@127.0.>                 sip:7000@127.0.0>                sip:7000@127.0.0.>               sip:7000@127.0.0.1>              sip:7000@127.0.0.1:>             sip:7000@127.0.0.1:5>            sip:7000@127.0.0.1:50>           sip:7000@127.0.0.1:506>          sip:7000@127.0.0.1:5060
+ua: using best effort AF: af=AF_INET
+call: connecting to 'sip:7000@127.0.0.1:5060'..
+call: SIP Progress: 100 Trying (/)
+sip:7000@127.0.0.1:5060: session closed: 480 Temporarily Unavailable
+terminated by signal 15
+ua: stop all (forced=0)

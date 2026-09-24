@@ -32,7 +32,7 @@ def test_transfer_failure_is_typed_and_fsm_keeps_failed_call_nonterminal(tmp_pat
     scenario = JScenario(tmp_path)
     scenario.operator.available = False
     scenario.answered()
-    scenario.fsm.handle(scenario.turn("Переведите на оператора", "turn-1"))
+    scenario.handle_turn("Переведите на оператора", "turn-1")
     scenario.fsm.handle(StructuredDecision("transfer", operation_id=scenario.fsm.active_operation_id))
 
     result = scenario.transfer.execute(scenario.fsm.commands[-1])

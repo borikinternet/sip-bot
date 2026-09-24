@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Iterator
 from threading import Event, RLock, Thread
-from time import monotonic
+from time import monotonic, monotonic_ns
 from typing import Any, Protocol
 
 from .control import SessionLease
@@ -24,7 +24,8 @@ from .retrieval import KnowledgeContext, KnowledgeQuery, LocalKnowledgeIndex
 from .sip_media.models import NegotiatedMediaProfile
 from .speech import FinalUserTurn
 from .transfer import TransferOrchestrator
-from .tts import ApprovedTextChunk, TtsPcmChunk
+from .tts import ApprovedTextChunk, TtsLatencyEvent, TtsLatencySink, TtsLatencyStage, TtsPcmChunk
+from .understanding import KnowledgeRequestAct, SemanticTurn
 
 from .runtime_composition import CallComposition
 
@@ -48,7 +49,7 @@ class PipelineError(RuntimeError):
 class ConversationPipeline:
     """Connect accepted A--H owners without moving payload through Dispatcher.
 
-    The pipeline deliberately accepts only ``FinalUserTurn`` as its input.
+    The pipeline deliberately accepts only ``SemanticTurn`` as its input.
     Retrieval and LLM/TTS work are never run by the dispatcher thread.  The
     caller supplies a main-loop ``drain_control`` call (or runs the existing
     Dispatcher thread) to apply the compact decisions and playback events.
@@ -66,8 +67,12 @@ class ConversationPipeline:
         media_profile: NegotiatedMediaProfile | Callable[[], NegotiatedMediaProfile] | None = None,
         audio_sink: Callable[[TtsPcmChunk], None] | None = None,
         transfer: TransferOrchestrator | None = None,
+        greeting_text: str | None = None,
+        transfer_confirmation_text: str | None = None,
         top_k: int = 3,
         threshold: float = 0.35,
+        latency_sink: TtsLatencySink | None = None,
+        clock_ns: Callable[[], int] = monotonic_ns,
     ) -> None:
         if not isinstance(composition, CallComposition):
             raise TypeError("conversation pipeline requires CallComposition")
@@ -90,16 +95,25 @@ class ConversationPipeline:
         self.media_profile = media_profile
         self.audio_sink = audio_sink or (lambda _chunk: None)
         self.transfer = transfer
+        self.greeting_text = greeting_text.strip() if greeting_text is not None else ""
+        self.transfer_confirmation_text = (
+            transfer_confirmation_text.strip() if transfer_confirmation_text is not None else ""
+        )
         self.top_k = top_k
         self.threshold = threshold
+        self.latency_sink = latency_sink
+        self.clock_ns = clock_ns
         self.errors: list[str] = []
         self._lock = RLock()
         self._closed = False
         self._threads: set[Thread] = set()
         self._turns: dict[int, FinalUserTurn] = {}
+        self._contents: dict[int, KnowledgeRequestAct] = {}
+        self._pending_submission: tuple[FinalUserTurn, list[KnowledgeRequestAct]] | None = None
         self._operations: dict[int, Any] = {}
         self._cancel_events: dict[int, Event] = {}
         self._decisions: dict[int, StructuredDecision] = {}
+        self._llm_final_result_ns: dict[int, int] = {}
         self._knowledge: dict[int, KnowledgeContext] = {}
         self.composition.add_command_observer(self._on_command)
 
@@ -109,20 +123,25 @@ class ConversationPipeline:
             self._discard_finished_threads_locked()
             return len(self._threads)
 
-    def submit_final_turn(self, turn: FinalUserTurn) -> bool:
-        """Accept one authoritative turn and start non-blocking preparation."""
+    def submit_semantic_turn(self, turn: SemanticTurn) -> bool:
+        """Accept one parsed turn and start non-blocking content preparation."""
 
-        if not isinstance(turn, FinalUserTurn):
-            raise TypeError("pipeline accepts FinalUserTurn only")
+        if not isinstance(turn, SemanticTurn):
+            raise TypeError("pipeline accepts SemanticTurn only")
         with self._lock:
             if self._closed:
                 return False
-            self._turns[self.composition.fsm.active_operation_id + 1] = turn
-        accepted = self.composition.accept_final_turn(turn)
-        if not accepted:
+            if self._pending_submission is not None:
+                raise PipelineError("semantic turn submission is not re-entrant")
+            self._pending_submission = (
+                turn.source,
+                [act for act in turn.acts if isinstance(act, KnowledgeRequestAct)],
+            )
+        try:
+            return self.composition.accept_semantic_turn(turn)
+        finally:
             with self._lock:
-                self._remove_turn_locked(turn)
-        return accepted
+                self._pending_submission = None
 
     def drain_control(self, limit: int | None = None) -> int:
         """Apply compact worker results on the existing Dispatcher path."""
@@ -170,19 +189,28 @@ class ConversationPipeline:
             self._cancel_active(command.reason or "control_cancel")
         elif command.kind.value == "approve_answer":
             self._start_tts(command)
+        elif command.kind.value == "play_greeting":
+            self._start_greeting(command)
+        elif command.kind.value == "play_transfer_confirmation":
+            self._start_transfer_confirmation(command)
         elif command.kind.value == "transfer":
             self._start_transfer(command)
 
     def _start_inference(self, command: DialogueCommand) -> None:
         with self._lock:
-            turn = self._turns.get(command.operation_id or 0)
-            if self._closed or turn is None:
+            operation_id = command.operation_id or 0
+            pending = self._pending_submission
+            if self._closed or pending is None or not pending[1]:
                 return
+            turn = pending[0]
+            content = pending[1].pop(0)
+            self._turns[operation_id] = turn
+            self._contents[operation_id] = content
             cancel_event = Event()
-            self._cancel_events[command.operation_id or 0] = cancel_event
+            self._cancel_events[operation_id] = cancel_event
         thread = Thread(
             target=self._run_inference,
-            args=(turn, command.operation_id or 0, cancel_event),
+            args=(turn, content, operation_id, cancel_event),
             name=f"sip-bot-inference-{command.operation_id}",
             daemon=True,
         )
@@ -190,21 +218,33 @@ class ConversationPipeline:
             self._threads.add(thread)
         thread.start()
 
-    def _run_inference(self, turn: FinalUserTurn, operation_id: int, cancel_event: Event) -> None:
+    def _run_inference(
+        self,
+        turn: FinalUserTurn,
+        content: KnowledgeRequestAct,
+        operation_id: int,
+        cancel_event: Event,
+    ) -> None:
         try:
             if not self._current(turn):
                 return
             snapshot = self.composition.owners.context.snapshot()
-            context = tuple((item.turn_id, item.text) for item in snapshot.turns[:-1])
-            query: KnowledgeQuery = self.query_builder.build(turn.text, context=context)
+            context = (
+                tuple((item.turn_id, item.text) for item in snapshot.turns[:-1])
+                if self.query_builder.requires_dialogue_context(content.content)
+                else ()
+            )
+            query: KnowledgeQuery = self.query_builder.build(content.content, context=context)
             knowledge = self._retrieve(query, turn)
             if not self._current(turn) or cancel_event.is_set():
                 return
             with self._lock:
                 self._knowledge[operation_id] = knowledge
             self.composition.record_rag_context(knowledge)
-            request = self.prompt.prepare_for_turn(
-                final_turn=turn,
+            request = self.prompt.prepare(
+                call_id=turn.call_id,
+                turn_id=turn.turn_id,
+                final_user_text=content.content,
                 snapshot=snapshot,
                 knowledge_context=knowledge,
             )
@@ -222,6 +262,7 @@ class ConversationPipeline:
             with self._lock:
                 self._operations.pop(operation_id, None)
                 self._cancel_events.pop(operation_id, None)
+                self._contents.pop(operation_id, None)
                 self._discard_finished_threads_locked()
 
     def _retrieve(self, query: KnowledgeQuery, turn: FinalUserTurn) -> KnowledgeContext:
@@ -273,6 +314,7 @@ class ConversationPipeline:
             if not self._current_locked(turn):
                 return
             self._decisions[operation_id] = decision
+            self._llm_final_result_ns[operation_id] = event.timestamp_ns
         if not self.composition.submit_control(decision):
             raise PipelineError("dispatcher rejected structured LLM decision")
 
@@ -316,9 +358,39 @@ class ConversationPipeline:
             profile = self._resolve_profile()
             generation = command.generation or 1
             channel_id = command.channel_id or "playback"
+            final_result_ns = self._llm_final_result_ns.get(operation_id)
+            if final_result_ns is not None:
+                self._emit_tts_latency(
+                    operation_id=f"llm-{operation_id}",
+                    call_id=turn.call_id,
+                    turn_id=turn.turn_id,
+                    channel_id=channel_id,
+                    generation=generation,
+                    stage=TtsLatencyStage.LLM_FINAL_RESULT,
+                    timestamp_ns=final_result_ns,
+                )
+            self._emit_tts_latency(
+                operation_id=f"llm-{operation_id}",
+                call_id=turn.call_id,
+                turn_id=turn.turn_id,
+                channel_id=channel_id,
+                generation=generation,
+                stage=TtsLatencyStage.TTS_COMMAND_ACCEPTED,
+            )
             thread = Thread(
-                target=self._run_tts,
-                args=(turn, operation_id, generation, channel_id, decision.text, cancel_event, profile),
+                target=self._run_tts_payload,
+                args=(
+                    turn.call_id,
+                    turn.turn_id,
+                    f"llm-{operation_id}",
+                    operation_id,
+                    generation,
+                    channel_id,
+                    decision.text,
+                    cancel_event,
+                    profile,
+                    lambda: self._current(turn),
+                ),
                 name=f"sip-bot-tts-{operation_id}",
                 daemon=True,
             )
@@ -340,21 +412,110 @@ class ConversationPipeline:
                     )
                 )
 
-    def _run_tts(
+    def _start_greeting(self, command: DialogueCommand) -> None:
+        self._start_static_playback(
+            command,
+            text=self.greeting_text,
+            turn_id=f"{self.composition.session.call_id}:greeting",
+            operation_key="call-greeting",
+            label="greeting",
+        )
+
+    def _start_transfer_confirmation(self, command: DialogueCommand) -> None:
+        self._start_static_playback(
+            command,
+            text=self.transfer_confirmation_text,
+            turn_id=f"{self.composition.session.call_id}:transfer-confirmation:{command.operation_id or 0}",
+            operation_key=f"transfer-confirmation-{command.operation_id or 0}",
+            label="transfer confirmation",
+        )
+
+    def _start_static_playback(
         self,
-        turn: FinalUserTurn,
+        command: DialogueCommand,
+        *,
+        text: str,
+        turn_id: str,
+        operation_key: str,
+        label: str,
+    ) -> None:
+        operation_id = command.operation_id or 0
+        try:
+            if self.tts is None:
+                raise PipelineError(f"configured {label} has no TTS owner")
+            if not text:
+                raise PipelineError(f"configured {label} text must be non-empty")
+            with self._lock:
+                if self._closed or not self._session_current():
+                    return
+                cancel_event = self._cancel_events.setdefault(operation_id, Event())
+            self.composition.append_assistant_text(
+                turn_id,
+                text,
+            )
+            profile = self._resolve_profile()
+            generation = command.generation or 1
+            channel_id = command.channel_id or "playback"
+            thread = Thread(
+                target=self._run_tts_payload,
+                args=(
+                    self.composition.session.call_id,
+                    turn_id,
+                    operation_key,
+                    operation_id,
+                    generation,
+                    channel_id,
+                    text,
+                    cancel_event,
+                    profile,
+                    self._session_current,
+                ),
+                name=f"sip-bot-tts-{operation_key}",
+                daemon=True,
+            )
+            with self._lock:
+                self._threads.add(thread)
+            thread.start()
+        except BaseException as exc:
+            self._record_error(exc)
+            if self._session_current():
+                self.composition.submit_control(
+                    PlaybackEvent(
+                        self.composition.session.call_id,
+                        PlaybackStatus.FAILED,
+                        channel_id=command.channel_id or "playback",
+                        channel_generation=command.generation,
+                        operation_id=operation_id,
+                        reason=type(exc).__name__,
+                    )
+                )
+
+    def _run_tts_payload(
+        self,
+        call_id: str,
+        turn_id: str,
+        operation_key: str,
         operation_id: int,
         generation: int,
         channel_id: str,
         text: str,
         cancel_event: Event,
         profile: NegotiatedMediaProfile,
+        current: Callable[[], bool],
     ) -> None:
         try:
+            self._emit_tts_latency(
+                operation_id=operation_key,
+                call_id=call_id,
+                turn_id=turn_id,
+                channel_id=channel_id,
+                generation=generation,
+                stage=TtsLatencyStage.TTS_WORKER_STARTED,
+            )
             approved = ApprovedTextChunk(
-                operation_id=f"llm-{operation_id}",
-                call_id=turn.call_id,
-                turn_id=turn.turn_id,
+                operation_id=operation_key,
+                call_id=call_id,
+                turn_id=turn_id,
                 generation=generation,
                 sequence=1,
                 text=text,
@@ -366,17 +527,17 @@ class ConversationPipeline:
                 profile=profile,
                 cancel=cancel_event,
             ):
-                if cancel_event.is_set() or not self._current(turn):
+                if cancel_event.is_set() or not current():
                     return
                 if not isinstance(chunk, TtsPcmChunk):
                     raise PipelineError("TTS returned an untyped PCM chunk")
                 self.audio_sink(chunk)
-            if cancel_event.is_set() or not self._current(turn):
+            if cancel_event.is_set() or not current():
                 return
             self.composition.submit_control(
                 PlaybackEvent(
-                    turn.call_id,
-                    PlaybackStatus.COMPLETED,
+                    call_id,
+                    PlaybackStatus.PRODUCER_COMPLETED,
                     channel_id=channel_id,
                     channel_generation=generation,
                     operation_id=operation_id,
@@ -384,10 +545,10 @@ class ConversationPipeline:
             )
         except BaseException as exc:
             self._record_error(exc)
-            if self._current(turn):
+            if current():
                 self.composition.submit_control(
                     PlaybackEvent(
-                        turn.call_id,
+                        call_id,
                         PlaybackStatus.FAILED,
                         channel_id=channel_id,
                         channel_generation=generation,
@@ -398,6 +559,36 @@ class ConversationPipeline:
         finally:
             with self._lock:
                 self._discard_finished_threads_locked()
+
+    def _emit_tts_latency(
+        self,
+        *,
+        operation_id: str,
+        call_id: str,
+        turn_id: str,
+        channel_id: str,
+        generation: int,
+        stage: TtsLatencyStage,
+        timestamp_ns: int | None = None,
+    ) -> None:
+        sink = self.latency_sink
+        if sink is None:
+            return
+        try:
+            sink(
+                TtsLatencyEvent(
+                    operation_id=operation_id,
+                    call_id=call_id,
+                    turn_id=turn_id,
+                    channel_id=channel_id,
+                    generation=generation,
+                    stage=stage,
+                    timestamp_ns=self.clock_ns() if timestamp_ns is None else timestamp_ns,
+                )
+            )
+        except Exception:
+            # Timing evidence is observational and cannot fail the dialogue.
+            return
 
     def _start_transfer(self, command: DialogueCommand) -> None:
         if self.transfer is None:
@@ -450,6 +641,10 @@ class ConversationPipeline:
 
     def _current_locked(self, turn: FinalUserTurn) -> bool:
         return not self._closed and self.composition.session.accepts(SessionLease(turn.call_id, turn.generation))
+
+    def _session_current(self) -> bool:
+        with self._lock:
+            return not self._closed and self.composition.session.accepts(self.composition.session.lease())
 
     def _remove_turn_locked(self, turn: FinalUserTurn) -> None:
         for operation_id, candidate in tuple(self._turns.items()):

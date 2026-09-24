@@ -1,0 +1,609 @@
+{
+  "status": "pass",
+  "evaluation_version": "natural-science-map015-corrective-v1",
+  "evaluation_sha256": "0c73fb2183fdbd8653120cc8d4835d79d878e22bfea040ef54cad05efbc9f80d",
+  "corpus_version": "ru-natural-science-demo-v1",
+  "index_version": "natural-science-embeddinggemma-v1",
+  "embedding_model": "embeddinggemma",
+  "top_k": 3,
+  "threshold": 0.35,
+  "passed_cases": 12,
+  "total_cases": 12,
+  "latency_ms": 316.840759,
+  "cases": [
+    {
+      "case_id": "positive-live-conversational-wrapper",
+      "kind": "paraphrase",
+      "question": "Привет! Ты можешь сказать, какого цвета небо?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "wiki-physics-rayleigh"
+      ],
+      "expected_top_source_id": "wiki-physics-rayleigh",
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars",
+        "wiki-chemistry-water"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.36697214969321507
+        },
+        {
+          "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.21212138437873998
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-002-e9465ab696a7",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.20446319805482643
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "configured_semantic_with_lexical_support",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.35,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.36697214969321507,
+        "top_lexical_support": 1,
+        "required_top_lexical_support": 1,
+        "eligible_query_terms": 2,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 32.77018,
+      "failures": []
+    },
+    {
+      "case_id": "positive-short-sky-color",
+      "kind": "paraphrase",
+      "question": "Какого цвета небо?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "wiki-physics-rayleigh"
+      ],
+      "expected_top_source_id": "wiki-physics-rayleigh",
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars",
+        "wiki-chemistry-water"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.47588377746126787
+        },
+        {
+          "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.28509146940268093
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-002-e9465ab696a7",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.1981865479154288
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "configured_semantic_with_lexical_support",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.35,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.47588377746126787,
+        "top_lexical_support": 1,
+        "required_top_lexical_support": 1,
+        "eligible_query_terms": 2,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 21.663957,
+      "failures": []
+    },
+    {
+      "case_id": "positive-exact-rayleigh",
+      "kind": "positive",
+      "question": "Почему небо днём голубое?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "wiki-physics-rayleigh"
+      ],
+      "expected_top_source_id": "wiki-physics-rayleigh",
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.6026394403584789
+        },
+        {
+          "chunk_id": "wiki-astronomy-mars-002-26536a0fefbe",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.2613494943525833
+        },
+        {
+          "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.251963157985911
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "strong_semantic",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.53,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.6026394403584789,
+        "top_lexical_support": 3,
+        "required_top_lexical_support": 2,
+        "eligible_query_terms": 4,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 43.500743,
+      "failures": []
+    },
+    {
+      "case_id": "positive-rayleigh-paraphrase",
+      "kind": "paraphrase",
+      "question": "Почему атмосфера сильнее рассеивает короткие световые волны?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "wiki-physics-rayleigh"
+      ],
+      "expected_top_source_id": "wiki-physics-rayleigh",
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.5344978375832865
+        },
+        {
+          "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.4061238269726881
+        },
+        {
+          "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.25762754152066686
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "strong_semantic",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.53,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.5344978375832865,
+        "top_lexical_support": 4,
+        "required_top_lexical_support": 3,
+        "eligible_query_terms": 7,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 24.017795,
+      "failures": []
+    },
+    {
+      "case_id": "positive-mars-atmosphere",
+      "kind": "positive",
+      "question": "Из какого газа в основном состоит атмосфера Марса?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "wiki-astronomy-mars"
+      ],
+      "expected_top_source_id": "wiki-astronomy-mars",
+      "source_ids": [
+        "wiki-astronomy-mars",
+        "wiki-chemistry-water"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.672244121154773
+        },
+        {
+          "chunk_id": "wiki-astronomy-mars-002-26536a0fefbe",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.3570870898108096
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-001-8989c512424b",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.235858104933545
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "strong_semantic",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.53,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.672244121154773,
+        "top_lexical_support": 4,
+        "required_top_lexical_support": 2,
+        "eligible_query_terms": 5,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 20.566207,
+      "failures": []
+    },
+    {
+      "case_id": "positive-water-boiling",
+      "kind": "positive",
+      "question": "При какой температуре вода кипит при нормальном давлении?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "wiki-chemistry-water"
+      ],
+      "expected_top_source_id": "wiki-chemistry-water",
+      "source_ids": [
+        "wiki-chemistry-water",
+        "wiki-physics-rayleigh"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-chemistry-water-001-8989c512424b",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.5476992273702862
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-002-e9465ab696a7",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.39319897751045474
+        },
+        {
+          "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.17436577312532275
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "strong_semantic",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.53,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.5476992273702862,
+        "top_lexical_support": 5,
+        "required_top_lexical_support": 2,
+        "eligible_query_terms": 5,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 22.496053,
+      "failures": []
+    },
+    {
+      "case_id": "contextual-sky-horizon",
+      "kind": "contextual",
+      "question": "А почему у горизонта оно краснеет?",
+      "context": [
+        {
+          "turn_id": "previous-sky",
+          "text": "Мы говорим о цвете неба и рассеянии света в атмосфере."
+        }
+      ],
+      "passed": true,
+      "expected_sufficient": true,
+      "actual_sufficient": true,
+      "expected_any_source_ids": [
+        "wiki-physics-rayleigh"
+      ],
+      "expected_top_source_id": "wiki-physics-rayleigh",
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-astronomy-mars"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.5707794606978909
+        },
+        {
+          "chunk_id": "wiki-astronomy-mars-001-decaca98ad7b",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.3756284803012196
+        },
+        {
+          "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.2762300034120439
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "strong_semantic",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.53,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.5707794606978909,
+        "top_lexical_support": 5,
+        "required_top_lexical_support": 4,
+        "eligible_query_terms": 9,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 23.274561,
+      "failures": []
+    },
+    {
+      "case_id": "negative-service-price",
+      "kind": "negative",
+      "question": "Сколько стоит выезд мастера для ремонта холодильника?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": false,
+      "actual_sufficient": false,
+      "expected_any_source_ids": [],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "wiki-chemistry-water",
+        "wiki-physics-rayleigh"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-chemistry-water-001-8989c512424b",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.16438151039036344
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-002-e9465ab696a7",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.14294374883223765
+        },
+        {
+          "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.10918321640470975
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "insufficient_lexical_support",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.35,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.16438151039036344,
+        "top_lexical_support": 0,
+        "required_top_lexical_support": 3,
+        "eligible_query_terms": 6,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 27.647038,
+      "failures": []
+    },
+    {
+      "case_id": "negative-exchange-rate",
+      "kind": "negative",
+      "question": "Какой сегодня курс доллара?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": false,
+      "actual_sufficient": false,
+      "expected_any_source_ids": [],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "wiki-chemistry-water",
+        "wiki-physics-rayleigh"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-chemistry-water-001-8989c512424b",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.19293483216011845
+        },
+        {
+          "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.18089202122811524
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-002-e9465ab696a7",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.15062749745285448
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "insufficient_lexical_support",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.35,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.19293483216011845,
+        "top_lexical_support": 0,
+        "required_top_lexical_support": 2,
+        "eligible_query_terms": 3,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 27.486999,
+      "failures": []
+    },
+    {
+      "case_id": "negative-nonsense",
+      "kind": "negative",
+      "question": "Сколько фиолетовых телефонов помещается в тишине?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": false,
+      "actual_sufficient": false,
+      "expected_any_source_ids": [],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-chemistry-water"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.2082697089855817
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-002-e9465ab696a7",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.18644025027819502
+        },
+        {
+          "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.13570758558059134
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "insufficient_lexical_support",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.35,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.2082697089855817,
+        "top_lexical_support": 0,
+        "required_top_lexical_support": 2,
+        "eligible_query_terms": 5,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 26.564086,
+      "failures": []
+    },
+    {
+      "case_id": "negative-underspecified-color",
+      "kind": "negative",
+      "question": "Голубое?",
+      "context": [],
+      "passed": true,
+      "expected_sufficient": false,
+      "actual_sufficient": false,
+      "expected_any_source_ids": [],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "wiki-physics-rayleigh",
+        "wiki-chemistry-water"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-physics-rayleigh-001-b7d9d9991fa1",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.35884441341216927
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-002-e9465ab696a7",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.14869271862703767
+        },
+        {
+          "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.1222018804475292
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "underspecified_query",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.53,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.35884441341216927,
+        "top_lexical_support": 1,
+        "required_top_lexical_support": 1,
+        "eligible_query_terms": 1,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 19.628907,
+      "failures": []
+    },
+    {
+      "case_id": "negative-new-topic-after-sky",
+      "kind": "negative",
+      "question": "Какие документы нужны для оформления отпуска?",
+      "context": [
+        {
+          "turn_id": "previous-sky",
+          "text": "Небо голубое из-за рассеяния Рэлея."
+        }
+      ],
+      "passed": true,
+      "expected_sufficient": false,
+      "actual_sufficient": false,
+      "expected_any_source_ids": [],
+      "expected_top_source_id": null,
+      "source_ids": [
+        "wiki-astronomy-mars",
+        "wiki-physics-rayleigh",
+        "wiki-chemistry-water"
+      ],
+      "hits": [
+        {
+          "chunk_id": "wiki-astronomy-mars-002-26536a0fefbe",
+          "source_id": "wiki-astronomy-mars",
+          "score": 0.16199583275968732
+        },
+        {
+          "chunk_id": "wiki-physics-rayleigh-002-a881cae6ef83",
+          "source_id": "wiki-physics-rayleigh",
+          "score": 0.1546920515909257
+        },
+        {
+          "chunk_id": "wiki-chemistry-water-002-e9465ab696a7",
+          "source_id": "wiki-chemistry-water",
+          "score": 0.13686780203119664
+        }
+      ],
+      "sufficiency_diagnostics": {
+        "reason": "insufficient_lexical_support",
+        "configured_threshold": 0.35,
+        "effective_threshold": 0.35,
+        "semantic_only_threshold": 0.53,
+        "lexical_semantic_floor": 0.2,
+        "top_semantic_score": 0.16199583275968732,
+        "top_lexical_support": 0,
+        "required_top_lexical_support": 2,
+        "eligible_query_terms": 5,
+        "minimum_query_terms": 2
+      },
+      "latency_ms": 27.118641,
+      "failures": []
+    }
+  ],
+  "runtime": {
+    "python": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "py_gil_disabled": 1,
+    "gil_after": false
+  },
+  "index_artifact": {
+    "path": "data/knowledge/index/natural-science-v1.json",
+    "sha256": "1752266eae9fd351fea4a870ece36e3754ca96924e38d5604c88a88a4c1dd811",
+    "schema_version": "rag-index-v1",
+    "corpus_sha256": "531d177f8f77611faaad32cf08c0a9b172e1f2cb2c8a0d3d26667a210f0e33ee",
+    "chunking_policy": "markdown-semantic-v1",
+    "dimension": 768,
+    "item_count": 6
+  }
+}

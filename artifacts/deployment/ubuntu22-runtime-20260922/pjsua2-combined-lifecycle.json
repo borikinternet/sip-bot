@@ -1,0 +1,28 @@
+{
+  "probe": "001-C1-pjsua2-pjmedia",
+  "stage": "initialize",
+  "command": "/home/inrack/sip-bot/tools/feasibility/pjsua2_pjmedia_probe.py --output /home/inrack/sip-bot/artifacts/deployment/ubuntu22-runtime-20260922/pjsua2-combined-lifecycle.json --initialize",
+  "working_directory": "/home/inrack/src/pjsip-build/pjproject-2.17/pjsip-apps/src/swig/python",
+  "started_at_utc": "2026-09-22T11:17:00.422247+00:00",
+  "pid": 46913,
+  "python": "3.14.7 free-threading build (main, Sep 22 2026, 10:09:00) [GCC 11.4.0]",
+  "executable": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+  "py_gil_disabled": 1,
+  "gil_before_import": false,
+  "gil_after_import": false,
+  "gil_after_initialization": false,
+  "warnings": [],
+  "import": {
+    "status": "pass",
+    "python_wrapper": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/lib/python3.14t/site-packages/pjsua2.py",
+    "native_module": "/home/inrack/.cache/sip-bot-c4-xtts-v2-3.14.7t/lib/python3.14t/site-packages/_pjsua2.cpython-314t-x86_64-linux-gnu.so"
+  },
+  "initialization": {
+    "status": "pass",
+    "elapsed_seconds": 0.005463884999699076
+  },
+  "call": {},
+  "status": "pass",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-22T11:17:01.466013+00:00"
+}

@@ -1,0 +1,31 @@
+EVENT {"call_id": "__registration__", "kind": "registration_state", "timestamp_ns": 9687650225512, "sequence": 1, "method": null, "status_code": null, "reason": "registration requested by account.create", "details": {"state": "registering", "registration_event": "registration_started", "readiness": false}, "registration_status": {"state": "registering", "event": "registration_started", "enabled": true, "registrar_uri": "sip:10.0.0.45:5060", "status_code": null, "reason": "registration requested by account.create", "expires_seconds": 120, "observed_at_ns": 9687650202781, "expires_at_ns": null, "readiness": false}}
+EVENT {"call_id": "__registration__", "kind": "registration_state", "timestamp_ns": 9687650435528, "sequence": 2, "method": null, "status_code": null, "reason": "PJSUA2 registration transaction started", "details": {"state": "registering", "registration_event": "registration_started", "readiness": false}, "registration_status": {"state": "registering", "event": "registration_started", "enabled": true, "registrar_uri": "sip:10.0.0.45:5060", "status_code": null, "reason": "PJSUA2 registration transaction started", "expires_seconds": 120, "observed_at_ns": 9687650418421, "expires_at_ns": null, "readiness": false}}
+EVENT {"call_id": "__registration__", "kind": "registration_state", "timestamp_ns": 9687655060641, "sequence": 3, "method": null, "status_code": 200, "reason": "OK", "details": {"state": "registered", "registration_event": "registration_succeeded", "readiness": true}, "registration_status": {"state": "registered", "event": "registration_succeeded", "enabled": true, "registrar_uri": "sip:10.0.0.45:5060", "status_code": 200, "reason": "OK", "expires_seconds": 120, "observed_at_ns": 9687655004475, "expires_at_ns": 9807654959279, "readiness": true}}
+READY caller
+PHASE direct_started
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9687655598839, "sequence": 4, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 1}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9687656247410, "sequence": 5, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 2}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9687656320638, "sequence": 6, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 1}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9687656817722, "sequence": 7, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 2}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9687656904005, "sequence": 8, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 3}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9687656948022, "sequence": 9, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 3}}
+EVENT {"call_id": "probe-direct", "kind": "call_started", "timestamp_ns": 9687657460236, "sequence": 10, "method": null, "status_code": null, "reason": null, "details": {"direction": "outgoing", "peer_uri": "sip:1001@10.0.0.45:5060"}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9687723135905, "sequence": 11, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 4}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9687723455143, "sequence": 12, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 4}}
+EVENT {"call_id": "probe-direct", "kind": "media_started", "timestamp_ns": 9687724662156, "sequence": 13, "method": null, "status_code": null, "reason": null, "details": {"direction": 3, "media_index": 0}, "media_profile": {"codec": "PCMU", "payload_type": 0, "rx_payload_type": 0, "tx_payload_type": 0, "ptime_ms": 20.0, "frame_time_usec": 20000, "sample_rate_hz": 8000, "channels": 1, "frame_size_samples": 160, "frame_bytes": 320, "pcm_bits_per_sample": 16, "source": "pjmedia.stream_info"}}
+EVENT {"call_id": "probe-direct", "kind": "call_answered", "timestamp_ns": 9691026015861, "sequence": 14, "method": null, "status_code": 200, "reason": "OK", "details": {"state": "CONFIRMED", "pjsua_call_id": 0}}
+PHASE direct_answered
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9697324668192, "sequence": 15, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 2}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9697324970991, "sequence": 16, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 0, "transport_state": 0}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9697325084958, "sequence": 17, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 2}}
+EVENT {"call_id": "probe-direct", "kind": "sip_transaction", "timestamp_ns": 9697325131811, "sequence": 18, "method": "RTP", "status_code": null, "reason": null, "details": {"media_index": 1, "transport_state": 0}}
+EVENT {"call_id": "probe-direct", "kind": "call_ended", "timestamp_ns": 9697325487996, "sequence": 19, "method": null, "status_code": 200, "reason": "OK", "details": {"state": "DISCONNECTED", "pjsua_call_id": 0}}
+EVENT {"call_id": "probe-direct", "kind": "media_stopped", "timestamp_ns": 9697326163443, "sequence": 20, "method": null, "status_code": null, "reason": "OK", "details": {"idempotent": false}}
+PHASE direct_ended
+COMPLETE caller
+12:33:33.181         os_core_unix.c !pjlib 2.17 for POSIX initialized
+12:33:33.181         sip_endpoint.c  .Creating endpoint instance...
+12:33:33.181                  pjlib  .select() I/O Queue created (0x5565a3c32848)
+12:33:33.181         sip_endpoint.c  .Module "mod-msg-print" registered
+12:33:33.181        sip_transport.c  .Transport manager created.
+12:33:33.181           pjsua_core.c  .PJSUA state changed: NULL --> CREATED

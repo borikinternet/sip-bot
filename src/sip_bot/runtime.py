@@ -20,6 +20,13 @@ from .control.events import (
 )
 from .control.lifecycle import CallScope, ChannelHandle, LifecycleError, LifecycleRegistry
 from .logging_setup import configure_logging
+from .runtime_readiness import (
+    RuntimeReadinessCoordinator,
+    RuntimeReadinessEvent,
+    RuntimeReadinessSnapshot,
+    RuntimeReadinessState,
+    RuntimeWarmupError,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -96,10 +103,6 @@ class WarmupReport:
             "elapsed_ms": self.elapsed_ms,
             "stages": [stage.as_dict() for stage in self.stages],
         }
-
-
-class RuntimeWarmupError(RuntimeError):
-    """Raised when a pre-call readiness stage cannot be completed."""
 
 
 class RuntimeCoordinator:
@@ -263,7 +266,12 @@ class ApplicationRuntime:
             from .control import Dispatcher
             from .dialogue import DialogueFSM
 
-            event_sink = Dispatcher(DialogueFSM(operator_target=config.operator_target))
+            event_sink = Dispatcher(
+                DialogueFSM(
+                    operator_target=config.operator_target,
+                    greeting_enabled=bool(config.call_greeting_text.strip()),
+                )
+            )
         self.event_sink = event_sink
         self.dispatcher = event_sink if hasattr(event_sink, "open_session") else None
         self.logger = configure_logging(config)
@@ -271,12 +279,17 @@ class ApplicationRuntime:
         self.started = False
         self.probe: RuntimeProbe | None = None
         self.warmup_report: WarmupReport | None = None
+        self.readiness: RuntimeReadinessCoordinator | None = None
 
     @property
     def ready(self) -> bool:
-        """Whether the process completed its mandatory pre-call warmup."""
+        """Whether the process completed its configured runtime warmup."""
 
-        return self.started and self.warmup_report is not None
+        if not self.started:
+            return False
+        if self.readiness is not None:
+            return self.readiness.ready
+        return self.warmup_report is not None
 
     @classmethod
     def from_constants(cls, event_sink: ControlEventSink | None = None) -> "ApplicationRuntime":
@@ -336,6 +349,8 @@ class ApplicationRuntime:
         speech: object,
         asr: object,
         pipeline: object,
+        incoming_admission: object | None = None,
+        latency_sink: object | None = None,
     ) -> object:
         """Create procedural live wiring for the current main asyncio loop.
 
@@ -358,6 +373,8 @@ class ApplicationRuntime:
             asr=asr,
             pipeline=pipeline,
             config=self.config,
+            incoming_admission=incoming_admission,
+            latency_sink=latency_sink,
         )
 
     def start(self) -> RuntimeProbe:
@@ -373,13 +390,44 @@ class ApplicationRuntime:
         self.logger.info("application runtime started version=%s", self.config.application_version)
         return probe
 
-    def warmup(self, stages: Iterable[tuple[str, Callable[[], object]]]) -> WarmupReport:
-        """Run all heavy readiness stages before SIP call admission.
+    def configure_warmup(
+        self,
+        stages: Iterable[tuple[str, Callable[[], object]]],
+        *,
+        runtime_id: str = "application",
+        event_bus: object | None = None,
+    ) -> RuntimeReadinessCoordinator:
+        """Register one runtime-scoped warmup without executing it.
 
-        Stages are intentionally sequential: the MVP shares one GPU and a
-        native/runtime stage must finish before the next one is started.  A
-        failed or incomplete stage leaves the runtime not-ready, so a caller
-        must not start/accept a SIP call after that failure.
+        The caller may trigger the returned coordinator explicitly in the
+        background.  An incoming call can later await the same operation;
+        ``ApplicationRuntime.start`` itself never invokes these stages.
+        """
+
+        if not self.started:
+            raise RuntimeWarmupError("application runtime must be started before configuring warmup")
+        if self.readiness is not None and self.readiness.warmup_running:
+            raise RuntimeWarmupError("runtime warmup is already running")
+        stage_plan = tuple(stages)
+        if not stage_plan:
+            raise ValueError("runtime warmup requires at least one stage")
+        if event_bus is not None and not hasattr(event_bus, "publish"):
+            raise TypeError("event_bus must provide publish(event)")
+        coordinator = RuntimeReadinessCoordinator(
+            lambda: self.warmup(stage_plan),
+            runtime_id=runtime_id,
+            event_bus=event_bus,  # type: ignore[arg-type]
+        )
+        self.readiness = coordinator
+        return coordinator
+
+    def warmup(self, stages: Iterable[tuple[str, Callable[[], object]]]) -> WarmupReport:
+        """Run the configured aggregate readiness stages synchronously.
+
+        This is the sequential warmup primitive used by
+        :class:`RuntimeReadinessCoordinator` or an explicit launcher trigger.
+        ``ApplicationRuntime.start`` does not call it.  A failed or incomplete
+        stage leaves the runtime not-ready.
         """
 
         if not self.started:
@@ -421,6 +469,9 @@ class ApplicationRuntime:
         active_session = self.dispatcher.active_session if self.dispatcher is not None else None
         if active_session is not None:
             active_session.close(reason)
+        if self.readiness is not None:
+            self.readiness.close()
+        self.readiness = None
         self.started = False
         self.warmup_report = None
 

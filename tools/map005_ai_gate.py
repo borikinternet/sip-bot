@@ -33,8 +33,8 @@ from sip_bot.context import ContextStore  # noqa: E402
 from sip_bot.dialogue.events import StructuredDecision  # noqa: E402
 from sip_bot.llm import LlmFacade, OllamaHttpClient  # noqa: E402
 from sip_bot.llm.types import StreamEventKind  # noqa: E402
-from sip_bot.prompt import GenerationProfile, PromptSpec, SkillPromptManager, SkillSpec  # noqa: E402
-from sip_bot.retrieval import KnowledgeQueryBuilder, LocalKnowledgeIndex, load_corpus  # noqa: E402
+from sip_bot.prompt import SkillPromptManager, build_default_prompt_manager  # noqa: E402
+from sip_bot.retrieval import KnowledgeQueryBuilder, LocalKnowledgeIndex  # noqa: E402
 from sip_bot.speech import EndpointEventKind, FinalUserTurn  # noqa: E402
 from sip_bot.tts import ApprovedTextChunk, XttsV2Adapter  # noqa: E402
 
@@ -87,24 +87,7 @@ def gpu_snapshot(label: str) -> dict[str, object]:
 
 
 def build_prompt() -> SkillPromptManager:
-    return SkillPromptManager(
-        skill=SkillSpec(constants.DEFAULT_SKILL_ID, "1", "Отвечай кратко и только на основании найденных источников."),
-        prompt=PromptSpec(
-            constants.PROMPT_TEMPLATE_ID,
-            constants.PROMPT_TEMPLATE_VERSION,
-            "Отвечай только валидным JSON без Markdown и рассуждений. "
-            "Допустимые action: answer, clarify, offer_transfer.\n"
-            "{instruction}\nКонтекст:\n{context}\nЗнания:\n{knowledge}\n"
-            "Вопрос пользователя:\n{user_text}",
-        ),
-        profile=GenerationProfile(
-            constants.GENERATION_PROFILE_ID,
-            constants.GENERATION_PROFILE_VERSION,
-            constants.LLM_MAX_GENERATION_TOKENS,
-            constants.LLM_TEMPERATURE,
-        ),
-        output_schema_id=constants.OUTPUT_SCHEMA_ID,
-    )
+    return build_default_prompt_manager()
 
 
 def main() -> int:
@@ -126,7 +109,6 @@ def main() -> int:
     query_builder = KnowledgeQueryBuilder()
     prompt = build_prompt()
     context_store = ContextStore(args.output_root / "context", call_id)
-    _, corpus_chunks = load_corpus(PROJECT_ROOT / constants.KNOWLEDGE_CORPUS_PATH)
 
     evidence: dict[str, object] = {
         "schema": "sip-bot.map005-c-ai-gate.v1",
@@ -162,15 +144,20 @@ def main() -> int:
 
     try:
         index_started = time.monotonic_ns()
-        index = LocalKnowledgeIndex.build(
-            corpus_chunks,
-            llm,
-            index_version=constants.RAG_INDEX_VERSION,
-            embedding_model=constants.RAG_EMBEDDING_MODEL,
+        index = LocalKnowledgeIndex.load(
+            PROJECT_ROOT / constants.KNOWLEDGE_INDEX_PATH,
+            expected_index_version=constants.RAG_INDEX_VERSION,
+            expected_corpus_version=constants.RAG_CORPUS_VERSION,
+            expected_embedding_model=constants.RAG_EMBEDDING_MODEL,
+            expected_dimension=constants.RAG_INDEX_DIMENSION,
+            expected_chunking_policy=constants.RAG_CHUNKING_POLICY_VERSION,
+            expected_corpus_sha256=constants.RAG_CORPUS_SHA256,
         )
         index_ready = time.monotonic_ns()
-        positive_text = "Почему небо днём кажется голубым?"
-        negative_text = "Как устроен телескоп?"
+        # Keep this reusable AI gate aligned with the currently configured
+        # corpus instead of the historical natural-science fixture.
+        positive_text = "Сколько стоит диагностический выезд мастера?"
+        negative_text = "Почему небо днём голубое?"
         positive_query = query_builder.build(positive_text)
         negative_query = query_builder.build(negative_text)
         positive = index.query(
@@ -211,6 +198,8 @@ def main() -> int:
         tts_warmup_finished = time.monotonic_ns()
         evidence["warmup"] = {
             "embedding_index_ms": round((index_ready - index_started) / 1_000_000, 3),
+            "index_operation": "load-prebuilt-index",
+            "corpus_embedding_requests": 0,
             "llm_trace": llm_warmup_trace.as_dict(),
             "llm_wall_ms": round((llm_warmup_finished - llm_warmup_started) / 1_000_000, 3),
             "tts_first_chunk": tts_warmup,
@@ -222,7 +211,7 @@ def main() -> int:
             "corpus_version": constants.RAG_CORPUS_VERSION,
             "index_version": index.index_version,
             "embedding_model": index.embedding_model,
-            "corpus_chunks": len(corpus_chunks),
+            "corpus_chunks": index.metadata.item_count,
             "query_builder": {
                 "policy_version": positive_query.policy_version,
                 "capabilities": query_builder.capabilities,

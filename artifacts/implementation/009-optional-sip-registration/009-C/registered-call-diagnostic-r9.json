@@ -1,0 +1,439 @@
+{
+  "schema": "sip-bot.009-C.registered-workshop.v1",
+  "status": "pass",
+  "error": null,
+  "started_at_utc": "2026-09-13T20:23:16.624712+00:00",
+  "elapsed_seconds": 5.592,
+  "target_runtime": {
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "python_version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "py_gil_disabled": 1,
+    "gil_enabled_at_finish": false
+  },
+  "freeswitch": {
+    "container": "sip-bot-freeswitch-workshop",
+    "image": "safarov/freeswitch@sha256:b31c743f4c911a19687c61e3214968f2a24f93f9d3d667cc26284192e158ffc6",
+    "status": {
+      "command": "docker.exe exec sip-bot-freeswitch-workshop fs_cli -x status",
+      "exit_code": 0,
+      "stdout": "UP 0 years, 0 days, 2 hours, 4 minutes, 45 seconds, 587 milliseconds, 314 microseconds\nFreeSWITCH (Version 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit) is ready\n30 session(s) since startup\n0 session(s) - peak 2, last 5min 2 \n0 session(s) per Sec out of max 30, peak 2, last 5min 2 \n1000 session(s) max\nmin idle cpu 0.00/99.47\nCurrent Stack Size/Max 240K/8192K\n\n",
+      "stderr": ""
+    },
+    "registration_snapshot": {
+      "command": "docker.exe exec sip-bot-freeswitch-workshop fs_cli -x show registrations",
+      "exit_code": 0,
+      "stdout": "reg_user,realm,token,url,expires,network_ip,network_port,network_proto,hostname,metadata\npeer,172.18.0.2,0c87290976f0d11e,sofia/internal/sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080,1789331691,172.18.0.1,40508,udp,4c9d84170795,\ntester,172.18.0.2,f8a20892-86bb-49b4-90cc-1944f16f8853,sofia/internal/sip:tester@172.18.0.1:43885;ob,1789331693,172.18.0.1,43885,udp,4c9d84170795,\n\n2 total.\n\n",
+      "stderr": ""
+    },
+    "logs": "\u001b[m\u001b[36m2026-09-13 20:17:53.605070 99.70% [NOTICE] switch_core_session.c:1762 Session 23 (sofia/internal/peer@127.0.0.1:5060) Ended\n\u001b[m\u001b[36m2026-09-13 20:17:53.605070 99.70% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/peer@127.0.0.1:5060 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 20:20:03.745315 99.40% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/peer@127.0.0.1:5060 [b0494e68-d164-4ad4-b6a5-74bd15495765]\n\u001b[m\u001b[32m2026-09-13 20:20:03.745315 99.40% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:39217 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: a496ec6c173e8519\n\u001b[m\u001b[32m2026-09-13 20:20:03.765056 99.40% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:39217 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: a496ec6c173e8519\n\u001b[m\u001b[32m2026-09-13 20:20:03.765056 99.40% [INFO] mod_dialplan_xml.c:639 Processing peer <peer>->7000 in context default\n\u001b[m\u001b[32mEXECUTE [depth=0] sofia/internal/peer@127.0.0.1:5060 bridge(user/tester@172.18.0.2)\n\u001b[m\u001b[36m2026-09-13 20:20:03.765056 99.40% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/tester@172.18.0.1:46719 [9b95c5f5-5186-4ca9-97ad-b192b69e4223]\n\u001b[m\u001b[36m2026-09-13 20:20:03.765056 99.40% [NOTICE] switch_ivr_originate.c:3059 Cannot create outgoing channel of type [error] cause: [USER_NOT_REGISTERED]\n\u001b[m\u001b[32m2026-09-13 20:20:03.765056 99.40% [INFO] sofia_glue.c:1659 sofia/internal/tester@172.18.0.1:46719 sending invite call-id: (null)\n\u001b[m\u001b[36m2026-09-13 20:20:03.785129 99.40% [NOTICE] sofia.c:7604 Ring-Ready sofia/internal/tester@172.18.0.1:46719!\n\u001b[m\u001b[36m2026-09-13 20:20:03.785129 99.40% [NOTICE] mod_sofia.c:2514 Ring-Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 20:20:03.785129 99.40% [NOTICE] switch_ivr_originate.c:572 Ring Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 20:20:27.265090 89.53% [NOTICE] sofia.c:8681 Channel [sofia/internal/tester@172.18.0.1:46719] has been answered\n\u001b[m\u001b[36m2026-09-13 20:20:27.285067 89.53% [NOTICE] sofia_media.c:90 Pre-Answer sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 20:20:27.285067 89.53% [NOTICE] switch_ivr_originate.c:3855 Channel [sofia/internal/peer@127.0.0.1:5060] has been answered\n\u001b[m\u001b[36m2026-09-13 20:22:42.105915 98.47% [NOTICE] sofia.c:1065 Hangup sofia/internal/peer@127.0.0.1:5060 [CS_EXECUTE] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 20:22:42.145078 98.47% [NOTICE] switch_ivr_bridge.c:1027 Hangup sofia/internal/tester@172.18.0.1:46719 [CS_EXCHANGE_MEDIA] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 20:22:42.145078 98.47% [NOTICE] switch_core_session.c:1762 Session 26 (sofia/internal/tester@172.18.0.1:46719) Ended\n\u001b[m\u001b[36m2026-09-13 20:22:42.145078 98.47% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/tester@172.18.0.1:46719 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 20:22:42.145078 98.47% [NOTICE] switch_core_session.c:1762 Session 25 (sofia/internal/peer@127.0.0.1:5060) Ended\n\u001b[m\u001b[36m2026-09-13 20:22:42.145078 98.47% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/peer@127.0.0.1:5060 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 20:23:19.205486 99.20% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/peer@127.0.0.1:5060 [5d81517b-d9a1-4b7d-be7e-8b7256e377dc]\n\u001b[m\u001b[32m2026-09-13 20:23:19.205486 99.20% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:39217 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: a0be25b4d9f978a5\n\u001b[m\u001b[32m2026-09-13 20:23:19.225362 99.20% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:39217 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: a0be25b4d9f978a5\n\u001b[m\u001b[32m2026-09-13 20:23:19.225362 99.20% [INFO] mod_dialplan_xml.c:639 Processing peer <peer>->7000 in context default\n\u001b[m\u001b[32mEXECUTE [depth=0] sofia/internal/peer@127.0.0.1:5060 bridge(user/tester@172.18.0.2)\n\u001b[m\u001b[36m2026-09-13 20:23:19.225362 99.20% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/tester@172.18.0.1:46719 [085520c9-e0cf-42f9-8809-757b5294b32e]\n\u001b[m\u001b[36m2026-09-13 20:23:19.225362 99.20% [NOTICE] switch_ivr_originate.c:3059 Cannot create outgoing channel of type [error] cause: [USER_NOT_REGISTERED]\n\u001b[m\u001b[32m2026-09-13 20:23:19.225362 99.20% [INFO] sofia_glue.c:1659 sofia/internal/tester@172.18.0.1:46719 sending invite call-id: (null)\n\u001b[m\u001b[36m2026-09-13 20:23:19.225362 99.20% [NOTICE] sofia.c:7604 Ring-Ready sofia/internal/tester@172.18.0.1:46719!\n\u001b[m\u001b[36m2026-09-13 20:23:19.245079 99.20% [NOTICE] mod_sofia.c:2514 Ring-Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 20:23:19.245079 99.20% [NOTICE] switch_ivr_originate.c:572 Ring Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 20:23:41.065305 90.10% [NOTICE] sofia.c:8681 Channel [sofia/internal/tester@172.18.0.1:46719] has been answered\n\u001b[m\u001b[36m2026-09-13 20:23:41.085081 90.10% [NOTICE] sofia_media.c:90 Pre-Answer sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 20:23:41.085081 90.10% [NOTICE] switch_ivr_originate.c:3855 Channel [sofia/internal/peer@127.0.0.1:5060] has been answered\n\u001b[m\u001b[36m2026-09-13 20:24:49.245152 98.97% [NOTICE] sofia.c:1065 Hangup sofia/internal/tester@172.18.0.1:46719 [CS_EXCHANGE_MEDIA] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 20:24:49.265102 98.97% [NOTICE] switch_core_session.c:1762 Session 28 (sofia/internal/tester@172.18.0.1:46719) Ended\n\u001b[m\u001b[36m2026-09-13 20:24:49.265102 98.97% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/tester@172.18.0.1:46719 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 20:24:49.265102 98.97% [NOTICE] switch_core_state_machine.c:382 sofia/internal/peer@127.0.0.1:5060 has executed the last dialplan instruction, hanging up.\n\u001b[m\u001b[36m2026-09-13 20:24:49.265102 98.97% [NOTICE] switch_core_state_machine.c:384 Hangup sofia/internal/peer@127.0.0.1:5060 [CS_EXECUTE] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 20:24:49.265102 98.97% [NOTICE] switch_core_session.c:1762 Session 27 (sofia/internal/peer@127.0.0.1:5060) Ended\n\u001b[m\u001b[36m2026-09-13 20:24:49.265102 98.97% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/peer@127.0.0.1:5060 [CS_DESTROY]\n\u001b[m\u001b[mrecv 524 bytes from udp/[172.18.0.1]:40508 at 20:23:11.054622:\n------------------------------------------------------------------------\nREGISTER sip:127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bKc53071dca60ea4a3;rport\nContact: <sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080>;expires=300;+sip.instance=\"<urn:uuid:1e065369-21d2-61cc-711e-e1628378fe7c>\"\nMax-Forwards: 70\nTo: <sip:peer@127.0.0.1:5060>\nFrom: <sip:peer@127.0.0.1:5060>;tag=b82a23420cacbeef\nCall-ID: 0c87290976f0d11e\nCSeq: 59469 REGISTER\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nAllow: INVITE,ACK,BYE,CANCEL,OPTIONS,NOTIFY,SUBSCRIBE,INFO,MESSAGE,REFER\nContent-Length: 0\n\n\n\u001b[m\u001b[msend 667 bytes to udp/[172.18.0.1]:40508 at 20:23:11.056084:\n------------------------------------------------------------------------\nSIP/2.0 401 Unauthorized\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bKc53071dca60ea4a3;rport=40508;received=172.18.0.1\nFrom: <sip:peer@127.0.0.1:5060>;tag=b82a23420cacbeef\nTo: <sip:peer@127.0.0.1:5060>;tag=KmSN8y11XNr9g\nCall-ID: 0c87290976f0d11e\nCSeq: 59469 REGISTER\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nWWW-Authenticate: Digest realm=\"127.0.0.1\", nonce=\"8592df1c-c8a2-41c0-9b2a-87ef12f4aad9\", algorithm=MD5, qop=\"auth\"\nContent-Length: 0\n\n\n\u001b[m\u001b[mrecv 749 bytes from udp/[172.18.0.1]:40508 at 20:23:11.056390:\n------------------------------------------------------------------------\nREGISTER sip:127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK761a05457aed9900;rport\nContact: <sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080>;expires=300;+sip.instance=\"<urn:uuid:1e065369-21d2-61cc-711e-e1628378fe7c>\"\nMax-Forwards: 70\nAuthorization: <REDACTED>\nTo: <sip:peer@127.0.0.1:5060>\nFrom: <sip:peer@127.0.0.1:5060>;tag=b82a23420cacbeef\nCall-ID: 0c87290976f0d11e\nCSeq: 59470 REGISTER\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nAllow: INVITE,ACK,BYE,CANCEL,OPTIONS,NOTIFY,SUBSCRIBE,INFO,MESSAGE,REFER\nContent-Length: 0\n\n\n\u001b[m\u001b[msend 640 bytes to udp/[172.18.0.1]:40508 at 20:23:11.057485:\n------------------------------------------------------------------------\nSIP/2.0 200 OK\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK761a05457aed9900;rport=40508;received=172.18.0.1\nFrom: <sip:peer@127.0.0.1:5060>;tag=b82a23420cacbeef\nTo: <sip:peer@127.0.0.1:5060>;tag=mXjeatj5tyevc\nCall-ID: 0c87290976f0d11e\nCSeq: 59470 REGISTER\nContact: <sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080>;expires=300\nDate: Sun, 13 Sep 2026 20:28:51 GMT\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nContent-Length: 0\n\n\n\u001b[m\u001b[msend 955 bytes to udp/[127.0.0.1]:5080 at 20:23:11.158892:\n------------------------------------------------------------------------\nNOTIFY sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1;rport;branch=z9hG4bK1a3Q7jBmUDcpN\nMax-Forwards: 70\nFrom: <sip:peer@172.18.0.2>;tag=N6B7BN38Q74er\nTo: <sip:peer@172.18.0.2>\nCall-ID: c8025e00-2a53-1240-8faf-8a4a02540fa9\nCSeq: 120111703 NOTIFY\nContact: <sip:mod_sofia@127.0.0.1:5060>\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nEvent: message-summary\nAllow-Events: talk, hold, conference, presence, as-feature-event, dialog, line-seize, call-info, sla, include-session-description, presence.winfo, message-summary, refer\nSubscription-State: terminated;reason=noresource\nContent-Type: application/simple-message-summary\nContent-Length: 62\n\nMessages-Waiting: no\nMessage-Account: sip:peer@172.18.0.2\n\n\n\u001b[m\u001b[mrecv 490 bytes from udp/[172.18.0.1]:43885 at 20:23:13.058683:\n------------------------------------------------------------------------\nREGISTER sip:127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5070;rport;branch=z9hG4bKPjfe72466d-78a5-4ff2-a75e-ce4f1a9dcdf6\nMax-Forwards: 70\nFrom: <sip:tester@127.0.0.1>;tag=4f1c5a5c-7a9a-40e8-bd63-4597a4e56c43\nTo: <sip:tester@127.0.0.1>\nCall-ID: f8a20892-86bb-49b4-90cc-1944f16f8853\nCSeq: 35378 REGISTER\nContact: <sip:tester@127.0.0.1:5070;ob>\nExpires: 300\nAllow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, INFO, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS\nContent-Length:  0\n\n\n\u001b[m\u001b[msend 723 bytes to udp/[172.18.0.1]:43885 at 20:23:13.059268:\n------------------------------------------------------------------------\nSIP/2.0 401 Unauthorized\nVia: SIP/2.0/UDP 127.0.0.1:5070;rport=43885;branch=z9hG4bKPjfe72466d-78a5-4ff2-a75e-ce4f1a9dcdf6;received=172.18.0.1\nFrom: <sip:tester@127.0.0.1>;tag=4f1c5a5c-7a9a-40e8-bd63-4597a4e56c43\nTo: <sip:tester@127.0.0.1>;tag=QryrFB5FjSHmF\nCall-ID: f8a20892-86bb-49b4-90cc-1944f16f8853\nCSeq: 35378 REGISTER\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nWWW-Authenticate: Digest realm=\"127.0.0.1\", nonce=\"ac533e0f-2362-48b8-8d9f-c063fd2f93ea\", algorithm=MD5, qop=\"auth\"\nContent-Length: 0\n\n\n\u001b[m\u001b[mrecv 752 bytes from udp/[172.18.0.1]:43885 at 20:23:13.059621:\n------------------------------------------------------------------------\nREGISTER sip:127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 172.18.0.1:43885;rport;branch=z9hG4bKPjebd4de1f-a52c-4440-b658-f0f088dec630\nMax-Forwards: 70\nFrom: <sip:tester@127.0.0.1>;tag=4f1c5a5c-7a9a-40e8-bd63-4597a4e56c43\nTo: <sip:tester@127.0.0.1>\nCall-ID: f8a20892-86bb-49b4-90cc-1944f16f8853\nCSeq: 35379 REGISTER\nContact: <sip:tester@172.18.0.1:43885;ob>\nExpires: 300\nAllow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, INFO, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS\nAuthorization: <REDACTED>\nContent-Length:  0\n\n\n\u001b[m\u001b[msend 670 bytes to udp/[172.18.0.1]:43885 at 20:23:13.060654:\n------------------------------------------------------------------------\nSIP/2.0 200 OK\nVia: SIP/2.0/UDP 172.18.0.1:43885;rport=43885;branch=z9hG4bKPjebd4de1f-a52c-4440-b658-f0f088dec630\nFrom: <sip:tester@127.0.0.1>;tag=4f1c5a5c-7a9a-40e8-bd63-4597a4e56c43\nTo: <sip:tester@127.0.0.1>;tag=r1QHH6NKF276a\nCall-ID: f8a20892-86bb-49b4-90cc-1944f16f8853\nCSeq: 35379 REGISTER\nContact: <sip:tester@172.18.0.1:43885;ob>;expires=300\nDate: Sun, 13 Sep 2026 20:28:53 GMT\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nContent-Length: 0\n\n\n\u001b[m\u001b[msend 953 bytes to udp/[172.18.0.1]:43885 at 20:23:13.132400:\n------------------------------------------------------------------------\nNOTIFY sip:tester@172.18.0.1:43885;ob SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1;rport;branch=z9hG4bK2Kvg9DvQrp28g\nMax-Forwards: 70\nFrom: <sip:tester@172.18.0.2>;tag=SaHaK16pcBySp\nTo: <sip:tester@172.18.0.2>\nCall-ID: c92f80af-2a53-1240-8faf-8a4a02540fa9\nCSeq: 120111704 NOTIFY\nContact: <sip:mod_sofia@127.0.0.1:5060>\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nEvent: message-summary\nAllow-Events: talk, hold, conference, presence, as-feature-event, dialog, line-seize, call-info, sla, include-session-description, presence.winfo, message-summary, refer\nSubscription-State: terminated;reason=noresource\nContent-Type: application/simple-message-summary\nContent-Length: 64\n\nMessages-Waiting: no\nMessage-Account: sip:tester@172.18.0.2\n\n\n\u001b[m\u001b[mrecv 298 bytes from udp/[172.18.0.1]:43885 at 20:23:13.132827:\n------------------------------------------------------------------------\nSIP/2.0 200 OK\nVia: SIP/2.0/UDP 127.0.0.1;rport=5060;received=127.0.0.1;branch=z9hG4bK2Kvg9DvQrp28g\nCall-ID: c92f80af-2a53-1240-8faf-8a4a02540fa9\nFrom: <sip:tester@172.18.0.2>;tag=SaHaK16pcBySp\nTo: <sip:tester@172.18.0.2>;tag=z9hG4bK2Kvg9DvQrp28g\nCSeq: 120111704 NOTIFY\nContent-Length:  0\n\n\n\u001b[m\u001b[mrecv 825 bytes from udp/[172.18.0.1]:40508 at 20:23:13.219330:\n------------------------------------------------------------------------\nINVITE sip:7000@127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK3fba5373a70908b8;rport\nContact: <sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080>\nMax-Forwards: 70\nTo: <sip:7000@127.0.0.1:5060>\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nCall-ID: 404ec9d97876eccf\nCSeq: 9934 INVITE\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nAllow: INVITE,ACK,BYE,CANCEL,OPTIONS,NOTIFY,SUBSCRIBE,INFO,MESSAGE,REFER\nSupported: gruu\nContent-Type: application/sdp\nContent-Length: 327\n\nv=0\no=- 2596570429 1716085403 IN IP4 172.22.89.126\ns=-\nc=IN IP4 172.22.89.126\nt=0 0\na=tool:baresip 1.0.0\nm=audio 10048 RTP/AVP 0 101\na=rtpmap:0 PCMU/8000\na=rtpmap:101 telephone-event/8000\na=fmtp:101 0-15\na=sendrecv\na=label:1\na=rtcp-rsize\na=ssrc:1229131802 cname:sip:peer@127.0.0.1:5060\na=minptime:20\na=ptime:20\n\n\u001b[m\u001b[36m2026-09-13 20:28:53.985077 99.17% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/peer@127.0.0.1:5060 [28a3b2b2-aabd-4fb7-8777-f8b992bdca21]\n\u001b[m\u001b[32m2026-09-13 20:28:53.985077 99.17% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:40508 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: 404ec9d97876eccf\n\u001b[m\u001b[msend 879 bytes to udp/[172.18.0.1]:40508 at 20:23:13.220200:\n------------------------------------------------------------------------\nSIP/2.0 407 Proxy Authentication Required\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK3fba5373a70908b8;rport=40508;received=172.18.0.1\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nTo: <sip:7000@127.0.0.1:5060>;tag=tKa3mvQt9Kmcj\nCall-ID: 404ec9d97876eccf\nCSeq: 9934 INVITE\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAccept: application/sdp\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nAllow-Events: talk, hold, conference, presence, as-feature-event, dialog, line-seize, call-info, sla, include-session-description, presence.winfo, message-summary, refer\nProxy-Authenticate: Digest realm=\"127.0.0.1\", nonce=\"8af88f26-d876-4ecd-b767-7943ba1390d0\", algorithm=MD5, qop=\"auth\"\nContent-Length: 0\n\n\n\u001b[m\u001b[mrecv 335 bytes from udp/[172.18.0.1]:40508 at 20:23:13.220482:\n------------------------------------------------------------------------\nACK sip:7000@127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK3fba5373a70908b8;rport\nMax-Forwards: 70\nTo: <sip:7000@127.0.0.1:5060>;tag=tKa3mvQt9Kmcj\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nCall-ID: 404ec9d97876eccf\nCSeq: 9934 ACK\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nContent-Length: 0\n\n\n\u001b[m\u001b[mrecv 1061 bytes from udp/[172.18.0.1]:40508 at 20:23:13.220556:\n------------------------------------------------------------------------\nINVITE sip:7000@127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK20265326e5a33e09;rport\nContact: <sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080>\nMax-Forwards: 70\nProxy-Authorization: <REDACTED>\nTo: <sip:7000@127.0.0.1:5060>\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nCall-ID: 404ec9d97876eccf\nCSeq: 9935 INVITE\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nAllow: INVITE,ACK,BYE,CANCEL,OPTIONS,NOTIFY,SUBSCRIBE,INFO,MESSAGE,REFER\nSupported: gruu\nContent-Type: application/sdp\nContent-Length: 327\n\nv=0\no=- 2596570429 1716085403 IN IP4 172.22.89.126\ns=-\nc=IN IP4 172.22.89.126\nt=0 0\na=tool:baresip 1.0.0\nm=audio 10048 RTP/AVP 0 101\na=rtpmap:0 PCMU/8000\na=rtpmap:101 telephone-event/8000\na=fmtp:101 0-15\na=sendrecv\na=label:1\na=rtcp-rsize\na=ssrc:1229131802 cname:sip:peer@127.0.0.1:5060\na=minptime:20\na=ptime:20\n\n\u001b[m\u001b[32m2026-09-13 20:28:54.005078 99.17% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:40508 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: 404ec9d97876eccf\n\u001b[m\u001b[32m2026-09-13 20:28:54.005078 99.17% [INFO] mod_dialplan_xml.c:639 Processing peer <peer>->7000 in context default\n\u001b[m\u001b[msend 379 bytes to udp/[172.18.0.1]:40508 at 20:23:13.241649:\n------------------------------------------------------------------------\nSIP/2.0 100 Trying\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK20265326e5a33e09;rport=40508;received=172.18.0.1\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nTo: <sip:7000@127.0.0.1:5060>\nCall-ID: 404ec9d97876eccf\nCSeq: 9935 INVITE\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nContent-Length: 0\n\n\n\u001b[m\u001b[32mEXECUTE [depth=0] sofia/internal/peer@127.0.0.1:5060 bridge(user/tester@172.18.0.2)\n\u001b[m\u001b[36m2026-09-13 20:28:54.005078 99.17% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/tester@172.18.0.1:43885 [2b87e989-3d67-4188-907b-cc9944e688cb]\n\u001b[m\u001b[36m2026-09-13 20:28:54.005078 99.17% [NOTICE] switch_ivr_originate.c:3059 Cannot create outgoing channel of type [error] cause: [USER_NOT_REGISTERED]\n\u001b[m\u001b[32m2026-09-13 20:28:54.005078 99.17% [INFO] sofia_glue.c:1659 sofia/internal/tester@172.18.0.1:43885 sending invite call-id: (null)\n\u001b[m\u001b[msend 1199 bytes to udp/[172.18.0.1]:43885 at 20:23:13.243564:\n------------------------------------------------------------------------\nINVITE sip:tester@172.18.0.1:43885;ob SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1;rport;branch=z9hG4bK3vN9a9cUNZrUc\nMax-Forwards: 69\nFrom: \"Workshop Peer\" <sip:9000@172.18.0.2>;tag=v5vmrjS1350HS\nTo: <sip:tester@172.18.0.1:43885;ob>\nCall-ID: c9407757-2a53-1240-8faf-8a4a02540fa9\nCSeq: 120111704 INVITE\nContact: <sip:mod_sofia@127.0.0.1:5060>\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nAllow-Events: talk, hold, conference, presence, as-feature-event, dialog, line-seize, call-info, sla, include-session-description, presence.winfo, message-summary, refer\nContent-Type: application/sdp\nContent-Disposition: session\nContent-Length: 216\nX-FS-Support: update_display,send_info\nRemote-Party-ID: \"Workshop Peer\" <sip:9000@172.18.0.2>;party=calling;screen=yes;privacy=off\n\nv=0\no=FreeSWITCH 1789300192 1789300193 IN IP4 172.18.0.2\ns=FreeSWITCH\nc=IN IP4 172.18.0.2\nt=0 0\nm=audio 31142 RTP/AVP 0 101\na=rtpmap:0 PCMU/8000\na=rtpmap:101 telephone-event/8000\na=fmtp:101 0-15\na=ptime:20\n\n\u001b[m\u001b[mrecv 294 bytes from udp/[172.18.0.1]:43885 at 20:23:13.244401:\n------------------------------------------------------------------------\nSIP/2.0 100 Trying\nVia: SIP/2.0/UDP 127.0.0.1;rport=5060;received=127.0.0.1;branch=z9hG4bK3vN9a9cUNZrUc\nCall-ID: c9407757-2a53-1240-8faf-8a4a02540fa9\nFrom: \"Workshop Peer\" <sip:9000@172.18.0.2>;tag=v5vmrjS1350HS\nTo: <sip:tester@172.18.0.1;ob>\nCSeq: 120111704 INVITE\nContent-Length:  0\n\n\n\u001b[m\u001b[mrecv 477 bytes from udp/[172.18.0.1]:43885 at 20:23:13.244444:\n------------------------------------------------------------------------\nSIP/2.0 180 Ringing\nVia: SIP/2.0/UDP 127.0.0.1;rport=5060;received=127.0.0.1;branch=z9hG4bK3vN9a9cUNZrUc\nCall-ID: c9407757-2a53-1240-8faf-8a4a02540fa9\nFrom: \"Workshop Peer\" <sip:9000@172.18.0.2>;tag=v5vmrjS1350HS\nTo: <sip:tester@172.18.0.1;ob>;tag=8c91493f-73e9-4f7a-97b2-1f6bea458bec\nCSeq: 120111704 INVITE\nContact: <sip:tester@172.18.0.1:43885;ob>\nAllow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, INFO, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS\nContent-Length:  0\n\n\n\u001b[m\u001b[36m2026-09-13 20:28:54.005078 99.17% [NOTICE] sofia.c:7604 Ring-Ready sofia/internal/tester@172.18.0.1:43885!\n\u001b[m\u001b[mrecv 872 bytes from udp/[172.18.0.1]:43885 at 20:23:13.245151:\n------------------------------------------------------------------------\nSIP/2.0 200 OK\nVia: SIP/2.0/UDP 127.0.0.1;rport=5060;received=127.0.0.1;branch=z9hG4bK3vN9a9cUNZrUc\nCall-ID: c9407757-2a53-1240-8faf-8a4a02540fa9\nFrom: \"Workshop Peer\" <sip:9000@172.18.0.2>;tag=v5vmrjS1350HS\nTo: <sip:tester@172.18.0.1;ob>;tag=8c91493f-73e9-4f7a-97b2-1f6bea458bec\nCSeq: 120111704 INVITE\nAllow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, INFO, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS\nContact: <sip:tester@172.18.0.1:43885;ob>\nSupported: replaces, 100rel, timer, norefersub\nContent-Type: application/sdp\nContent-Length:   318\n\nv=0\no=- 3998319793 3998319794 IN IP4 172.22.89.126\ns=pjmedia\nb=AS:84\nt=0 0\na=X-nat:0\nm=audio 4000 RTP/AVP 0 101\nc=IN IP4 172.22.89.126\nb=TIAS:64000\na=rtcp:4001 IN IP4 172.22.89.126\na=sendrecv\na=rtpmap:0 PCMU/8000\na=ssrc:124676430 cname:2535ddaf6a018127\na=rtpmap:101 telephone-event/8000\na=fmtp:101 0-16\n\n\u001b[m\u001b[msend 396 bytes to udp/[172.18.0.1]:43885 at 20:23:13.245711:\n------------------------------------------------------------------------\nACK sip:tester@172.18.0.1:43885;ob SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1;rport;branch=z9hG4bK45e2c4Xyj8eer\nMax-Forwards: 70\nFrom: \"Workshop Peer\" <sip:9000@172.18.0.2>;tag=v5vmrjS1350HS\nTo: <sip:tester@172.18.0.1:43885;ob>;tag=8c91493f-73e9-4f7a-97b2-1f6bea458bec\nCall-ID: c9407757-2a53-1240-8faf-8a4a02540fa9\nCSeq: 120111704 ACK\nContact: <sip:mod_sofia@127.0.0.1:5060>\nContent-Length: 0\n\n\n\u001b[m\u001b[36m2026-09-13 20:28:54.005078 99.17% [NOTICE] sofia.c:8681 Channel [sofia/internal/tester@172.18.0.1:43885] has been answered\n\u001b[m\u001b[36m2026-09-13 20:28:54.025071 99.17% [NOTICE] mod_sofia.c:2514 Ring-Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[msend 870 bytes to udp/[172.18.0.1]:40508 at 20:23:13.264724:\n------------------------------------------------------------------------\nSIP/2.0 180 Ringing\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK20265326e5a33e09;rport=40508;received=172.18.0.1\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nTo: <sip:7000@127.0.0.1:5060>;tag=Uv3UpQ8X6vaZD\nCall-ID: 404ec9d97876eccf\nCSeq: 9935 INVITE\nContact: <sip:7000@127.0.0.1:5060;transport=udp>\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAccept: application/sdp\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nAllow-Events: talk, hold, conference, presence, as-feature-event, dialog, line-seize, call-info, sla, include-session-description, presence.winfo, message-summary, refer\nContent-Length: 0\nRemote-Party-ID: \"7000\" <sip:7000@127.0.0.1>;party=calling;privacy=off;screen=no\n\n\n\u001b[m\u001b[36m2026-09-13 20:28:54.025071 99.17% [NOTICE] switch_ivr_originate.c:572 Ring Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 20:28:54.025071 99.17% [NOTICE] sofia_media.c:90 Pre-Answer sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 20:28:54.025071 99.17% [NOTICE] switch_ivr_originate.c:3855 Channel [sofia/internal/peer@127.0.0.1:5060] has been answered\n\u001b[m\u001b[msend 1130 bytes to udp/[172.18.0.1]:40508 at 20:23:13.267696:\n------------------------------------------------------------------------\nSIP/2.0 200 OK\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK20265326e5a33e09;rport=40508;received=172.18.0.1\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nTo: <sip:7000@127.0.0.1:5060>;tag=Uv3UpQ8X6vaZD\nCall-ID: 404ec9d97876eccf\nCSeq: 9935 INVITE\nContact: <sip:7000@127.0.0.1:5060;transport=udp>\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nAllow-Events: talk, hold, conference, presence, as-feature-event, dialog, line-seize, call-info, sla, include-session-description, presence.winfo, message-summary, refer\nContent-Type: application/sdp\nContent-Disposition: session\nContent-Length: 216\nRemote-Party-ID: \"Outbound Call\" <sip:tester@127.0.0.1>;party=calling;privacy=off;screen=no\n\nv=0\no=FreeSWITCH 1789308002 1789308003 IN IP4 172.18.0.2\ns=FreeSWITCH\nc=IN IP4 172.18.0.2\nt=0 0\nm=audio 23332 RTP/AVP 0 101\na=rtpmap:0 PCMU/8000\na=rtpmap:101 telephone-event/8000\na=fmtp:101 0-15\na=ptime:20\n\n\u001b[m\u001b[mrecv 599 bytes from udp/[172.18.0.1]:40508 at 20:23:13.268596:\n------------------------------------------------------------------------\nACK sip:7000@127.0.0.1:5060;transport=udp SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bKc51dbc613d67f9a8;rport\nMax-Forwards: 70\nProxy-Authorization: <REDACTED>\nTo: <sip:7000@127.0.0.1:5060>;tag=Uv3UpQ8X6vaZD\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nCall-ID: 404ec9d97876eccf\nCSeq: 9935 ACK\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nContent-Length: 0\n\n\n\u001b[m\u001b[mrecv 599 bytes from udp/[172.18.0.1]:40508 at 20:23:15.310628:\n------------------------------------------------------------------------\nBYE sip:7000@127.0.0.1:5060;transport=udp SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK0b1f58dd47430828;rport\nMax-Forwards: 70\nProxy-Authorization: <REDACTED>\nTo: <sip:7000@127.0.0.1:5060>;tag=Uv3UpQ8X6vaZD\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nCall-ID: 404ec9d97876eccf\nCSeq: 9936 BYE\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nContent-Length: 0\n\n\n\u001b[m\u001b[36m2026-09-13 20:28:56.065962 99.50% [NOTICE] sofia.c:1065 Hangup sofia/internal/peer@127.0.0.1:5060 [CS_EXECUTE] [NORMAL_CLEARING]\n\u001b[m\u001b[msend 534 bytes to udp/[172.18.0.1]:40508 at 20:23:15.326689:\n------------------------------------------------------------------------\nSIP/2.0 200 OK\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK0b1f58dd47430828;rport=40508;received=172.18.0.1\nFrom: <sip:peer@127.0.0.1:5060>;tag=6dfbbb136fd89e9f\nTo: <sip:7000@127.0.0.1:5060>;tag=Uv3UpQ8X6vaZD\nCall-ID: 404ec9d97876eccf\nCSeq: 9936 BYE\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nContent-Length: 0\n\n\n\u001b[m\u001b[36m2026-09-13 20:28:56.065962 99.50% [NOTICE] switch_ivr_bridge.c:1027 Hangup sofia/internal/tester@172.18.0.1:43885 [CS_EXCHANGE_MEDIA] [NORMAL_CLEARING]\n\u001b[m\u001b[msend 657 bytes to udp/[172.18.0.1]:43885 at 20:23:15.327904:\n------------------------------------------------------------------------\nBYE sip:tester@172.18.0.1:43885;ob SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1;rport;branch=z9hG4bK5e8teZe2FH50K\nMax-Forwards: 70\nFrom: \"Workshop Peer\" <sip:9000@172.18.0.2>;tag=v5vmrjS1350HS\nTo: <sip:tester@172.18.0.1:43885;ob>;tag=8c91493f-73e9-4f7a-97b2-1f6bea458bec\nCall-ID: c9407757-2a53-1240-8faf-8a4a02540fa9\nCSeq: 120111705 BYE\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nReason: Q.850;cause=16;text=\"NORMAL_CLEARING\"\nContent-Length: 0\n\n\n\u001b[m\u001b[36m2026-09-13 20:28:56.065962 99.50% [NOTICE] switch_core_session.c:1762 Session 30 (sofia/internal/tester@172.18.0.1:43885) Ended\n\u001b[m\u001b[36m2026-09-13 20:28:56.065962 99.50% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/tester@172.18.0.1:43885 [CS_DESTROY]\n\u001b[m\u001b[mrecv 328 bytes from udp/[172.18.0.1]:43885 at 20:23:15.328548:\n------------------------------------------------------------------------\nSIP/2.0 200 OK\nVia: SIP/2.0/UDP 127.0.0.1;rport=5060;received=127.0.0.1;branch=z9hG4bK5e8teZe2FH50K\nCall-ID: c9407757-2a53-1240-8faf-8a4a02540fa9\nFrom: \"Workshop Peer\" <sip:9000@172.18.0.2>;tag=v5vmrjS1350HS\nTo: <sip:tester@172.18.0.1;ob>;tag=8c91493f-73e9-4f7a-97b2-1f6bea458bec\nCSeq: 120111705 BYE\nContent-Length:  0\n\n\n\u001b[m\u001b[36m2026-09-13 20:28:56.065962 99.50% [NOTICE] switch_core_session.c:1762 Session 29 (sofia/internal/peer@127.0.0.1:5060) Ended\n\u001b[m\u001b[36m2026-09-13 20:28:56.065962 99.50% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/peer@127.0.0.1:5060 [CS_DESTROY]\n\u001b[m\u001b[mrecv 394 bytes from udp/[172.18.0.1]:43885 at 20:23:15.352163:\n------------------------------------------------------------------------\nREGISTER sip:127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 172.18.0.1:43885;rport;branch=z9hG4bKPj1dcb8f65-dc5f-4b30-925c-fac9110c974d\nMax-Forwards: 70\nFrom: <sip:tester@127.0.0.1>;tag=c65fbf3f-56ff-4ea2-8cce-e6e687123a60\nTo: <sip:tester@127.0.0.1>\nCall-ID: f8a20892-86bb-49b4-90cc-1944f16f8853\nCSeq: 35380 REGISTER\nContact: <sip:tester@172.18.0.1:43885;ob>\nExpires: 0\nContent-Length:  0\n\n\n\u001b[m\u001b[msend 705 bytes to udp/[172.18.0.1]:43885 at 20:23:15.352949:\n------------------------------------------------------------------------\nSIP/2.0 401 Unauthorized\nVia: SIP/2.0/UDP 172.18.0.1:43885;rport=43885;branch=z9hG4bKPj1dcb8f65-dc5f-4b30-925c-fac9110c974d\nFrom: <sip:tester@127.0.0.1>;tag=c65fbf3f-56ff-4ea2-8cce-e6e687123a60\nTo: <sip:tester@127.0.0.1>;tag=XepDtDa50eQ4m\nCall-ID: f8a20892-86bb-49b4-90cc-1944f16f8853\nCSeq: 35380 REGISTER\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nWWW-Authenticate: Digest realm=\"127.0.0.1\", nonce=\"5ebc84bb-0faa-4b5d-9d99-70c7fb90a18f\", algorithm=MD5, qop=\"auth\"\nContent-Length: 0\n\n\n\u001b[m\u001b[mrecv 652 bytes from udp/[172.18.0.1]:43885 at 20:23:15.353402:\n------------------------------------------------------------------------\nREGISTER sip:127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 172.18.0.1:43885;rport;branch=z9hG4bKPja32752d2-614d-4a43-91a1-1ebc6134ae3f\nMax-Forwards: 70\nFrom: <sip:tester@127.0.0.1>;tag=c65fbf3f-56ff-4ea2-8cce-e6e687123a60\nTo: <sip:tester@127.0.0.1>\nCall-ID: f8a20892-86bb-49b4-90cc-1944f16f8853\nCSeq: 35381 REGISTER\nContact: <sip:tester@172.18.0.1:43885;ob>\nExpires: 0\nAuthorization: <REDACTED>\nContent-Length:  0\n\n\n\u001b[m\u001b[msend 615 bytes to udp/[172.18.0.1]:43885 at 20:23:15.354521:\n------------------------------------------------------------------------\nSIP/2.0 200 OK\nVia: SIP/2.0/UDP 172.18.0.1:43885;rport=43885;branch=z9hG4bKPja32752d2-614d-4a43-91a1-1ebc6134ae3f\nFrom: <sip:tester@127.0.0.1>;tag=c65fbf3f-56ff-4ea2-8cce-e6e687123a60\nTo: <sip:tester@127.0.0.1>;tag=yQF6U8t8XQDQg\nCall-ID: f8a20892-86bb-49b4-90cc-1944f16f8853\nCSeq: 35381 REGISTER\nDate: Sun, 13 Sep 2026 20:28:56 GMT\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nContent-Length: 0\n\n\n\u001b[m\u001b[mrecv 522 bytes from udp/[172.18.0.1]:40508 at 20:23:16.369185:\n------------------------------------------------------------------------\nREGISTER sip:127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK3eb693bf3db0e7a6;rport\nContact: <sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080>;expires=0;+sip.instance=\"<urn:uuid:1e065369-21d2-61cc-711e-e1628378fe7c>\"\nMax-Forwards: 70\nTo: <sip:peer@127.0.0.1:5060>\nFrom: <sip:peer@127.0.0.1:5060>;tag=b82a23420cacbeef\nCall-ID: 0c87290976f0d11e\nCSeq: 59471 REGISTER\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nAllow: INVITE,ACK,BYE,CANCEL,OPTIONS,NOTIFY,SUBSCRIBE,INFO,MESSAGE,REFER\nContent-Length: 0\n\n\n\u001b[m\u001b[msend 667 bytes to udp/[172.18.0.1]:40508 at 20:23:16.369782:\n------------------------------------------------------------------------\nSIP/2.0 401 Unauthorized\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK3eb693bf3db0e7a6;rport=40508;received=172.18.0.1\nFrom: <sip:peer@127.0.0.1:5060>;tag=b82a23420cacbeef\nTo: <sip:peer@127.0.0.1:5060>;tag=Z08yX3BcU039B\nCall-ID: 0c87290976f0d11e\nCSeq: 59471 REGISTER\nUser-Agent: FreeSWITCH-mod_sofia/1.10.12-release-10222002881-a88d069d6f+git~20240802T210227Z~a88d069d6f~64bit\nAllow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, INFO, UPDATE, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE\nSupported: timer, path, replaces\nWWW-Authenticate: Digest realm=\"127.0.0.1\", nonce=\"0db0f980-6cb5-4cd5-a73d-462658347ad9\", algorithm=MD5, qop=\"auth\"\nContent-Length: 0\n\n\n\u001b[m\u001b[mrecv 747 bytes from udp/[172.18.0.1]:40508 at 20:23:16.370093:\n------------------------------------------------------------------------\nREGISTER sip:127.0.0.1:5060 SIP/2.0\nVia: SIP/2.0/UDP 127.0.0.1:5080;branch=z9hG4bK6ec341c283f6e783;rport\nContact: <sip:peer-0x5e74b8a5c5d0@127.0.0.1:5080>;expires=0;+sip.instance=\"<urn:uuid:1e065369-21d2-61cc-711e-e1628378fe7c>\"\nMax-Forwards: 70\nAuthorization: <REDACTED>\nTo: <sip:peer@127.0.0.1:5060>\nFrom: <sip:peer@127.0.0.1:5060>;tag=b82a23420cacbeef\nCall-ID: 0c87290976f0d11e\nCSeq: 59472 REGISTER\nUser-Agent: baresip v1.0.0 (x86_64/linux)\nAllow: INVITE,ACK,BYE,CANCEL,OPTIONS,NOTIFY,SUBSCRIBE,INFO,MESSAGE,REFER\nContent-Length: 0\n\n\n\u001b[m\u001b[msend 577 bytes to udp/[172.18.0.1]:40508 at 20:23:16.371059:\n"
+  },
+  "peer": {
+    "config": "/mnt/c/devel/sip-bot/tools/freeswitch_workshop/config/baresip-peer",
+    "command": "baresip -f /mnt/c/devel/sip-bot/tools/freeswitch_workshop/config/baresip-peer -t 27",
+    "log": "baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.\nLocal network address:  IPv4=eth0|172.22.89.126 \naucodec: PCMU/8000/1\naucodec: PCMA/8000/1\nausrc: aufile\nstdio: could not setup terminal: Inappropriate ioctl for device\nPopulated 1 account\nPopulated 2 audio codecs\nPopulated 0 audio filters\nPopulated 0 video codecs\nPopulated 0 video filters\nbaresip is ready.\npeer@127.0.0.1: {0/UDP/v4} 200 OK () [1 binding]\n\u001b[32mAll 1 useragent registered successfully! (2 ms)\u001b[;m\n\n>                                 \n>                                 \n>                                s\n>                               si\n>                              sip\n>                             sip:\n>                            sip:7\n>                           sip:70\n>                          sip:700\n>                         sip:7000\n>                        sip:7000@\n>                       sip:7000@1\n>                      sip:7000@12\n>                     sip:7000@127\n>                    sip:7000@127.\n>                   sip:7000@127.0\n>                  sip:7000@127.0.\n>                 sip:7000@127.0.0\n>                sip:7000@127.0.0.\n>               sip:7000@127.0.0.1\n>              sip:7000@127.0.0.1:\n>             sip:7000@127.0.0.1:5\n>            sip:7000@127.0.0.1:50\n>           sip:7000@127.0.0.1:506\n>          sip:7000@127.0.0.1:5060\nua: using best effort AF: af=AF_INET\ncall: connecting to 'sip:7000@127.0.0.1:5060'..\ncall: SIP Progress: 100 Trying (/)\ncall: SIP Progress: 180 Ringing (/)\nstream: update 'audio'\naudio: Set audio decoder: PCMU 8000Hz 1ch\naudio: Set audio encoder: PCMU 8000Hz 1ch\naufile: loading input file '/tmp/sip-bot-workshop-silence.wav'\naufile: /tmp/sip-bot-workshop-silence.wav: 8000 Hz, 1 channels\naufile: audio ptime=20 sampc=160\naufile: end of file\naufile: loaded 480000 bytes\naudio: source started with sample format S16LE\naudio tx pipeline:      aufile ---> PCMU\naudio rx pipeline:      (play) <--- PCMU\npeer@127.0.0.1: Call established: sip:7000@127.0.0.1:5060\n\n[0:00:00] audio=0/0 (bit/s)    \n\n[0:00:00] audio=0/0 (bit/s)    \n\n[0:00:00] audio=0/0 (bit/s)    \n\n[0:00:00] audio=0/0 (bit/s)    \n\n[0:00:00] audio=0/0 (bit/s)    \n\n[0:00:00] audio=0/0 (bit/s)    \n\n[0:00:00] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:01] audio=0/0 (bit/s)    \n\n[0:00:02] audio=0/0 (bit/s)    \n\n[0:00:02] audio=0/0 (bit/s)    \n\n[0:00:02] audio=0/0 (bit/s)    \ncall: terminate call '404ec9d97876eccf' with sip:7000@127.0.0.1:5060\nsip:peer@127.0.0.1:5060: Call with sip:7000@127.0.0.1:5060 terminated (duration: 2 secs)\n\naudio           Transmit:     Receive:\npackets:            103            0\navg. bitrate:      64.6          0.0  (kbit/s)\nerrors:               0            0\n--- Help ---\n                    ESC      Hangup call\n  /about                     About box\n  /accept           a        Accept incoming call\n  /answermode ..             Set answer mode\n  /auplay ..                 Switch audio player\n  /ausrc ..                  Switch audio source\n  /callstat         c        Call status\n  /dial ..          d ..     Dial\n  /hangup           b        Hangup call\n  /help             h        Help menu\n  /insmod ..                 Load module\n  /listcalls        l        List active calls\n  /options ..       o ..     Options\n  /quit             q        Quit\n  /reginfo          r        Registration info\n  /rmmod ..                  Unload module\n  /uadel ..                  Delete User-Agent\n  /uafind ..                 Find User-Agent <aor>\n  /uanew ..                  Create User-Agent\n  /uanext           T        Toggle UAs\n  /vidsrc ..                 Switch video source\n\n\nQuit\nua: stop all (forced=0)\n--- Help ---\n                    ESC      Hangup call\n  /about                     About box\n  /accept           a        Accept incoming call\n  /answermode ..             Set answer mode\n  /auplay ..                 Switch audio player\n  /ausrc ..                  Switch audio source\n  /callstat         c        Call status\n  /dial ..          d ..     Dial\n  /hangup           b        Hangup call\n  /help             h        Help menu\n  /insmod ..                 Load module\n  /listcalls        l        List active calls\n  /options ..       o ..     Options\n  /quit             q        Quit\n  /reginfo          r        Registration info\n  /rmmod ..                  Unload module\n  /uadel ..                  Delete User-Agent\n  /uafind ..                 Find User-Agent <aor>\n  /uanew ..                  Create User-Agent\n  /uanext           T        Toggle UAs\n  /vidsrc ..                 Switch video source\n\n\n"
+  },
+  "audio_fixture": {
+    "path": "/tmp/sip-bot-workshop-silence.wav",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "duration_seconds": 30,
+    "sha256": "baf1862a3e57a773bc10ba4920cffaa69d698720cf8c6ae105ae307533ba5a29"
+  },
+  "adapter": {
+    "bind_port": 5070,
+    "registration_events": [
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 27215312062339,
+        "sequence": 1,
+        "method": null,
+        "status_code": null,
+        "reason": "registration requested by account.create",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "registration requested by account.create",
+          "expires_seconds": 300,
+          "observed_at_ns": 27215312043175,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 27215312272840,
+        "sequence": 2,
+        "method": null,
+        "status_code": null,
+        "reason": "PJSUA2 registration transaction started",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "PJSUA2 registration transaction started",
+          "expires_seconds": 300,
+          "observed_at_ns": 27215312259121,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 27215322269613,
+        "sequence": 3,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "registered",
+          "registration_event": "registration_succeeded",
+          "readiness": true
+        },
+        "registration_status": {
+          "state": "registered",
+          "event": "registration_succeeded",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": 200,
+          "reason": "OK",
+          "expires_seconds": 300,
+          "observed_at_ns": 27215322238730,
+          "expires_at_ns": 27515322215482,
+          "readiness": true
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 27217605571948,
+        "sequence": 15,
+        "method": null,
+        "status_code": null,
+        "reason": "unregistration requested before account shutdown",
+        "details": {
+          "state": "unregistering",
+          "registration_event": "registration_unregistering",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "unregistering",
+          "event": "registration_unregistering",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "unregistration requested before account shutdown",
+          "expires_seconds": 0,
+          "observed_at_ns": 27217605543338,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 27217605827740,
+        "sequence": 16,
+        "method": null,
+        "status_code": null,
+        "reason": "PJSUA2 unregistration transaction started",
+        "details": {
+          "state": "unregistering",
+          "registration_event": "registration_unregistering",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "unregistering",
+          "event": "registration_unregistering",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "PJSUA2 unregistration transaction started",
+          "expires_seconds": 0,
+          "observed_at_ns": 27217605807665,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 27217605892615,
+        "sequence": 17,
+        "method": null,
+        "status_code": null,
+        "reason": "account shutdown completed",
+        "details": {
+          "state": "unregistered",
+          "registration_event": "registration_unregistered",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "unregistered",
+          "event": "registration_unregistered",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "account shutdown completed",
+          "expires_seconds": 0,
+          "observed_at_ns": 27217605885599,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      }
+    ],
+    "call_events": [
+      {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 27215497953499,
+        "sequence": 4,
+        "method": "INVITE",
+        "status_code": 180,
+        "reason": "Ringing",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 180,
+          "reason": "Ringing",
+          "action": "ring_before_readiness",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "call_started",
+        "timestamp_ns": 27215497974841,
+        "sequence": 5,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": "incoming",
+          "peer_uri": "\"Workshop Peer\" <sip:9000@172.18.0.2>",
+          "provisional_status": 180,
+          "answer_pending": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 27215497997084,
+        "sequence": 6,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 3
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 27215498311206,
+        "sequence": 7,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 4
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "media_started",
+        "timestamp_ns": 27215498773206,
+        "sequence": 8,
+        "method": null,
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "direction": 3,
+          "media_index": 0
+        },
+        "media_profile": {
+          "codec": "PCMU",
+          "payload_type": 0,
+          "rx_payload_type": 0,
+          "tx_payload_type": 0,
+          "ptime_ms": 20.0,
+          "frame_time_usec": 20000,
+          "sample_rate_hz": 8000,
+          "channels": 1,
+          "frame_size_samples": 160,
+          "frame_bytes": 320,
+          "pcm_bits_per_sample": 16,
+          "source": "pjmedia.stream_info"
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "protocol_reply",
+        "timestamp_ns": 27215498870618,
+        "sequence": 9,
+        "method": "INVITE",
+        "status_code": 200,
+        "reason": "OK",
+        "details": {},
+        "local_reply": {
+          "method": "INVITE",
+          "status_code": 200,
+          "reason": "OK",
+          "action": "accept_incoming_call",
+          "automatic": true
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "call_answered",
+        "timestamp_ns": 27215499760377,
+        "sequence": 10,
+        "method": null,
+        "status_code": 200,
+        "reason": "OK",
+        "details": {
+          "state": "CONFIRMED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 27217582692299,
+        "sequence": 11,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 2
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "sip_transaction",
+        "timestamp_ns": 27217582870808,
+        "sequence": 12,
+        "method": "RTP",
+        "status_code": null,
+        "reason": null,
+        "details": {
+          "media_index": 0,
+          "transport_state": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "remote_hangup",
+        "timestamp_ns": 27217583030110,
+        "sequence": 13,
+        "method": "BYE",
+        "status_code": 200,
+        "reason": "Normal call clearing",
+        "details": {
+          "state": "DISCONNECTED",
+          "pjsua_call_id": 0
+        }
+      },
+      {
+        "call_id": "call-in-0",
+        "kind": "media_stopped",
+        "timestamp_ns": 27217583195214,
+        "sequence": 14,
+        "method": null,
+        "status_code": null,
+        "reason": "Normal call clearing",
+        "details": {
+          "idempotent": false
+        }
+      }
+    ],
+    "media_profile": {
+      "codec": "PCMU",
+      "payload_type": 0,
+      "rx_payload_type": 0,
+      "tx_payload_type": 0,
+      "ptime_ms": 20.0,
+      "frame_time_usec": 20000,
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "frame_size_samples": 160,
+      "frame_bytes": 320,
+      "pcm_bits_per_sample": 16,
+      "source": "pjmedia.stream_info"
+    },
+    "media_stats": {
+      "ingress_frames": 104,
+      "ingress_bytes": 33280,
+      "egress_frames": 104,
+      "egress_bytes": 33280,
+      "ingress_dropped_closed": 0,
+      "ingress_dropped_overflow": 0,
+      "egress_dropped_closed": 0,
+      "egress_dropped_overflow": 0,
+      "egress_underruns": 0,
+      "tts_startup_wait": 0,
+      "intentional_silence_frames": 104,
+      "source_mode_transitions": 0,
+      "callback_errors": 0
+    }
+  },
+  "checks": {
+    "fixture_health": {
+      "command": "docker.exe exec sip-bot-freeswitch-workshop fs_cli -x status",
+      "exit_code": 0,
+      "stdout": "UP 0 years, 0 days, 2 hours, 4 minutes, 45 seconds, 587 milliseconds, 314 microseconds\nFreeSWITCH (Version 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit) is ready\n30 session(s) since startup\n0 session(s) - peak 2, last 5min 2 \n0 session(s) per Sec out of max 30, peak 2, last 5min 2 \n1000 session(s) max\nmin idle cpu 0.00/99.47\nCurrent Stack Size/Max 240K/8192K\n\n",
+      "stderr": ""
+    },
+    "bot_and_peer_registered": true,
+    "incoming_registered_call": true,
+    "provisional_180_before_final_answer": true,
+    "explicit_200_after_readiness_handoff": true,
+    "call_answered": true,
+    "pcmu_8000_mono": true,
+    "media_started": true,
+    "media_ingress_bounded_without_overflow": true,
+    "sanitized_logs": true
+  },
+  "incoming_admission": {
+    "provisional_180_seen": true,
+    "explicit_200_sent_after_readiness_handoff": true,
+    "probe_policy": "deterministic probe invokes answer() after 180; production launcher uses IncomingCallReadinessGate"
+  },
+  "security": {
+    "public_demo_credential_in_fixture": true,
+    "password_in_persisted_output": false,
+    "raw_logs_persisted": false,
+    "redaction_policy": "Authorization/password-like values are redacted before evidence serialization."
+  },
+  "commands": [
+    {
+      "command": "docker compose -f tools/freeswitch_workshop/docker-compose.yml up -d",
+      "exit_code": 0
+    },
+    {
+      "command": "baresip -f /mnt/c/devel/sip-bot/tools/freeswitch_workshop/config/baresip-peer -t 27",
+      "exit_code": 0
+    }
+  ],
+  "finished_at_utc": "2026-09-13T20:23:16.624804+00:00"
+}

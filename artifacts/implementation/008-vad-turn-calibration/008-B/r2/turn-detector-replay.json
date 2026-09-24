@@ -1,0 +1,931 @@
+{
+  "evidence_id": "E-008-B-TURN-REPLAY-20260913T150732Z",
+  "status": "pass",
+  "plan": "008-B",
+  "input": {
+    "trace": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-A/runs/mode-sweep/mode-2.json",
+    "trace_sha256": "41471de50c8e3e3cf690f4c44d53c042617182bead124b0dcba05b325763c325",
+    "corpus_manifest": "/mnt/c/devel/sip-bot/artifacts/implementation/008-vad-turn-calibration/008-A/corpus/manifest.json"
+  },
+  "runtime": {
+    "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
+    "version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "implementation": "CPython",
+    "gil_enabled": false
+  },
+  "endpoint_config": {
+    "soft_endpoint_ms": 300,
+    "hard_endpoint_ms": 520,
+    "min_speech_ms": 80
+  },
+  "expected_turns": {
+    "cal-turn-1": {
+      "start_ms": 700.0,
+      "end_ms": 5303.0,
+      "segments": [
+        "phrase-01",
+        "phrase-02"
+      ]
+    },
+    "cal-turn-2": {
+      "start_ms": 5923.0,
+      "end_ms": 12483.0,
+      "segments": [
+        "phrase-03",
+        "phrase-04"
+      ]
+    },
+    "cal-turn-3": {
+      "start_ms": 13183.0,
+      "end_ms": 13780.0,
+      "segments": [
+        "phrase-05"
+      ]
+    }
+  },
+  "expected_internal_gaps": [
+    {
+      "from_segment": "phrase-01",
+      "to_segment": "phrase-02",
+      "gap_ms": 240.0,
+      "expected_no_hard_endpoint": true
+    },
+    {
+      "from_segment": "phrase-03",
+      "to_segment": "phrase-04",
+      "gap_ms": 480.0,
+      "expected_no_hard_endpoint": true
+    }
+  ],
+  "events": [
+    {
+      "kind": "speech_started",
+      "turn_id": "vad-calibration-call:turn-1",
+      "timestamp_ms": 780.0,
+      "silence_ms": 0,
+      "reason": "minimum_speech_duration_reached",
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "vad-calibration-call:turn-1",
+      "timestamp_ms": 2640.0,
+      "silence_ms": 0,
+      "reason": "silence_started",
+      "authoritative": false
+    },
+    {
+      "kind": "speech_resumed",
+      "turn_id": "vad-calibration-call:turn-1",
+      "timestamp_ms": 2860.0,
+      "silence_ms": 220,
+      "reason": "speech_before_hard_endpoint",
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "vad-calibration-call:turn-1",
+      "timestamp_ms": 5320.0,
+      "silence_ms": 0,
+      "reason": "silence_started",
+      "authoritative": false
+    },
+    {
+      "kind": "soft_endpoint",
+      "turn_id": "vad-calibration-call:turn-1",
+      "timestamp_ms": 5600.0,
+      "silence_ms": 300,
+      "reason": "soft_silence_threshold_reached",
+      "authoritative": false
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "vad-calibration-call:turn-1",
+      "timestamp_ms": 5820.0,
+      "silence_ms": 520,
+      "reason": "hard_silence_threshold_reached",
+      "authoritative": true
+    },
+    {
+      "kind": "speech_started",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 6000.0,
+      "silence_ms": 0,
+      "reason": "minimum_speech_duration_reached",
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 7700.0,
+      "silence_ms": 0,
+      "reason": "silence_started",
+      "authoritative": false
+    },
+    {
+      "kind": "soft_endpoint",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 7980.0,
+      "silence_ms": 300,
+      "reason": "soft_silence_threshold_reached",
+      "authoritative": false
+    },
+    {
+      "kind": "speech_resumed",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 8200.0,
+      "silence_ms": 500,
+      "reason": "speech_before_hard_endpoint",
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 11160.0,
+      "silence_ms": 0,
+      "reason": "silence_started",
+      "authoritative": false
+    },
+    {
+      "kind": "speech_resumed",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 11260.0,
+      "silence_ms": 100,
+      "reason": "speech_before_hard_endpoint",
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 12560.0,
+      "silence_ms": 0,
+      "reason": "silence_started",
+      "authoritative": false
+    },
+    {
+      "kind": "soft_endpoint",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 12840.0,
+      "silence_ms": 300,
+      "reason": "soft_silence_threshold_reached",
+      "authoritative": false
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "vad-calibration-call:turn-2",
+      "timestamp_ms": 13060.0,
+      "silence_ms": 520,
+      "reason": "hard_silence_threshold_reached",
+      "authoritative": true
+    },
+    {
+      "kind": "speech_started",
+      "turn_id": "vad-calibration-call:turn-3",
+      "timestamp_ms": 13280.0,
+      "silence_ms": 0,
+      "reason": "minimum_speech_duration_reached",
+      "authoritative": false
+    },
+    {
+      "kind": "pause_candidate",
+      "turn_id": "vad-calibration-call:turn-3",
+      "timestamp_ms": 13800.0,
+      "silence_ms": 0,
+      "reason": "silence_started",
+      "authoritative": false
+    },
+    {
+      "kind": "soft_endpoint",
+      "turn_id": "vad-calibration-call:turn-3",
+      "timestamp_ms": 14080.0,
+      "silence_ms": 300,
+      "reason": "soft_silence_threshold_reached",
+      "authoritative": false
+    },
+    {
+      "kind": "hard_endpoint",
+      "turn_id": "vad-calibration-call:turn-3",
+      "timestamp_ms": 14300.0,
+      "silence_ms": 520,
+      "reason": "hard_silence_threshold_reached",
+      "authoritative": true
+    }
+  ],
+  "threshold_sweep": [
+    {
+      "hard_endpoint_ms": 500,
+      "metrics": {
+        "event_count": 20,
+        "hard_endpoint_count": 4,
+        "expected_hard_endpoint_count": 3,
+        "soft_endpoint_count": 4,
+        "speech_resumed_count": 2,
+        "interior_hard_endpoint_count": 1,
+        "interior_hard_endpoints": [
+          {
+            "expected_turn_id": "cal-turn-2",
+            "event": {
+              "kind": "hard_endpoint",
+              "turn_id": "vad-calibration-call:turn-2",
+              "timestamp_ms": 8180.0,
+              "silence_ms": 500,
+              "reason": "hard_silence_threshold_reached",
+              "authoritative": true
+            }
+          }
+        ],
+        "authoritative_boundaries_match": false,
+        "internal_pauses_do_not_split_turn": false,
+        "accepted": false
+      },
+      "events": [
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 780.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 2640.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 2860.0,
+          "silence_ms": 220,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5320.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5600.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5800.0,
+          "silence_ms": 500,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 6000.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 7700.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 7980.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 8180.0,
+          "silence_ms": 500,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 8260.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 11160.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 11260.0,
+          "silence_ms": 100,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 12560.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 12840.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 13040.0,
+          "silence_ms": 500,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-4",
+          "timestamp_ms": 13280.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-4",
+          "timestamp_ms": 13800.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-4",
+          "timestamp_ms": 14080.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-4",
+          "timestamp_ms": 14280.0,
+          "silence_ms": 500,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        }
+      ]
+    },
+    {
+      "hard_endpoint_ms": 520,
+      "metrics": {
+        "event_count": 19,
+        "hard_endpoint_count": 3,
+        "expected_hard_endpoint_count": 3,
+        "soft_endpoint_count": 4,
+        "speech_resumed_count": 3,
+        "interior_hard_endpoint_count": 0,
+        "interior_hard_endpoints": [],
+        "authoritative_boundaries_match": true,
+        "internal_pauses_do_not_split_turn": true,
+        "accepted": true
+      },
+      "events": [
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 780.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 2640.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 2860.0,
+          "silence_ms": 220,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5320.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5600.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5820.0,
+          "silence_ms": 520,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 6000.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 7700.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 7980.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 8200.0,
+          "silence_ms": 500,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 11160.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 11260.0,
+          "silence_ms": 100,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 12560.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 12840.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 13060.0,
+          "silence_ms": 520,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 13280.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 13800.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 14080.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 14300.0,
+          "silence_ms": 520,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        }
+      ]
+    },
+    {
+      "hard_endpoint_ms": 540,
+      "metrics": {
+        "event_count": 19,
+        "hard_endpoint_count": 3,
+        "expected_hard_endpoint_count": 3,
+        "soft_endpoint_count": 4,
+        "speech_resumed_count": 3,
+        "interior_hard_endpoint_count": 0,
+        "interior_hard_endpoints": [],
+        "authoritative_boundaries_match": true,
+        "internal_pauses_do_not_split_turn": true,
+        "accepted": true
+      },
+      "events": [
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 780.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 2640.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 2860.0,
+          "silence_ms": 220,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5320.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5600.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5840.0,
+          "silence_ms": 540,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 6000.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 7700.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 7980.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 8200.0,
+          "silence_ms": 500,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 11160.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 11260.0,
+          "silence_ms": 100,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 12560.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 12840.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 13080.0,
+          "silence_ms": 540,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 13280.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 13800.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 14080.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 14320.0,
+          "silence_ms": 540,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        }
+      ]
+    },
+    {
+      "hard_endpoint_ms": 560,
+      "metrics": {
+        "event_count": 19,
+        "hard_endpoint_count": 3,
+        "expected_hard_endpoint_count": 3,
+        "soft_endpoint_count": 4,
+        "speech_resumed_count": 3,
+        "interior_hard_endpoint_count": 0,
+        "interior_hard_endpoints": [],
+        "authoritative_boundaries_match": true,
+        "internal_pauses_do_not_split_turn": true,
+        "accepted": true
+      },
+      "events": [
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 780.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 2640.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 2860.0,
+          "silence_ms": 220,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5320.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5600.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-1",
+          "timestamp_ms": 5860.0,
+          "silence_ms": 560,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 6000.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 7700.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 7980.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 8200.0,
+          "silence_ms": 500,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 11160.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "speech_resumed",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 11260.0,
+          "silence_ms": 100,
+          "reason": "speech_before_hard_endpoint",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 12560.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 12840.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-2",
+          "timestamp_ms": 13100.0,
+          "silence_ms": 560,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        },
+        {
+          "kind": "speech_started",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 13280.0,
+          "silence_ms": 0,
+          "reason": "minimum_speech_duration_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "pause_candidate",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 13800.0,
+          "silence_ms": 0,
+          "reason": "silence_started",
+          "authoritative": false
+        },
+        {
+          "kind": "soft_endpoint",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 14080.0,
+          "silence_ms": 300,
+          "reason": "soft_silence_threshold_reached",
+          "authoritative": false
+        },
+        {
+          "kind": "hard_endpoint",
+          "turn_id": "vad-calibration-call:turn-3",
+          "timestamp_ms": 14340.0,
+          "silence_ms": 560,
+          "reason": "hard_silence_threshold_reached",
+          "authoritative": true
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "event_count": 19,
+    "hard_endpoint_count": 3,
+    "expected_hard_endpoint_count": 3,
+    "soft_endpoint_count": 4,
+    "speech_resumed_count": 3,
+    "interior_hard_endpoint_count": 0,
+    "interior_hard_endpoints": [],
+    "authoritative_boundaries_match": true,
+    "internal_pauses_do_not_split_turn": true,
+    "accepted": true,
+    "deterministic_replay": true
+  },
+  "checks": {
+    "typed_vad_decision_replay": true,
+    "turn_detector_owns_endpointing": true,
+    "asr_used_for_acceptance": false,
+    "new_component_added": false
+  }
+}

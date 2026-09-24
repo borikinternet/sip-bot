@@ -1,0 +1,9 @@
+HOST_IPS
+10.0.0.45 
+CONTAINER_IPS
+10.0.0.45 
+SIP_LISTENERS
+UNCONN 0      0           10.0.0.45:5060      0.0.0.0:*    users:(("freeswitch",pid=81847,fd=41))    
+UNCONN 0      0           10.0.0.45:5080      0.0.0.0:*    users:(("freeswitch",pid=81847,fd=35))    
+UNCONN 0      0               [::1]:5060         [::]:*    users:(("freeswitch",pid=81847,fd=42))    
+UNCONN 0      0               [::1]:5080         [::]:*    users:(("freeswitch",pid=81847,fd=28))    

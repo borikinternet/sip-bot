@@ -1,0 +1,115 @@
+CONTAINER_OS
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+PACKAGE_STATUS
+  
+  
+  
+  
+PACKAGE_POLICY
+freeswitch:
+  Installed: 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+  Candidate: 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+  Version table:
+ *** 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+        100 /var/lib/dpkg/status
+     1.11.2-release-31326320293-3f13ad1b1d~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.1-release-26476433763-c2c59645f6~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.0-release-25517743255-79e3f643ae~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+freeswitch-mod-callcenter:
+  Installed: 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+  Candidate: 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1
+  Version table:
+ *** 1.11.3-release-33213556856-ef32e20529~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+        100 /var/lib/dpkg/status
+     1.11.2-release-31326320293-3f13ad1b1d~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.1-release-26476433763-c2c59645f6~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+     1.11.0-release-25517743255-79e3f643ae~bookworm~amd64-1~bookworm+1 500
+        500 http://fi.itlnk.ru/freeswitch bookworm/main amd64 Packages
+DPKG_AUDIT
+SERVICE
+enabled
+active
+FREESWITCH_STATUS
+UP 0 years, 0 days, 0 hours, 6 minutes, 54 seconds, 512 milliseconds, 79 microseconds
+FreeSWITCH (Version 1.11.3 -release-33213556856-ef32e20529 64bit) is ready
+0 session(s) since startup
+0 session(s) - peak 0, last 5min 0 
+0 session(s) per Sec out of max 30, peak 0, last 5min 0 
+1000 session(s) max
+min idle cpu 0.00/99.97
+Current Stack Size/Max 240K/8192K
+
+MODULES
+true
+true
+QUEUES
+name|strategy|moh_sound|time_base_score|tier_rules_apply|tier_rule_wait_second|tier_rule_wait_multiply_level|tier_rule_no_agent_no_wait|discard_abandoned_after|abandoned_resume_allowed|max_wait_time|max_wait_time_with_no_agent|max_wait_time_with_no_agent_time_reached|record_template|calls_answered|calls_abandoned|ring_progressively_delay|skip_agents_with_external_calls|agent_no_answer_status
+support@default|longest-idle-agent|local_stream://moh|system|false|300|true|false|60|false|0|0|5||0|0|0|true|On Break
++OK
+
+AGENTS
+name|instance_id|uuid|type|contact|status|state|max_no_answer|wrap_up_time|reject_delay_time|busy_delay_time|no_answer_delay_time|last_bridge_start|last_bridge_end|last_offered_call|last_status_change|no_answer_count|calls_answered|talk_time|ready_time|external_calls_count
+1001@default|single_box||callback|[leg_timeout=15]user/1001@10.0.0.45|Available|Waiting|3|5|5|10|0|0|0|0|1790078919|0|0|0|0|0
++OK
+
+TIERS
+queue|agent|state|level|position
+support@default|1001@default|Ready|1|1
++OK
+
+SOFIA_INTERNAL
+=================================================================================================
+Name             	internal
+Domain Name      	N/A
+Auto-NAT         	false
+DBName           	sofia_reg_internal
+Pres Hosts       	10.0.0.45,10.0.0.45
+Dialplan         	XML
+Context          	public
+Challenge Realm  	auto_from
+RTP-IP           	10.0.0.45
+Ext-RTP-IP       	45.145.1.44
+SIP-IP           	10.0.0.45
+Ext-SIP-IP       	45.145.1.44
+URL              	sip:mod_sofia@45.145.1.44:5060
+BIND-URL         	sip:mod_sofia@45.145.1.44:5060;maddr=10.0.0.45;transport=udp,tcp
+WS-BIND-URL     	sip:mod_sofia@10.0.0.45:5066;transport=ws
+WSS-BIND-URL     	sips:mod_sofia@10.0.0.45:7443;transport=wss
+HOLD-MUSIC       	local_stream://moh
+OUTBOUND-PROXY   	N/A
+CODECS IN        	OPUS,G722,PCMU,PCMA,H264,VP8
+CODECS OUT       	OPUS,G722,PCMU,PCMA,H264,VP8
+TEL-EVENT        	101
+DTMF-MODE        	rfc2833
+CNG              	13
+SESSION-TO       	0
+MAX-DIALOG       	0
+MAX-RECV-RPS     	1000
+NOMEDIA          	false
+LATE-NEG         	true
+PROXY-MEDIA      	false
+AGGRESSIVENAT    	false
+CALLS-IN         	0
+FAILED-CALLS-IN  	0
+CALLS-OUT        	0
+FAILED-CALLS-OUT 	0
+REGISTRATIONS    	0
+
+CONFIG_HASHES
+b58bff3063133fb1bcaaac1172f4df5dff0fe8c9bfa35ad44503f273743b3bc4  /etc/freeswitch/autoload_configs/callcenter.conf.xml
+5e33befd524cb69aaeac37bfca5af20a4a3cf8d2472ae9014ed29b949c7fcad0  /etc/freeswitch/dialplan/default/20_workshop_callcenter.xml

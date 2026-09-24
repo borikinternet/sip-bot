@@ -1,0 +1,64 @@
+<configuration name="callcenter.conf" description="CallCenter">
+  <settings/>
+
+  <queues>
+    <queue name="support@default">
+      <param name="strategy" value="longest-idle-agent"/>
+      <param name="moh-sound" value="$${hold_music}"/>
+      <param name="time-base-score" value="system"/>
+      <param name="max-wait-time" value="0"/>
+      <param name="max-wait-time-with-no-agent" value="0"/>
+      <param name="max-wait-time-with-no-agent-time-reached" value="5"/>
+      <param name="tier-rules-apply" value="false"/>
+      <param name="tier-rule-wait-second" value="300"/>
+      <param name="tier-rule-wait-multiply-level" value="true"/>
+      <param name="tier-rule-no-agent-no-wait" value="false"/>
+      <param name="discard-abandoned-after" value="60"/>
+      <param name="abandoned-resume-allowed" value="false"/>
+    </queue>
+    <queue name="science-bot@default">
+      <param name="strategy" value="longest-idle-agent"/>
+      <param name="moh-sound" value="$${hold_music}"/>
+      <param name="time-base-score" value="system"/>
+      <param name="max-wait-time" value="0"/>
+      <param name="max-wait-time-with-no-agent" value="0"/>
+      <param name="max-wait-time-with-no-agent-time-reached" value="5"/>
+      <param name="tier-rules-apply" value="false"/>
+      <param name="tier-rule-wait-second" value="300"/>
+      <param name="tier-rule-wait-multiply-level" value="true"/>
+      <param name="tier-rule-no-agent-no-wait" value="false"/>
+      <param name="discard-abandoned-after" value="60"/>
+      <param name="abandoned-resume-allowed" value="false"/>
+    </queue>
+  </queues>
+
+  <agents>
+    <agent name="1001@default"
+           type="callback"
+           contact="[leg_timeout=15]user/1001@$${domain}"
+           status="Available"
+           max-no-answer="3"
+           wrap-up-time="5"
+           reject-delay-time="5"
+           busy-delay-time="10"/>
+    <agent name="1002@default"
+           type="callback"
+           contact="[leg_timeout=15,absolute_codec_string=PCMU]sofia/bot-vpn/1002@172.16.15.72:5070"
+           status="Available"
+           max-no-answer="3"
+           wrap-up-time="1"
+           reject-delay-time="2"
+           busy-delay-time="2"/>
+  </agents>
+
+  <tiers>
+    <tier agent="1001@default"
+          queue="support@default"
+          level="1"
+          position="1"/>
+    <tier agent="1002@default"
+          queue="science-bot@default"
+          level="1"
+          position="1"/>
+  </tiers>
+</configuration>

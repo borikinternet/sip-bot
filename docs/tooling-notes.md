@@ -43,6 +43,9 @@
 - GPU, реальные модели и SIP/RTP latency проверяются непосредственно в WSL Ubuntu, если Docker-путь не доказан отдельно.
 - Filename tag `cp314t` сам по себе не считается доказательством: требуется фактическая проверка состояния GIL после импорта и операции.
 - Несовместимый native-компонент не маскируется флагом `PYTHON_GIL=0`; он либо заменяется, либо изолируется процессом.
+- Для live WebRTC VAD зафиксирован отдельный corrective path: `webrtcvad-wheels 2.0.14` проходит target gate только
+  с патчем `patches/webrtcvad-wheels-2.0.14-free-threading.patch`; итоговые import/operation/concurrency и Baresip
+  evidence находятся в `artifacts/implementation/007-webrtc-vad/`.
 
 ## 4. Авторитетные локальные проверки
 

@@ -1,0 +1,124 @@
+{
+  "schema_version": "rag-evaluation-v1",
+  "evaluation_version": "natural-science-map015-corrective-v1",
+  "corpus_version": "ru-natural-science-demo-v1",
+  "index_version": "natural-science-embeddinggemma-v1",
+  "embedding_model": "embeddinggemma",
+  "top_k": 3,
+  "threshold": 0.35,
+  "cases": [
+    {
+      "case_id": "positive-live-conversational-wrapper",
+      "kind": "paraphrase",
+      "question": "Привет! Ты можешь сказать, какого цвета небо?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["wiki-physics-rayleigh"],
+      "expected_top_source_id": "wiki-physics-rayleigh"
+    },
+    {
+      "case_id": "positive-short-sky-color",
+      "kind": "paraphrase",
+      "question": "Какого цвета небо?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["wiki-physics-rayleigh"],
+      "expected_top_source_id": "wiki-physics-rayleigh"
+    },
+    {
+      "case_id": "positive-exact-rayleigh",
+      "kind": "positive",
+      "question": "Почему небо днём голубое?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["wiki-physics-rayleigh"],
+      "expected_top_source_id": "wiki-physics-rayleigh"
+    },
+    {
+      "case_id": "positive-rayleigh-paraphrase",
+      "kind": "paraphrase",
+      "question": "Почему атмосфера сильнее рассеивает короткие световые волны?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["wiki-physics-rayleigh"],
+      "expected_top_source_id": "wiki-physics-rayleigh"
+    },
+    {
+      "case_id": "positive-mars-atmosphere",
+      "kind": "positive",
+      "question": "Из какого газа в основном состоит атмосфера Марса?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["wiki-astronomy-mars"],
+      "expected_top_source_id": "wiki-astronomy-mars"
+    },
+    {
+      "case_id": "positive-water-boiling",
+      "kind": "positive",
+      "question": "При какой температуре вода кипит при нормальном давлении?",
+      "context": [],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["wiki-chemistry-water"],
+      "expected_top_source_id": "wiki-chemistry-water"
+    },
+    {
+      "case_id": "contextual-sky-horizon",
+      "kind": "contextual",
+      "question": "А почему у горизонта оно краснеет?",
+      "context": [
+        {
+          "turn_id": "previous-sky",
+          "text": "Мы говорим о цвете неба и рассеянии света в атмосфере."
+        }
+      ],
+      "expected_sufficient": true,
+      "expected_any_source_ids": ["wiki-physics-rayleigh"],
+      "expected_top_source_id": "wiki-physics-rayleigh"
+    },
+    {
+      "case_id": "negative-service-price",
+      "kind": "negative",
+      "question": "Сколько стоит выезд мастера для ремонта холодильника?",
+      "context": [],
+      "expected_sufficient": false,
+      "expected_any_source_ids": []
+    },
+    {
+      "case_id": "negative-exchange-rate",
+      "kind": "negative",
+      "question": "Какой сегодня курс доллара?",
+      "context": [],
+      "expected_sufficient": false,
+      "expected_any_source_ids": []
+    },
+    {
+      "case_id": "negative-nonsense",
+      "kind": "negative",
+      "question": "Сколько фиолетовых телефонов помещается в тишине?",
+      "context": [],
+      "expected_sufficient": false,
+      "expected_any_source_ids": []
+    },
+    {
+      "case_id": "negative-underspecified-color",
+      "kind": "negative",
+      "question": "Голубое?",
+      "context": [],
+      "expected_sufficient": false,
+      "expected_any_source_ids": []
+    },
+    {
+      "case_id": "negative-new-topic-after-sky",
+      "kind": "negative",
+      "question": "Какие документы нужны для оформления отпуска?",
+      "context": [
+        {
+          "turn_id": "previous-sky",
+          "text": "Небо голубое из-за рассеяния Рэлея."
+        }
+      ],
+      "expected_sufficient": false,
+      "expected_any_source_ids": []
+    }
+  ]
+}

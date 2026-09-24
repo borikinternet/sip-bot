@@ -15,7 +15,7 @@
 - принимает обычный SIP-звонок с PCMU;
 - непрерывно принимает пользовательский звук;
 - потоково распознаёт речь;
-- понимает вопрос с учётом контекста и локальной базы знаний по естественным наукам;
+- понимает вопрос с учётом контекста и настраиваемой локальной базы знаний;
 - формирует короткий ответ;
 - озвучивает ответ через TTS и SIP;
 - поддерживает перебивание;
@@ -84,7 +84,7 @@ MVP не является production-ready решением и не включа
 | Где передаётся payload? | Напрямую по data plane | Dispatcher управляет каналами, но не переносит аудио и текстовые фреймы |
 | Как отменяются устаревшие результаты? | Закрытием соответствующего канала; поколения необязательны | Запись в закрытый канал отбрасывается, старые каналы не переиспользуются |
 | Как обрабатывается промежуточный ASR? | Через Transcript Assembler и speculative pipeline | Только финальный текст может менять FSM и разрешать TTS |
-| Как определяется конец хода? | Soft endpoint около 250–300 ms, hard endpoint около 500 ms тишины как начальная эвристика | Значения конфигурационные и подлежат измерению |
+| Как определяется конец хода? | Soft endpoint около 250–300 ms, hard endpoint около 500 ms тишины; после Map-008 выбран hard `520 ms` | Значения конфигурационные, 520 ms проверено на controlled TTS corpus и live path |
 | Какая среда Python приоритетна? | Free-threaded CPython | Native-модули проверяются на непроизвольное включение GIL; несовместимый runtime изолируется |
 | Какая LLM является выбранной? | Для текущего Map-002 execution baseline принят Qwen3.5-9B Q4_K_M через локальный Ollama/HTTP IPC; ADR-002 остаётся `proposed` как документ сравнительного выбора | Сквозной demo-path использует этот baseline; замена модели требует отдельного решения |
 
@@ -307,6 +307,29 @@ Gate этапа 6: любой существенный тезис доклада
 
 Перед показом выполнить прогон с чистого состояния, сохранить версии моделей/runtime и зафиксировать фактические результаты. Если реальное время ответа не укладывается в ориентир, демонстрация не скрывает это: показываются измерение и причина задержки.
 
+### Карта 7 (`Map-007`). Переход live-речевого контура на WebRTC VAD
+
+После закрытия Map-006 для подготовки мастер-классов выделена отдельная карта
+[`plans/plan-007-webrtc-vad-migration.md`](plans/plan-007-webrtc-vad-migration.md). В текущем коде WebRTC VAD уже
+выбран как кандидат и имеет адаптер, но application/live gates использовали детерминированный `_AmplitudeVad`.
+Map-007 закрыта 2026-09-13: patched `webrtcvad-wheels 2.0.14` прошёл target/combined no-GIL gate, `VAD_MODE=2`
+подключён к существующему `PcmFrame → VadDecision → TurnDetector` пути, а clean-start Baresip/PCMU I1 и полный J4
+live gate прошли с WebRTC VAD. Исторические deterministic fixtures сохранены и не считаются live VAD evidence. Карта
+не меняла endpointing, ASR, LLM, TTS, SIP, control/data plane или closed evidence Map-005/Map-006; наблюдение о
+вариативном числе ASR-финализаций передано в дальнейшую настройку качества.
+
+### Карта 8 (`Map-008`). Калибровка VAD и TurnDetector для телефонных условий
+
+После Map-007 подготовлена и исполнена отдельная карта
+[`plans/plan-008-vad-turn-calibration.md`](plans/plan-008-vad-turn-calibration.md). Она не переоткрывает выбор WebRTC
+VAD и не меняет production topology: сначала на неизменяемом множестве TTS-фраз одного голоса и известной timing
+разметке сравниваются modes `0..3`, затем отдельно настраивается существующий `TurnDetector`, затем выполняется
+application/live validation. ASR не участвует в первичной VAD-разметке; его результат допускается только как downstream
+diagnostic. Карта закрыта со статусом `complete`: child plans `008-A`–`008-C` исполнены последовательно, выбран
+`VAD_MODE=2`, а `ENDPOINT_HARD_MS=520` прошёл standalone и live validation. Подробное evidence сохранено в
+[`Map-008 closeout`](../artifacts/implementation/008-vad-turn-calibration/closeout.md). Controlled TTS baseline не
+заменяет будущую human/noise generalization.
+
 ## 10. Контрольные аудиты и evidence
 
 Перед объявлением MVP завершённым выполнить четыре независимые проверки.
@@ -389,8 +412,28 @@ Dispatcher/DialogueFSM и отдельному CallSession реализован 
 пределах deterministic composition scope с deterministic и real component evidence. `state.json` не является входным
 требованием и удалён из обязательного scope. Актуальная ревизия `Map-002-I` — 21. J4 isolated clean-start lanes,
 базовый live SIP/RTP full-flow и единый full live scenario gate закрыты: r20 доказал follow-up, RAG/source IDs,
-barge-in, unknown-answer/transfer, report и PCMU SIP/RTP. Карта 4 и её обязательные child plans закрыты; следующий
-шаг — карта 5 системного тестирования и исправлений.
+barge-in, unknown-answer/transfer, report и PCMU SIP/RTP. Карта 4, Map-005, Map-006 и Map-007 закрыты в пределах
+своих scope; Map-008 исполнена, а следующий шаг — использовать её параметры и evidence в материалах мастер-класса и
+следующим интеграционным шагом была [`Map-009`](plans/plan-009-optional-sip-registration.md) для optional SIP
+registration на локальном FreeSWITCH. Map-009 закрыта 13 сентября: target r15 подтвердил registered full-AI path, runtime-scoped
+readiness, PCMU/RTP и Baresip stereo recording; workshop runbook готов, production PBX/TLS/multi-call остаются
+за пределами текущей карты.
+
+### Карта 10 (`Map-010`). Непрерывный PCMU/RTP и comfort noise в idle
+
+При прослушивании registered full-AI artifact `cold-20260913-r15` обнаружен дефект evidence/media policy: при
+отсутствии RTP-пакетов в idle Baresip `dec` сжимается до времени фактически полученных ответов, а старый stereo helper
+ориентируется на независимые границы raw-файлов. Это делает запись непригодной для доказательства одновременного разговора и потенциально
+позволяет PBX трактовать молчание как разрыв media.
+
+Map-010 не меняет закрытые планы 005/009 и не реализует RFC 3389/CN. Её цель — regular negotiated PCMU frames на
+каждом media tick, низкоуровневый configurable comfort-noise PCM в idle и честный audit общей temporal шкалы.
+Карта декомпозирована на [`010-A`](plans/plan-010-A-idle-pcmu-comfort-noise.md), [`010-B`](plans/plan-010-B-stereo-recording-timeline.md)
+и [`010-C`](plans/plan-010-C-live-continuity-gate.md). Все child plans завершены 2026-09-14: target r4 подтвердил
+event-window RTP continuity (`ptime=20 ms`, expected/egress/peer `6281/6281/6281`, loss/underrun/errors/drops `0`),
+а Baresip recording audit и stereo derivative прошли. После corrective revision stereo строится по answered-call
+window и timestamps старта `enc`/`dec`; raw duration gap больше не используется как общая шкала. Статус Map-010: `complete`.
+RFC 3389/CN остаётся deferred.
 
 ## 13. Ускоренный профиль к докладу 25 сентября 2026 года
 
@@ -462,3 +505,166 @@ target invariant. Process/native fallback остаётся owner-gated и не �
 
 Текущий map-level plan-file карты 4: [`plans/plan-002-mvp-media-and-speech-integration.md`](plans/plan-002-mvp-media-and-speech-integration.md).
 Его child plan может перейти к execution stage только после прохождения owner review supermap/map и собственного APG.
+
+## 14. Дополнительный конференционный track: FreeSWITCH call-center workshop
+
+Для отдельного мастер-класса создана [`Map-011`](plans/plan-011-freeswitch-small-company-callcenter-workshop.md). Это
+не расширение MVP SIP-бота и не переоткрытие закрытых Map-001–Map-010: задача — на новом Debian WSL установить
+FreeSWITCH из pinned package source `@ru_freeswitch`, показать direct call двух MicroSIP-клиентов, затем очередь
+`mod_callcenter` с одним MicroSIP agent и получить повторяемый сценарий для участника без контекста переписки.
+
+Map-011 разложена последовательно на `011-A` Debian/packages/startup, `011-B` два MicroSIP endpoints и прямой вызов,
+`011-C` очередь/agent и `011-D` clean repeat/runbook и завершена 2026-09-21. Owner-provided mirror использован для
+Debian 12 Bookworm; FreeSWITCH 1.11.3 поднимается штатным systemd unit после WSL restart; две MicroSIP registrations,
+direct PCMU bridge и `mod_callcenter` queue bridge подтверждены. Владелец подтвердил акустическую последовательность,
+а независимый субагент без контекста после corrective review принял self-contained workshop runbook. Docker,
+существующая Ubuntu, исходники FreeSWITCH и application baseline не изменялись.
+
+## 15. Дополнительный конференционный track: смена RAG-корпуса и мастер-класс
+
+Для практического мастер-класса по настройке ассистента на документы небольшой компании выполнена
+[`Map-012`](plans/plan-012-rag-corpus-onboarding-workshop.md). Она устраняет разрыв между рабочим source-aware
+RAG-прототипом и пользовательским workflow: corpus validation/normalization, deterministic chunking, offline index
+build, атомарная публикация, runtime load/readiness без полного re-embedding, evaluation set и clean live SIP proof.
+
+Карта не меняет веса Qwen, SIP/media/ASR/TTS/FSM baseline и не вводит внешнюю vector DB без нового owner decision.
+Map-012 закрыта 2026-09-21: `012-I`, `012-A`–`012-F` complete. Опубликованы strict `rag-corpus-v1`, deterministic
+`markdown-semantic-v1`, атомарный `rag-index-v1`, active corpus компании «СервисПлюс» и science rollback artifact.
+Immutable evaluation прошёл `12/12`; clean build воспроизвёл тот же SHA-256; runtime probe подтвердил ноль corpus
+embedding requests. Финальный registered `live-r5` подтвердил positive/follow-up, смену темы, корректный
+unknown-answer/offer-transfer, transfer, source-aware report, непрерывный RTP и stereo recording. Self-contained
+runbook прошёл независимый context-free review после corrective pass; science corpus остаётся regression fixture.
+
+## 16. Corrective Map-013: greeting и короткий prompt package
+
+22 сентября закрыта [`Map-013`](plans/plan-013-call-greeting-and-short-prompt.md), не расширяющая обязательный demo-flow,
+а исправляющая два обнаруженных rehearsal-дефекта: отсутствие первой реплики бота и дублирование prompt text в
+authoritative runners. `013-A` централизовала skill/template/profile в `config/constants.py` и добавила точную
+инструкцию `Отвечай коротко.`; `013-B` добавила отменяемое `Алло.` через существующие FSM/TTS boundaries без LLM/RAG.
+
+Финальный registered RAG gate `registered-rag-live-20260922-r3` прошёл greeting, follow-up, barge-in,
+unknown-answer/transfer, report и RTP continuity в одном звонке. Real AI gate показал first usable output `176.215 ms`
+и final structured decision `884.254 ms`; это измеренный текущий результат, а не гарантированный SLA `0.6 s`.
+
+## 17. Corrective Plan-014: адаптивный VAD и turn-scoped ASR boundary
+
+После реального звонка 22 сентября создан и принят к исполнению
+[`Plan-014`](plans/plan-014-adaptive-vad-energy-gate.md). WebRTC VAD mode 2 на реальном тракте принимал слабый фон и
+акустический возврат за речь; Python binding не предоставлял наружу внутренние noise/speech estimates. В существующий
+`VadProcessor` без нового канала добавлен per-call energy gate с RMS dBFS, устойчивым noise-floor estimate,
+rate-limited adaptation, speech-level analytics и hysteresis. Problem-call replay уменьшил raw positives `447 → 94`
+и оставил один authoritative turn; controlled Map-008 corpus сохранил три ожидаемых хода.
+
+Первый повторный live run `20260922-145749` отделил следующий дефект: семь реальных коротких реплик успели создать
+несколько endpoints при отстающем ASR, а `turn_id` отсутствовал в ASR chunk/hypothesis boundary. Единственный pending
+endpoint был перезаписан, и call-loop завершился ошибкой transcript scope. Corrective slice протянул authoritative
+`TurnDetector.turn_id` через accumulator/ASR/assembler, исключил sub-`min_speech_ms` bursts из ASR prefix и добавил
+регрессии для трёх back-to-back turns. Authoritative registered repeat `registered-repeat-20260922-r8` прошёл пять
+ходов, follow-up/barge-in/unknown-answer/transfer/report при нулевых dropped/stale/runtime errors и GIL off. Plan-014
+закрыт `complete`.
+
+## 18. Corrective Map-015: semantic turn и составные пользовательские действия
+
+Последний повторный live-звонок подтвердил исправленное разделение последовательных ASR-ходов, но выявил semantic-path
+дефект: реплика вида `Нет, не надо. Почему небо днём голубое?` содержит отказ от pending transfer и самостоятельный
+вопрос. Текущий FSM классифицирует весь `FinalUserTurn` как одно подтверждение, теряет residual content и не запускает
+для него retrieval. Одновременно active RAG возвращает false-insufficient для разговорной формулировки, хотя правильный
+source является top-1 и его score выше объявленного configured threshold.
+
+Для исправления подготовлена [`Map-015`](plans/plan-015-semantic-turn-understanding.md): `015-I` фиксирует фактическую
+interaction revision; `015-A` вводит typed `DialogueExpectation`/`DialogueAct`/`SemanticTurn` и deterministic parser;
+`015-B` материализует ordered acts в FSM/pipeline без нового delivery owner; `015-C` исправляет sufficiency только по
+expanded immutable evaluation; `015-D` выполняет target/live gate. LLM semantic-parser не входит в обязательный scope и
+может появиться только отдельной evidence-driven картой. Group owner review принят 2026-09-22. Для positive confirmation
+с residual content утверждено поведение «сначала ответить на вопрос, затем повторно спросить подтверждение перевода»;
+немедленный transfer запрещён.
+
+22 сентября Map-015 закрыта `complete`: `015-I` и `015-A`–`015-D` выполнены, immutable RAG evaluation прошла `12/12`,
+host gate — `284 passed, 2 skipped` на CPython 3.14.7t с GIL off. Registered aggregate `015-D/live-v7` прошёл три
+сценария compound negative/positive/unknown, barge-in, повторное подтверждение, единственный offer и transfer. В ходе
+live corrective pass уточнён parser invariant: pending confirmation задаёт смысл коротких ответов, но не подавляет
+самодостаточную явную просьбу перевода.
+
+## 19. Corrective Map-016: speech evidence и устойчивый barge-in
+
+Следующий реальный звонок 22 сентября выявил остаточный дефект speech boundary: WebRTC VAD/energy gate создавал turns из
+слабого акустического возврата, а `FasterWhisperC2Backend` выбрасывал `no_speech_prob` и другие segment diagnostics,
+оставляя приложению только hallucinated text. Во время playback такой ложный start дополнительно превращался в
+`BARGE_IN` до проверки ASR.
+
+Для исправления принята [`Map-016`](plans/plan-016-speech-evidence-and-barge-in-corrective.md). `016-I` фиксирует
+producer-first revision `speech-evidence-I1`; `016-A` добавляет typed ASR evidence и безопасное отбрасывание rejected
+turn; `016-B` применяет per-call near-end reference и отдельный строгий barge-in threshold; `016-C` повторяет исходную
+запись, controlled corpus, target/no-GIL и registered FreeSWITCH gate. AEC/media-reference edge не вводится и станет
+отдельным owner-review gap только при доказанной недостаточности двухуровневой защиты.
+
+22 сентября Map-016 закрыта `complete`. Problem-call replay сократил authoritative turns `12 → 4`; три точных
+акустических/no-speech интервала отклонены по model evidence. Host regression прошла `291 passed, 6 skipped`, target
+3.14.7t — `294 passed, 3 skipped` с GIL off. Registered FreeSWITCH gate `016-C/registered-live-r3` прошёл четыре
+ожидаемых хода, source-aware ответы, настоящий barge-in, transfer, отчёт, стереозапись и непрерывный RTP при нулевых
+runtime errors/drops/underruns. AEC/media-reference edge не потребовался.
+
+## 20. Corrective Plan-017: задержка hard endpoint
+
+Последующий анализ той же записи отделил ошибку временного сопоставления от реального поведения: WebRTC VAD снимает
+speech-флаг на следующем 20-ms кадре, а 520 ms добавляет fixed policy существующего `TurnDetector`. По явному решению
+владельца endpointing должен занимать не более 300–400 ms; прежний 520-ms baseline, выбранный ради искусственной
+480-ms паузы Map-008, больше не является operational target.
+
+Исполняется [`Plan-017`](plans/plan-017-endpoint-latency-corrective.md): hard endpoint 360 ms, обязательная regression
+на caller channel реального registered call, прозрачная sensitivity-проверка старой TTS-паузы, target no-GIL и новый
+registered live gate. Filler phrases, SIP transfer completion, дефект greeting TTS и замена synthetic fixture записаны
+отдельными задачами `TASK-022`–`TASK-025` и не входят в speech-timing corrective.
+
+23 сентября Plan-017 закрыт `complete`: target replay сохранил четыре реальные реплики, historical 480-ms split
+зафиксирован явно, target regression прошла `301 passed`, registered live gate — полный сценарий без runtime errors.
+Фактические hard endpoints `[380, 362, 361, 383] ms`, maximum `383 <= 400`; сервис после gate прогрет и снова
+зарегистрирован как `1002` в очереди `7100`.
+
+## 21. Corrective Plan-018: задержка первого аудио XTTS
+
+Разложение задержки после Plan-017 показало, что около `0.4 s` после финального решения LLM занимало ожидание первой
+порции waveform XTTS при исходном `stream_chunk_size=20`. Это не media `ptime`: параметр определяет, сколько
+авторегрессионных акустических токенов XTTS накапливает перед очередным декодированием waveform.
+
+23 сентября выполнен [`Plan-018`](plans/plan-018-tts-first-audio-latency-tuning.md). В live path добавлены typed
+diagnostic timestamps без нового delivery channel; на одном прогретом XTTS runtime проверены `20/10/5` по пяти
+русским фразам и двум проходам. Median first-normalized-PCM составила соответственно `398.059`, `204.681` и
+`107.277 ms`; все варианты имели full RTF `< 1`, нулевые producer underruns и нулевой clipping. Baseline изменён на
+`TTS_STREAM_CHUNK_SIZE=5`.
+
+Registered FreeSWITCH gate прошёл полный сценарий и дал `LLM final → first playback frame` `173.499–223.834 ms` на
+четырёх ответах. RTP continuity `6151/6151`, `egress_underruns=0`, output overflow и runtime errors отсутствуют;
+target CPython 3.14.7t regression прошла полностью. План закрыт `complete`, сервис снова прогрет и зарегистрирован.
+
+## 22. Конференционный Map-019: параллельный мастер-класс на двух WSL-дистрибутивах
+
+Для 60-минутного мастер-класса подготовлена новая, **не исполненная** [`Map-019`](plans/plan-019-dual-wsl-freeswitch-live-masterclass.md) с self-contained child plans `019-A`–`019-D`. Ведущий вручную собирает стенд в одном чистом Debian 12 WSL2, агент без истории чата работает во втором на той же Windows-машине. У обоих одинаковые входные материалы и критерии: пакетный FreeSWITCH, прямой вызов двух MicroSIP, очередь операторов и подготовленная очередь бота. Исторические результаты Map-011 не засчитываются как результаты новых дорожек.
+
+WSL2-дистрибутивы могут делить сетевое пространство и конфликтовать по слушающим портам. Поэтому карта допускает параллельную подготовку, но назначает исключительные окна запуска FreeSWITCH и живых SIP/RTP-проверок; время ожидания окна в сравнении учитывается отдельно. Формат ожидает owner review перед исполнением. Ни два новых WSL-стенда, ни их acceptance пока не заявлены как готовые.
+
+## 23. Конференционный Map-020: browser SIP over WSS/DTLS-SRTP
+
+В рабочем дереве подготовлена отдельная [`Map-020`](plans/plan-020-freeswitch-webrtc.md) для транспорта browser SIP:
+локальный WSS baseline, browser REGISTER/ICE/DTLS-SRTP и отдельный rollout на целевой FreeSWITCH. Карта не меняет
+очередь `mod_callcenter`, SIP-бота или его односессионное ограничение. На 23 сентября 2026 года Map-020 имеет статус
+`in_progress`: локальная репетиция и серверная часть разделены, а серверный rollout зависит от доступности host,
+сертификата и решения LAN/public.
+
+Map-021 использует только подтверждённый browser/SIP contract Map-020; незавершённый transport gate не считается
+evidence web-demo.
+
+## 24. Конференционный Map-021: web-интерфейс, session-scoped RAG и звонок
+
+Для быстрого закрытого demo подготовлена [`Map-021`](plans/plan-021-web-rag-conference-demo.md) с ADR-006 и
+self-contained child plans `021-I`, `021-A`–`021-E`. Карта добавляет отдельный `demo-web/`: загрузка `.md`/`.txt`/текстового `.pdf`
+до `640 KiB`, metadata и embeddings, `rag_ready`-обновление страницы, heartbeat/session registry, QR/логотипы и
+browser call на существующую очередь FreeSWITCH `mod_callcenter`.
+
+Вызовы остаются последовательными: один bot runtime получает caller ID из PJSUA2, выбирает подготовленный корпус и
+загружает его между `180 Ringing` и `200 OK`; после terminal event корпус освобождается. Backend не создаёт вторую
+очередь и не передаёт PCM через WebSocket. Локальный execution pass Map-021 выполнен: web sidecar, session-scoped
+RAG, live Ollama/`embeddinggemma` preparation, mirrored WSL с прямой публикацией WSS/SIP/RTP на `192.168.1.74`,
+локальный `mod_callcenter` prerequisite и typed caller-ID/readiness contracts подтверждены. Карта остаётся
+`in_progress`: для внешнего телефона требуется elevated Hyper-V firewall rule и зарегистрированный browser →
+`mod_callcenter` → one-bot trace с caller-ID/RAG correlation; локальный QR/IP позже заменяется финальным conference URL.

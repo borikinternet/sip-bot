@@ -1,0 +1,188 @@
+{
+  "schema": "sip-bot.009-C.registered-workshop.v1",
+  "status": "fail",
+  "error": "RuntimeError: no active call",
+  "started_at_utc": "2026-09-13T18:16:34.652813+00:00",
+  "elapsed_seconds": 3.333,
+  "target_runtime": {
+    "executable": "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+    "python_version": "3.14.7 free-threading build (main, Aug 27 2026, 13:33:03) [GCC 13.3.0]",
+    "py_gil_disabled": 1,
+    "gil_enabled_at_finish": false
+  },
+  "freeswitch": {
+    "container": "sip-bot-freeswitch-workshop",
+    "image": "safarov/freeswitch@sha256:b31c743f4c911a19687c61e3214968f2a24f93f9d3d667cc26284192e158ffc6",
+    "status": {
+      "command": "docker.exe exec sip-bot-freeswitch-workshop fs_cli -x status",
+      "exit_code": 0,
+      "stdout": "UP 0 years, 0 days, 0 hours, 39 minutes, 19 seconds, 757 milliseconds, 422 microseconds\nFreeSWITCH (Version 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit) is ready\n12 session(s) since startup\n0 session(s) - peak 6, last 5min 2 \n0 session(s) per Sec out of max 30, peak 2, last 5min 2 \n1000 session(s) max\nmin idle cpu 0.00/99.73\nCurrent Stack Size/Max 240K/8192K\n\n",
+      "stderr": ""
+    },
+    "registration_snapshot": null,
+    "logs": "\u001b[m\u001b[36m2026-09-13 17:41:50.032346 94.63% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/peer@127.0.0.1:5060 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 17:42:07.013190 98.53% [NOTICE] switch_ivr_originate.c:3820 Hangup sofia/internal/tester@172.18.0.1:50375 [CS_CONSUME_MEDIA] [NO_ANSWER]\n\u001b[m\u001b[36m2026-09-13 17:42:07.013190 98.53% [NOTICE] switch_ivr_originate.c:3059 Cannot create outgoing channel of type [user] cause: [NO_ANSWER]\n\u001b[m\u001b[32m2026-09-13 17:42:07.013190 98.53% [INFO] mod_dptools.c:3635 Originate Failed.  Cause: NO_ANSWER\n\u001b[m\u001b[36m2026-09-13 17:42:07.013190 98.53% [NOTICE] switch_core_state_machine.c:382 sofia/internal/peer@127.0.0.1:5060 has executed the last dialplan instruction, hanging up.\n\u001b[m\u001b[36m2026-09-13 17:42:07.013190 98.53% [NOTICE] switch_core_state_machine.c:384 Hangup sofia/internal/peer@127.0.0.1:5060 [CS_EXECUTE] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 17:42:07.013190 98.53% [NOTICE] switch_core_session.c:1762 Session 6 (sofia/internal/tester@172.18.0.1:50375) Ended\n\u001b[m\u001b[36m2026-09-13 17:42:07.013190 98.53% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/tester@172.18.0.1:50375 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 17:42:07.013190 98.53% [NOTICE] switch_core_session.c:1762 Session 5 (sofia/internal/peer@127.0.0.1:5060) Ended\n\u001b[m\u001b[36m2026-09-13 17:42:07.013190 98.53% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/peer@127.0.0.1:5060 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 17:42:28.013185 98.73% [NOTICE] switch_ivr_originate.c:3820 Hangup sofia/internal/tester@172.18.0.1:50375 [CS_CONSUME_MEDIA] [NO_ANSWER]\n\u001b[m\u001b[36m2026-09-13 17:42:28.013185 98.73% [NOTICE] switch_ivr_originate.c:3059 Cannot create outgoing channel of type [user] cause: [NO_ANSWER]\n\u001b[m\u001b[32m2026-09-13 17:42:28.013185 98.73% [INFO] mod_dptools.c:3635 Originate Failed.  Cause: NO_ANSWER\n\u001b[m\u001b[36m2026-09-13 17:42:28.013185 98.73% [NOTICE] switch_core_state_machine.c:382 sofia/internal/peer@127.0.0.1:5060 has executed the last dialplan instruction, hanging up.\n\u001b[m\u001b[36m2026-09-13 17:42:28.013185 98.73% [NOTICE] switch_core_state_machine.c:384 Hangup sofia/internal/peer@127.0.0.1:5060 [CS_EXECUTE] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 17:42:28.013185 98.73% [NOTICE] switch_core_session.c:1762 Session 8 (sofia/internal/tester@172.18.0.1:50375) Ended\n\u001b[m\u001b[36m2026-09-13 17:42:28.013185 98.73% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/tester@172.18.0.1:50375 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 17:42:28.013185 98.73% [NOTICE] switch_core_session.c:1762 Session 7 (sofia/internal/peer@127.0.0.1:5060) Ended\n\u001b[m\u001b[36m2026-09-13 17:42:28.013185 98.73% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/peer@127.0.0.1:5060 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 18:17:20.952268 99.77% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/peer@127.0.0.1:5060 [1b4eb02f-2b44-4c77-a50a-84d5f2738f12]\n\u001b[m\u001b[32m2026-09-13 18:17:20.952268 99.77% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:57300 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: 73279c943694243e\n\u001b[m\u001b[32m2026-09-13 18:17:20.972301 99.77% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:57300 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: 73279c943694243e\n\u001b[m\u001b[32m2026-09-13 18:17:20.972301 99.77% [INFO] mod_dialplan_xml.c:639 Processing peer <peer>->7000 in context default\n\u001b[m\u001b[32mEXECUTE [depth=0] sofia/internal/peer@127.0.0.1:5060 bridge(user/tester@172.18.0.2)\n\u001b[m\u001b[36m2026-09-13 18:17:20.972301 99.77% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/tester@172.18.0.1:60711 [a5468c82-6cc9-4971-901f-d109de0297c7]\n\u001b[m\u001b[36m2026-09-13 18:17:20.972301 99.77% [NOTICE] switch_ivr_originate.c:3059 Cannot create outgoing channel of type [error] cause: [USER_NOT_REGISTERED]\n\u001b[m\u001b[32m2026-09-13 18:17:20.972301 99.77% [INFO] sofia_glue.c:1659 sofia/internal/tester@172.18.0.1:60711 sending invite call-id: (null)\n\u001b[m\u001b[36m2026-09-13 18:17:20.992312 99.77% [NOTICE] sofia.c:7604 Ring-Ready sofia/internal/tester@172.18.0.1:60711!\n\u001b[m\u001b[36m2026-09-13 18:17:20.992312 99.77% [NOTICE] mod_sofia.c:2514 Ring-Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 18:17:20.992312 99.77% [NOTICE] switch_ivr_originate.c:572 Ring Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 18:17:21.033139 99.77% [NOTICE] sofia.c:8681 Channel [sofia/internal/tester@172.18.0.1:60711] has been answered\n\u001b[m\u001b[36m2026-09-13 18:17:21.052563 99.77% [NOTICE] sofia_media.c:90 Pre-Answer sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 18:17:21.052563 99.77% [NOTICE] switch_ivr_originate.c:3855 Channel [sofia/internal/peer@127.0.0.1:5060] has been answered\n\u001b[m\u001b[36m2026-09-13 18:17:23.092659 99.70% [NOTICE] sofia.c:1065 Hangup sofia/internal/peer@127.0.0.1:5060 [CS_EXECUTE] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 18:17:23.092659 99.70% [NOTICE] switch_ivr_bridge.c:1027 Hangup sofia/internal/tester@172.18.0.1:60711 [CS_EXCHANGE_MEDIA] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 18:17:23.092659 99.70% [NOTICE] switch_core_session.c:1762 Session 10 (sofia/internal/tester@172.18.0.1:60711) Ended\n\u001b[m\u001b[36m2026-09-13 18:17:23.092659 99.70% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/tester@172.18.0.1:60711 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 18:17:23.092659 99.70% [NOTICE] switch_core_session.c:1762 Session 9 (sofia/internal/peer@127.0.0.1:5060) Ended\n\u001b[m\u001b[36m2026-09-13 18:17:23.092659 99.70% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/peer@127.0.0.1:5060 [CS_DESTROY]\n\u001b[m\u001b[36m2026-09-13 18:17:45.412298 99.57% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/peer@127.0.0.1:5060 [b9ea30f2-1b23-4366-88d6-8e74510a5974]\n\u001b[m\u001b[32m2026-09-13 18:17:45.412298 99.57% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:57300 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: 1f2e837263aec22f\n\u001b[m\u001b[32m2026-09-13 18:17:45.432290 99.57% [INFO] sofia.c:10460 sofia/internal/peer@127.0.0.1:5060 receiving invite from 172.18.0.1:57300 version: 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit call-id: 1f2e837263aec22f\n\u001b[m\u001b[32m2026-09-13 18:17:45.432290 99.57% [INFO] mod_dialplan_xml.c:639 Processing peer <peer>->7000 in context default\n\u001b[m\u001b[32mEXECUTE [depth=0] sofia/internal/peer@127.0.0.1:5060 bridge(user/tester@172.18.0.2)\n\u001b[m\u001b[36m2026-09-13 18:17:45.432290 99.57% [NOTICE] switch_channel.c:1142 New Channel sofia/internal/tester@172.18.0.1:60711 [1be30027-318a-4ed0-b87b-f537051fe06a]\n\u001b[m\u001b[36m2026-09-13 18:17:45.432290 99.57% [NOTICE] switch_ivr_originate.c:3059 Cannot create outgoing channel of type [error] cause: [USER_NOT_REGISTERED]\n\u001b[m\u001b[32m2026-09-13 18:17:45.432290 99.57% [INFO] sofia_glue.c:1659 sofia/internal/tester@172.18.0.1:60711 sending invite call-id: (null)\n\u001b[m\u001b[36m2026-09-13 18:17:45.432290 99.57% [NOTICE] sofia.c:7604 Ring-Ready sofia/internal/tester@172.18.0.1:60711!\n\u001b[m\u001b[36m2026-09-13 18:17:45.452316 99.57% [NOTICE] sofia.c:8681 Channel [sofia/internal/tester@172.18.0.1:60711] has been answered\n\u001b[m\u001b[36m2026-09-13 18:17:45.452316 99.57% [NOTICE] mod_sofia.c:2514 Ring-Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 18:17:45.452316 99.57% [NOTICE] switch_ivr_originate.c:572 Ring Ready sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 18:17:45.452316 99.57% [NOTICE] sofia_media.c:90 Pre-Answer sofia/internal/peer@127.0.0.1:5060!\n\u001b[m\u001b[36m2026-09-13 18:17:45.452316 99.57% [NOTICE] switch_ivr_originate.c:3855 Channel [sofia/internal/peer@127.0.0.1:5060] has been answered\n\u001b[m\u001b[36m2026-09-13 18:17:47.492313 99.50% [NOTICE] sofia.c:1065 Hangup sofia/internal/peer@127.0.0.1:5060 [CS_EXECUTE] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 18:17:47.512303 99.50% [NOTICE] switch_ivr_bridge.c:1027 Hangup sofia/internal/tester@172.18.0.1:60711 [CS_EXCHANGE_MEDIA] [NORMAL_CLEARING]\n\u001b[m\u001b[36m2026-09-13 18:17:47.512303 99.50% [NOTICE] switch_core_session.c:1762 Session 12 (sofia/internal/tester@172.18.0.1:60711) Ended\n\u001b[m\u001b[36m2026-09-13 18:17:47.512303 99.50% [NOTICE] switch_core_session.c:1766 Close Channel sofia/internal/tester@172.18.0.1:60711 [CS_DESTROY]\n"
+  },
+  "peer": {
+    "config": "/mnt/c/devel/sip-bot/tools/freeswitch_workshop/config/baresip-peer",
+    "command": "baresip -f /mnt/c/devel/sip-bot/tools/freeswitch_workshop/config/baresip-peer -t 45",
+    "log": "baresip v1.0.0 Copyright (C) 2010 - 2020 Alfred E. Heggestad et al.\nLocal network address:  IPv4=eth0|172.22.89.126 \naucodec: PCMU/8000/1\naucodec: PCMA/8000/1\nausrc: aufile\nstdio: could not setup terminal: Inappropriate ioctl for device\nPopulated 1 account\nPopulated 2 audio codecs\nPopulated 0 audio filters\nPopulated 0 video codecs\nPopulated 0 video filters\nbaresip is ready.\npeer@127.0.0.1: {0/UDP/v4} 200 OK () [1 binding]\n\u001b[32mAll 1 useragent registered successfully! (1 ms)\u001b[;m\nQuit\nua: stop all (forced=0)\n--- Help ---\n                    ESC      Hangup call\n  /about                     About box\n  /accept           a        Accept incoming call\n  /answermode ..             Set answer mode\n  /auplay ..                 Switch audio player\n  /ausrc ..                  Switch audio source\n  /callstat         c        Call status\n  /dial ..          d ..     Dial\n  /hangup           b        Hangup call\n  /help             h        Help menu\n  /insmod ..                 Load module\n  /listcalls        l        List active calls\n  /options ..       o ..     Options\n  /quit             q        Quit\n  /reginfo          r        Registration info\n  /rmmod ..                  Unload module\n  /uadel ..                  Delete User-Agent\n  /uafind ..                 Find User-Agent <aor>\n  /uanew ..                  Create User-Agent\n  /uanext           T        Toggle UAs\n  /vidsrc ..                 Switch video source\n\n\n"
+  },
+  "audio_fixture": {
+    "path": "/tmp/sip-bot-workshop-silence.wav",
+    "sample_rate_hz": 8000,
+    "channels": 1,
+    "duration_seconds": 30,
+    "sha256": "baf1862a3e57a773bc10ba4920cffaa69d698720cf8c6ae105ae307533ba5a29"
+  },
+  "adapter": {
+    "bind_port": 5070,
+    "registration_events": [
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 19253826636055,
+        "sequence": 1,
+        "method": null,
+        "status_code": null,
+        "reason": "registration requested by account.create",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "registration requested by account.create",
+          "expires_seconds": 300,
+          "observed_at_ns": 19253826613783,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 19253826919164,
+        "sequence": 2,
+        "method": null,
+        "status_code": null,
+        "reason": "PJSUA2 registration transaction started",
+        "details": {
+          "state": "registering",
+          "registration_event": "registration_started",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "registering",
+          "event": "registration_started",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "PJSUA2 registration transaction started",
+          "expires_seconds": 300,
+          "observed_at_ns": 19253826905205,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 19253827978331,
+        "sequence": 3,
+        "method": null,
+        "status_code": null,
+        "reason": "unregistration requested before account shutdown",
+        "details": {
+          "state": "unregistering",
+          "registration_event": "registration_unregistering",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "unregistering",
+          "event": "registration_unregistering",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "unregistration requested before account shutdown",
+          "expires_seconds": 0,
+          "observed_at_ns": 19253827968732,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      },
+      {
+        "call_id": "__registration__",
+        "kind": "registration_state",
+        "timestamp_ns": 19253829118817,
+        "sequence": 4,
+        "method": null,
+        "status_code": null,
+        "reason": "unregister request failed: Error",
+        "details": {
+          "state": "failed",
+          "registration_event": "registration_failed",
+          "readiness": false
+        },
+        "registration_status": {
+          "state": "failed",
+          "event": "registration_failed",
+          "enabled": true,
+          "registrar_uri": "sip:127.0.0.1:5060",
+          "status_code": null,
+          "reason": "unregister request failed: Error",
+          "expires_seconds": 0,
+          "observed_at_ns": 19253829105820,
+          "expires_at_ns": null,
+          "readiness": false
+        }
+      }
+    ],
+    "call_events": [],
+    "media_profile": null,
+    "media_stats": {}
+  },
+  "checks": {
+    "fixture_health": {
+      "command": "docker.exe exec sip-bot-freeswitch-workshop fs_cli -x status",
+      "exit_code": 0,
+      "stdout": "UP 0 years, 0 days, 0 hours, 39 minutes, 19 seconds, 757 milliseconds, 422 microseconds\nFreeSWITCH (Version 1.10.12 -release-10222002881-a88d069d6fgit a88d069 2024-08-02 21:02:27Z 64bit) is ready\n12 session(s) since startup\n0 session(s) - peak 6, last 5min 2 \n0 session(s) per Sec out of max 30, peak 2, last 5min 2 \n1000 session(s) max\nmin idle cpu 0.00/99.73\nCurrent Stack Size/Max 240K/8192K\n\n",
+      "stderr": ""
+    },
+    "bot_and_peer_registered": false,
+    "incoming_registered_call": false,
+    "provisional_180_before_final_answer": false,
+    "explicit_200_after_readiness_handoff": false,
+    "call_answered": false,
+    "pcmu_8000_mono": false,
+    "media_started": false,
+    "media_ingress_bounded_without_overflow": true,
+    "sanitized_logs": true
+  },
+  "incoming_admission": {
+    "provisional_180_seen": false,
+    "explicit_200_sent_after_readiness_handoff": false,
+    "probe_policy": "deterministic probe invokes answer() after 180; production launcher uses IncomingCallReadinessGate"
+  },
+  "security": {
+    "public_demo_credential_in_fixture": true,
+    "password_in_persisted_output": false,
+    "raw_logs_persisted": false,
+    "redaction_policy": "Authorization/password-like values are redacted before evidence serialization."
+  },
+  "commands": [
+    {
+      "command": "docker compose -f tools/freeswitch_workshop/docker-compose.yml up -d",
+      "exit_code": 0
+    },
+    {
+      "command": "baresip -f /mnt/c/devel/sip-bot/tools/freeswitch_workshop/config/baresip-peer -t 45",
+      "exit_code": 0
+    }
+  ],
+  "finished_at_utc": "2026-09-13T18:16:34.652868+00:00"
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "sip-bot.map015-semantic-live-gate.v1",
+  "status": "fail",
+  "scenarios": {
+    "compound-negative-and-explicit-transfer": {
+      "command": [
+        "/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python",
+        "tools/freeswitch_workshop/registered_full_rehearsal.py",
+        "--output-root",
+        "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/live-v1/compound-negative-and-explicit-transfer",
+        "--fixture-source",
+        "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/fixtures-v1/compound-negative-and-explicit-transfer.wav",
+        "--timeout-s",
+        "360.0",
+        "--post-report-grace-s",
+        "5",
+        "--fixture-leading-silence-s",
+        "8",
+        "--continuity-tail-s",
+        "20",
+        "--barge-in-shift-s",
+        "0",
+        "--prewarm",
+        "--registrar-address",
+        "10.0.0.45:5060",
+        "--peer-user",
+        "1000",
+        "--peer-password",
+        "<REDACTED>",
+        "--target-extension",
+        "7100",
+        "--external-pbx",
+        "--skip-barge-in-check"
+      ],
+      "exit_code": 0,
+      "result": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/live-v1/compound-negative-and-explicit-transfer/registered-j4-full-live.json",
+      "log": "/home/inrack/sip-bot/artifacts/implementation/015-semantic-turn-understanding/015-D/live-v1/compound-negative-and-explicit-transfer.log",
+      "checks": {
+        "registered_runner_pass": true,
+        "semantic_trace_present": true,
+        "all_semantic_acts_applied": true,
+        "rag_diagnostics_present": true,
+        "report_contains_semantic_section": true,
+        "free_threaded_runtime": true,
+        "no_runtime_errors": true,
+        "six_raw_turns": false,
+        "compound_negative_split": true,
+        "pure_no_rejects_without_inference": true,
+        "explicit_transfer_act": false,
+        "explicit_transfer_executed": false,
+        "compound_raw_text_persisted_once": true,
+        "residual_question_retrieved": true
+      },
+      "status": "fail"
+    }
+  }
+}

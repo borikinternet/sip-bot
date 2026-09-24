@@ -1,0 +1,85 @@
+{
+  "schema": "sip-bot.tts-latency-live-audit.v1",
+  "status": "pass",
+  "baseline_chunk_20_median_ms": 224.7053325,
+  "trace_count": 4,
+  "minimum_llm_final_to_playback_ms": 114.515,
+  "maximum_llm_final_to_playback_ms": 155.114,
+  "traces": [
+    {
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-2",
+      "channel_id": "playback",
+      "generation": 2,
+      "ordered": true,
+      "stage_ms": {
+        "llm_final_to_command": 6.616,
+        "command_to_worker": 0.222,
+        "worker_to_adapter": 1.395,
+        "adapter_to_engine_first_chunk": 138.363,
+        "engine_to_pcm_first_chunk": 2.128,
+        "pcm_to_playback_first_frame": 6.39,
+        "llm_final_to_playback_first_frame": 155.114
+      }
+    },
+    {
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-3",
+      "channel_id": "playback",
+      "generation": 3,
+      "ordered": true,
+      "stage_ms": {
+        "llm_final_to_command": 14.515,
+        "command_to_worker": 0.991,
+        "worker_to_adapter": 0.149,
+        "adapter_to_engine_first_chunk": 93.847,
+        "engine_to_pcm_first_chunk": 2.004,
+        "pcm_to_playback_first_frame": 3.009,
+        "llm_final_to_playback_first_frame": 114.515
+      }
+    },
+    {
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-4",
+      "channel_id": "playback",
+      "generation": 4,
+      "ordered": true,
+      "stage_ms": {
+        "llm_final_to_command": 8.561,
+        "command_to_worker": 0.29,
+        "worker_to_adapter": 2.513,
+        "adapter_to_engine_first_chunk": 124.224,
+        "engine_to_pcm_first_chunk": 1.067,
+        "pcm_to_playback_first_frame": 7.07,
+        "llm_final_to_playback_first_frame": 143.726
+      }
+    },
+    {
+      "call_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb",
+      "turn_id": "call-in-0-8af3a4b498fa459ebad454b0d40447bb:turn-6",
+      "channel_id": "playback",
+      "generation": 5,
+      "ordered": true,
+      "stage_ms": {
+        "llm_final_to_command": 6.649,
+        "command_to_worker": 0.213,
+        "worker_to_adapter": 0.388,
+        "adapter_to_engine_first_chunk": 115.212,
+        "engine_to_pcm_first_chunk": 3.11,
+        "pcm_to_playback_first_frame": 6.363,
+        "llm_final_to_playback_first_frame": 131.935
+      }
+    }
+  ],
+  "incomplete_traces": [],
+  "checks": {
+    "registered_runner_pass": true,
+    "free_threaded_runtime": true,
+    "complete_answer_traces": true,
+    "timestamps_ordered": true,
+    "improves_over_chunk_20_baseline": true,
+    "no_runtime_errors": true,
+    "no_output_overflow": true,
+    "no_egress_underruns": true
+  }
+}

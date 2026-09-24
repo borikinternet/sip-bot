@@ -1,6 +1,27 @@
 # Local credentials and machine-specific secrets
 .local/
 
+# Rebuildable development outputs
+.venv/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+node_modules/
+.presentation-work/
+webrtcvad_wheels-2.0.14.tar.gz
+
+# Live conversation data stays on the demo machine, not in GitHub.
+data/dialogues/live-service/
+artifacts/diagnostics/
+artifacts/**/*.wav
+artifacts/**/recordings/
+artifacts/**/context/
+artifacts/**/reports/
+artifacts/**/conversation.jsonl
+artifacts/**/report.md
+artifacts/**/*transcript*.json
+artifacts/**/*.pid
+
 # Generated feasibility evidence and local runtime state
 artifacts/feasibility/*.json
 artifacts/feasibility/*.log

@@ -117,6 +117,23 @@ typed-операцию `EmbeddingRequest`/`EmbeddingResponse`, скрывающ�
 параметры chunking/index, query, top-k, scores, использованные источники и признаки того, что ответ действительно
 строился на переданном контексте.
 
+Фактическое решение sufficiency обязано быть объяснимым: `KnowledgeContext` и итоговый report содержат reason code,
+configured и применённый effective threshold, semantic-only threshold, lexical-semantic floor, top semantic score,
+фактическую/требуемую lexical support и число содержательных query terms. Дополнительный скрытый порог, отсутствующий
+в diagnostics, запрещён. Для query policy `ru-natural-science-v2` разговорная рамка не увеличивает lexical denominator,
+а однословный запрос ниже strong-semantic threshold считается недостаточно определённым.
+
+Формат первого пользовательского corpus package — UTF-8 Markdown + `rag-corpus-v1` JSON manifest. Offline builder
+публикует `rag-index-v1` только после повторной проверки candidate и использует atomic replace; failed build сохраняет
+предыдущий index. Runtime обязан проверять schema, index/corpus version, chunking policy, corpus SHA-256, embedding model,
+dimension, item count и payload checksum. На startup/call path допускается query embedding, но число corpus embedding
+requests должно быть равно нулю.
+
+Контекст предыдущих ходов добавляется в retrieval query только для зависимой реплики: явной анафоры, короткого
+conjunction-led или эллиптического follow-up. Самостоятельный вопрос и однословный ASR-фрагмент не наследуют прежнюю
+тему. Если `KnowledgeContext.sufficient == false`, hits остаются диагностическими, но их текст не включается в prompt
+как знания; unknown-answer обязан сообщить об отсутствии надёжного ответа и предложить оператора.
+
 ## 3. Конфигурация
 
 Вся конфигурация MVP хранится в отдельном файле с набором констант:
@@ -137,19 +154,39 @@ config/constants.py
 - версия Python и режим free-threaded/GIL-enabled для основного процесса и изолированных runtime;
 - пути к базе знаний и индексу retrieval;
 - каталог файлов текущих разговоров;
-- пороги VAD и параметры определения конца реплики;
+- параметры выбранного VAD (`VAD_MODE=2` для WebRTC VAD) и параметры определения конца реплики; WebRTC получает
+  negotiated mono PCM S16LE frames, а hard/soft endpointing остаётся отдельной политикой `TurnDetector`; поверх
+  boolean WebRTC decision применяется конфигурационный per-call energy gate с minimum dBFS, noise margin, исходным
+  noise floor, длиной history/bootstrap, noise percentile, ограничением скорости роста, коэффициентами сглаживания,
+  confirmation interval, устойчивым near-end percentile/reference, отдельными normal/barge-in margins и итоговой
+  диагностикой raw/accepted/rejected frames, noise/speech levels и обоих threshold;
 - media `ptime`, внутренний PCM frame size, `asr_chunk_ms`, chunk timer/flush и ёмкости bounded audio buffers;
+- `turn_id`, выданный `TurnDetector`, обязателен в `AsrAudioChunk` и `AsrHypothesis`; ASR accumulator открывается только
+  после квалификации `min_speech_ms`, а endpoint/assembler state сопоставляется по этому ключу, а не по предположению о
+  последовательных номерах или единственном ожидающем endpoint;
+- production ASR hypothesis несёт typed speech evidence (`no_speech_prob`, `avg_logprob`, compression ratio,
+  input/segment timing и решение speech/no-speech); конфигурационный no-speech threshold применяется к model evidence,
+  а не к конкретному распознанному тексту. Rejected final закрывает только соответствующий `turn_id` без создания
+  authoritative пользовательской реплики;
 - параметры TTS output buffering/re-framing/pacing и допустимый хвост при завершении генерации; per-call media profile
   (`ptime`, payload type, sample rate, channels) при этом извлекается из SDP/PJMEDIA, а не задаётся константой;
+- параметры потоковой выдачи XTTS: `TTS_STREAM_CHUNK_SIZE=5` и `TTS_STREAM_OVERLAP_WAV_LEN=1024`. Первый параметр
+  задаёт число авторегрессионных акустических токенов до декодирования очередной порции waveform и не является
+  media `ptime` или размером RTP-кадра. Значение `5` выбрано по прогретому GPU sweep `20/10/5`: median TTFA
+  нормализованного PCM снизилась с `398.059 ms` до `107.277 ms`, full-generation RTF остался меньше `0.542`,
+  producer underruns и clipping отсутствовали;
 - параметры внутреннего `LLM Facade`: HTTP endpoint, stream/read timeouts, cancellation и лимиты request/response;
 - параметры `Skill & Prompt Manager`: набор констант skill/template registry, выбранные версии prompt и output schema,
   generation profile, лимит ответа и правила подстановки пользовательского текста;
+- текст greeting после ответа на вызов; в текущем MVP `CALL_GREETING_TEXT="Алло."`, пустое значение отключает его;
 - параметры RAG: путь к подготовленному корпусу и индексу, версия embedding-модели, `top_k`, порог релевантности,
   лимит объёма передаваемого контекста и политика unknown-answer;
 - параметры `Transcript Assembler`, включая правило стабилизации partial ASR-гипотез: общий префикс соседних revisions не
   фиксируется автоматически, stable prefix принимается только из явного backend-поля;
-- порядок pre-call warmup stages и критерий readiness: RAG/embeddings, structured LLM chat, ASR operation и первый TTS
-  PCM chunk должны быть успешно выполнены до допуска SIP-вызова;
+- порядок readiness warmup stages и критерий финального допуска: runtime-scoped single-flight RAG/embeddings, structured
+  LLM chat, ASR operation и первый TTS PCM chunk должны быть успешно выполнены до отправки `200 OK`; `ApplicationRuntime.start()`
+  не выполняет тяжёлый warmup синхронно, а до его завершения входящий SIP-вызов может находиться только в provisional
+  `180 Ringing`;
 - soft/hard endpointing и минимальную длительность речи;
 - порог и режим использования advisory `completion_hint` от LLM;
 - целевые значения задержки и параметры журналирования.
@@ -169,12 +206,21 @@ SIP-адаптер обязан самостоятельно и с ограни�
 `OPTIONS`, `re-INVITE`/`UPDATE`, изменения media-направления при hold/resume, RTP timeout и транспортные ошибки.
 `BYE` остаётся обязательным тестовым примером, но не исчерпывает контракт.
 
+Для входящего `INVITE` адаптер сначала немедленно отправляет explicit `180 Ringing` через
+`CallOpParam.statusCode=180` и публикует `call_started` с `answer_pending=true`. На этом этапе вызов ещё не считается
+установленным и media не открывается. Основной `asyncio` loop передаёт запрос общему runtime readiness coordinator,
+который использует одну операцию warmup для всех ожидающих callers. Если runtime уже готов или общий warmup завершился
+успешно, адаптер получает явную команду `answer()` и отправляет `200 OK`; если warmup завершился
+ошибкой — отправляется `503 Service Unavailable`, без direct/CPU/model fallback. `CallOpParam(True)` не является
+способом передать SIP status: для ответов всегда используется default-конструктор и явное поле `statusCode`.
+
 После протокольной реакции адаптер публикует нормализованное прикладное событие, если оно влияет на FSM или жизненный
 цикл каналов. Dispatcher владеет смысловым решением, но не является обязательным звеном для ответа на SIP-транзакцию.
 
 ### События от SIP-адаптера
 
 - `call_started`;
+- `protocol_reply` с explicit `180/200/503` для incoming admission;
 - `call_answered`;
 - `remote_hangup` / `remote_cancel`;
 - `remote_hold_started` / `remote_resumed`;
@@ -224,6 +270,21 @@ PJMEDIA запрашивает исходящие кадры по согласо
 коротким и неблокирующим. Исправление целостности накопления и проверка полного audible output выполняются в
 `005-E`; оно не добавляет межкомпонентный сигнал или новый delivery owner.
 
+Латентность TTS наблюдается на существующих owner boundaries отдельными typed diagnostic events:
+`LLM final → command accepted → worker start → adapter start → engine first chunk → normalized PCM first chunk →
+playback first frame`. Эти события не проходят через Dispatcher, не управляют поведением и не меняют payload-контракт.
+На registered FreeSWITCH gate с прогретым XTTS и `TTS_STREAM_CHUNK_SIZE=5` четыре рабочих ответа дали полный интервал
+`LLM final → playback first frame` от `173.499` до `223.834 ms`; runtime errors, output overflow и
+`egress_underruns` отсутствовали. Изменение chunk size требует повторного multi-phrase GPU sweep и live gate, а не
+подстройки по одной записи.
+
+Для проверки непрерывности RTP длительность WAV test peer не используется как proxy. В пределах отвеченного вызова
+фиксируется окно от `200 OK` на `INVITE` до получения `BYE` либо `media_stopped`; по negotiated `ptime` вычисляется
+ожидаемое число media-кадров, затем оно сопоставляется с числом кадров egress адаптера и RTP-пакетов, принятых peer.
+Отдельно проверяются packet loss, `egress_underruns`, callback errors и egress drops. Raw `enc`/`dec` и stereo
+derivative Baresip проверяются отдельным recording audit: stereo строится по answered-call window и timestamps старта
+дорожек, а не по их независимым длительностям. Лимит cleanup tail применяется только к standalone-аудиту без event window.
+
 ## 5. Состояние и контекст разговора
 
 Контекст не должен бесконечно накапливаться только в prompt LLM. Для каждого звонка создаётся отдельный каталог:
@@ -266,9 +327,11 @@ details. Они не являются обязательными внешним�
 
 Аудиофайлы в каталог диалога ботом не записываются. Файлы записи тестового стенда хранятся отдельно в
 `artifacts/implementation/<map>/<run>/recordings/` и не являются частью runtime-состояния диалога.
-Для Baresip `sndfile` test-peer recording исходные `enc` и `dec` сохраняются как primary evidence. Если их длины
-различаются из-за разного момента закрытия media-пайплайнов, stereo derivative выравнивает только хвост более короткой
-дорожки явными нулевыми PCM-кадрами; mapping, policy и число добавленных кадров обязательно записываются в manifest.
+Для Baresip `sndfile` test-peer recording исходные `enc` и `dec` сохраняются как primary evidence. Их файловые границы
+могут различаться как по времени открытия, так и по времени закрытия независимых media-пайплайнов, поэтому длительность
+одной дорожки не является общей шкалой разговора. Stereo derivative привязывается к answered-call window от `200 OK`
+до `BYE`/`media_stopped`, выравнивает каждую дорожку по времени создания Baresip-файла (timestamp в его имени) и явно
+фиксирует leading/trailing padding и trimming в manifest. Это отдельный recording evidence и не заменяет RTP-аудит.
 
 ## 6. Правила диалога и эскалации
 
@@ -293,13 +356,26 @@ LLM должна возвращать не только текст, но и ст
 
 Ответ для телефонного канала должен быть на русском языке, коротким, пригодным для TTS и без Markdown, служебных рассуждений и комментариев о внутреннем prompt. История LLM должна содержать только финальные ответы, а не скрытое содержимое режима рассуждений.
 
+После успешного `200 OK` бот один раз произносит конфигурационное приветствие через обычный TTS/playback path. Для
+этого LLM и RAG не вызываются. Speech ingress открывается до начала приветствия, поэтому пользователь может перебить
+его; существующий barge-in/cancellation contract прекращает greeting playback и переводит FSM к обработке речи.
+Приветствие сохраняется в контексте как отдельный assistant turn и не повторяется при дублирующем событии ответа.
+
 Правила эскалации:
 
 1. Если в базе знаний нет достаточной опоры для ответа или модель не может надёжно сформировать ответ, бот сообщает об ограничении и предлагает подключить оператора.
 2. Положительное подтверждение пользователя приводит к `transfer(configured_operator_target)`.
 3. Явная просьба пользователя о переводе приводит к `transfer(configured_operator_target)` без дополнительного подтверждения.
+   Это правило действует и в состоянии ожидания подтверждения: такое ожидание интерпретирует короткие `да`/`нет`, но
+   не превращает самодостаточную команду перевода в содержательный RAG-запрос.
 4. Отрицательный ответ на предложение перевода возвращает разговор в обычный режим; бот может попросить уточнить вопрос или завершить разговор по правилам диалога.
 5. После отправки команды перевода бот прекращает генерацию и озвучивание, освобождает ресурсы разговора и ждёт результата SIP-адаптера.
+6. Один финальный пользовательский ход может содержать несколько ordered dialogue acts. В реплике
+   `Нет, не надо. <новый вопрос>` сначала применяется отказ, затем новый вопрос проходит RAG/LLM path; исходный текст
+   сохраняется в контексте один раз.
+7. Реплика `Да, соедините, но сначала <вопрос>` не запускает transfer немедленно. Бот отвечает на residual content,
+   произносит конфигурационный `TRANSFER_CONFIRMATION_TEXT` через обычный TTS path и переводит только после нового pure
+   confirmation. Если content path уже завершился `offer_transfer`, второе одинаковое предложение не создаётся.
 
 ## 7. Потоковая обработка и перебивание
 
@@ -310,13 +386,20 @@ LLM должна возвращать не только текст, но и ст
   считается достаточным доказательством стабильности, поскольку ранняя ошибка распознавания может повторяться.
 - Стабильный промежуточный текст может передаваться в speculative LLM/retrieval pipeline до завершения пользовательского хода.
 - Только финальный текст ASR является основанием для окончательного решения LLM, изменения состояния FSM и разрешения озвучивания.
+- Финальный текст сначала преобразуется deterministic `SemanticTurnParser` в typed `SemanticTurn`; parser читает
+  `DialogueExpectation`, но не владеет FSM/SIP и не выполняет critical action. Acts применяются последовательно в
+  основном loop прямыми методами consumers, без text payload в Dispatcher/Event Bus.
 - LLM должна по возможности выдавать результат частями.
 - TTS начинает работу после получения первой пригодной для произнесения фразы.
 - При обнаружении речи пользователя во время TTS воспроизведение прекращается.
 - Незавершённая генерация LLM и TTS отменяется, если это поддерживает выбранный runtime.
 - Новая пользовательская реплика получает приоритет и записывается в состояние разговора.
 
-Начальная эвристика endpointing: soft endpoint ориентировочно 250–300 ms тишины используется для упреждающей обработки, hard endpoint ориентировочно 500 ms непрерывной тишины — для финализации хода. Оба значения являются конфигурационными и должны проверяться на тестовых разговорах.
+Soft endpoint 300 ms тишины используется для упреждающей обработки. По явному latency-решению Plan-017
+authoritative hard endpoint ограничен диапазоном 300–400 ms и настроен как `ENDPOINT_HARD_MS=360` при 20-ms frame
+clock: это оставляет два кадра запаса до верхней границы 400 ms. Исторический Map-008 baseline 520 ms сохранял одну
+искусственную 480-ms внутрефразовую паузу, но superseded как operational policy из-за неприемлемой live-задержки.
+Пауза 480 ms теперь может разделить ходы; это явный компромисс нового требования, а не скрытая регрессия.
 
 ## 8. Бюджет задержки
 
@@ -330,6 +413,10 @@ T_AI = T_endpointing + T_ASR + T_retrieval + T_LLM + T_TTS
 Для расчёта фиксированно резервируется 30 ms на RTP/media-транспорт; отдельное измерение сетевой задержки в MVP не выполняется. Рабочий целевой диапазон суммарной задержки — 200–500 ms, то есть ориентировочный бюджет AI-конвейера составляет 170–470 ms. Эти значения являются инженерной целью, основанной на ориентирах пользовательского комфорта из ITU-T, а не нормативным требованием к отдельной модели.
 
 Порог hard endpoint входит в `T_endpointing`. Speculative ASR/LLM/retrieval может выполняться до финализации и уменьшать остаточную задержку после окончания речи, но не отменяет необходимость подтвердить окончательный текст.
+
+Фактические измерения на A100 и RTX 5060 Ti, методика, значения по отдельным ответам и ссылки на машинные результаты
+собраны в [отчёте сравнительного прогона](../artifacts/implementation/018-tts-first-audio-latency/a100-vs-rtx5060ti-comparison.md).
+Отчёт фиксирует результат конкретных стендов; целевой бюджет выше от этого не меняется.
 
 Измерения должны сохранять временные отметки минимум для:
 
@@ -354,17 +441,23 @@ T_AI = T_endpointing + T_ASR + T_retrieval + T_LLM + T_TTS
 - Промежуточные ASR-гипотезы собираются без накопления исправленных фрагментов.
 - Возобновление речи до hard endpoint отменяет speculative-обработку и продолжает текущий пользовательский ход.
 - После hard endpoint создаётся один финальный текст пользовательского хода.
+- Финальный ASR-результат, для которого model evidence подтверждает no-speech, не попадает в контекст и освобождает
+  matching pending endpoint/assembler; phrase blacklist запрещён.
 - Контекст разговора дописывается в файл без записи аудио со стороны бота; запись test peer относится к evidence стенда.
 - После завершения звонка создаётся итоговый `report.md`.
 - Бот умеет ответить, уточнить вопрос, предложить перевод и выполнить перевод.
 - Явная просьба о переводе обрабатывается без дополнительного подтверждения.
-- Перебивание прекращает текущую речь бота и не ломает состояние диалога.
+- Перебивание прекращает текущую речь бота и не ломает состояние диалога; во время playback слабый акустический
+  возврат не создаёт `BARGE_IN`, а подтверждённая near-end речь создаёт его даже тогда, когда `SPEECH_STARTED` уже был
+  локально открыт более слабым кадром.
 - `Skill & Prompt Manager` формирует `LlmRequest` из финального хода, контекста, знаний и разрешённого FSM-профиля;
   в evidence видны идентификаторы/версии шаблона и generation profile.
 - RAG-контур возвращает source-aware `KnowledgeContext`; ответ по встроенным знаниям модели без локального hit не
   считается выполнением требования работы с базой знаний.
-- До допуска вызова application runtime успешно выполняет pre-call warmup для RAG/embeddings, LLM chat, ASR и TTS; при
-  ошибке или неполном результате этапа вызов не принимается, а время и результат каждого этапа сохраняются в evidence.
+- До допуска вызова общий runtime readiness coordinator успешно выполняет warmup для RAG/embeddings, LLM chat, ASR и
+  TTS; warmup может быть запущен заранее background-trigger-ом или единственный раз по запросу первого входящего call,
+  если он ещё не был запущен. При ошибке или неполном результате этапа вызов не принимается, а время и результат каждого
+  этапа сохраняются в evidence.
 - Временные отметки позволяют вычислить суммарную задержку и её составляющие.
 
 ## 10. Решения, которые предстоит уточнить при реализации

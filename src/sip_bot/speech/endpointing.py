@@ -12,7 +12,7 @@ class EndpointingConfig:
     """MVP timing policy; values are explicit and independently testable."""
 
     soft_endpoint_ms: int = 300
-    hard_endpoint_ms: int = 500
+    hard_endpoint_ms: int = 360
     min_speech_ms: int = 80
 
     def __post_init__(self) -> None:

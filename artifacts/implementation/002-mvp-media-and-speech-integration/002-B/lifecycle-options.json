@@ -5,7 +5,7 @@
   "status": "pass",
   "command": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t -I -m pytest -q /mnt/c/devel/sip-bot/tests/integration/test_sip_media.py",
   "working_directory": "/mnt/c/devel/sip-bot",
-  "started_at_utc": "2026-09-04T16:14:15.385485+00:00",
+  "started_at_utc": "2026-09-22T19:59:35.766014+00:00",
   "runtime": {
     "executable": "/home/sipbot/.local/cpython-3.14.7t/bin/python3.14t",
     "implementation": "cpython",
@@ -23,7 +23,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587732224878,
+      "timestamp_ns": 65531195382669,
       "sequence": 1,
       "method": "RTP",
       "status_code": null,
@@ -36,7 +36,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587732344623,
+      "timestamp_ns": 65531195584052,
       "sequence": 2,
       "method": "RTP",
       "status_code": null,
@@ -49,7 +49,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587732357707,
+      "timestamp_ns": 65531195627493,
       "sequence": 3,
       "method": "RTP",
       "status_code": null,
@@ -62,7 +62,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587732393474,
+      "timestamp_ns": 65531195766905,
       "sequence": 4,
       "method": "RTP",
       "status_code": null,
@@ -75,7 +75,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587732407929,
+      "timestamp_ns": 65531195814486,
       "sequence": 5,
       "method": "RTP",
       "status_code": null,
@@ -88,7 +88,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587732414625,
+      "timestamp_ns": 65531195828176,
       "sequence": 6,
       "method": "RTP",
       "status_code": null,
@@ -101,7 +101,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "call_started",
-      "timestamp_ns": 78587732921031,
+      "timestamp_ns": 65531196448856,
       "sequence": 7,
       "method": null,
       "status_code": null,
@@ -114,7 +114,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587735023944,
+      "timestamp_ns": 65531198720403,
       "sequence": 8,
       "method": "RTP",
       "status_code": null,
@@ -127,7 +127,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587735151789,
+      "timestamp_ns": 65531198928237,
       "sequence": 9,
       "method": "RTP",
       "status_code": null,
@@ -140,7 +140,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "media_started",
-      "timestamp_ns": 78587738064257,
+      "timestamp_ns": 65531199655508,
       "sequence": 10,
       "method": null,
       "status_code": null,
@@ -167,7 +167,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "call_answered",
-      "timestamp_ns": 78587738158812,
+      "timestamp_ns": 65531199758910,
       "sequence": 11,
       "method": null,
       "status_code": 200,
@@ -180,7 +180,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587738268205,
+      "timestamp_ns": 65531199908263,
       "sequence": 12,
       "method": "RTP",
       "status_code": null,
@@ -193,7 +193,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "sip_transaction",
-      "timestamp_ns": 78587738276421,
+      "timestamp_ns": 65531199921103,
       "sequence": 13,
       "method": "RTP",
       "status_code": null,
@@ -206,7 +206,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "call_ended",
-      "timestamp_ns": 78587738292641,
+      "timestamp_ns": 65531199953533,
       "sequence": 14,
       "method": null,
       "status_code": 200,
@@ -219,7 +219,7 @@
     {
       "call_id": "call-integration-lifecycle",
       "kind": "media_stopped",
-      "timestamp_ns": 78587738919684,
+      "timestamp_ns": 65531200148846,
       "sequence": 15,
       "method": null,
       "status_code": null,
@@ -262,7 +262,7 @@
   "peer_log": "/mnt/c/devel/sip-bot/artifacts/implementation/002-mvp-media-and-speech-integration/002-B/lifecycle-options.peer.log",
   "audio_recording": false,
   "external_pbx": false,
-  "finished_at_utc": "2026-09-04T16:14:15.385570+00:00",
+  "finished_at_utc": "2026-09-22T19:59:35.766160+00:00",
   "options_response_status": "SIP/2.0 200 OK",
   "media_profile_blocked": false,
   "test_result": "pass"

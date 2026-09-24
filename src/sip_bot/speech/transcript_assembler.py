@@ -59,10 +59,11 @@ class TranscriptAssembler:
         self.stale_revisions = 0
 
     def _check_scope(self, hypothesis: AsrHypothesis) -> None:
-        if (hypothesis.call_id, hypothesis.channel_id, hypothesis.generation) != (
+        if (hypothesis.call_id, hypothesis.channel_id, hypothesis.generation, hypothesis.turn_id) != (
             self.call_id,
             self.channel_id,
             self.generation,
+            self.turn_id,
         ):
             raise TranscriptContractError("hypothesis belongs to another call/channel generation")
 
@@ -144,6 +145,7 @@ class TranscriptAssembler:
             is_final=True,
             stable_prefix=self._latest_text,
             source="endpoint-finalization",
+            turn_id=self.turn_id,
         )
         self._latest_revision = hypothesis.revision
         update = self._snapshot(

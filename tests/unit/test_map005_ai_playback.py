@@ -68,14 +68,16 @@ def test_media_source_modes_separate_startup_intentional_silence_and_underrun() 
     assert bridge.egress_source_mode is EgressSourceMode.IDLE
     idle = _Frame(p.frame_bytes)
     bridge.port.onFrameRequested(idle)
-    assert idle.buf.payload == bytes(p.frame_bytes)
+    assert len(idle.buf.payload) == p.frame_bytes
+    assert idle.buf.payload != bytes(p.frame_bytes)
     assert bridge.stats.egress_underruns == 0
     assert bridge.stats.intentional_silence_frames == 1
 
     bridge.set_egress_source_mode(EgressSourceMode.PREROLL)
     preroll = _Frame(p.frame_bytes)
     bridge.port.onFrameRequested(preroll)
-    assert preroll.buf.payload == bytes(p.frame_bytes)
+    assert len(preroll.buf.payload) == p.frame_bytes
+    assert preroll.buf.payload != bytes(p.frame_bytes)
     assert bridge.stats.tts_startup_wait == 1
     assert bridge.stats.egress_underruns == 0
 
@@ -88,7 +90,8 @@ def test_media_source_modes_separate_startup_intentional_silence_and_underrun() 
 
     underrun = _Frame(p.frame_bytes)
     bridge.port.onFrameRequested(underrun)
-    assert underrun.buf.payload == bytes(p.frame_bytes)
+    assert len(underrun.buf.payload) == p.frame_bytes
+    assert underrun.buf.payload != bytes(p.frame_bytes)
     assert bridge.stats.egress_underruns == 1
 
     bridge.set_egress_source_mode(EgressSourceMode.CANCELLED)
@@ -160,7 +163,8 @@ def test_media_draining_keeps_tail_frame_and_reclassifies_empty_tail_as_idle() -
 
     silence = _Frame(p.frame_bytes)
     bridge.port.onFrameRequested(silence)
-    assert silence.buf.payload == bytes(p.frame_bytes)
+    assert len(silence.buf.payload) == p.frame_bytes
+    assert silence.buf.payload != bytes(p.frame_bytes)
     assert bridge.egress_source_mode is EgressSourceMode.IDLE
     assert bridge.stats.egress_underruns == 0
     assert bridge.stats.intentional_silence_frames == 1
