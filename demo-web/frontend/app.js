@@ -2,6 +2,7 @@
 
 const state = { session: null, socket: null, sip: null, call: null, callEnded: false, callSetup: false, callMarked: false, callPhase: "" };
 const $ = (id) => document.getElementById(id);
+const preparedBaselineCorpusId = "ru-telecom-voice-assistants-demo";
 
 const stateLabels = {
   baseline: "Можно звонить",
@@ -37,6 +38,7 @@ function render(status) {
   $("corpus-state").textContent = stateLabels[status.state] || status.state;
   if (!state.callPhase) $("status-dot").className = `status-dot ${status.state === "ready" || status.state === "baseline" ? "ready" : status.state === "failed" || status.state === "stale" ? "error" : ""}`;
   const metadata = status.metadata;
+  $("prepared-corpus-notice").hidden = status.state !== "baseline" || metadata?.corpus_id === preparedBaselineCorpusId;
   if (metadata) {
     $("corpus-title").textContent = metadata.title || "Без названия";
     $("corpus-description").textContent = metadata.description || "Описание не задано.";

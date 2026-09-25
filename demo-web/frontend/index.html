@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Василиса — и страницы заговорят</title>
-    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="/static/styles.css?v=20260925-telecom-copy" />
   </head>
   <body>
     <main class="page-shell">
@@ -13,7 +13,7 @@
           <p class="eyebrow">Голосовой помощник</p>
           <h1>Поговорите с Василисой</h1>
           <p class="hero-tagline">и страницы заговорят</p>
-          <p class="lead">У Василисы уже есть тема для разговора. А если хотите обсудить свой документ, загрузите его — она подготовится и подскажет, о чём можно спросить.</p>
+          <p class="lead">Мы подготовили для Василисы новую тему — «Технологии и голосовые помощники»: SIP и RTP, WebRTC, очередь вызовов и ответы по документам. Ниже показана тема, по которой можно звонить сейчас; свой документ тоже можно загрузить.</p>
           <div class="partner-note">
             <span>Оборудование для проекта предоставил партнёр</span>
             <img src="/assets/partner-logo.svg" alt="Логотип компании-партнёра" />
@@ -35,11 +35,16 @@
         </div>
       </section>
 
+      <section id="prepared-corpus-notice" class="prepared-corpus-notice" aria-live="polite">
+        <strong>Новая тема подготовлена: «Технологии и голосовые помощники».</strong>
+        <span>Вопросы для неё: чем SIP отличается от RTP, зачем WebRTC нужны ICE, STUN и TURN и какую роль играют VAD, ASR и TTS. Пока публичный сервер использует тему, указанную ниже.</span>
+      </section>
+
       <section class="content-grid">
         <article class="card corpus-card">
           <div class="card-heading">
             <div>
-              <p class="eyebrow">Тема разговора</p>
+              <p class="eyebrow">Тема текущего звонка</p>
               <h2 id="corpus-title">Узнаём текущую тему…</h2>
             </div>
             <span id="corpus-state" class="pill">—</span>
@@ -111,7 +116,7 @@
     </main>
     <audio id="remote-audio" autoplay></audio>
     <script src="/assets/jssip-3.10.0.min.js"></script>
-    <script src="/static/demo-config.js"></script>
-    <script src="/static/app.js" defer></script>
+    <script src="/static/demo-config.js?v=20260925-telecom-copy"></script>
+    <script src="/static/app.js?v=20260925-telecom-copy" defer></script>
   </body>
 </html>
