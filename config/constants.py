@@ -60,8 +60,8 @@ GPU_NAME: Final[str] = "NVIDIA RTX 5060 Ti"
 GPU_VRAM_GB: Final[int] = 16
 
 # Runtime persistence and retrieval locations.
-KNOWLEDGE_CORPUS_PATH: Final[Path] = Path("data/knowledge/corpus")
-KNOWLEDGE_INDEX_PATH: Final[Path] = Path("data/knowledge/index/natural-science-v1.json")
+KNOWLEDGE_CORPUS_PATH: Final[Path] = Path("data/knowledge/telecom-corpus")
+KNOWLEDGE_INDEX_PATH: Final[Path] = Path("data/knowledge/index/telecom-voice-assistants-v1.json")
 CONVERSATION_ROOT: Final[Path] = Path("data/dialogues")
 
 # Speech and bounded-channel policies used by later boundary plans.
@@ -166,20 +166,20 @@ CALL_GREETING_TEXT: Final[str] = "Алло."
 TRANSFER_CONFIRMATION_TEXT: Final[str] = "Подключить оператора?"
 
 # Retrieval contract identifiers and limits.
-RAG_CORPUS_VERSION: Final[str] = "ru-natural-science-demo-v1"
+RAG_CORPUS_VERSION: Final[str] = "ru-telecom-voice-assistants-demo-v1"
 RAG_EMBEDDING_MODEL: Final[str] = "embeddinggemma"
 RAG_TOP_K: Final[int] = 3
 RAG_RELEVANCE_THRESHOLD: Final[float] = 0.35
 RAG_MAX_CONTEXT_CHARS: Final[int] = 6000
 RAG_UNKNOWN_ANSWER_POLICY: Final[str] = "offer-transfer"
 TRANSCRIPT_STABLE_PREFIX_MIN_CHARS: Final[int] = 12
-QUERY_POLICY_VERSION: Final[str] = "ru-natural-science-v2"
+QUERY_POLICY_VERSION: Final[str] = "ru-technical-acronyms-v3"
 QUERY_MAX_CONTEXT_CHARS: Final[int] = 1800
 QUERY_MAX_PHRASE_TOKENS: Final[int] = 4
 RAG_INDEX_SCHEMA_VERSION: Final[str] = "rag-index-v1"
-RAG_INDEX_VERSION: Final[str] = "natural-science-embeddinggemma-v1"
+RAG_INDEX_VERSION: Final[str] = "telecom-voice-assistants-embeddinggemma-v1"
 RAG_CHUNKING_POLICY_VERSION: Final[str] = "markdown-semantic-v1"
-RAG_CORPUS_SHA256: Final[str] = "531d177f8f77611faaad32cf08c0a9b172e1f2cb2c8a0d3d26667a210f0e33ee"
+RAG_CORPUS_SHA256: Final[str] = "9064796f84c103c31942e41ee6a08180aa3bd57c388cce3ba2971ca5e5abb111"
 RAG_INDEX_DIMENSION: Final[int] = 768
 RAG_EMBEDDING_OPERATION: Final[str] = "typed-llm-facade-embed"
 RAG_CONTEXT_ID_PREFIX: Final[str] = "knowledge-context"

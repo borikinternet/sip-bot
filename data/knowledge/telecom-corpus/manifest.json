@@ -1,0 +1,24 @@
+{
+  "schema_version": "rag-corpus-v1",
+  "corpus_id": "ru-telecom-voice-assistants-demo",
+  "corpus_version": "ru-telecom-voice-assistants-demo-v1",
+  "title": "Технологии и голосовые помощники",
+  "language": "ru",
+  "license": "Авторский демонстрационный материал проекта sip-bot",
+  "sources": [
+    {
+      "source_id": "telecom-voice-assistants-guide",
+      "file": "voice-assistants.md",
+      "title": "Голосовые помощники в IP-телефонии: от SIP-вызова до ответа по документам",
+      "origin": "Оригинальный технический обзор проекта sip-bot; факты сверены с перечисленными в документе RFC и документацией FreeSWITCH",
+      "license": "Авторский демонстрационный материал проекта sip-bot",
+      "attribution": "Проект sip-bot, технический обзор для конференционной демонстрации, 2026-09-25",
+      "owner": "Команда проекта sip-bot",
+      "version": "2026-09-25-v1",
+      "effective_date": "2026-09-25",
+      "priority": 100,
+      "topics": ["Технологии и голосовые помощники"],
+      "audiences": ["инженеры связи", "разработчики голосовых сервисов"]
+    }
+  ]
+}

@@ -9,7 +9,8 @@ from aiohttp import FormData
 from aiohttp.test_utils import TestClient, TestServer
 
 from backend.rag import RagMetadata, StaticMetadataProvider
-from backend.server import create_app, load_baseline_metadata
+from backend.server import _corpus_example_questions, create_app, load_baseline_metadata
+from backend.url_fetch import DownloadedDocument
 from sip_bot.retrieval import DeterministicEmbeddingBackend
 
 
@@ -45,6 +46,51 @@ def test_http_upload_emits_rag_ready_and_enables_call(tmp_path: Path) -> None:
             ready = await _wait_for_type(ws, "rag_ready")
             assert ready["status"]["state"] == "ready"
             assert ready["status"]["call_enabled"] is True
+            await ws.close()
+
+    asyncio.run(run())
+
+
+def test_url_import_uses_same_ready_flow(tmp_path: Path, monkeypatch) -> None:
+    async def fake_download(url: str) -> DownloadedDocument:
+        assert url == "https://example.org/article"
+        return DownloadedDocument(
+            "article.html",
+            b"<main><h1>SIP and RTP</h1><p>The voice assistant answers calls.</p></main>",
+            url,
+        )
+
+    monkeypatch.setattr("backend.server.download_document", fake_download)
+
+    async def run() -> None:
+        app = create_app(
+            artifact_root=tmp_path / "corpora",
+            registry_root=tmp_path / "registry",
+            frontend_root=Path(__file__).resolve().parents[1] / "frontend",
+            embedding_provider=DeterministicEmbeddingBackend(16),
+            metadata_provider=StaticMetadataProvider(),
+            baseline_metadata={"title": "Base", "questions": []},
+        )
+        async with TestClient(TestServer(app)) as client:
+            initial = await (await client.get("/api/session")).json()
+            rejected = await client.post(
+                f"/api/session/{initial['session_id']}/import-url",
+                json={"url": "http://127.0.0.1:11434/api/tags"},
+            )
+            assert rejected.status == 400
+            unchanged = await (await client.get(f"/api/session/{initial['session_id']}")).json()
+            assert unchanged["state"] == "baseline"
+            ws = await client.ws_connect(f"/ws/{initial['session_id']}")
+            await _wait_for_type(ws, "snapshot")
+            response = await client.post(
+                f"/api/session/{initial['session_id']}/import-url",
+                json={"url": "https://example.org/article"},
+            )
+            assert response.status == 202
+            ready = await _wait_for_type(ws, "rag_ready")
+            assert ready["status"]["state"] == "ready"
+            assert ready["status"]["call_enabled"] is True
+            assert ready["status"]["metadata"]["source_url"] == "https://example.org/article"
             await ws.close()
 
     asyncio.run(run())
@@ -96,3 +142,14 @@ def test_baseline_metadata_tracks_corpus_changes_and_filters_questions(tmp_path:
     changed = load_baseline_metadata(**options)
     assert provider.calls == 2
     assert changed["description"] != first["description"]
+
+
+def test_explicit_baseline_questions_cover_different_sections() -> None:
+    documents = [("Guide", "\n\n".join(
+        f"Вопрос: Тема {number}? Ответ: Подробный ответ {number}."
+        for number in range(1, 9)
+    ))]
+
+    assert _corpus_example_questions(documents)[:3] == (
+        "Тема 1?", "Тема 5?", "Тема 8?",
+    )

@@ -16,6 +16,7 @@ from sip_bot.retrieval import (
 
 PROJECT_ROOT = Path(__file__).parents[2]
 SCIENCE_CORPUS = PROJECT_ROOT / "data" / "knowledge" / "corpus"
+TELECOM_CORPUS = PROJECT_ROOT / "data" / "knowledge" / "telecom-corpus"
 WORKSHOP_CORPUS = PROJECT_ROOT / "config" / "workshops" / "rag" / "corpus"
 
 
@@ -23,6 +24,7 @@ WORKSHOP_CORPUS = PROJECT_ROOT / "config" / "workshops" / "rag" / "corpus"
     ("root", "corpus_id", "source_count"),
     (
         (SCIENCE_CORPUS, "ru-natural-science-demo", 3),
+        (TELECOM_CORPUS, "ru-telecom-voice-assistants-demo", 1),
         (WORKSHOP_CORPUS, "small-service-company-demo", 6),
     ),
 )

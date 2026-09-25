@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+from html.parser import HTMLParser
 from io import BytesIO
 import json
 import uuid
@@ -34,6 +35,48 @@ class RagPreparationError(RuntimeError):
     """The uploaded corpus did not cross the prepared-artifact boundary."""
 
 
+class _ReadableHtml(HTMLParser):
+    """Keep document prose and headings; discard page chrome and executable text."""
+
+    _SKIP = {"head", "script", "style", "noscript", "template", "svg", "nav", "footer", "aside", "form"}
+    _BLOCK = {"article", "blockquote", "br", "div", "h1", "h2", "h3", "h4", "h5", "h6", "li", "main", "p", "section", "tr"}
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+        self.skip_depth = 0
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag in self._SKIP:
+            self.skip_depth += 1
+        elif not self.skip_depth and tag in self._BLOCK:
+            self.parts.append("\n")
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in self._SKIP and self.skip_depth:
+            self.skip_depth -= 1
+        elif not self.skip_depth and tag in self._BLOCK:
+            self.parts.append("\n")
+
+    def handle_data(self, data: str) -> None:
+        if not self.skip_depth:
+            self.parts.append(data)
+
+
+def _extract_html_text(data: bytes) -> str:
+    try:
+        html = data.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise RagPreparationError("HTML document must be valid UTF-8") from exc
+    parser = _ReadableHtml()
+    parser.feed(html)
+    lines = [" ".join(line.split()) for line in "".join(parser.parts).splitlines()]
+    text = "\n\n".join(line for line in lines if line)
+    if not text:
+        raise RagPreparationError("HTML document does not contain readable text")
+    return text
+
+
 def _extract_pdf_text(data: bytes) -> str:
     """Extract selectable text from a PDF without introducing an OCR pipeline."""
 
@@ -62,6 +105,8 @@ def _decode_uploaded_document(filename: str, data: bytes) -> str:
     suffix = Path(filename).suffix.casefold()
     if suffix == ".pdf":
         return _extract_pdf_text(data)
+    if suffix in {".html", ".htm"}:
+        return _extract_html_text(data)
     try:
         text = data.decode("utf-8")
     except UnicodeDecodeError as exc:
@@ -150,7 +195,8 @@ class OllamaMetadataProvider:
             "questions — массив из 5 коротких самостоятельных вопросов (каждый до 80 символов), на каждый из которых "
             "в тексте есть прямой, однозначный ответ. Используй те же ключевые слова и имена, "
             "что в тексте. Не спрашивай о причинах, изменениях, последствиях или применении, "
-            "если они не объяснены прямо. Не выдумывай сведения вне текста.\n\n"
+            "если они не объяснены прямо. Для длинного документа выбери вопросы из разных разделов. "
+            "Не выдумывай сведения вне текста.\n\n"
             f"Имя файла: {filename}\nТекст документа:\n{text[:9000]}"
         )
         request = LlmRequest(
@@ -231,12 +277,13 @@ class RagPreparationCoordinator:
         caller_id: str,
         filename: str,
         data: bytes,
+        source_url: str | None = None,
     ) -> PreparedRag:
         if len(data) > MAX_UPLOAD_BYTES:
             raise RagPreparationError("uploaded file exceeds 640 KiB")
         suffix = Path(filename).suffix.casefold()
-        if suffix not in {".md", ".txt", ".pdf"}:
-            raise RagPreparationError("only .md, .txt and text-based .pdf uploads are accepted")
+        if suffix not in {".md", ".txt", ".pdf", ".html", ".htm"}:
+            raise RagPreparationError("only .md, .txt, .html and text-based .pdf documents are accepted")
         text = _decode_uploaded_document(filename, data)
 
         corpus_id = f"conference-{session_id[:20]}"
@@ -261,7 +308,7 @@ class RagPreparationCoordinator:
                         "source_id": "uploaded-document",
                         "file": document_name,
                         "title": metadata.title,
-                        "origin": f"conference upload: {filename}",
+                        "origin": source_url or f"conference upload: {filename}",
                         "license": "conference-demo-user-upload",
                         "attribution": "Загружено посетителем конференции",
                         "owner": "conference-demo",
@@ -302,6 +349,7 @@ class RagPreparationCoordinator:
                 "dimension": report.dimension,
                 "item_count": report.item_count,
                 "original_filename": filename,
+                "source_url": source_url,
             }
             (temporary_dir / "metadata.json").write_text(
                 json.dumps(artifact_metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"

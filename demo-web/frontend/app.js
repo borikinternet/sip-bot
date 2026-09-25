@@ -4,11 +4,11 @@ const state = { session: null, socket: null, sip: null, call: null, callEnded: f
 const $ = (id) => document.getElementById(id);
 
 const stateLabels = {
-  baseline: "Базовый корпус",
-  preparing: "Готовим корпус…",
-  ready: "Корпус готов",
-  active_call: "SIP-вызов выполняется",
-  failed: "Ошибка подготовки",
+  baseline: "Можно звонить",
+  preparing: "Готовим ваш документ…",
+  ready: "Документ готов",
+  active_call: "Идёт звонок",
+  failed: "Не удалось подготовить документ",
   stale: "Сессия завершена",
 };
 
@@ -44,10 +44,16 @@ function render(status) {
     $("question-list").innerHTML = (metadata.questions || []).length
       ? metadata.questions.map((question) => `<li>${escapeHtml(question)}</li>`).join("")
       : "<li>Проверенных примеров вопросов пока нет. Можно задать свой вопрос по указанной теме.</li>";
+  } else if (status.state === "preparing" || status.state === "failed") {
+    $("corpus-title").textContent = status.state === "preparing" ? "Готовим новую тему…" : "Не удалось подготовить документ";
+    $("corpus-description").textContent = status.error || "Скачиваем и обрабатываем материал.";
+    $("corpus-topic").textContent = "—";
+    $("question-list").innerHTML = "<li>Примеры вопросов появятся после подготовки.</li>";
   }
   $("call-button").textContent = state.call ? "Завершить звонок" : "Позвонить";
   $("call-button").disabled = state.callSetup || (!state.call && !status.call_enabled);
   $("upload-button").disabled = status.state === "preparing" || status.state === "active_call";
+  $("url-button").disabled = status.state === "preparing" || status.state === "active_call";
   if (status.error) setMessage(status.error, true);
 }
 
@@ -69,8 +75,10 @@ function renderQr() {
 
 async function jsonRequest(url, options) {
   const response = await fetch(new URL(url, window.DEMO_PUBLIC_URL).href, options);
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(payload.detail || payload.message || `HTTP ${response.status}`);
+  const body = await response.text();
+  let payload;
+  try { payload = JSON.parse(body); } catch { payload = {}; }
+  if (!response.ok) throw new Error(payload.detail || payload.message || body || `HTTP ${response.status}`);
   return payload;
 }
 
@@ -84,6 +92,7 @@ async function openSession() {
     const payload = JSON.parse(event.data);
     if (payload.type === "ping") state.socket.send(JSON.stringify({ type: "pong" }));
     if (payload.status) render(payload.status);
+    if (payload.type === "rag_ready") setMessage("Документ готов. Теперь можно звонить.");
   };
   state.socket.onclose = () => {
     $("status-text").textContent = "Связь с web-сессией потеряна";
@@ -99,13 +108,27 @@ $("file-input").addEventListener("change", (event) => {
 $("upload-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const file = $("file-input").files[0];
-  if (!file) return setMessage("Сначала выберите .md, .txt или .pdf файл", true);
+  if (!file) return setMessage("Сначала выберите .md, .txt, .html или .pdf файл", true);
   const form = new FormData();
   form.append("file", file, file.name);
   try {
-    setMessage("Файл принят. Формируем metadata и вектора…");
+    setMessage("Файл принят. Василиса знакомится с документом — это может занять немного времени…");
     render({ ...state.session, state: "preparing", call_enabled: false, metadata: state.session.metadata });
     render(await jsonRequest(`/api/session/${state.session.session_id}/upload`, { method: "POST", body: form }));
+  } catch (error) {
+    setMessage(error.message, true);
+  }
+});
+
+$("url-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const url = $("url-input").value.trim();
+  if (!url) return setMessage("Вставьте ссылку на документ или страницу", true);
+  try {
+    setMessage("Загружаем страницу. Затем Василиса подготовит тему и примеры вопросов…");
+    render(await jsonRequest(`/api/session/${state.session.session_id}/import-url`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url }),
+    }));
   } catch (error) {
     setMessage(error.message, true);
   }

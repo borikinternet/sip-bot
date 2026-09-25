@@ -27,8 +27,8 @@
 - Порт 80 перенаправляет на HTTPS, кроме /.well-known/acme-challenge/ для Certbot. Challenge webroot: /var/www/html.
 - Порт 443: DocumentRoot /srv/demo-front/current. Из него локально отдаются /, /static/* и /assets/*. Только /api/ проксируется на https://10.255.0.2:443/api/, а /ws/ — на wss://10.255.0.2:443/ws/.
 - Порт 7443: SIP WebSocket проксируется на wss://10.255.0.2:7443/.
-- Текущий каталог статики: /srv/demo-front/current → /srv/demo-front/releases/20260925-faf4380b-cache1. Он собран из demo-web/frontend/: index.html в корне, app.js, demo-config.js и styles.css в static/, изображения и JsSIP в assets/.
-- В развёрнутом index.html ссылки на app.js и demo-config.js имеют параметр версии v=20260925a. Для HTML и /static/ Apache выставляет Cache-Control: no-cache, must-revalidate. Версионированный HTML отличается этими ссылками от файла в рабочей копии; остальные проверенные файлы совпали по SHA-256.
+- Текущий каталог статики: /srv/demo-front/current → /srv/demo-front/releases/20260925-88d2b824. Он собран из актуального demo-web/frontend/: index.html в корне, app.js, demo-config.js и styles.css в static/, изображения и JsSIP в assets/. Предыдущий выпуск /srv/demo-front/releases/20260925-faf4380b-cache1 сохранён.
+- В развёрнутом index.html ссылки на app.js, demo-config.js и styles.css имеют параметр версии v=20260925-88d2b824. Для HTML и /static/ Apache выставляет Cache-Control: no-cache, must-revalidate. Версионированный HTML отличается этими ссылками от файла в рабочей копии; проверенные JS, CSS и assets совпали по SHA-256.
 - Сертификат: /etc/letsencrypt/live/demo.libnas.ru/fullchain.pem и privkey.pem. Certbot использует webroot, certbot.timer включён, deploy hook /etc/letsencrypt/renewal-hooks/deploy/reload-apache.sh перезагружает конфигурацию Apache после обновления.
 - Для TLS к старому хопу в Apache пока заданы SSLProxyVerify none и SSLProxyCheckPeerName Off из-за сертификата внутреннего backend. Этот участок проходит внутри SSH-туннеля.
 
@@ -52,6 +52,8 @@ Backend, SIP-бот, Ollama и локальная WSL/FreeSWITCH-схема оп
 - Живой app.js содержит исправленный QR-текст; живой demo-config.js содержит https://demo.libnas.ru/, новый QR и wss://demo.libnas.ru:7443. HTML ссылается на версионированные JS-файлы.
 
 ## Следующие проверки и ограничения
+
+После выпуска, описанного в [хэндоффе 25.09](docs/handoffs/HANDOFF-2026-09-25.md), публичная страница показывает новый фронтенд с портретом и формой URL-импорта. Боевой backend пока старый: `OPTIONS /api/session/example/import-url` возвращает 404. К нему нет доступа для развёртывания изменений; форму URL-импорта можно полноценно проверять после публикации backend. Публичный звонок с этим выпуском не проверен.
 
 1. Выполнить настоящий звонок из внешнего браузера без VPN: микрофон, SIP-сигнализация, RTP в обе стороны, голос Василисы и корректное завершение. HTTP 101 подтверждает только WebSocket-рукопожатие.
 2. Проверить загрузку корпуса и выбор соответствующего индекса через публичный /api/ на реальном звонке. Сетевой тест /api/session этого не доказывает.

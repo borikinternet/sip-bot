@@ -1,8 +1,12 @@
 # Conference web demo
 
-Локальный demo-контур Map-021: session-scoped upload, heartbeat, подготовленный RAG-artifact и browser UI.
+Локальный demo-контур Map-021: session-scoped upload/URL import, heartbeat, подготовленный RAG-artifact и browser UI.
 
-Загрузчик принимает UTF-8 `.md`/`.txt` и PDF размером до 640 КиБ. Для PDF backend извлекает встроенный
+Загрузчик принимает UTF-8 `.md`/`.txt`/`.html` и PDF размером до 640 КиБ. Можно также вставить публичную
+HTTP(S)-ссылку на HTML-страницу, Markdown, TXT или текстовый PDF: backend скачает документ, извлечёт
+читаемый текст из HTML и отправит его в тот же metadata/embedding pipeline. Ссылки на локальные и
+внутренние адреса, в том числе после перенаправлений, отклоняются; скачивание ограничено 640 КиБ и 20 секундами.
+Для PDF backend извлекает встроенный
 выделяемый текст через `pypdf`, сохраняет его как нормализованный Markdown-документ и передаёт дальше в тот же
 metadata/embedding pipeline. Сканированные PDF без текстового слоя требуют отдельного OCR и этим demo не покрываются.
 

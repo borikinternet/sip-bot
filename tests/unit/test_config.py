@@ -52,7 +52,7 @@ def test_runtime_config_is_an_explicit_snapshot_of_constants() -> None:
     assert config.rag_unknown_answer_policy == "offer-transfer"
     assert config.knowledge_index_path.suffix == ".json"
     assert config.rag_index_schema_version == "rag-index-v1"
-    assert config.rag_index_version == "natural-science-embeddinggemma-v1"
+    assert config.rag_index_version == "telecom-voice-assistants-embeddinggemma-v1"
     assert config.rag_chunking_policy_version == "markdown-semantic-v1"
     assert config.rag_index_dimension == 768
     assert len(config.rag_corpus_sha256) == 64

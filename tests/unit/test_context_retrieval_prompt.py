@@ -9,7 +9,12 @@ from sip_bot.prompt.manager import (
 )
 from sip_bot.prompt import build_default_prompt_manager
 from sip_bot.retrieval.contracts import KnowledgeContext, KnowledgeHit
-from sip_bot.retrieval.index import DeterministicEmbeddingBackend, LocalKnowledgeIndex, load_corpus
+from sip_bot.retrieval.index import (
+    DeterministicEmbeddingBackend,
+    LocalKnowledgeIndex,
+    _eligible_lexical_terms,
+    load_corpus,
+)
 from sip_bot.retrieval.query_builder import KnowledgeQueryBuilder, query_capabilities
 
 
@@ -37,7 +42,14 @@ def test_query_builder_preserves_authoritative_text_and_special_tokens():
     assert query.context_turn_ids == ("t0",)
     assert any(term.startswith("свойств") for term in query.lexical_terms)
     assert "Текущий вопрос:" in query.embedding_text
-    assert query.policy_version == "ru-natural-science-v2"
+    assert query.policy_version == "ru-technical-acronyms-v3"
+
+
+def test_technical_acronyms_are_retrieval_anchors() -> None:
+    query = KnowledgeQueryBuilder().build("Чем SIP отличается от RTP?")
+
+    assert "sip" in _eligible_lexical_terms(query)
+    assert "rtp" in _eligible_lexical_terms(query)
 
 
 def test_query_builder_capability_probe_is_non_blocking():

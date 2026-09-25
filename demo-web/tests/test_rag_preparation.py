@@ -84,6 +84,24 @@ def test_prepare_extracts_selectable_pdf_into_normalized_markdown(tmp_path: Path
     assert (prepared.artifact_dir / "uploaded-document.md").read_text(encoding="utf-8").strip() == "PDF demo body"
 
 
+def test_prepare_extracts_html_without_navigation_or_scripts(tmp_path: Path) -> None:
+    prepared = _coordinator(tmp_path).prepare(
+        session_id="session-html",
+        caller_id="demo-caller-html",
+        filename="article.html",
+        data=("<html><head><title>Не индексировать</title></head><body>"
+              "<nav>Меню</nav><main><h1>IP-телефония</h1>"
+              "<p>Сигнализация SIP, а звук передаёт RTP &amp; SRTP.</p></main>"
+              "<script>secret()</script><footer>Подвал</footer></body></html>").encode(),
+    )
+
+    text = (prepared.artifact_dir / "uploaded-document.md").read_text(encoding="utf-8")
+    assert "IP-телефония" in text
+    assert "RTP & SRTP" in text
+    assert all(fragment not in text for fragment in ("Меню", "secret", "Подвал", "Не индексировать"))
+    assert LocalKnowledgeIndex.load(prepared.index_path, expected_embedding_model="fake-demo-v1").item_count > 0
+
+
 def test_only_retrievable_example_questions_are_published() -> None:
     class Index:
         def query(self, query, provider, **kwargs):
