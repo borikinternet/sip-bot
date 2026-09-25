@@ -18,7 +18,7 @@ except ImportError:  # pragma: no cover - exercised by capability test
     _pymorphy3 = None
 
 
-QUERY_POLICY_VERSION = "ru-natural-science-v2"
+QUERY_POLICY_VERSION = "ru-technical-acronyms-v3"
 _TOKEN_FALLBACK = re.compile(r"(?u)[A-Za-zА-Яа-яЁё0-9]+(?:[./^+−-][A-Za-zА-Яа-яЁё0-9]+)*|°[CFК]")
 _NEGATIONS = frozenset({"не", "нет", "без"})
 # Versioned service-word policy. Content-bearing question words remain signals;

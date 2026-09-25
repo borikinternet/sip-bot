@@ -1,8 +1,10 @@
 # Локальная база знаний MVP
 
-Статус: `active workshop baseline`
+Статус: `active conference baseline`; workshop и science artifacts сохранены отдельно
 
-Активный корпус: `small-service-company-demo-v1`
+Активный корпус SIP-бота и веб-демо: `ru-telecom-voice-assistants-demo-v1`
+
+Отдельный корпус мастер-класса: `small-service-company-demo-v1`
 
 Regression-корпус: `ru-natural-science-demo-v1`
 
@@ -10,7 +12,13 @@ Regression-корпус: `ru-natural-science-demo-v1`
 
 ## Корпусы и лицензии
 
-Активный workshop corpus находится в [`../config/workshops/rag/corpus/`](../config/workshops/rag/corpus/). Это
+Конференционный корпус находится в [`../data/knowledge/telecom-corpus/`](../data/knowledge/telecom-corpus/). Это
+оригинальный русскоязычный обзор на 2644 слова по SIP, RTP, WebRTC, очередям FreeSWITCH и голосовому RAG. В документе
+есть ссылки на соответствующие RFC и первичную документацию; краткие вопросы для страницы извлекаются из его Q&A и
+проверяются тем же retrieval gate, что использует бот. Индекс `telecom-voice-assistants-v1.json` содержит `33 × 768`
+векторов `embeddinggemma`. Старый science index остаётся проверочным fixture, но не является базой демонстрационного звонка.
+
+Workshop corpus находится в [`../config/workshops/rag/corpus/`](../config/workshops/rag/corpus/). Это
 синтетический CC0-1.0 комплект документов условной компании «СервисПлюс»: услуги, график, цены и условия, процедура
 заявки, исключения и эскалация. `manifest.json` задаёт стабильные `source_id`, origin, license, attribution, owner,
 version, effective date, priority, topics и audiences. Персональных и коммерческих данных в корпусе нет.
@@ -29,6 +37,8 @@ Offline builder вызывает `embeddinggemma` только через typed 
 повторной загрузкой и публикует готовый файл атомарным `os.replace`. Неудачная сборка не изменяет предыдущий index.
 Опубликованные artifacts:
 
+- `data/knowledge/index/telecom-voice-assistants-v1.json`: `33 × 768`, активный конференционный корпус,
+  SHA-256 `6d87707dc78782e15d54259be04341a79a2a1986afd29956df361cf0ca34c07f`;
 - `data/knowledge/index/small-service-company-v1.json`: `12 × 768`, embedding model `embeddinggemma`, SHA-256
   `9a2e0937cf2bcf3a2533b4762410490c0e40420f64a29483cf2e487b56d2b579`;
 - `data/knowledge/index/natural-science-v1.json`: `6 × 768`, regression/rollback artifact, SHA-256
@@ -47,8 +57,9 @@ embedding model, dimension, item count, payload checksum и vectors. На startu
 
 `LocalKnowledgeIndex` выполняет cosine retrieval с ограниченным lexical rank boost; lexical signal не является
 fallback без embeddings. Результат — typed `KnowledgeContext` с source/chunk IDs, scores, `top_k`, threshold и
-`sufficient`. Immutable evaluation suite содержит 12 positive, paraphrase, contextual, conflict и negative cases;
-активный baseline проходит `12/12`.
+`sufficient`. Immutable evaluation suite содержит 12 positive, paraphrase, contextual, conflict и negative cases для
+workshop corpus, который проходит `12/12`. Конференционный корпус отдельно проверен live-запросами о SIP/RTP,
+WebRTC/ICE и RAG; вопрос вне темы о Марсе корректно признан недостаточным.
 
 ## RAG-инвариант
 

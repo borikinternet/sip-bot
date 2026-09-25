@@ -64,7 +64,11 @@ _MINIMUM_QUERY_TERMS = 2
 
 
 def _eligible_lexical_terms(query: KnowledgeQuery) -> tuple[str, ...]:
-    return tuple(term.casefold() for term in query.lexical_terms if len(term) >= 4)
+    return tuple(
+        term.casefold()
+        for term in query.lexical_terms
+        if len(term) >= 4 or (2 <= len(term) <= 3 and term.isascii() and term.isalpha())
+    )
 
 
 def _lexical_match_count(query: KnowledgeQuery, text: str) -> int:

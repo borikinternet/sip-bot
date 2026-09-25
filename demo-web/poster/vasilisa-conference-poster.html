@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Василиса на связи — конференционный постер</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 1024px; height: 1536px; margin: 0; overflow: hidden; }
+    body { font-family: "Segoe UI", Arial, sans-serif; }
+    .poster { position: relative; width: 1024px; height: 1536px; overflow: hidden; background: #151629; }
+    .art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .headline {
+      position: absolute; top: 75px; left: 48px; width: 445px;
+      color: #fff; font-size: 72px; line-height: 1.01; font-weight: 850;
+      letter-spacing: -1.8px; text-transform: uppercase;
+      text-shadow: 0 4px 22px rgba(19, 7, 52, .62);
+    }
+    .headline span { display: block; }
+    .tagline {
+      position: absolute; top: 268px; left: 51px; width: 390px;
+      color: #c3eeff; font-size: 35px; line-height: 1.16; font-weight: 700;
+      text-shadow: 0 3px 18px rgba(9, 8, 35, .9);
+    }
+    .qr {
+      position: absolute; left: 76px; top: 1007px; width: 277px; height: 277px;
+      display: block; image-rendering: pixelated;
+    }
+    .qr-caption {
+      position: absolute; left: 59px; top: 1307px; width: 311px;
+      color: #262546; text-align: center; font-size: 29px; font-weight: 800;
+    }
+    .url {
+      position: absolute; left: 59px; top: 1358px; width: 311px;
+      color: #514a85; text-align: center; font-size: 22px; font-weight: 700;
+      letter-spacing: .1px;
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="Василиса: конференционный постер с QR-кодом">
+    <img class="art" src="../frontend/assets/vasilisa-conference-art.png" alt="Василиса — аниме-ассистент в гарнитуре">
+    <div class="headline"><span>Спроси</span><span>Василису</span></div>
+    <div class="tagline">И документы<br>заговорят!</div>
+    <img class="qr" src="../frontend/assets/qr-demo-domain.png" alt="QR-код: https://demo.libnas.ru/">
+    <div class="qr-caption">Сканируй и звони</div>
+    <div class="url">demo.libnas.ru</div>
+  </main>
+</body>
+</html>

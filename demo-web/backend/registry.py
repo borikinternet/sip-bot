@@ -74,6 +74,8 @@ class SessionRegistry:
                 raise SessionNotFound(session_id)
             if session.active_call:
                 raise RuntimeError("cannot replace RAG during an active call")
+            if session.state is SessionState.PREPARING:
+                raise RuntimeError("document preparation is already in progress")
             session.state = SessionState.PREPARING
             session.error = None
             session.metadata = None
