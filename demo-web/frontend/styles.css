@@ -13,6 +13,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { margin: 0; background: linear-gradient(145deg, #f8f8ff 0%, #f0f3fb 100%); color: var(--ink); }
 .page-shell { width: min(100% - 32px, 1040px); margin: 0 auto; padding: 38px 0 28px; }
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) 390px; min-height: 400px; overflow: hidden; border: 1px solid #e5e5f3; border-radius: 30px; background: linear-gradient(105deg, #fff 5%, #f3f2ff 75%, #f8f8ff 100%); box-shadow: 0 18px 45px rgba(58, 85, 125, .08); margin-bottom: 24px; }
@@ -36,6 +37,8 @@ code { color: var(--ink); font-size: 13px; }
 .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 5px rgba(209,139,36,.12); }
 .status-dot.ready { background: var(--green); box-shadow: 0 0 0 5px rgba(54,162,105,.12); }
 .status-dot.error { background: #d65050; box-shadow: 0 0 0 5px rgba(214,80,80,.12); }
+.prepared-corpus-notice { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 18px; padding: 15px 20px; border: 1px solid #dcd8ef; border-radius: 18px; background: #f4f1ff; color: #514477; font-size: 14px; line-height: 1.5; }
+.prepared-corpus-notice strong { color: #473574; }
 .content-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 18px; }
 .card { padding: 26px; }
 .card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }

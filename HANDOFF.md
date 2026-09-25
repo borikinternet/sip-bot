@@ -27,8 +27,8 @@
 - Порт 80 перенаправляет на HTTPS, кроме /.well-known/acme-challenge/ для Certbot. Challenge webroot: /var/www/html.
 - Порт 443: DocumentRoot /srv/demo-front/current. Из него локально отдаются /, /static/* и /assets/*. Только /api/ проксируется на https://10.255.0.2:443/api/, а /ws/ — на wss://10.255.0.2:443/ws/.
 - Порт 7443: SIP WebSocket проксируется на wss://10.255.0.2:7443/.
-- Текущий каталог статики: /srv/demo-front/current → /srv/demo-front/releases/20260925-88d2b824. Он собран из актуального demo-web/frontend/: index.html в корне, app.js, demo-config.js и styles.css в static/, изображения и JsSIP в assets/. Предыдущий выпуск /srv/demo-front/releases/20260925-faf4380b-cache1 сохранён.
-- В развёрнутом index.html ссылки на app.js, demo-config.js и styles.css имеют параметр версии v=20260925-88d2b824. Для HTML и /static/ Apache выставляет Cache-Control: no-cache, must-revalidate. Версионированный HTML отличается этими ссылками от файла в рабочей копии; проверенные JS, CSS и assets совпали по SHA-256.
+- Текущий каталог статики: /srv/demo-front/current → /srv/demo-front/releases/20260925-telecom-copy. В этом выпуске обновлены index.html, app.js и styles.css; demo-config.js, изображения и JsSIP взяты из предыдущего выпуска /srv/demo-front/releases/20260925-88d2b824.
+- В index.html ссылки на app.js, demo-config.js и styles.css имеют параметр версии v=20260925-telecom-copy. Для HTML и /static/ Apache выставляет Cache-Control: no-cache, must-revalidate. Проверенные публичные JS и CSS совпали с checkout по SHA-256.
 - Сертификат: /etc/letsencrypt/live/demo.libnas.ru/fullchain.pem и privkey.pem. Certbot использует webroot, certbot.timer включён, deploy hook /etc/letsencrypt/renewal-hooks/deploy/reload-apache.sh перезагружает конфигурацию Apache после обновления.
 - Для TLS к старому хопу в Apache пока заданы SSLProxyVerify none и SSLProxyCheckPeerName Off из-за сертификата внутреннего backend. Этот участок проходит внутри SSH-туннеля.
 
@@ -36,9 +36,9 @@
 
 ## Исходники и рабочая копия
 
-Фронтенд — demo-web/frontend/. Коллега обновил публичные адреса в demo-config.js, формирование API и WebSocket URL и текст рядом с QR в app.js, а также QR-файл assets/qr-demo-domain.png. Browser SIP WSS использует wss://demo.libnas.ru:7443. Файл с SIP demo credentials публичен по замыслу демо; пароль в документацию не переносить.
+Фронтенд — demo-web/frontend/. Публичные адреса заданы в demo-config.js, формирование API и WebSocket URL и текст рядом с QR — в app.js, QR-файл — assets/qr-demo-domain.png. Browser SIP WSS использует wss://demo.libnas.ru:7443. Пояснение о подготовленном новом корпусе автоматически скрывается после подключения его на backend. Файл с SIP demo credentials публичен по замыслу демо; пароль в документацию не переносить.
 
-Базовый коммит до текущих изменений: 3e1d796 от 24.09.2026. Подготовлены изменения demo-web/README.md, frontend/app.js, frontend/demo-config.js, frontend/index.html, замена QR в frontend/assets/, tools/workshops/demo_web_browser_probe.mjs и новый demo-web/tests/test_frontend_public_urls.py. Эти изменения не сбрасывать и не перезаписывать. Код и собственная документация проекта лицензированы по MIT (корневой LICENSE); лицензии сторонних материалов рассматриваются отдельно в docs/licensing-policy.md.
+Коммит `abd4059` включает подготовленный новый корпус, URL-импорт и предыдущий выпуск фронтенда. Данный handoff дополнен после исправления текста страницы и повторной публикации. Код и собственная документация проекта лицензированы по MIT (корневой LICENSE); лицензии сторонних материалов рассматриваются отдельно в docs/licensing-policy.md.
 
 Backend, SIP-бот, Ollama и локальная WSL/FreeSWITCH-схема описаны в архивном handoff от 24.09. Тот файл отражает прошлый локальный срез и содержит уже устаревшие утверждения о публичном домене, сертификате и QR; для публичного маршрута ориентироваться на этот документ.
 
@@ -53,7 +53,7 @@ Backend, SIP-бот, Ollama и локальная WSL/FreeSWITCH-схема оп
 
 ## Следующие проверки и ограничения
 
-После выпуска, описанного в [хэндоффе 25.09](docs/handoffs/HANDOFF-2026-09-25.md), публичная страница показывает новый фронтенд с портретом и формой URL-импорта. Боевой backend пока старый: `OPTIONS /api/session/example/import-url` возвращает 404. К нему нет доступа для развёртывания изменений; форму URL-импорта можно полноценно проверять после публикации backend. Публичный звонок с этим выпуском не проверен.
+После выпуска, описанного в [хэндоффе 25.09](docs/handoffs/HANDOFF-2026-09-25.md), публичная страница показывает новый фронтенд с портретом, формой URL-импорта и текстом о подготовленной теме «Технологии и голосовые помощники». Карточка текущего звонка показывает тему действующего backend, сейчас это научный корпус. Пояснение о новой теме исчезнет, когда backend сообщит её `corpus_id`. Боевой backend пока старый: `OPTIONS /api/session/example/import-url` возвращает 404. К нему нет доступа для развёртывания изменений; форму URL-импорта можно полноценно проверять после публикации backend. Публичный звонок с этим выпуском не проверен.
 
 1. Выполнить настоящий звонок из внешнего браузера без VPN: микрофон, SIP-сигнализация, RTP в обе стороны, голос Василисы и корректное завершение. HTTP 101 подтверждает только WebSocket-рукопожатие.
 2. Проверить загрузку корпуса и выбор соответствующего индекса через публичный /api/ на реальном звонке. Сетевой тест /api/session этого не доказывает.
