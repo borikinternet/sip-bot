@@ -52,9 +52,9 @@ rtp_stats		no
 #rtp_timeout		60
 
 # Network
-#dns_server		192.0.2.1:53
-#dns_server		192.0.2.1:53
-#dns_fallback		192.0.2.1:53
+#dns_server		127.0.0.1:53
+#dns_server		127.0.0.1:53
+#dns_fallback		127.0.0.1:53
 #net_interface		eth0
 
 #------------------------------------------------------------------------------

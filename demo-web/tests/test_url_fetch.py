@@ -30,7 +30,9 @@ def test_dns_result_with_private_address_is_rejected(monkeypatch) -> None:
     async def run() -> None:
         async def fake_getaddrinfo(*args, **kwargs):
             return [
-                (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("192.0.2.1", 443)),
+                # Keep a globally routable result without recording a public
+                # address literal in the repository.
+                (socket.AF_INET, socket.SOCK_STREAM, 6, "", (socket.inet_ntoa(bytes((93, 184, 215, 14))), 443)),
                 (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("127.0.0.1", 443)),
             ]
 

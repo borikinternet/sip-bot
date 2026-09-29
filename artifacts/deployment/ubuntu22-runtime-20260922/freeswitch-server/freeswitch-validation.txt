@@ -83,11 +83,11 @@ Dialplan         	XML
 Context          	public
 Challenge Realm  	auto_from
 RTP-IP           	10.0.0.45
-Ext-RTP-IP       	[PUBLIC_IP_REDACTED]
+Ext-RTP-IP       	[public IP redacted]
 SIP-IP           	10.0.0.45
-Ext-SIP-IP       	[PUBLIC_IP_REDACTED]
-URL              	sip:mod_sofia@[PUBLIC_IP_REDACTED]:5060
-BIND-URL         	sip:mod_sofia@[PUBLIC_IP_REDACTED]:5060;maddr=10.0.0.45;transport=udp,tcp
+Ext-SIP-IP       	[public IP redacted]
+URL              	sip:mod_sofia@[public IP redacted]:5060
+BIND-URL         	sip:mod_sofia@[public IP redacted]:5060;maddr=10.0.0.45;transport=udp,tcp
 WS-BIND-URL     	sip:mod_sofia@10.0.0.45:5066;transport=ws
 WSS-BIND-URL     	sips:mod_sofia@10.0.0.45:7443;transport=wss
 HOLD-MUSIC       	local_stream://moh
