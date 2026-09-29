@@ -1,0 +1,21 @@
+[Unit]
+Description=Workshop SIP assistant (one concurrent call)
+After=network-online.target sip-bot-ollama.service systemd-nspawn@freeswitch-bookworm.service
+Wants=network-online.target sip-bot-ollama.service systemd-nspawn@freeswitch-bookworm.service
+
+[Service]
+Type=simple
+User=sipbot
+Group=sipbot
+WorkingDirectory=/home/sipbot/sip-bot
+Environment=HOME=/home/sipbot
+Environment=PYTHONNOUSERSITE=1
+Environment=LD_LIBRARY_PATH=/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages/ctranslate2.libs:/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages/nvidia/cublas/lib:/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages/nvidia/cudnn/lib:/home/sipbot/.local/c2-faster-whisper-1.2.1t/lib/python3.14t/site-packages/nvidia/cuda_nvrtc/lib
+ExecStart=/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python -I tools/run_live_bot.py
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

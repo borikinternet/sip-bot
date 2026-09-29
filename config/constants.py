@@ -129,6 +129,9 @@ LLM_CHAT_MODEL: Final[str] = "c3-qwen35-9b-q4km:latest"
 LLM_EMBEDDING_MODEL: Final[str] = "embeddinggemma"
 LLM_CONNECT_TIMEOUT_S: Final[float] = 1.0
 LLM_READ_TIMEOUT_S: Final[float] = 30.0
+# Cold GGUF paging can exceed the per-turn timeout before the first token.
+# This longer budget applies only before SIP registration is published.
+LLM_WARMUP_READ_TIMEOUT_S: Final[float] = 120.0
 LLM_MAX_REQUEST_CHARS: Final[int] = 12000
 LLM_MAX_RESPONSE_CHARS: Final[int] = 4000
 LLM_CANCELLATION_MODE: Final[str] = "close-request-stream"

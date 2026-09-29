@@ -1,0 +1,24 @@
+[Unit]
+Description=Workshop SIP bot web demo
+After=network-online.target sip-bot-ollama.service
+Wants=network-online.target sip-bot-ollama.service
+
+[Service]
+Type=simple
+User=sipbot
+Group=sipbot
+WorkingDirectory=/home/sipbot/sip-bot
+Environment=HOME=/home/sipbot
+Environment=PYTHONNOUSERSITE=1
+Environment=PYTHONPATH=/home/sipbot/sip-bot:/home/sipbot/sip-bot/src:/home/sipbot/sip-bot/demo-web
+Environment=DEMO_WEB_HOST=0.0.0.0
+Environment=DEMO_WEB_PORT=8080
+Environment=DEMO_WEB_TLS_PORT=8443
+Environment=DEMO_WEB_TLS_CERT=/home/sipbot/sip-bot/demo-web/runtime/tls/demo.crt
+Environment=DEMO_WEB_TLS_KEY=/home/sipbot/sip-bot/demo-web/runtime/tls/demo.key
+ExecStart=/home/sipbot/.cache/sip-bot-c4-xtts-v2-3.14.7t/bin/python -m backend.server
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

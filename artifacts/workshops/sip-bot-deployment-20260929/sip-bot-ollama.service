@@ -1,0 +1,18 @@
+[Unit]
+Description=SIP bot local Ollama 0.33.1
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sipbot
+Group=sipbot
+Environment=HOME=/home/sipbot
+Environment=OLLAMA_HOST=127.0.0.1:11434
+Environment=OLLAMA_MODELS=/home/sipbot/.ollama/models
+ExecStart=/home/sipbot/src/c3-ollama/v0.33.1/bin/ollama serve
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

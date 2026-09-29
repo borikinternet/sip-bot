@@ -29,7 +29,10 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 sys.path.insert(0, str(PROJECT_ROOT / "demo-web"))
 sys.path.insert(0, str(PROJECT_ROOT / "tools"))
 sys.path.insert(0, XTTS_SITE)
-sys.path.insert(0, TARGET_SITE)
+# Keep the combined XTTS runtime ahead of the target interpreter's packages:
+# the latter may contain a newer tokenizers release incompatible with XTTS.
+# PJSUA2 remains available from TARGET_SITE without shadowing patched TTS deps.
+sys.path.append(TARGET_SITE)
 sys.path.append(C2_SITE)
 
 from config import constants  # noqa: E402
@@ -122,7 +125,12 @@ def _load_and_warm() -> _SharedOwners:
     runtime = ApplicationRuntime.from_constants()
     runtime.start()
     profile = _profile()
-    llm = LlmFacade(OllamaHttpClient(endpoint=constants.LLM_HTTP_ENDPOINT))
+    warm_facade = LlmFacade(
+        OllamaHttpClient(
+            endpoint=constants.LLM_HTTP_ENDPOINT,
+            timeout_s=constants.LLM_WARMUP_READ_TIMEOUT_S,
+        )
+    )
     prompt = build_default_prompt_manager()
     query_builder = KnowledgeQueryBuilder()
     holders: dict[str, Any] = {}
@@ -153,7 +161,7 @@ def _load_and_warm() -> _SharedOwners:
         index: LocalKnowledgeIndex = holders["index"]
         knowledge = index.query(
             query_builder.build(question),
-            llm,
+            warm_facade,
             top_k=constants.RAG_TOP_K,
             threshold=constants.RAG_RELEVANCE_THRESHOLD,
             context_id="live-service-warmup-knowledge",
@@ -165,7 +173,7 @@ def _load_and_warm() -> _SharedOwners:
             snapshot=ContextSnapshot("live-service-warmup", 0, ()),
             knowledge_context=knowledge,
         )
-        trace = llm.warmup(request)
+        trace = warm_facade.warmup(request)
         return {"sources": list(knowledge.source_ids), "trace": trace.as_dict()}
 
     def initialize_tts() -> dict[str, object]:
@@ -237,6 +245,14 @@ def _load_and_warm() -> _SharedOwners:
         baseline_metadata={"topic": "демонстрационному корпусу"},
     )
     operator = FakeOperator(constants.OPERATOR_TARGET)
+    # Live turns retain the shorter bound; the cold-load allowance must not
+    # leak into an already-answered phone conversation.
+    llm = LlmFacade(
+        OllamaHttpClient(
+            endpoint=constants.LLM_HTTP_ENDPOINT,
+            timeout_s=constants.LLM_READ_TIMEOUT_S,
+        )
+    )
     return _SharedOwners(
         index=holders["index"],
         prompt=prompt,
@@ -351,7 +367,7 @@ async def _run() -> None:
         except NotImplementedError:
             pass
 
-    LOGGER.info("warming natural-science assistant before SIP registration")
+    LOGGER.info("warming SIP assistant before SIP registration")
     shared = await asyncio.to_thread(_load_and_warm)
     inbox = _EventInbox()
     adapter = SipMediaAdapter(
